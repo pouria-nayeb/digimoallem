@@ -1,0 +1,88 @@
+﻿@page
+@model DigiMoallem.Web.Pages.Admin.Accountings.CreateModel
+
+@{
+    ViewData["Title"] = "افزودن واریزی جدید";
+}
+
+<h1 class="my-5"> <i class="fa fa-book ml-2"></i> @ViewData["Title"]</h1>
+
+<!-- breadcrumb -->
+<div class="bc-icons-2">
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb dark-bg-admin lighten-5">
+            <li class="breadcrumb-item">
+                <a class="black-text" href="/Admin/Accountings">لیست واریزی ها</a><i class="fas fa-caret-left mx-2"></i>
+            </li>
+            <li class="breadcrumb-item active">@ViewData["Title"]</li>
+        </ol>
+    </nav>
+
+</div>
+
+<form method="post" enctype="multipart/form-data" class="md-form">
+
+    <div class="container">
+
+        <div asp-validation-summary="All" class="text-danger my-4"></div>
+
+        @if (TempData["WrongInputs"] != null)
+        {
+            <div class="alert alert-danger">
+                @TempData["WrongInputs"]
+            </div>
+        }
+
+        @if (TempData["OperationFailed"] != null)
+        {
+            <div class="alert alert-danger">
+                @TempData["OperationFailed"]
+            </div>
+        }
+
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-8 col-lg-8">
+
+                <!-- teachers -->
+                <div class="md-form mb-4">
+                    <select class="browser-default custom-select"  size="10" asp-for="Payment.TeacherId" asp-items="@ViewData["Teachers"] as SelectList">
+                        <option value="" disabled selected>یکی از اساتید را انتخاب نمایید</option>
+                    </select>
+                </div>
+
+                <!-- amount -->
+                <div class="md-form mb-4">
+                    <input type="text" asp-for="Payment.Amount" class="form-control text-direction-ltr" />
+                    <label asp-for="Payment.Amount"></label>
+                </div>
+
+                <div class="form-group my-5">
+                    <!-- create -->
+                    <button type="submit" class="btn btn-outline-success btn-sm">
+                        <i class="fa fa-plus ml-2"></i> ایجاد تراکنش جدید
+                    </button>
+
+                    <!-- back to accountings -->
+                    <a asp-area=""
+                       asp-page="Index" 
+                       class="btn btn-outline-warning btn-sm">
+                        <i class="fas fa-arrow-right ml-2"></i> بازگشت
+                    </a>
+                </div>
+
+            </div>
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4">
+
+                <!-- courses -->
+                <div class="md-form mb-4">
+                    <select class="browser-default custom-select" multiple size="10" asp-for="Payment.CourseId" asp-items="@ViewData["Courses"] as SelectList">
+                        <option value="" disabled selected>یکی از دوره ها را انتخاب نمایید</option>
+                    </select>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</form>

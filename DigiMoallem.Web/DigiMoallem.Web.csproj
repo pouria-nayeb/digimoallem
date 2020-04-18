@@ -17,14 +17,23 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\UserPanel\Controllers\" />
-    <Folder Include="Areas\UserPanel\Views\" />
-    <Folder Include="wwwroot\admin\css\" />
-    <Folder Include="wwwroot\admin\js\" />
-    <Folder Include="wwwroot\images\" />
+    <Folder Include="Areas\UserPanel\Views\Home\" />
+    <Folder Include="Areas\UserPanel\Views\Transaction\" />
+    <Folder Include="Areas\UserPanel\Views\Order\" />
+    <Folder Include="Pages\Admin\Groups\" />
+    <Folder Include="Pages\Admin\Discounts\" />
+    <Folder Include="Pages\Admin\Courses\" />
+    <Folder Include="Pages\Admin\Accountings\" />
+    <Folder Include="Pages\Admin\Roles\" />
+    <Folder Include="Pages\Admin\Users\" />
+    <Folder Include="Views\Account\" />
+    <Folder Include="Views\Course\" />
     <Folder Include="wwwroot\fonts\" />
-    <Folder Include="wwwroot\css\" />
-    <Folder Include="wwwroot\js\" />
+    <Folder Include="wwwroot\images\fullsizes\" />
+    <Folder Include="wwwroot\images\resources\" />
+    <Folder Include="wwwroot\images\thumbnails\" />
+    <Folder Include="wwwroot\demos\" />
+    <Folder Include="wwwroot\coursefiles\" />
   </ItemGroup>
 
   <ItemGroup>

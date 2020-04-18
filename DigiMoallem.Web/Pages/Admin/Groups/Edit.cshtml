@@ -1,0 +1,67 @@
+﻿@page "{id}"
+@model DigiMoallem.Web.Pages.Admin.Groups.EditModel
+
+@{
+    ViewData["Title"] = "ویرایش گروه";
+}
+
+<div class="container">
+
+    <h1 class="m-4">@ViewData["Title"]</h1>
+
+    <form method="post" enctype="multipart/form-data" class="md-form">
+
+        @if (ViewData["WrongInputs"] != null)
+        {
+            <div class="alert alert-danger">
+                @ViewData["WrongInputs"]
+            </div>
+        }
+
+        @if (ViewData["OperationFailed"] != null)
+        {
+            <div class="alert alert-danger">
+                @ViewData["OperationFailed"]
+            </div>
+        }
+
+        <input type="hidden" asp-for="Group.GroupId" />
+        <input type="hidden" asp-for="Group.ParentId" />
+        <input type="hidden" asp-for="Group.ImageName" />
+
+        <div class="md-form mb-5">
+            <input type="text" asp-for="Group.Title" class="form-control">
+            <label asp-for="Group.Title"></label>
+            <span asp-validation-for="Group.Title"></span>
+        </div>
+
+        <div class="container">
+                <img id="profileAvatar" src="~/Images/Icons/@Model.Group.ImageName"
+                     class="img-fluid card my-2"
+                     alt="default group"
+                     style="max-width:75px; background: #e74c3c" />
+
+            <div class="file-field">
+                <div class="btn btn-success btn-block btn-sm">
+                    <span>تصویر گروه</span>
+                    <input type="file" name="imageName" id="CreateUserViewModel_UserAvatar" />
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group my-5">
+            <button type="submit" class="btn btn-primary">ویرایش گروه</button>
+            <a asp-area=""
+               asp-page="Index"
+               class="btn btn-warning">
+                <i class="fas fa-back-arrow"></i> لیست گروه ها
+            </a>
+        </div>
+
+    </form>
+
+</div>
+
+@section Scripts {
+    <script src="~/Admin/Scripts/Site.js"></script>
+}

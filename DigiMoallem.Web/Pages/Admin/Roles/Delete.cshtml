@@ -1,0 +1,65 @@
+﻿@page "{id}"
+@model DigiMoallem.Web.Pages.Admin.Roles.DeleteModel
+
+@{
+    ViewData["Title"] = "حذف نقش";
+    var permissions = ViewData["Permissions"] as List<Permission>;
+}
+
+<h1 class="my-5"> <i class="fa fa-user-minus ml-2"></i> @ViewData["Title"] <q>@Model.Role.Title</q></h1>
+
+<!-- breadcrumb -->
+<div class="bc-icons-2">
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb dark-bg-admin lighten-5">
+            <li class="breadcrumb-item">
+                <a class="black-text" href="/Admin/Users">لیست نقش ها</a><i class="fas fa-caret-left mx-2"></i>
+            </li>
+            <li class="breadcrumb-item active">@ViewData["Title"] <q>@Model.Role.Title</q></li>
+        </ol>
+    </nav>
+
+</div>
+
+<form method="post">
+    <!-- hidden -->
+    <input type="hidden" asp-for="@Model.Role.RoleId" />
+    <input type="hidden" asp-for="@Model.Role.Title" />
+
+    <!-- user table -->
+    <div class="table-responsive">
+        <table class="table table-dark table-striped table-bordered">
+            <tr>
+                <th>شناسه</th>
+                <td class="english-font">@Model.Role.RoleId</td>
+            </tr>
+            <tr>
+                <th>عنوان</th>
+                <td>@Model.Role.Title</td>
+            </tr>
+            <tr>
+                <th>دسترسی ها</th>
+                <td>
+                    @foreach (var permission in permissions)
+                    {
+                        <button type="button" class="btn btn-outline-info btn-sm">@permission.Title</button>
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <!-- delete -->
+                    <button class="btn btn-danger btn-sm"> <i class="fa fa-trash ml-2"></i> حذف نقش</button>
+                    <!-- back -->
+                    <a asp-area="" 
+                       asp-page="Index" 
+                       class="btn btn-outline-warning btn-sm"> 
+                    <i class="fas fa-arrow-right ml-2"></i> بازگشت
+                    </a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</form>
+

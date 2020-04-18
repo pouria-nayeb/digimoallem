@@ -1,0 +1,146 @@
+﻿@page "{id}"
+@model DigiMoallem.Web.Pages.Admin.Users.EditModel
+
+@{
+    ViewData["Title"] = "ویرایش کاربران";
+    var Roles = ViewData["Roles"] as List<Role>;
+}
+
+<h1 class="my-5"> <i class="fa fa-pen ml-2"></i> @ViewData["Title"]</h1>
+
+<!-- breadcrumb -->
+<div class="bc-icons-2">
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb dark-bg-admin lighten-5">
+            <li class="breadcrumb-item">
+                <a class="black-text" href="/Admin/Users">لیست کاربران</a><i class="fas fa-caret-left mx-2"></i>
+            </li>
+            <li class="breadcrumb-item active">@ViewData["Title"]</li>
+        </ol>
+    </nav>
+
+</div>
+
+<form method="post" enctype="multipart/form-data" class="md-form" autocomplete="off">
+
+    <div class="container">
+
+        <div asp-validation-summary="All" class="text-danger my-4"></div>
+
+        @if (TempData["WrongInputs"] != null)
+        {
+            <div class="alert alert-danger">
+                @TempData["WrongInputs"]
+            </div>
+        }
+
+        @if (TempData["OperationFailed"] != null)
+        {
+            <div class="alert alert-danger">
+                @TempData["OperationFailed"]
+            </div>
+        }
+
+        @if (TempData["UserNameExist"] != null)
+        {
+            <div class="alert alert-danger">
+                @TempData["UserNameExist"]
+            </div>
+        }
+
+        @if (TempData["EmailExist"] != null)
+        {
+            <div class="alert alert-danger">
+                @TempData["EmailExist"]
+            </div>
+        }
+
+        <div class="row">
+
+            <div class="col-md-8 col-sm-12">
+
+                <input type="hidden" asp-for="EditUserViewModel.AvatarName" />
+                <input type="hidden" asp-for="EditUserViewModel.UserId" />
+                <input type="hidden" asp-for="EditUserViewModel.UserName" />
+                <input type="hidden" asp-for="EditUserViewModel.Email" />
+
+                <!-- username -->
+                <div class="md-form mb-4">
+                    <input type="text" asp-for="EditUserViewModel.UserName" class="form-control text-direction-ltr text-left" disabled>
+                    <label asp-for="EditUserViewModel.UserName"></label>
+                </div>
+
+                <!-- email -->
+                <div class="md-form mb-4">
+                    <input type="text" asp-for="EditUserViewModel.Email" class="form-control text-direction-ltr text-left english-font" disabled>
+                    <label asp-for="EditUserViewModel.Email"></label>
+                </div>
+
+                <!-- description -->
+                <div class="form-group mb-4">
+                    <textarea class="form-control" asp-for="EditUserViewModel.Description" rows="3"></textarea>
+                </div>
+
+                <!-- password -->
+                <div class="md-form my-4">
+                    <input type="text" asp-for="EditUserViewModel.Password" class="form-control text-direction-ltr text-left english-font">
+                    <label asp-for="EditUserViewModel.Password"></label>
+                    <div class="alert alert-dark font-small my-3"> در صورت وارد کردن رمزعبور، رمز قبلی کاربر تغییر می کند. </div>
+                </div>
+
+                <!-- role list  -->
+                <div class="form-group">
+                    @foreach (var role in Roles)
+                    {
+                        <div class="form-check">
+                            <input type="checkbox" name="SelectedRoles" value="@role.RoleId" class="form-check-input" id="materialUnchecked-@role.RoleId" @((Model.EditUserViewModel.Roles.Any(r => r == role.RoleId)) ? "checked" : "")>
+                            <label class="form-check-label" for="materialUnchecked-@role.RoleId">@role.Title</label>
+                        </div>
+                    }
+                </div>
+
+                <div class="form-group my-5">
+                    <!-- edit -->
+                    <button type="submit" class="btn btn-outline-success btn-sm">
+                        <i class="fa fa-plus ml-2"></i> ویرایش کاربر
+                    </button>
+
+                    <!-- back -->
+                    <a asp-area="" 
+                       asp-page="Index" 
+                       class="btn btn-outline-warning btn-sm">
+                        <i class="fas fa-arrow-right ml-2"></i> بازگشت
+                    </a>
+                </div>
+
+            </div>
+            <div class="col-md-4 col-sm-12">
+
+                <!-- avatar section -->
+                <div class="container">
+                    <img id="profileAvatar" src="~/Images/Avatars/@Model.EditUserViewModel.AvatarName" class="img-fluid mx-auto my-2 display-block" alt="default avatar" />
+                    <div class="file-field">
+                        <div class="btn btn-success btn-block btn-sm">
+                            <span>تصویر پروفایل</span>
+                            <input type="file" 
+                                   asp-for="EditUserViewModel.UserAvatar" />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <script src="~/Admin/Scripts/Site.js"></script>
+    <script src="https://cdn.ckeditor.com/4.9.2/standard/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('Course_Description', {
+            customConfig: '/Admin/Scripts/config.js'
+        });
+    </script>
+}

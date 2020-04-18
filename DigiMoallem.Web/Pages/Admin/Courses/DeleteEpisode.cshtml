@@ -1,0 +1,82 @@
+﻿@page "{id}"
+@model DigiMoallem.Web.Pages.Admin.Courses.DeleteEpisodeModel
+@inject ICourseService  _courseService
+
+@{
+    ViewData["Title"] = "حذف بخش";
+}
+
+<h1 class="my-5"> <i class="fa fa-user-minus ml-2"></i> @ViewData["Title"]</h1>
+
+<!-- breadcrumb -->
+<div class="bc-icons-2">
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb dark-bg-admin lighten-5">
+            <li class="breadcrumb-item">
+                <a class="black-text" href="/Admin/Courses/Episodes/@Model.CourseEpisode.CourseId">لیست بخش ها</a><i class="fas fa-caret-left mx-2"></i>
+            </li>
+            <li class="breadcrumb-item active">@ViewData["Title"]</li>
+        </ol>
+    </nav>
+
+</div>
+
+@if (TempData["OperationFailed"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["OperationFailed"]
+    </div>
+}
+
+@if (User.Identity.Name == _courseService.GetCourseById(Model.CourseEpisode.CourseId).User.UserName)
+{
+
+    <form method="post">
+        <!-- hidden -->
+        <input type="hidden" asp-for="CourseEpisode.CourseId" />
+        <input type="hidden" asp-for="CourseEpisode.CourseEpisodeId" />
+        <input type="hidden" asp-for="CourseEpisode.EpisodeFileName" />
+
+        <!-- episode table -->
+        <div class="table-responsive">
+            <table class="table table-dark table-striped table-bordered">
+                <tr>
+                    <th>عنوان بخش</th>
+                    <td>@Model.CourseEpisode.Title</td>
+                </tr>
+                <tr>
+                    <th>زمان بخش</th>
+                    <td class="english-font">@Model.CourseEpisode.EpisodeLength</td>
+                </tr>
+                <tr>
+                    <th>نوع بخش</th>
+                    <td>
+                        @if (Model.CourseEpisode.IsFree)
+                        {
+                            <text> رایگان </text>
+                        }
+                        else
+                        {
+                            <text> نقدی </text>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <!-- delete -->
+                        <button class="btn btn-danger btn-sm"> <i class="fa fa-trash ml-2"></i> حذف بخش</button>
+                        <!-- back to episodes -->
+                        <a asp-area=""
+                           asp-page="/Admin/Courses/Episodes"
+                           asp-route-id="@Model.CourseEpisode.CourseId" 
+                           class="btn btn-outline-warning btn-sm">
+                            <i class="fas fa-arrow-right ml-2"></i> بازگشت
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+
+}

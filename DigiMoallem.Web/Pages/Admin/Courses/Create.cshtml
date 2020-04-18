@@ -1,0 +1,221 @@
+﻿@page
+@model DigiMoallem.Web.Pages.Admin.Courses.CreateModel
+@inject IPermissionService _permissionService
+
+@{
+    ViewData["Title"] = "افزودن درس جدید";
+}
+
+@section Styles {
+    <style>
+        .custom-select {
+            background-color: #f1f1f1;
+            font-family: 'Byekan';
+        }
+
+        .custom-control-label::before {
+            right: -1.5rem;
+        }
+
+        .custom-control-label::after {
+            right: -1.5rem;
+        }
+    </style>
+}
+
+<h1 class="my-5"> <i class="fa fa-book ml-2"></i> @ViewData["Title"]</h1>
+
+<!-- breadcrumb -->
+<div class="bc-icons-2">
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb dark-bg-admin lighten-5">
+            <li class="breadcrumb-item">
+                <a class="black-text" href="/Admin/Courses">لیست دورس</a><i class="fas fa-caret-left mx-2"></i>
+            </li>
+            <li class="breadcrumb-item active">@ViewData["Title"]</li>
+        </ol>
+    </nav>
+
+</div>
+
+<form method="post" enctype="multipart/form-data" class="md-form">
+
+    <div class="container">
+
+        <div asp-validation-summary="All" class="text-danger my-4"></div>
+
+        @if (TempData["WrongInputs"] != null)
+        {
+            <div class="alert alert-danger">
+                @TempData["WrongInputs"]
+            </div>
+        }
+
+        @if (TempData["OperationFailed"] != null)
+        {
+            <div class="alert alert-danger">
+                @TempData["OperationFailed"]
+            </div>
+        }
+
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-8 col-lg-8">
+
+                <!-- title -->
+                <div class="md-form mb-4">
+                    <input type="text" asp-for="Course.Title" class="form-control" />
+                    <label asp-for="Course.Title"></label>
+                </div>
+
+                <!-- groups -->
+                <div class="md-form mb-4">
+                    <select class="browser-default custom-select" asp-for="Course.GroupId" asp-items="@ViewData["Groups"] as SelectList">
+                        <option value="" disabled selected>یکی از گروه ها را انتخاب نمایید</option>
+                    </select>
+                </div>
+
+                <!-- subgroups -->
+                @*<div class="md-form mb-4">
+                    <select class="browser-default custom-select" asp-for="Course.SubGroupId" asp-items="@ViewData["SubGroups"] as SelectList"></select>
+                </div>*@
+
+                <!-- teachers -->
+                <div class="md-form mb-4">
+                    <select class="browser-default custom-select" asp-for="Course.TeacherId" asp-items="@ViewData["Teachers"] as SelectList">
+                        <option value="" disabled selected>یکی از اساتید را انتخاب نمایید</option>
+                    </select>
+                </div>
+
+                <!-- price -->
+                <div class="md-form mb-4">
+                    <input type="text" asp-for="Course.Price" class="form-control" />
+                    <label asp-for="Course.Price"></label>
+                </div>
+
+                <!-- description -->
+                <div class="form-group mb-4">
+                    <textarea class="form-control" asp-for="Course.Description" rows="3"></textarea>
+                </div>
+
+                <!-- tags -->
+                <div class="md-form mb-4">
+                    <input type="text" asp-for="Course.Tags" class="form-control" />
+                    <label asp-for="Course.Tags"></label>
+                    <span class="text-dark small"> توجه: برچسب ها را با - از هم جدا کنید. </span>
+                </div>
+
+                <!-- file demo -->
+                <div class="md-form mb-4">
+                    <input type="file" name="demo" class="form-control" />
+                </div>
+
+                <div class="form-group my-5">
+                    <!-- create -->
+                    <button type="submit" class="btn btn-outline-success btn-sm">
+                        <i class="fa fa-plus ml-2"></i> ایجاد درس جدید
+                    </button>
+
+                    @if (_permissionService.CheckPermission(2, User.Identity.Name))
+                    {
+                        <!-- back to courses -->
+                        <a asp-area=""
+                           asp-page="Index" 
+                           class="btn btn-outline-warning btn-sm">
+                            <i class="fas fa-arrow-right ml-2"></i> بازگشت
+                        </a>
+                    }
+                    else
+                    {
+                        <!-- back to courses (Teacher) -->
+                        <a asp-area=""
+                           asp-page="Teacher" 
+                           class="btn btn-outline-warning btn-sm">
+                            <i class="fas fa-arrow-right ml-2"></i> بازگشت
+                        </a>
+                    }
+                </div>
+
+            </div>
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4">
+
+                <!-- course image -->
+                <div>
+                    <img id="profileAvatar" src="~/Images/Courses/Default.jpg" class="img-fluid mx-auto my-2 display-block" alt="Course Image" />
+                    <div class="file-field">
+                        <div class="btn btn-success btn-block btn-sm mb-4">
+                            <span>تصویر دوره</span>
+                            <input type="file" name="imgCourseUpload" id="imgCourseUpload" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- course levels -->
+                <div class="md-form mb-4">
+                    <select class="browser-default custom-select" asp-for="Course.CourseLevelId" asp-items="@ViewData["CourseLevels"] as SelectList">
+                        <option value="" disabled selected>یکی از سطوح را انتخاب نمایید</option>
+                    </select>
+                </div>
+
+                <!-- course statuses -->
+                <div class="md-form mb-4">
+                    <select class="browser-default custom-select" asp-for="Course.CourseStatusId" asp-items="@ViewData["CourseStatuses"] as SelectList">
+                        <option value="" disabled selected>یکی از وضعیت ها را انتخاب نمایید</option>
+                    </select>
+                </div>
+
+                <!-- is hidden -->
+                <div class="custom-control custom-checkbox margin-2">
+                    <input type="checkbox" class="custom-control-input" asp-for="Course.IsHidden" />
+                    <label class="custom-control-label text-dark" asp-for="Course.IsHidden"></label>
+                </div>
+
+                <!-- display comment -->
+                <div class="custom-control custom-checkbox margin-2">
+                    <input type="checkbox" class="custom-control-input" asp-for="Course.DisplayComment" />
+                    <label class="custom-control-label text-dark" asp-for="Course.DisplayComment"></label>
+                </div>
+
+                <!-- check by admin -->
+                <div class="custom-control custom-checkbox margin-2">
+                    <input type="checkbox" class="custom-control-input" asp-for="Course.IsCheckedByAdmin" />
+                    <label class="custom-control-label text-dark" asp-for="Course.IsCheckedByAdmin"></label>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</form>
+
+@section Scripts {
+
+    <script src="~/Admin/Scripts/Site.js"></script>
+
+    @*<script>
+        // display nothing in subgroup, till admin select one group
+        $("#Course_SubGroupId").empty();
+
+        $("#Course_GroupId").change(function () {
+
+            // remove all prevoius subgroups
+            $("#Course_SubGroupId").empty();
+
+            $.getJSON("/Home/GetSubGroups/" + $("#Course_GroupId :selected").val(), function (data) {
+
+                $.each(data, function () {
+                    $("#Course_SubGroupId").append('<option value=' + this.value + '>' + this.text + '</option>');
+                });
+
+            });
+
+        });
+    </script>*@
+
+    <script src="https://cdn.ckeditor.com/4.9.2/standard/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('Course_Description', {
+            customConfig: '/Admin/Scripts/config.js'
+        });
+    </script>
+}

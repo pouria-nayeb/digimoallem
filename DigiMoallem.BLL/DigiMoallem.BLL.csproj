@@ -6,12 +6,17 @@
 
   <ItemGroup>
     <Folder Include="DTOs\" />
+    <Folder Include="DTOs\General\" />
     <Folder Include="Helpers\Converters\" />
     <Folder Include="Helpers\EmailServices\" />
     <Folder Include="Helpers\Generators\" />
     <Folder Include="Helpers\Security\" />
     <Folder Include="Interfaces\" />
     <Folder Include="Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>

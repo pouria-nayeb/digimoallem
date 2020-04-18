@@ -24,6 +24,7 @@ namespace DigiMoallem.DAL.Context
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<UserInRole> UserInRoles { get; set; }
+        public DbSet<UserDiscountCode> UserDiscountCodes { get; set; }
         #endregion
 
         #region Permissions - PermissionsInRole

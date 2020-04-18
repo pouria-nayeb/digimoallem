@@ -4860,7 +4860,8 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.2",
         "dependencies": {
-          "DigiMoallem.DAL": "1.0.0"
+          "DigiMoallem.DAL": "1.0.0",
+          "Microsoft.AspNetCore.Mvc.Razor": "2.2.0"
         },
         "compile": {
           "bin/placeholder/DigiMoallem.BLL.dll": {}

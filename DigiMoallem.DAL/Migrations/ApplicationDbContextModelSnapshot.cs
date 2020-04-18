@@ -553,7 +553,7 @@ namespace DigiMoallem.DAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserDiscountCode");
+                    b.ToTable("UserDiscountCodes");
                 });
 
             modelBuilder.Entity("DigiMoallem.DAL.Entities.Users.UserInRole", b =>

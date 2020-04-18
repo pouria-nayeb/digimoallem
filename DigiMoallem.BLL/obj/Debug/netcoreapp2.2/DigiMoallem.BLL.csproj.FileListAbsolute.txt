@@ -4,9 +4,9 @@ C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.BLL\bin\Debug\netcoreapp2.2\
 C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.BLL\bin\Debug\netcoreapp2.2\DigiMoallem.DAL.dll
 C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.BLL\bin\Debug\netcoreapp2.2\DigiMoallem.DAL.pdb
 C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.BLL\obj\Debug\netcoreapp2.2\DigiMoallem.BLL.csprojAssemblyReference.cache
-C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.BLL\obj\Debug\netcoreapp2.2\DigiMoallem.BLL.csproj.CoreCompileInputs.cache
 C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.BLL\obj\Debug\netcoreapp2.2\DigiMoallem.BLL.AssemblyInfoInputs.cache
 C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.BLL\obj\Debug\netcoreapp2.2\DigiMoallem.BLL.AssemblyInfo.cs
 C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.BLL\obj\Debug\netcoreapp2.2\DigiMoallem.BLL.csproj.CopyComplete
 C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.BLL\obj\Debug\netcoreapp2.2\DigiMoallem.BLL.dll
 C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.BLL\obj\Debug\netcoreapp2.2\DigiMoallem.BLL.pdb
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.BLL\obj\Debug\netcoreapp2.2\DigiMoallem.BLL.csproj.CoreCompileInputs.cache

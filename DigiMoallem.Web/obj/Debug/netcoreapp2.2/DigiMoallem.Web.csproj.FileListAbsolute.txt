@@ -36,3 +36,7 @@ C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\obj\Debug\netcoreapp2.2\
 C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\obj\Debug\netcoreapp2.2\Razor\Views\Home\Index.cshtml.g.cs
 C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\obj\Debug\netcoreapp2.2\Razor\Views\_ViewImports.cshtml.g.cs
 C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\obj\Debug\netcoreapp2.2\Razor\Views\_ViewStart.cshtml.g.cs
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\bin\Debug\netcoreapp2.2\DigiMoallem.BLL.dll
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\bin\Debug\netcoreapp2.2\DigiMoallem.DAL.dll
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\bin\Debug\netcoreapp2.2\DigiMoallem.BLL.pdb
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\bin\Debug\netcoreapp2.2\DigiMoallem.DAL.pdb

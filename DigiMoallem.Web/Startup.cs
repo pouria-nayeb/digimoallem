@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using DigiMoallem.DAL.Context;
 
 namespace DigiMoallem.Web
 {
@@ -30,6 +32,10 @@ namespace DigiMoallem.Web
                 options.LoginPath = "/Login";
                 options.LogoutPath = "/Logout";
                 options.ExpireTimeSpan = TimeSpan.FromHours(720); // cookie expiration time: one month
+            });
+
+            services.AddDbContext<ApplicationDbContext>(options => {
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
 
         }

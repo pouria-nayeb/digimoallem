@@ -4,14 +4,76 @@
     "C:\\Users\\Nayeb\\source\\repos\\DigiMoallem\\DigiMoallem.Web\\DigiMoallem.Web.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Nayeb\\source\\repos\\DigiMoallem\\DigiMoallem.Web\\DigiMoallem.Web.csproj": {
+    "C:\\Users\\Nayeb\\source\\repos\\DigiMoallem\\DigiMoallem.BLL\\DigiMoallem.BLL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Nayeb\\source\\repos\\DigiMoallem\\DigiMoallem.Web\\DigiMoallem.Web.csproj",
-        "projectName": "DigiMoallem.Web",
-        "projectPath": "C:\\Users\\Nayeb\\source\\repos\\DigiMoallem\\DigiMoallem.Web\\DigiMoallem.Web.csproj",
+        "projectUniqueName": "C:\\Users\\Nayeb\\source\\repos\\DigiMoallem\\DigiMoallem.BLL\\DigiMoallem.BLL.csproj",
+        "projectName": "DigiMoallem.BLL",
+        "projectPath": "C:\\Users\\Nayeb\\source\\repos\\DigiMoallem\\DigiMoallem.BLL\\DigiMoallem.BLL.csproj",
         "packagesPath": "C:\\Users\\Nayeb\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Nayeb\\source\\repos\\DigiMoallem\\DigiMoallem.Web\\obj\\",
+        "outputPath": "C:\\Users\\Nayeb\\source\\repos\\DigiMoallem\\DigiMoallem.BLL\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Nayeb\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.2"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.2": {
+            "projectReferences": {
+              "C:\\Users\\Nayeb\\source\\repos\\DigiMoallem\\DigiMoallem.DAL\\DigiMoallem.DAL.csproj": {
+                "projectPath": "C:\\Users\\Nayeb\\source\\repos\\DigiMoallem\\DigiMoallem.DAL\\DigiMoallem.DAL.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.2": {
+          "dependencies": {
+            "Microsoft.NETCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Nayeb\\source\\repos\\DigiMoallem\\DigiMoallem.DAL\\DigiMoallem.DAL.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Nayeb\\source\\repos\\DigiMoallem\\DigiMoallem.DAL\\DigiMoallem.DAL.csproj",
+        "projectName": "DigiMoallem.DAL",
+        "projectPath": "C:\\Users\\Nayeb\\source\\repos\\DigiMoallem\\DigiMoallem.DAL\\DigiMoallem.DAL.csproj",
+        "packagesPath": "C:\\Users\\Nayeb\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Nayeb\\source\\repos\\DigiMoallem\\DigiMoallem.DAL\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -41,6 +103,93 @@
       "frameworks": {
         "netcoreapp2.2": {
           "dependencies": {
+            "CoreCompat.System.Drawing": {
+              "target": "Package",
+              "version": "[1.0.0-beta006, )"
+            },
+            "Microsoft.AspNetCore.Mvc.Core": {
+              "target": "Package",
+              "version": "[2.2.5, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[2.2.4, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[2.2.4, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.4, )"
+            },
+            "Microsoft.NETCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Nayeb\\source\\repos\\DigiMoallem\\DigiMoallem.Web\\DigiMoallem.Web.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Nayeb\\source\\repos\\DigiMoallem\\DigiMoallem.Web\\DigiMoallem.Web.csproj",
+        "projectName": "DigiMoallem.Web",
+        "projectPath": "C:\\Users\\Nayeb\\source\\repos\\DigiMoallem\\DigiMoallem.Web\\DigiMoallem.Web.csproj",
+        "packagesPath": "C:\\Users\\Nayeb\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Nayeb\\source\\repos\\DigiMoallem\\DigiMoallem.Web\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Nayeb\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.2"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.2": {
+            "projectReferences": {
+              "C:\\Users\\Nayeb\\source\\repos\\DigiMoallem\\DigiMoallem.BLL\\DigiMoallem.BLL.csproj": {
+                "projectPath": "C:\\Users\\Nayeb\\source\\repos\\DigiMoallem\\DigiMoallem.BLL\\DigiMoallem.BLL.csproj"
+              },
+              "C:\\Users\\Nayeb\\source\\repos\\DigiMoallem\\DigiMoallem.DAL\\DigiMoallem.DAL.csproj": {
+                "projectPath": "C:\\Users\\Nayeb\\source\\repos\\DigiMoallem\\DigiMoallem.DAL\\DigiMoallem.DAL.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.2": {
+          "dependencies": {
             "Microsoft.AspNetCore.App": {
               "suppressParent": "All",
               "target": "Package",
@@ -52,6 +201,18 @@
               "target": "Package",
               "version": "[2.2.0, )"
             },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[2.2.4, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[2.2.4, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools.DotNet": {
+              "target": "Package",
+              "version": "[2.0.3, )"
+            },
             "Microsoft.NETCore.App": {
               "suppressParent": "All",
               "target": "Package",
@@ -61,6 +222,14 @@
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[2.2.4, )"
+            },
+            "Microsoft.jQuery.Unobtrusive.Ajax": {
+              "target": "Package",
+              "version": "[3.2.6, )"
+            },
+            "Zarinpal": {
+              "target": "Package",
+              "version": "[2.0.4, )"
             }
           },
           "imports": [

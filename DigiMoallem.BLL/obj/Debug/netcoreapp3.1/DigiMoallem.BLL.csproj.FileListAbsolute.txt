@@ -7,3 +7,6 @@ C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.BLL\obj\Debug\netcoreapp3.1\
 C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.BLL\obj\Debug\netcoreapp3.1\DigiMoallem.BLL.AssemblyInfo.cs
 C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.BLL\obj\Debug\netcoreapp3.1\DigiMoallem.BLL.dll
 C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.BLL\obj\Debug\netcoreapp3.1\DigiMoallem.BLL.pdb
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.BLL\bin\Debug\netcoreapp3.1\DigiMoallem.DAL.dll
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.BLL\bin\Debug\netcoreapp3.1\DigiMoallem.DAL.pdb
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.BLL\obj\Debug\netcoreapp3.1\DigiMoallem.BLL.csproj.CopyComplete

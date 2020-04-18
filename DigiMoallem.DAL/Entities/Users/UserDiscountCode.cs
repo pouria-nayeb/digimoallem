@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DigiMoallem.DAL.Entities.Orders;
+using System.ComponentModel.DataAnnotations;
 
 namespace DigiMoallem.DAL.Entities.Users
 {
@@ -15,7 +16,7 @@ namespace DigiMoallem.DAL.Entities.Users
 
         public User User { get; set; }
 
-        // public Discount Discount { get; set; }
+        public Discount Discount { get; set; }
 
         #endregion
     }

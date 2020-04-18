@@ -1,6 +1,11 @@
-﻿using System;
+﻿using DigiMoallem.DAL.Entities.Accounting;
+using DigiMoallem.DAL.Entities.Courses;
+using DigiMoallem.DAL.Entities.Orders;
+using DigiMoallem.DAL.Entities.Transactions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Transactions;
 
 namespace DigiMoallem.DAL.Entities.Users
 {
@@ -58,23 +63,23 @@ namespace DigiMoallem.DAL.Entities.Users
 
         public virtual List<UserInRole> UserInRoles { get; set; }
 
-        //public virtual List<Transaction> Transactions { get; set; }
+        public virtual List<Exchange> Exchanges { get; set; }
 
-        //public virtual List<Course> Courses { get; set; }
+        public virtual List<Course> Courses { get; set; }
 
-        //public virtual List<Order> Orders { get; set; }
+        public virtual List<Order> Orders { get; set; }
 
-        //public List<UserCourse> UserCourses { get; set; }
+        public List<UserCourse> UserCourses { get; set; }
 
-        //public List<UserDiscountCode> UserDiscountCodes { get; set; }
+        public List<UserDiscountCode> UserDiscountCodes { get; set; }
 
-        //public List<Comment> Comments { get; set; }
+        public List<Comment> Comments { get; set; }
 
-        //public List<Payment> Payments { get; set; }
+        public List<Payment> Payments { get; set; }
 
-        //public List<RateCourse> RateCourses { get; set; }
+        public List<RateCourse> RateCourses { get; set; }
 
-        //public List<LikeCourse> LikeCourses { get; set; }
+        public List<LikeCourse> LikeCourses { get; set; }
 
         #endregion
     }

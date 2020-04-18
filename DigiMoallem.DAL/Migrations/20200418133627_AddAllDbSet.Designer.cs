@@ -4,14 +4,16 @@ using DigiMoallem.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DigiMoallem.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200418133627_AddAllDbSet")]
+    partial class AddAllDbSet
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -438,47 +440,6 @@ namespace DigiMoallem.DAL.Migrations
                     b.ToTable("PermissionsInRole");
                 });
 
-            modelBuilder.Entity("DigiMoallem.DAL.Entities.Transactions.Exchange", b =>
-                {
-                    b.Property<int>("ExchangeId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Amount");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(500);
-
-                    b.Property<bool>("IsPay");
-
-                    b.Property<DateTime>("TransactionDate");
-
-                    b.Property<int>("TransactionTypeId");
-
-                    b.Property<int>("UserId");
-
-                    b.HasKey("ExchangeId");
-
-                    b.HasIndex("TransactionTypeId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Exchanges");
-                });
-
-            modelBuilder.Entity("DigiMoallem.DAL.Entities.Transactions.TransactionType", b =>
-                {
-                    b.Property<int>("TransactionTypeId");
-
-                    b.Property<string>("TypeTitle")
-                        .IsRequired()
-                        .HasMaxLength(150);
-
-                    b.HasKey("TransactionTypeId");
-
-                    b.ToTable("TransactionTypes");
-                });
-
             modelBuilder.Entity("DigiMoallem.DAL.Entities.Users.Role", b =>
                 {
                     b.Property<int>("RoleId")
@@ -745,19 +706,6 @@ namespace DigiMoallem.DAL.Migrations
                     b.HasOne("DigiMoallem.DAL.Entities.Users.Role", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("DigiMoallem.DAL.Entities.Transactions.Exchange", b =>
-                {
-                    b.HasOne("DigiMoallem.DAL.Entities.Transactions.TransactionType", "TransactionType")
-                        .WithMany("Exchanges")
-                        .HasForeignKey("TransactionTypeId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("DigiMoallem.DAL.Entities.Users.User", "User")
-                        .WithMany("Exchanges")
-                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 

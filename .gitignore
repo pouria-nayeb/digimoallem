@@ -3,3 +3,6 @@
 ################################################################################
 
 /.vs
+/DigiMoallem.Web/bin/Debug/netcoreapp2.2
+/DigiMoallem.BLL/bin/Debug/netcoreapp3.1
+/DigiMoallem.DAL/bin/Debug/netcoreapp3.1

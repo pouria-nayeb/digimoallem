@@ -1,0 +1,9 @@
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.BLL\bin\Debug\netcoreapp3.1\DigiMoallem.BLL.deps.json
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.BLL\bin\Debug\netcoreapp3.1\DigiMoallem.BLL.dll
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.BLL\bin\Debug\netcoreapp3.1\DigiMoallem.BLL.pdb
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.BLL\obj\Debug\netcoreapp3.1\DigiMoallem.BLL.csprojAssemblyReference.cache
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.BLL\obj\Debug\netcoreapp3.1\DigiMoallem.BLL.csproj.CoreCompileInputs.cache
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.BLL\obj\Debug\netcoreapp3.1\DigiMoallem.BLL.AssemblyInfoInputs.cache
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.BLL\obj\Debug\netcoreapp3.1\DigiMoallem.BLL.AssemblyInfo.cs
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.BLL\obj\Debug\netcoreapp3.1\DigiMoallem.BLL.dll
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.BLL\obj\Debug\netcoreapp3.1\DigiMoallem.BLL.pdb

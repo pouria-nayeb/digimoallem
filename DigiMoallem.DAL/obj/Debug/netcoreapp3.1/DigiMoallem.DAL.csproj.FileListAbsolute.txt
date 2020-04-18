@@ -1,0 +1,12 @@
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.DAL\bin\Debug\netcoreapp3.1\DigiMoallem.DAL.deps.json
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.DAL\bin\Debug\netcoreapp3.1\DigiMoallem.DAL.dll
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.DAL\obj\Debug\netcoreapp3.1\DigiMoallem.DAL.csprojAssemblyReference.cache
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.DAL\obj\Debug\netcoreapp3.1\DigiMoallem.DAL.AssemblyInfoInputs.cache
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.DAL\obj\Debug\netcoreapp3.1\DigiMoallem.DAL.AssemblyInfo.cs
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.DAL\bin\Debug\netcoreapp3.1\DigiMoallem.DAL.runtimeconfig.json
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.DAL\bin\Debug\netcoreapp3.1\DigiMoallem.DAL.runtimeconfig.dev.json
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.DAL\obj\Debug\netcoreapp3.1\DigiMoallem.DAL.genruntimeconfig.cache
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.DAL\bin\Debug\netcoreapp3.1\DigiMoallem.DAL.pdb
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.DAL\obj\Debug\netcoreapp3.1\DigiMoallem.DAL.csproj.CoreCompileInputs.cache
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.DAL\obj\Debug\netcoreapp3.1\DigiMoallem.DAL.dll
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.DAL\obj\Debug\netcoreapp3.1\DigiMoallem.DAL.pdb

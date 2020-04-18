@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title | دیجی معلم</title>
+</head>
+<body>
+
+    <header>
+
+        <!-- navigation menu -->
+        <partial name="_NavbarPartial" />
+
+    </header>
+
+    <!-- changeable part of the page -->
+    <main>
+        @RenderBody()
+    </main>
+
+    <footer>
+
+        <!-- footer -->
+        <partial name="_FooterPartial" />
+
+    </footer>
+
+</body>
+</html>

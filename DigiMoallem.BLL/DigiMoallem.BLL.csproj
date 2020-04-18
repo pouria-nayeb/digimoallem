@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="DTOs\" />
+    <Folder Include="Helpers\Converters\" />
+    <Folder Include="Helpers\EmailServices\" />
+    <Folder Include="Helpers\Generators\" />
+    <Folder Include="Helpers\Security\" />
+    <Folder Include="Services\Interfaces\" />
+  </ItemGroup>
+
+</Project>

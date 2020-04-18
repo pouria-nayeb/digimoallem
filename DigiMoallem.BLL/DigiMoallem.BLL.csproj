@@ -10,7 +10,8 @@
     <Folder Include="Helpers\EmailServices\" />
     <Folder Include="Helpers\Generators\" />
     <Folder Include="Helpers\Security\" />
-    <Folder Include="Services\Interfaces\" />
+    <Folder Include="Interfaces\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>

@@ -1,9 +1,12 @@
 ﻿<!DOCTYPE html>
-<html>
+<html dir="rtl" lang="fa">
 <head>
 
     <meta name="viewport" content="width=device-width" />
     <title>@ViewData["Title"]</title>
+
+    <partial name="_StylesAdminPartial" />
+    @RenderSection("Styles", required: false)
 
 </head>
 <body>
@@ -19,6 +22,9 @@
     <footer>
         <partial name="_FooterAdminPartial" />
     </footer>
+
+    <partial name="_ScriptsAdminPartial" />
+    @RenderSection("Scripts", required: false)
 
 </body>
 </html>

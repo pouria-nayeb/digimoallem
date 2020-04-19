@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace DigiMoallem.Web.Pages.Admin.Courses
 {
-    [PermissionChecker(1007)]
+    //[PermissionChecker(24)]
     public class CreateModel : PageModel
     {
         private ICourseService _courseService;
@@ -44,6 +44,10 @@ namespace DigiMoallem.Web.Pages.Admin.Courses
             List<SelectListItem> courseStatus = await _courseService
                 .GetCourseStatusesAsync();
             ViewData["CourseStatuses"] = new SelectList(courseStatus, "Value", "Text");
+
+            List<SelectListItem> courseTypes = await _courseService
+                .GetCourseTypesAsync();
+            ViewData["CourseTypes"] = new SelectList(courseTypes, "Value", "Text");
         }
 
         public async Task<IActionResult> OnPostAsync(IFormFile imgCourseUpload, IFormFile demo)

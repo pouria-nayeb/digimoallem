@@ -11,12 +11,12 @@ namespace DigiMoallem.DAL.Entities.Orders
         public int DiscountId { get; set; }
 
         [Display(Name = "کد تخفیف")]
-        [Required]
+        [Required(ErrorMessage = "لطفاً {0} را وارد نمایید.")]
         [MaxLength(150)]
         public string DiscountCode { get; set; }
 
         [Display(Name = "درصد تخفیف")]
-        [Required]
+        [Required(ErrorMessage = "لطفاً {0} را وارد نمایید.")]
         public int DiscountPercent { get; set; }
 
         [Display(Name = "تعداد کدهای تخفیف")]

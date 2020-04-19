@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DigiMoallem.Web.Pages.Admin.Courses
 {
-    [PermissionChecker(1006)]
+    [PermissionChecker(26)]
     public class DeleteEpisodeModel : PageModel
     {
         private ICourseService _courseService;

@@ -4,40 +4,28 @@
     ViewData["Title"] = "لیست نقش ها";
 }
 
-<h1 class="my-5"> <i class="fa fa-users ml-2"></i> @ViewData["Title"]</h1>
+<div class="container">
 
-<!-- breadcrumb -->
-<div class="bc-icons-2">
+    <h1 class="my-5"> <i class="fa fa-map-pin ml-2"></i> @ViewData["Title"]</h1>
 
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb dark-bg-admin lighten-5">
-            <li class="breadcrumb-item active">@ViewData["Title"]</li>
-        </ol>
-    </nav>
+    <!-- create succeeded -->
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Success"]
+        </div>
+    }
 
-</div>
-
-<!-- create succeeded -->
-@if (TempData["Success"] != null)
-{
-    <div class="alert alert-success">
-        @TempData["Success"]
-    </div>
-}
-
-<div class="p-3">
     <!-- add -->
     <a asp-area=""
-       asp-page="Create" 
-       class="btn btn-success btn-sm"> 
-    <i class="fa fa-plus ml-2"></i> افزودن نقش جدید
+       asp-page="Create"
+       class="btn btn-outline-success my-3">
+        <i class="fa fa-plus ml-2"></i> افزودن نقش جدید
     </a>
-</div>
 
-<!-- users table -->
-<div class="table-responsive">
-    <table class="table table-dark table-striped table-bordered">
-        <thead>
+    <!-- users table -->
+    <div class="table-responsive">
+        <table class="table table-dark table-striped table-bordered">
             <tr>
                 <th class="th-sm">
                     شناسه
@@ -49,8 +37,6 @@
                     دستورات
                 </th>
             </tr>
-        </thead>
-        <tbody>
             @if (Model.Roles.Count == 0)
             {
                 <tr class="bg-dark text-light">
@@ -69,20 +55,21 @@
                         <td class="text-center">
                             <a asp-area=""
                                asp-page="/Admin/Roles/Edit"
-                               asp-route-id="@role.RoleId" 
-                               class="btn btn-warning btn-sm"> 
-                            <i class="fa fa-pen ml-2"></i> ویرایش
+                               asp-route-id="@role.RoleId"
+                               class="btn btn-outline-warning btn-sm">
+                                <i class="fa fa-pen ml-2"></i> ویرایش
                             </a>
                             <a asp-area=""
                                asp-page="/Admin/Roles/Delete"
-                               asp-route-id="@role.RoleId"       
-                               class="btn btn-danger btn-sm"> 
-                            <i class="fa fa-trash ml-2"></i> حذف
+                               asp-route-id="@role.RoleId"
+                               class="btn btn-outline-danger btn-sm">
+                                <i class="fa fa-trash ml-2"></i> حذف
                             </a>
                         </td>
                     </tr>
                 }
             }
-        </tbody>
-    </table>
+        </table>
+    </div>
+
 </div>

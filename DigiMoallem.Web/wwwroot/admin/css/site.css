@@ -1,2 +1,36 @@
-﻿body {
+﻿@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300&display=swap');
+
+@font-face {
+    font-family: 'BYekan';
+    src: url(../../fonts/BYekan.eot);
+    src: url(../../Fonts/BYekan.eot?#iefix) format("embedded-opentype"),url(../../fonts/BYekan.woff) format("woff"),url(../../Fonts//BYekan.ttf) format("truetype"),url(../../Fonts//BYekan.svg) format("svg");
+    font-weight: 400;
+    font-style: normal;
+}
+
+* {
+    font-family: 'BYekan',Tahoma,Helvetica,sans-serif;
+    text-align:right;
+}
+
+body, html {
+    direction: rtl;
+    text-align: right;
+}
+
+.text-direction-ltr {
+direction:ltr;
+}
+
+.english-font {
+    font-family: 'Titillium Web', sans-serif;
+}
+
+.form-control {
+    padding: 0 1rem;
+    visibility:visible !important;
+}
+
+main {
+    min-height: 78vh;
 }

@@ -6,6 +6,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using DigiMoallem.DAL.Context;
+using DigiMoallem.BLL.Helpers.EmailServices;
+using DigiMoallem.BLL.Interfaces;
+using DigiMoallem.BLL.Services;
 
 namespace DigiMoallem.Web
 {
@@ -37,6 +40,21 @@ namespace DigiMoallem.Web
             services.AddDbContext<ApplicationDbContext>(options => {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
+
+            // user service
+            services.AddTransient<IUserService, UserService>();
+
+            // email service
+            services.AddTransient<IViewRenderService, RenderViewToString>();
+
+            // permission service
+            services.AddTransient<IPermissionService, PermissionService>();
+
+            services.AddTransient<ICourseService, CourseService>();
+
+            services.AddTransient<IOrderService, OrderService>();
+
+            services.AddTransient<IAccountingService, AccountingService>();
 
         }
 

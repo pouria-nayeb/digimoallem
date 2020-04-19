@@ -298,6 +298,30 @@ namespace DigiMoallem.BLL.Services
         #endregion
 
         /// <summary>
+        /// Get course types
+        /// </summary>
+        /// <returns></returns>
+        #region GetCourseStatuses
+        public List<SelectListItem> GetCourseTypes()
+        {
+            return _db.CourseTypes.Select(cs => new SelectListItem
+            {
+                Text = cs.Title,
+                Value = cs.CourseTypeId.ToString()
+            }).ToList();
+        }
+
+        public async Task<List<SelectListItem>> GetCourseTypesAsync()
+        {
+            return await _db.CourseTypes.Select(cs => new SelectListItem
+            {
+                Text = cs.Title,
+                Value = cs.CourseTypeId.ToString()
+            }).ToListAsync();
+        }
+        #endregion
+
+        /// <summary>
         /// Get teachers
         /// </summary>
         /// <returns></returns>
@@ -482,7 +506,7 @@ namespace DigiMoallem.BLL.Services
 
                 course.ImageName = EditAndUplaodImage(course, course.ImageName, imageCourse);
 
-                course.Demo = EditAndUplaodDemo(course, course.Demo, demoCourse);
+                course.Demo = EditAndUplaodDemo(course, demoCourse);
 
                 _db.Courses.Update(course);
                 Save();
@@ -505,7 +529,10 @@ namespace DigiMoallem.BLL.Services
 
                 course.ImageName = EditAndUplaodImage(course, course.ImageName, imageCourse);
 
-                course.Demo = EditAndUplaodDemo(course, course.Demo, demoCourse);
+                if (demoCourse != null)
+                {
+                    course.Demo = EditAndUplaodDemo(course, demoCourse);
+                }
 
                 _db.Courses.Update(course);
                 await SaveAsync();
@@ -1324,7 +1351,7 @@ namespace DigiMoallem.BLL.Services
         public string AddAndUplaodTutorial(string episodeName, IFormFile episodeFile)
         {
             episodeName = CodeGenerator.GenerateUniqueCode() + Path.GetExtension(episodeFile.FileName);
-            string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/CourseFiles/" + episodeName);
+            string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/coursefiles/" + episodeName);
 
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
@@ -1388,8 +1415,9 @@ namespace DigiMoallem.BLL.Services
         /// </summary>
         /// <param name="demoName"></param>
         /// <param name="DemoFile"></param>
-        public string EditAndUplaodDemo(Course course, string demoName, IFormFile DemoFile)
+        public string EditAndUplaodDemo(Course course, IFormFile DemoFile)
         {
+            string demoName = string.Empty;
             if (DemoFile != null)
             {
                 // user select new image
@@ -1414,8 +1442,10 @@ namespace DigiMoallem.BLL.Services
 
                 return demoName;
             }
-
-            return null;
+            else
+            {
+                return course.Demo;
+            }
         }
 
         /// <summary>

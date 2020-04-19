@@ -7,27 +7,18 @@
     var Roles = ViewData["Roles"] as List<Role>;
 }
 
-<h1 class="my-5"> <i class="fa fa-user-plus ml-2"></i> @ViewData["Title"]</h1>
+<div class="container">
 
-<!-- breadcrumb -->
-<div class="bc-icons-2">
+    <!-- back to users -->
+    <a asp-area="" asp-page="Index" class="btn btn-outline-info">
+        <i class="fas fa-arrow-right ml-2"></i> بازگشت
+    </a>
 
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb dark-bg-admin lighten-5">
-            <li class="breadcrumb-item">
-                <a class="black-text" href="/Admin/Users">لیست کاربران</a><i class="fas fa-caret-left mx-2"></i>
-            </li>
-            <li class="breadcrumb-item active">@ViewData["Title"]</li>
-        </ol>
-    </nav>
+    <h1 class="my-5"> <i class="fa fa-user-plus ml-2"></i> @ViewData["Title"]</h1>
 
-</div>
+    <form method="post" enctype="multipart/form-data" class="md-form">
 
-<form method="post" enctype="multipart/form-data" class="md-form">
-
-    <div class="container">
-
-        <div asp-validation-summary="All" class="text-danger my-4"></div>
+        <div asp-validation-summary="ModelOnly"></div>
 
         @if (TempData["WrongInputs"] != null)
         {
@@ -62,26 +53,58 @@
             <div class="col-md-8 col-sm-12">
 
                 <!-- username -->
-                <div class="md-form mb-4">
-                    <input type="text" asp-for="CreateUserViewModel.UserName" class="form-control text-direction-ltr text-left">
+                <div class="form-group">
                     <label asp-for="CreateUserViewModel.UserName"></label>
+                    <input type="text" class="form-control text-direction-ltr text-left english-font"
+                           asp-for="CreateUserViewModel.UserName" />
+
+                    <span asp-validation-for="CreateUserViewModel.UserName" class="text-danger"></span>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 col-sm-6">
+                        <!-- firstName -->
+                        <div class="form-group">
+                            <label asp-for="CreateUserViewModel.FirstName"></label>
+                            <input type="text" class="form-control text-direction-ltr text-left english-font"
+                                   asp-for="CreateUserViewModel.FirstName" />
+
+                            <span asp-validation-for="CreateUserViewModel.FirstName" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-6">
+                        <!-- lastName -->
+                        <div class="form-group">
+                            <label asp-for="CreateUserViewModel.LastName"></label>
+                            <input type="text" class="form-control text-direction-ltr text-left english-font"
+                                   asp-for="CreateUserViewModel.LastName" />
+
+                            <span asp-validation-for="CreateUserViewModel.LastName" class="text-danger"></span>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- email -->
-                <div class="md-form mb-4">
-                    <input type="text" asp-for="CreateUserViewModel.Email" class="form-control text-direction-ltr text-left english-font">
+                <div class="form-group">
                     <label asp-for="CreateUserViewModel.Email"></label>
+                    <input type="text" class="form-control text-direction-ltr text-left english-font"
+                           asp-for="CreateUserViewModel.Email"
+                           placeholder="example@@something.com" />
+
+                    <span asp-validation-for="CreateUserViewModel.Email" class="text-danger"></span>
                 </div>
 
                 <!-- description -->
                 <div class="form-group mb-4">
+                    <label asp-for="CreateUserViewModel.Description"></label>
                     <textarea class="form-control" asp-for="CreateUserViewModel.Description" rows="3"></textarea>
                 </div>
 
                 <!-- password -->
-                <div class="md-form my-4">
-                    <input type="text" asp-for="CreateUserViewModel.Password" class="form-control text-direction-ltr text-left english-font">
+                <div class="form-group mb-4">
                     <label asp-for="CreateUserViewModel.Password"></label>
+                    <input type="text" class="form-control text-direction-ltr text-left" asp-for="CreateUserViewModel.Password" />
                 </div>
 
                 <!-- role list  -->
@@ -89,22 +112,20 @@
                     @foreach (var role in Roles)
                     {
                         <div class="form-check">
-                            <input type="checkbox" name="SelectedRoles" value="@role.RoleId" class="form-check-input" id="materialUnchecked-@role.RoleId">
-                            <label class="form-check-label" for="materialUnchecked-@role.RoleId">@role.Title</label>
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" value="@role.RoleId" name="SelectedRoles" />
+                                @role.Title
+                            </label>
                         </div>
                     }
                 </div>
 
+
                 <div class="form-group my-5">
                     <!-- create -->
-                    <button type="submit" class="btn btn-outline-success btn-sm">
-                        <i class="fa fa-plus ml-2"></i> ایجاد کاربر جدید
+                    <button type="submit" class="btn btn-outline-success">
+                        <i class="fas fa-plus ml-2"></i> ایجاد کاربر جدید
                     </button>
-
-                    <!-- back to users -->
-                    <a asp-area="" asp-page="Index" class="btn btn-outline-warning btn-sm">
-                        <i class="fas fa-arrow-right ml-2"></i> بازگشت
-                    </a>
                 </div>
 
             </div>
@@ -112,27 +133,29 @@
 
                 <!-- avatar section -->
                 <div class="container">
-                    <img id="profileAvatar" src="~/Images/Avatars/default.png" class="img-fluid mx-auto my-2 display-block" alt="default avatar" />
-                    <div class="file-field">
-                        <div class="btn btn-success btn-block btn-sm">
-                            <span>تصویر پروفایل</span>
-                            <input type="file" name="CreateUserViewModel.UserAvatar" id="CreateUserViewModel_UserAvatar" />
+                    <img id="display-image" 
+                         src="~/Images/Avatars/default.png" 
+                         class="img-fluid mx-auto my-2 display-block" 
+                         alt="default avatar" />
+
+                    <div class="form-group">
+                        <div class="input-group my-4 w-100 max-width-520px">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" 
+                                       asp-for="CreateUserViewModel.UserAvatar" 
+                                       id="image"
+                                       name="Image" />
+                                <label class="custom-file-label" style="padding-right:6rem" 
+                                       asp-for="CreateUserViewModel.UserAvatar">انتخاب فایل</label>
+                            </div>
                         </div>
                     </div>
+
                 </div>
 
             </div>
 
         </div>
-    </div>
-</form>
+    </form>
 
-@section Scripts {
-    <script src="~/Admin/Scripts/Site.js"></script>
-    <script src="https://cdn.ckeditor.com/4.9.2/standard/ckeditor.js"></script>
-    <script>
-        CKEDITOR.replace('Course_Description', {
-            customConfig: '/Admin/Scripts/config.js'
-        });
-    </script>
-}
+</div>

@@ -1,4 +1,5 @@
-﻿using DigiMoallem.BLL.Interfaces;
+﻿using DigiMoallem.BLL.Helpers.Security;
+using DigiMoallem.BLL.Interfaces;
 using DigiMoallem.DAL.Entities.Courses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace DigiMoallem.Web.Pages.Admin.Groups
 {
+    [PermissionChecker(17)]
     public class DeleteModel : PageModel
     {
         private ICourseService _courseService;

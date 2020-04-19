@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DigiMoallem.Web.Pages.Admin.Users
 {
-    [PermissionChecker(5)]
+    [PermissionChecker(6)]
     public class DeleteModel : PageModel
     {
         private IUserService _userService;

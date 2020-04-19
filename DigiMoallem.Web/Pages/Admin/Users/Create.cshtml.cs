@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DigiMoallem.Web.Pages.Admin.Users
 {
-    [PermissionChecker(3)]
+    [PermissionChecker(4)]
     public class CreateModel : PageModel
     {
         private IUserService _userService;

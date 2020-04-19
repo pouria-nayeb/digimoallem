@@ -29,33 +29,47 @@
         <input type="hidden" asp-for="Group.ParentId" />
         <input type="hidden" asp-for="Group.ImageName" />
 
-        <div class="md-form mb-5">
-            <input type="text" asp-for="Group.Title" class="form-control">
-            <label asp-for="Group.Title"></label>
-            <span asp-validation-for="Group.Title"></span>
-        </div>
+        <div class="row">
 
-        <div class="container">
-                <img id="profileAvatar" src="~/Images/Icons/@Model.Group.ImageName"
-                     class="img-fluid card my-2"
-                     alt="default group"
-                     style="max-width:75px; background: #e74c3c" />
+            <div class="col-12 col-sm-8">
+                <div class="form-group mb-5">
+                    <label asp-for="Group.Title"></label>
+                    <input type="text" asp-for="Group.Title" class="form-control">
+                    <span asp-validation-for="Group.Title" class="text-danger"></span>
+                </div>
 
-            <div class="file-field">
-                <div class="btn btn-success btn-block btn-sm">
-                    <span>تصویر گروه</span>
-                    <input type="file" name="imageName" id="CreateUserViewModel_UserAvatar" />
+                <div class="form-group my-5">
+                    <button type="submit" class="btn btn-outline-success">
+                        <i class="fas fa-plus ml-2"></i> افزودن گروه جدید
+                    </button>
                 </div>
             </div>
-        </div>
 
-        <div class="form-group my-5">
-            <button type="submit" class="btn btn-primary">ویرایش گروه</button>
-            <a asp-area=""
-               asp-page="Index"
-               class="btn btn-warning">
-                <i class="fas fa-back-arrow"></i> لیست گروه ها
-            </a>
+            <div class="col-12 col-sm-4">
+                <!-- avatar section -->
+                <div class="container">
+                    <img id="display-image"
+                         src="~/Images/Avatars/default.png"
+                         class="mx-auto my-2 d-block rounded"
+                         alt="default avatar"
+                         style="max-width:250px" />
+
+                    <div class="form-group">
+                        <div class="input-group my-4 w-100">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input"
+                                       asp-for="Group.ImageName"
+                                       id="image"
+                                       name="Image" />
+                                <label class="custom-file-label" style="padding-right:6rem"
+                                       asp-for="Group.ImageName">انتخاب فایل</label>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
         </div>
 
     </form>

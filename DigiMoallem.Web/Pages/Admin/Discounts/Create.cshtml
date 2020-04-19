@@ -6,36 +6,29 @@
 }
 
 @section Styles {
-    <link href="~/Admin/Styles/kendo.common.min.css" rel="stylesheet" />
-    <link href="~/Admin/Styles/kendo.default.min.css" rel="stylesheet" />
+    <link href="~/admin/css/kendo.common.min.css" rel="stylesheet" />
+    <link href="~/admin/css/kendo.default.min.css" rel="stylesheet" />
     <style>
         #alert {
-         display:none;
+            display: none;
         }
     </style>
 }
 
-<h1 class="my-5"> <i class="fa fa-plus ml-2"></i> @ViewData["Title"]</h1>
+<div class="container">
 
-<!-- breadcrumb -->
-<div class="bc-icons-2">
+    <!-- back to roles -->
+    <a asp-area=""
+       asp-page="Index"
+       class="btn btn-outline-info">
+        <i class="fas fa-arrow-right ml-2"></i> بازگشت
+    </a>
 
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb dark-bg-admin lighten-5">
-            <li class="breadcrumb-item">
-                <a class="black-text" href="/Admin/Discounts">لیست تخفیف ها</a><i class="fas fa-caret-left mx-2"></i>
-            </li>
-            <li class="breadcrumb-item active">@ViewData["Title"]</li>
-        </ol>
-    </nav>
+    <h1 class="my-5"> <i class="fa fa-plus ml-2"></i> @ViewData["Title"]</h1>
 
-</div>
+    <form method="post" class="md-form">
 
-<form method="post" class="md-form">
-
-    <div class="container">
-
-        <div asp-validation-summary="All" class="text-danger my-4"></div>
+        <div asp-validation-summary="ModelOnly" class="text-danger my-4"></div>
 
         @if (TempData["WrongInputs"] != null)
         {
@@ -58,71 +51,72 @@
 
                 <!-- discount code -->
                 <div class="md-form mb-4">
-                    <input type="text" asp-for="Discount.DiscountCode" class="form-control">
                     <label asp-for="Discount.DiscountCode"></label>
+                    <input type="text" asp-for="Discount.DiscountCode" 
+                           class="form-control text-direction-ltr text-left" />
+
+                    <span asp-validation-for="Discount.DiscountCode" class="text-danger"></span>
                 </div>
 
                 <!-- percent -->
                 <div class="md-form mb-4">
-                    <input type="text" asp-for="Discount.DiscountPercent" class="form-control">
                     <label asp-for="Discount.DiscountPercent"></label>
+                    <input type="text" asp-for="Discount.DiscountPercent" class="form-control text-direction-ltr text-left" />
+
+                    <span asp-validation-for="Discount.DiscountPercent" class="text-danger"></span>
                 </div>
 
                 <!-- count -->
                 <div class="md-form mb-4">
-                    <input type="text" asp-for="Discount.UsableCount" class="form-control">
                     <label asp-for="Discount.UsableCount"></label>
+                    <input type="number" asp-for="Discount.UsableCount" class="form-control">
+
+                    <span asp-validation-for="Discount.UsableCount"></span>
                 </div>
 
                 <div class="form-group my-5">
                     <!-- create -->
-                    <button type="submit" class="btn btn-outline-success btn-sm">
+                    <button type="submit" class="btn btn-outline-success">
                         <i class="fa fa-plus ml-2"></i> ایجاد کد تخفیف جدید
                     </button>
-
-                    <!-- back to roles -->
-                    <a asp-area=""
-                       asp-page="Index" 
-                       class="btn btn-outline-warning btn-sm">
-                        <i class="fas fa-arrow-right ml-2"></i> بازگشت
-                    </a>
                 </div>
 
             </div>
             <div class="col-12 col-sm-12 col-md-4 col-lg-4">
 
                 <!-- start date -->
-                <div class="md-form mb-4">
-                    <span> تاریخ شروع: </span>
-                    <input id="startDate" name="startDate" class="mx-2" />
+                <div class="form-group mb-4">
+                    <label class="d-block" for="startDate"> تاریخ شروع: </label>
+                    <input id="startDate" name="startDate" class="mx-2 w-75" />
                 </div>
 
                 <!-- end date -->
-                <div class="md-form mb-4">
-                    <span> تاریخ اتمام: </span>
-                    <input id="endDate" name="endDate" class="mx-3" />
+                <div class="form-group mb-4">
+                    <label class="d-block" for="endDate"> تاریخ اتمام: </label>
+                    <input id="endDate" name="endDate" class="mx-2 w-75" />
                 </div>
 
             </div>
         </div>
 
-    </div>
-</form>
+    </form>
+
+</div>
 
 @section Scripts {
-    <script src="~/Admin/Scripts/jquery-1.9.1.min.js"></script>
-    <script src="~/Admin/Scripts/kendo.all.min.js"></script>
+    <script src="~/admin/js/jquery-1.9.1.min.js"></script>
+    <script src="~/admin/js/kendo.all.min.js"></script>
     <script>
 
         $("#Discount_DiscountCode").blur(function () {
             $.ajax({
                 method: "get",
                 url: "/Admin/Discounts/Create/CheckDiscountCode?code=" + $("#Discount_DiscountCode").val()
-            }).done(function(result) {
+            }).done(function (result) {
                 if (result === 'True') {
                     $("#alert").show("fast");
                 } else {
-                     $("#alert").hide("fast");
+                    $("#alert").hide("fast");
                 }
             });
         });

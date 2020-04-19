@@ -5,158 +5,136 @@
     ViewData["Title"] = "لیست کاربران";
 }
 
-<h1 class="my-5"> <i class="fa fa-users ml-2"></i> @ViewData["Title"]</h1>
+<div class="container">
 
-<!-- breadcrumb -->
-<div class="bc-icons-2">
+    <h1 class="my-5"> <i class="fa fa-users ml-2"></i> @ViewData["Title"]</h1>
 
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb dark-bg-admin lighten-5">
-            <li class="breadcrumb-item active">@ViewData["Title"]</li>
-        </ol>
-    </nav>
+    <!-- create succeeded -->
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Success"]
+        </div>
+    }
 
-</div>
+    <form autocomplete="off">
 
-<!-- create succeeded -->
-@if (@TempData["Success"] != null)
-{
-    <div class="alert alert-success">
-        @TempData["Success"]
-    </div>
-}
+        <div class="row p-3">
 
-<form autocomplete="off">
-
-    <div class="row p-3">
-
-        <!-- userName -->
-        <div class="col-12 col-sm-12 col-md-4">
-            <div class="md-form">
-                <input type="text" id="username" name="filterUserName" class="form-control english-font text-direction-ltr">
-                <label for="username">نام کاربری</label>
+            <!-- userName -->
+            <div class="col-12 col-sm-12 col-md-4">
+                <div class="form-group">
+                    <input type="text" id="username" name="filterUserName" 
+                           class="form-control english-font text-direction-ltr text-left">
+                    <label for="username">نام کاربری</label>
+                </div>
             </div>
-        </div>
 
-        <!-- email -->
-        <div class="col-12 col-sm-12 col-md-4">
-            <div class="md-form">
-                <input type="text" id="email" name="filterEmail" class="form-control english-font text-direction-ltr">
-                <label for="email">آدرس ایمیل</label>
+            <!-- email -->
+            <div class="col-12 col-sm-12 col-md-4">
+                <div class="form-group">
+                    <input type="text" id="email" name="filterEmail" 
+                           class="form-control english-font text-direction-ltr text-left">
+                    <label for="email">آدرس ایمیل</label>
+                </div>
             </div>
-        </div>
 
-        <!-- search -->
-        <div class="col-12 col-sm-12 col-md-4">
-            <button class="btn btn-info"> <i class="fa fa-search ml-2"></i> جستجو</button>
-            <a href="/Admin/Users" class="btn btn-secondary btn-sm"> <i class="fa fa-filter ml-2"></i> حذف فیلترها</a>
-        </div>
+            <!-- search -->
+            <div class="col-12 col-sm-12 col-md-4">
+                <button class="btn btn-primary"> <i class="fa fa-search ml-2"></i> جستجو</button>
+                <a href="/Admin/Users" class="btn btn-secondary"> <i class="fa fa-filter ml-2"></i> حذف فیلترها</a>
+            </div>
 
+        </div>
+    </form>
+
+    <div class="p-3">
+        <!-- add -->
+        <a asp-area=""
+           asp-page="Create"
+           class="btn btn-outline-success ml-2">
+            <i class="fa fa-plus ml-2"></i> افزودن کاربر جدید
+        </a>
+        <!-- deleted users -->
+        <a asp-area=""
+           asp-page="/Admin/Users/DeletedUsers"
+           class="btn btn-outline-danger">
+            <i class="fa fa-users ml-2"></i> کاربران حذف شده
+        </a>
     </div>
-</form>
 
-<div class="p-3">
-    <!-- add -->
-    <a asp-area=""
-       asp-page="Create" 
-       class="btn btn-success btn-sm"> 
-     <i class="fa fa-plus ml-2"></i> افزودن کاربر جدید
-    </a>
-    <!-- deleted users -->
-    <a asp-area="" 
-       asp-page="/Admin/Users/DeletedUsers"
-       class="btn btn-outline-secondary btn-sm">
-        <i class="fa fa-users ml-2"></i> کاربران حذف شده
-    </a>
-</div>
-
-<!-- pagination -->
-<nav aria-label="Page navigation" class="my-3">
-    <ul class="pagination pagination-circle pg-dark justify-content-center">
-        @for (int i = 1; i <= Model.UserViewModel.PageCount; i++)
-        {
-            <li class="page-item english-font @((Model.UserViewModel.CurrentPage == i) ? "active" : "")">
-                <a href="/Admin/Users?pageId=@i" class="page-link">@i</a>
-            </li>
-        }
-    </ul>
-</nav>
-
-<!-- users table -->
-<div class="table-responsive">
-    <table class="table table-dark table-striped table-bordered">
-        <thead>
-            <tr>
-                <th class="th-sm">
-                    نام کاربری
-                </th>
-                <th class="th-sm">
-                    ایمیل
-                </th>
-                <th class="th-sm">
-                    وضعیت
-                </th>
-                <th class="th-sm">
-                    تاریخ ثبت نام
-                </th>
-                <th class="th-sm">
-                    دستورات
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model.UserViewModel.Users.Count == 0)
-            {
-                <tr class="bg-dark text-light">
-                    <td colspan="5" class="py-4">
-                        <i class="fas fa-exclamation-triangle ml-2"></i> لیست کاربران خالی است.
-                    </td>
+    <!-- users table -->
+    <div class="table-responsive">
+        <table class="table table-dark table-striped table-bordered">
+                <tr>
+                    <th class="th-sm">
+                        نام کاربری
+                    </th>
+                    <th class="th-sm">
+                        ایمیل
+                    </th>
+                    <th class="th-sm">
+                        وضعیت
+                    </th>
+                    <th class="th-sm">
+                        تاریخ ثبت نام
+                    </th>
+                    <th class="th-sm">
+                        دستورات
+                    </th>
                 </tr>
-            }
-            else
-            {
-                @foreach (var user in Model.UserViewModel.Users)
+                @if (Model.UserViewModel.Users.Count == 0)
                 {
-                    <tr>
-                        <td class="english-font">@user.UserName</td>
-                        <td class="english-font">@user.Email</td>
-                        <td>
-                            @{
-                                var status = user.IsActive ? "فعال" : "غیر فعال";
-                                <text>@status</text>
-                            }
-                        </td>
-                        <td class="english-font">@user.RegisterDate.ToPersianDate()</td>
-                        <td class="text-center">
-                            <a 
-                               asp-area=""
-                               asp-page="/Admin/Users/Edit"
-                               asp-route-id="@user.UserId" 
-                               class="btn btn-warning btn-sm"> 
-                            <i class="fa fa-pen ml-2"></i> ویرایش
-                            </a>
-                            <a asp-area=""
-                               asp-page="/Admin/Users/Delete"
-                               asp-route-id="@user.UserId"
-                               class="btn btn-danger btn-sm"> 
-                            <i class="fa fa-trash ml-2"></i> حذف
-                            </a>
+                    <tr class="bg-dark text-light">
+                        <td colspan="5" class="py-4">
+                            <i class="fas fa-exclamation-triangle ml-2"></i> لیست کاربران خالی است.
                         </td>
                     </tr>
                 }
-            }
-        </tbody>
-    </table>
-</div>
+                else
+                {
+                    @foreach (var user in Model.UserViewModel.Users)
+                    {
+                        <tr>
+                            <td class="english-font">@user.UserName</td>
+                            <td class="english-font">@user.Email</td>
+                            <td>
+                                @{
+                                    var status = user.IsActive ? "فعال" : "غیر فعال";
+                                    <text>@status</text>
+                                }
+                            </td>
+                            <td class="english-font">@user.RegisterDate.ToPersianDate()</td>
+                            <td class="text-center">
+                                <a asp-area=""
+                                   asp-page="/Admin/Users/Edit"
+                                   asp-route-id="@user.UserId"
+                                   class="btn btn-outline-warning btn-sm">
+                                    <i class="fa fa-pen ml-2"></i> ویرایش
+                                </a>
+                                <a asp-area=""
+                                   asp-page="/Admin/Users/Delete"
+                                   asp-route-id="@user.UserId"
+                                   class="btn btn-outline-danger btn-sm">
+                                    <i class="fa fa-trash ml-2"></i> حذف
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+        </table>
+    </div>
 
-<!-- pagination -->
-<nav aria-label="Page navigation" class="my-3">
-    <ul class="pagination pagination-circle pg-dark justify-content-center">
-        @for (int i = 1; i <= Model.UserViewModel.PageCount; i++)
-        {
-            <li class="page-item english-font @((Model.UserViewModel.CurrentPage == i) ? "active" : "")">
-                <a href="/Admin/Users?pageId=@i" class="page-link">@i</a>
-            </li>
-        }
-    </ul>
-</nav>
+    <!-- pagination -->
+    <nav aria-label="Page navigation" class="my-3">
+        <ul class="pagination pagination-circle pg-dark justify-content-center">
+            @for (int i = 1; i <= Model.UserViewModel.PageCount; i++)
+            {
+                <li class="page-item english-font @((Model.UserViewModel.CurrentPage == i) ? "active" : "")">
+                    <a href="/Admin/Users?pageId=@i" class="page-link">@i</a>
+                </li>
+            }
+        </ul>
+    </nav>
+
+</div>

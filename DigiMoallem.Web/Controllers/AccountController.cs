@@ -43,7 +43,6 @@ namespace DigiMoallem.Web.Controllers
         /// <param name="register"> AccountViewModel </param>
         [Route("Register")]
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel register)
         {
             if (ModelState.IsValid)
@@ -114,7 +113,6 @@ namespace DigiMoallem.Web.Controllers
         /// <param name="ReturnUrl"></param>
         [Route("Login")]
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel login, string ReturnUrl = null)
         {
             if (ModelState.IsValid)

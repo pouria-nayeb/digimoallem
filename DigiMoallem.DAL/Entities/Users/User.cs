@@ -24,6 +24,14 @@ namespace DigiMoallem.DAL.Entities.Users
         [MaxLength(200, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]
         public string UserName { get; set; }
 
+        [Display(Name = "نام")]
+        [MaxLength(200, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]
+        public string FirstName { get; set; }
+
+        [Display(Name = "نام خانوادگی")]
+        [MaxLength(200, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]
+        public string LastName { get; set; }
+
         [Display(Name = "ایمیل")]
         [Required(ErrorMessage = "لطفاً {0} را وارد نمایید.")]
         [MaxLength(200, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]

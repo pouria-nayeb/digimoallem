@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DigiMoallem.Web.Pages.Admin.Courses
 {
-    [PermissionChecker(1006)]
+    //[PermissionChecker(25)]
     public class EditEpisodeModel : PageModel
     {
         private ICourseService _courseService;

@@ -5,57 +5,48 @@
     ViewData["Title"] = "بازیابی کاربر";
 }
 
-    <h1 class="my-5"> <i class="fa fa-recycle ml-2"></i>  @ViewData["Title"]</h1>
+<div class="container">
 
-<!-- breadcrumb -->
-<div class="bc-icons-2">
+    <!-- back -->
+    <a href="/Admin/Users" class="btn btn-outline-info">
+        <i class="fas fa-arrow-right ml-2"></i> بازگشت
+    </a>
 
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb dark-bg-admin lighten-5">
-            <li class="breadcrumb-item">
-                <a class="black-text" href="/Admin/Users">لیست کاربران</a><i class="fas fa-caret-left mx-2"></i>
-            </li>
-            <li class="breadcrumb-item active">@ViewData["Title"]</li>
-        </ol>
-    </nav>
+    <h1 class="my-5"> <i class="fa fa-user text-danger ml-2"></i> @ViewData["Title"]</h1>
+
+    <form method="post">
+        <!-- hidden -->
+        <input type="hidden" value="@ViewData["Id"]" />
+
+        <!-- user table -->
+        <div class="table-responsive">
+            <table class="table table-dark table-striped table-bordered">
+                <tr>
+                    <th>نام کاربری</th>
+                    <td class="english-font">@Model.UserPanelViewModel.UserName</td>
+                </tr>
+                <tr>
+                    <th>ایمیل</th>
+                    <td class="english-font">@Model.UserPanelViewModel.Email</td>
+                </tr>
+                <tr>
+                    <th>موجودی حساب</th>
+                    <td>@Model.UserPanelViewModel.Balance</td>
+                </tr>
+                <tr>
+                    <th>تاریخ عضویت</th>
+                    <td class="english-font">@Model.UserPanelViewModel.RegisterDate.ToPersianDate()</td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <!-- recycle user -->
+                        <button class="btn btn-outline-success">
+                            <i class="fa fa-check ml-2"></i> بازیابی کاربر
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
 
 </div>
-
-<form method="post">
-    <!-- hidden -->
-    <input type="hidden" value="@ViewData["Id"]" />
-
-    <!-- user table -->
-    <div class="table-responsive">
-        <table class="table table-dark table-striped table-bordered">
-            <tr>
-                <th>نام کاربری</th>
-                <td class="english-font">@Model.UserPanelViewModel.UserName</td>
-            </tr>
-            <tr>
-                <th>ایمیل</th>
-                <td class="english-font">@Model.UserPanelViewModel.Email</td>
-            </tr>
-            <tr>
-                <th>موجودی حساب</th>
-                <td>@Model.UserPanelViewModel.Balance</td>
-            </tr>
-            <tr>
-                <th>تاریخ عضویت</th>
-                <td class="english-font">@Model.UserPanelViewModel.RegisterDate.ToPersianDate()</td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <!-- recycle user -->
-                    <button class="btn btn-success btn-sm"> <i class="fa fa-check ml-2"></i> بازیابی کاربر</button>
-                    <!-- back -->
-                    <a asp-area=""
-                       asp-page="Index" 
-                       class="btn btn-outline-warning btn-sm"> 
-                    <i class="fas fa-arrow-right ml-2"></i> بازگشت
-                    </a>
-                </td>
-            </tr>
-        </table>
-    </div>
-</form>

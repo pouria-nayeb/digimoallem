@@ -5,12 +5,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DigiMoallem.Web.Pages.Admin.Courses
 {
-    [PermissionChecker(1008)]
+    //[PermissionChecker(25)]
     public class EditModel : PageModel
     {
         private ICourseService _courseService;
@@ -57,6 +58,10 @@ namespace DigiMoallem.Web.Pages.Admin.Courses
             List<SelectListItem> courseStatus = await _courseService
                 .GetCourseStatusesAsync();
             ViewData["CourseStatuses"] = new SelectList(courseStatus, "Value", "Text", Course.CourseStatusId);
+
+            List<SelectListItem> courseTypes = await _courseService
+    .GetCourseTypesAsync();
+            ViewData["CourseTypes"] = new SelectList(courseTypes, "Value", "Text");
 
             return Page();
         }

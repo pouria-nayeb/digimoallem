@@ -9,6 +9,8 @@
     <Compile Remove="Migrations\20200418124141_AddTransactionsDbSet.Designer.cs" />
     <Compile Remove="Migrations\20200418152417_AddUserDiscountCodesDbSet.cs" />
     <Compile Remove="Migrations\20200418152417_AddUserDiscountCodesDbSet.Designer.cs" />
+    <Compile Remove="Migrations\20200419172525_AddCourseTypeRelation.cs" />
+    <Compile Remove="Migrations\20200419172525_AddCourseTypeRelation.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

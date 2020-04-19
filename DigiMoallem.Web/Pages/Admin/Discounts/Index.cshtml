@@ -5,62 +5,30 @@
     ViewData["Title"] = "لیست کدهای تخفیف";
 }
 
-<h1 class="my-5"> <i class="fas fa-ticket-alt"></i> @ViewData["Title"]</h1>
+<div class="container">
 
-<!-- breadcrumb -->
-<div class="bc-icons-2">
+    <h1 class="my-5"> <i class="fas fa-percent ml-2"></i> @ViewData["Title"]</h1>
 
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb dark-bg-admin lighten-5">
-            <li class="breadcrumb-item active">@ViewData["Title"]</li>
-        </ol>
-    </nav>
-
-</div>
-
-<!-- create succeeded -->
-@if (TempData["Success"] != null)
-{
-    <div class="alert alert-success">
-        @TempData["Success"]
-    </div>
-}
-
-<!-- search -->
-<div class="row">
-    <div class="col-12 col-sm-12 col-md-6 col-lg-6">
-        <div class="md-form">
-            <input type="text" id="searchInput" class="form-control" />
-            <label for="searchInput">جستجو درس ها</label>
+    <!-- create succeeded -->
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Success"]
         </div>
+    }
+
+    <div class="py-3">
+        <!-- add -->
+        <a asp-area=""
+           asp-page="Create"
+           class="btn btn-outline-success">
+            <i class="fa fa-plus ml-2"></i> افزودن کد تخفیف جدید
+        </a>
     </div>
-</div>
 
-<div class="p-3">
-    <!-- add -->
-    <a asp-area=""
-       asp-page="Create" 
-       class="btn btn-success btn-sm"> 
-     <i class="fa fa-plus ml-2"></i> افزودن کد تخفیف جدید
-    </a>
-</div>
-
-<!-- pagination -->
-<nav aria-label="Page navigation" class="my-3">
-    <ul class="pagination pagination-circle pg-dark justify-content-center">
-        @for (int i = 1; i <= Model.DiscountViewModel.PageCount; i++)
-        {
-            <li class="page-item english-font @((Model.DiscountViewModel.CurrentPage == i) ? "active" : "")">
-                <a href="/Admin/Discounts?pageId=@i" class="page-link">@i</a>
-            </li>
-        }
-    </ul>
-</nav>
-
-<!-- users table -->
-<div class="table-responsive">
-    <table class="table table-dark table-striped table-bordered">
-        <thead>
+    <!-- users table -->
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered">
             <tr>
                 <th class="th-sm">
                     شناسه
@@ -77,74 +45,72 @@
                 <th class="th-sm">
                     تاریخ انقضا
                 </th>
+                <th class="th-sm">
+                    عملیات
+                </th>
             </tr>
-        </thead>
-        <tbody id="dataTable">
-            @if (Model.DiscountViewModel.Discounts.Count == 0)
-            {
-                <tr class="bg-dark text-light">
-                    <td colspan="5" class="py-4">
-                        <i class="fas fa-exclamation-triangle ml-2"></i> لیست تخفیف ها خالی است.
-                    </td>
-                </tr>
-            }
-            else
-            {
-                @foreach (var discount in Model.DiscountViewModel.Discounts)
+                @if (Model.DiscountViewModel.Discounts.Count == 0)
                 {
-                    <tr>
-                        <td>@discount.DiscountId</td>
-                        <td>@discount.DiscountCode</td>
-                        <td>@discount.DiscountPercent</td>
-                        <td>
-                            @if (discount.StartDate != null)
-                            {
-                                <text>@discount.StartDate.Value.ToPersianDate()</text>
-                            }
-                            else
-                            {
-                                <text> بدون تاریخ شروع </text>
-                            }
-                        </td>
-                        <td>
-                            @if (discount.EndDate != null)
-                            {
-                                <text>@discount.EndDate.Value.ToPersianDate()</text>
-                            }
-                            else
-                            {
-                                <text> بدون تاریخ اتقضا </text>
-                            }
-                        </td>
-                        <td class="text-center">
-
-                            <a asp-area=""
-                               asp-page="/Admin/Discounts/Edit"
-                               asp-route-id="@discount.DiscountId" 
-                               class="btn btn-warning btn-sm"> 
-                             <i class="fa fa-pen ml-2"></i> ویرایش
-                            </a>
-
+                    <tr class="bg-dark text-light">
+                        <td colspan="5" class="py-4">
+                            <i class="fas fa-exclamation-triangle ml-2"></i> لیست تخفیف ها خالی است.
                         </td>
                     </tr>
                 }
+                else
+                {
+                    @foreach (var discount in Model.DiscountViewModel.Discounts)
+                    {
+                        <tr>
+                            <td>@discount.DiscountId</td>
+                            <td>@discount.DiscountCode</td>
+                            <td>@discount.DiscountPercent</td>
+                            <td>
+                                @if (discount.StartDate != null)
+                                {
+                                    <text>@discount.StartDate.Value.ToPersianDate()</text>
+                                }
+                                else
+                                {
+                                    <text> بدون تاریخ شروع </text>
+                                }
+                            </td>
+                            <td>
+                                @if (discount.EndDate != null)
+                                {
+                                    <text>@discount.EndDate.Value.ToPersianDate()</text>
+                                }
+                                else
+                                {
+                                    <text> بدون تاریخ اتقضا </text>
+                                }
+                            </td>
+                            <td>
+
+                                <a asp-area=""
+                                   asp-page="/Admin/Discounts/Edit"
+                                   asp-route-id="@discount.DiscountId"
+                                   class="btn btn-outline-warning btn-sm">
+                                    <i class="fa fa-pen ml-2"></i> ویرایش
+                                </a>
+
+                            </td>
+                        </tr>
+                    }
+                }
+        </table>
+    </div>
+
+    <!-- pagination -->
+    <nav aria-label="Page navigation" class="my-3">
+        <ul class="pagination pagination-circle pg-dark justify-content-center">
+            @for (int i = 1; i <= Model.DiscountViewModel.PageCount; i++)
+            {
+                <li class="page-item english-font @((Model.DiscountViewModel.CurrentPage == i) ? "active" : "")">
+                    <a href="/Admin/Discounts?pageId=@i" class="page-link">@i</a>
+                </li>
             }
-        </tbody>
-    </table>
+        </ul>
+    </nav>
+
 </div>
-
-<!-- pagination -->
-<nav aria-label="Page navigation" class="my-3">
-    <ul class="pagination pagination-circle pg-dark justify-content-center">
-        @for (int i = 1; i <= Model.DiscountViewModel.PageCount; i++)
-        {
-            <li class="page-item english-font @((Model.DiscountViewModel.CurrentPage == i) ? "active" : "")">
-                <a href="/Admin/Discounts?pageId=@i" class="page-link">@i</a>
-            </li>
-        }
-    </ul>
-</nav>
-
-@section Scripts {
-    <script src="~/Admin/Scripts/Site.js"></script>
-}

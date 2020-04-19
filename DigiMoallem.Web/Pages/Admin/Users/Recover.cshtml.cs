@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DigiMoallem.Web.Pages.Admin.Users
 {
-    [PermissionChecker(5)]
+    [PermissionChecker(7)]
     public class RecoverModel : PageModel
     {
         private IUserService _userService;

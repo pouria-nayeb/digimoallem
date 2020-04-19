@@ -6,27 +6,18 @@
     var Roles = ViewData["Roles"] as List<Role>;
 }
 
-<h1 class="my-5"> <i class="fa fa-pen ml-2"></i> @ViewData["Title"]</h1>
+<div class="container">
 
-<!-- breadcrumb -->
-<div class="bc-icons-2">
+    <!-- back to users -->
+    <a asp-area="" asp-page="Index" class="btn btn-outline-info">
+        <i class="fas fa-arrow-right ml-2"></i> بازگشت
+    </a>
 
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb dark-bg-admin lighten-5">
-            <li class="breadcrumb-item">
-                <a class="black-text" href="/Admin/Users">لیست کاربران</a><i class="fas fa-caret-left mx-2"></i>
-            </li>
-            <li class="breadcrumb-item active">@ViewData["Title"]</li>
-        </ol>
-    </nav>
+    <h1 class="my-5"> <i class="fa fa-user-edit ml-2"></i> @ViewData["Title"]</h1>
 
-</div>
+    <form method="post" enctype="multipart/form-data" class="md-form" autocomplete="off">
 
-<form method="post" enctype="multipart/form-data" class="md-form" autocomplete="off">
-
-    <div class="container">
-
-        <div asp-validation-summary="All" class="text-danger my-4"></div>
+        <div asp-validation-summary="ModelOnly"></div>
 
         @if (TempData["WrongInputs"] != null)
         {
@@ -62,31 +53,58 @@
 
                 <input type="hidden" asp-for="EditUserViewModel.AvatarName" />
                 <input type="hidden" asp-for="EditUserViewModel.UserId" />
-                <input type="hidden" asp-for="EditUserViewModel.UserName" />
-                <input type="hidden" asp-for="EditUserViewModel.Email" />
 
                 <!-- username -->
-                <div class="md-form mb-4">
-                    <input type="text" asp-for="EditUserViewModel.UserName" class="form-control text-direction-ltr text-left" disabled>
+                <div class="form-group">
                     <label asp-for="EditUserViewModel.UserName"></label>
+                    <input type="text" class="form-control text-direction-ltr text-left" asp-for="EditUserViewModel.UserName" />
+
+                    <span asp-validation-for="EditUserViewModel.UserName"></span>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 col-sm-6">
+                        <!-- firstName -->
+                        <div class="form-group">
+                            <label asp-for="EditUserViewModel.FirstName"></label>
+                            <input type="text" class="form-control"
+                                   asp-for="EditUserViewModel.FirstName" />
+
+                            <span asp-validation-for="EditUserViewModel.FirstName" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-6">
+                        <!-- lastName -->
+                        <div class="form-group">
+                            <label asp-for="EditUserViewModel.LastName"></label>
+                            <input type="text" class="form-control"
+                                   asp-for="EditUserViewModel.LastName" />
+
+                            <span asp-validation-for="EditUserViewModel.LastName" class="text-danger"></span>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- email -->
-                <div class="md-form mb-4">
-                    <input type="text" asp-for="EditUserViewModel.Email" class="form-control text-direction-ltr text-left english-font" disabled>
+                <div class="form-group">
                     <label asp-for="EditUserViewModel.Email"></label>
+                    <input type="text" class="form-control text-direction-ltr text-left" asp-for="EditUserViewModel.Email" />
+
+                    <span asp-validation-for="EditUserViewModel.Email"></span>
                 </div>
 
                 <!-- description -->
                 <div class="form-group mb-4">
+                    <label asp-for="EditUserViewModel.Description"></label>
                     <textarea class="form-control" asp-for="EditUserViewModel.Description" rows="3"></textarea>
                 </div>
 
                 <!-- password -->
-                <div class="md-form my-4">
-                    <input type="text" asp-for="EditUserViewModel.Password" class="form-control text-direction-ltr text-left english-font">
+                <div class="form-group">
                     <label asp-for="EditUserViewModel.Password"></label>
-                    <div class="alert alert-dark font-small my-3"> در صورت وارد کردن رمزعبور، رمز قبلی کاربر تغییر می کند. </div>
+                    <input type="text" class="form-control text-direction-ltr text-left" asp-for="EditUserViewModel.Password" />
+                    <small class="form-text text-muted">در صورت وارد کردن رمزعبور، رمز قبلی کاربر تغییر می کند.</small>
                 </div>
 
                 <!-- role list  -->
@@ -94,24 +112,22 @@
                     @foreach (var role in Roles)
                     {
                         <div class="form-check">
-                            <input type="checkbox" name="SelectedRoles" value="@role.RoleId" class="form-check-input" id="materialUnchecked-@role.RoleId" @((Model.EditUserViewModel.Roles.Any(r => r == role.RoleId)) ? "checked" : "")>
-                            <label class="form-check-label" for="materialUnchecked-@role.RoleId">@role.Title</label>
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input"
+                                       value="@role.RoleId" 
+                                       name="SelectedRoles"
+                                       @((Model.EditUserViewModel.Roles.Any(r => r == role.RoleId)) ? "checked" : "") />
+                                <span class="mr-4">@role.Title</span>
+                            </label>
                         </div>
                     }
                 </div>
 
                 <div class="form-group my-5">
                     <!-- edit -->
-                    <button type="submit" class="btn btn-outline-success btn-sm">
-                        <i class="fa fa-plus ml-2"></i> ویرایش کاربر
+                    <button type="submit" class="btn btn-outline-success">
+                        <i class="fa fa-pen ml-2"></i> ویرایش کاربر
                     </button>
-
-                    <!-- back -->
-                    <a asp-area="" 
-                       asp-page="Index" 
-                       class="btn btn-outline-warning btn-sm">
-                        <i class="fas fa-arrow-right ml-2"></i> بازگشت
-                    </a>
                 </div>
 
             </div>
@@ -119,28 +135,29 @@
 
                 <!-- avatar section -->
                 <div class="container">
-                    <img id="profileAvatar" src="~/Images/Avatars/@Model.EditUserViewModel.AvatarName" class="img-fluid mx-auto my-2 display-block" alt="default avatar" />
-                    <div class="file-field">
-                        <div class="btn btn-success btn-block btn-sm">
-                            <span>تصویر پروفایل</span>
-                            <input type="file" 
-                                   asp-for="EditUserViewModel.UserAvatar" />
+                    <img id="display-image"
+                         src="~/Images/Avatars/@Model.EditUserViewModel.AvatarName"
+                         class="img-fluid mx-auto my-2 display-block"
+                         alt="default avatar" />
+
+                    <div class="form-group">
+                        <div class="input-group my-4 w-100 max-width-520px">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input"
+                                       asp-for="EditUserViewModel.UserAvatar"
+                                       id="image"
+                                       name="Image" />
+                                <label class="custom-file-label" style="padding-right:6rem"
+                                       asp-for="EditUserViewModel.UserAvatar">انتخاب فایل</label>
+                            </div>
                         </div>
                     </div>
+
                 </div>
 
             </div>
 
         </div>
-    </div>
-</form>
+    </form>
 
-@section Scripts {
-    <script src="~/Admin/Scripts/Site.js"></script>
-    <script src="https://cdn.ckeditor.com/4.9.2/standard/ckeditor.js"></script>
-    <script>
-        CKEDITOR.replace('Course_Description', {
-            customConfig: '/Admin/Scripts/config.js'
-        });
-    </script>
-}
+</div>

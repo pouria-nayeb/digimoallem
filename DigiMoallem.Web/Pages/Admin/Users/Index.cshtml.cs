@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DigiMoallem.Web.Pages.Admin.Users
 {
-    [PermissionChecker(2)]
+    [PermissionChecker(3)]
     public class IndexModel : PageModel
     {
         private IUserService _userService;

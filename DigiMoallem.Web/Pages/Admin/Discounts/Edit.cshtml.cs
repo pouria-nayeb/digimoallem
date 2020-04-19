@@ -1,4 +1,5 @@
-﻿using DigiMoallem.BLL.Interfaces;
+﻿using DigiMoallem.BLL.Helpers.Security;
+using DigiMoallem.BLL.Interfaces;
 using DigiMoallem.DAL.Entities.Orders;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace DigiMoallem.Web.Pages.Admin.Discounts
 {
+    [PermissionChecker(21)]
     public class EditModel : PageModel
     {
         private IOrderService _orderService;

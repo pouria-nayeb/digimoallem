@@ -5,125 +5,86 @@
     ViewData["Title"] = "لیست واریزی ها";
 }
 
-<h1 class="my-5"> <i class="fa fa-database ml-2"></i> @ViewData["Title"]</h1>
+    <div class="container">
 
-<!-- breadcrumb -->
-<div class="bc-icons-2">
+        <h1 class="my-5"> <i class="fa fa-database ml-2"></i> @ViewData["Title"]</h1>
 
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb dark-bg-admin lighten-5">
-            <li class="breadcrumb-item active">@ViewData["Title"]</li>
-        </ol>
-    </nav>
-
-</div>
-
-<!-- create succeeded -->
-@if (TempData["Success"] != null)
-{
-    <div class="alert alert-success">
-        @TempData["Success"]
-    </div>
-}
-
-<!-- search -->
-<div class="row">
-    <div class="col-12 col-sm-12 col-md-6 col-lg-6">
-        <div class="md-form">
-            <input type="text" id="searchInput" class="form-control">
-            <label for="searchInput">جستجو در واریزی ها</label>
-        </div>
-    </div>
-</div>
-
-<div class="p-3">
-    <!-- add -->
-    <a asp-area=""
-       asp-page="Create" 
-       class="btn btn-success btn-sm"> 
-     <i class="fa fa-plus ml-2"></i> افزودن واریزی جدید
-    </a>
-</div>
-
-<!-- pagination -->
-<nav aria-label="Page navigation" class="my-3">
-    <ul class="pagination pagination-circle pg-dark justify-content-center">
-        @for (int i = 1; i <= Model.PaymentVM.PageCount; i++)
+        <!-- create succeeded -->
+        @if (TempData["Success"] != null)
         {
-            <li class="page-item english-font @((Model.PaymentVM.CurrentPage == i) ? "active" : "")">
-                <a href="/Admin/Accountings?pageId=@i" class="page-link">@i</a>
-            </li>
+            <div class="alert alert-success">
+                @TempData["Success"]
+            </div>
         }
-    </ul>
-</nav>
 
-<!-- users table -->
-<div class="table-responsive">
-    <table class="table table-dark table-striped table-bordered">
-        <thead>
-            <tr>
-                <th class="th-sm">
-                    شناسه
-                </th>
-                <th class="th-sm">
-                    نام مدرس
-                </th>
-                <th class="th-sm">
-                    نام درس
-                </th>
-                <th class="th-sm">
-                    میزان واریزی
-                </th>
-                <th class="th-sm">
-                    تاریخ
-                </th>
-                <th class="th-sm">
-                    دستورات
-                </th>
-            </tr>
-        </thead>
-        <tbody id="dataTable">
-            @if (Model.PaymentVM.Payments.Count == 0)
-            {
-                <tr class="bg-dark text-light">
-                    <td colspan="6" class="py-4">
-                        <i class="fas fa-exclamation-triangle ml-2"></i> لیست تراکنش ها خالی است.
-                    </td>
-                </tr>
-            }
-            else
-            {
-                @foreach (var payemnt in Model.PaymentVM.Payments)
-                {
+            <!-- add -->
+            <a asp-area=""
+               asp-page="Create"
+               class="btn btn-outline-success my-3">
+                <i class="fa fa-plus"></i> افزودن واریزی جدید
+            </a>
+
+        <!-- users table -->
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
                     <tr>
-                        <td class="english-font">@payemnt.PaymentId</td>
-                        <td>@payemnt.User.UserName</td>
-                        <td class="english-font">@payemnt.Course.Title</td>
-                        <td class="english-font">@payemnt.Amount.ThreeDigitSeperator()</td>
-                        <td class="english-font">@payemnt.PaymentDate.ToPersianDate()</td>
-                        <td class="text-center">
-
-                            <a asp-area=""
-                               asp-page="/Admin/Accountings/Edit"
-                               asp-route-id="@payemnt.PaymentId" 
-                               class="btn btn-warning btn-sm"> 
-                             <i class="fa fa-pen ml-2"></i> ویرایش
-                            </a>
-
-                            <a asp-area=""
-                               asp-page="/Admin/Accountings/Details"
-                               asp-route-id="@payemnt.PaymentId" 
-                               class="btn btn-outline-info btn-sm"> 
-                             <i class="fa fa-info ml-2"></i> جزئیات
-                            </a>
-                        </td>
+                        <th class="th-sm">
+                            شناسه
+                        </th>
+                        <th class="th-sm">
+                            نام مدرس
+                        </th>
+                        <th class="th-sm">
+                            نام درس
+                        </th>
+                        <th class="th-sm">
+                            میزان واریزی
+                        </th>
+                        <th class="th-sm">
+                            تاریخ
+                        </th>
+                        <th class="th-sm">
+                            دستورات
+                        </th>
                     </tr>
-                }
-            }
-        </tbody>
-    </table>
-</div>
+                    @if (Model.PaymentVM.Payments.Count == 0)
+                    {
+                        <tr class="bg-dark text-light">
+                            <td colspan="6" class="py-4">
+                                <i class="fas fa-exclamation-triangle ml-2"></i> لیست تراکنش ها خالی است.
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var payemnt in Model.PaymentVM.Payments)
+                        {
+                            <tr>
+                                <td class="english-font">@payemnt.PaymentId</td>
+                                <td>@payemnt.User.UserName</td>
+                                <td>@payemnt.Course.Title</td>
+                                <td class="english-font">@payemnt.Amount.ThreeDigitSeperator()</td>
+                                <td class="english-font">@payemnt.PaymentDate.ToPersianDate()</td>
+                                <td class="text-center">
 
-@section Scripts {
-    <script src="~/Admin/Scripts/Site.js"></script>
-}
+                                    <a asp-area=""
+                                       asp-page="/Admin/Accountings/Edit"
+                                       asp-route-id="@payemnt.PaymentId"
+                                       class="btn btn-outline-warning btn-sm">
+                                        <i class="fa fa-pen ml-2"></i> ویرایش
+                                    </a>
+
+                                    <a asp-area=""
+                                       asp-page="/Admin/Accountings/Details"
+                                       asp-route-id="@payemnt.PaymentId"
+                                       class="btn btn-outline-info btn-sm">
+                                        <i class="fa fa-info ml-2"></i> جزئیات
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+            </table>
+        </div>
+
+    </div>

@@ -6,43 +6,22 @@
     var selectedPermissions = ViewData["SelectedPermissions"] as List<int>;
 }
 
-@section Styles {
-    <style>
-        .custom-control-label::before {
-            right: -1.5rem;
-        }
+<div class="container">
 
-        .custom-control-label::after {
-            right: -1.5rem;
-        }
+    <!-- back to roles -->
+    <a asp-area=""
+       asp-page="Index"
+       class="btn btn-outline-info">
+        <i class="fas fa-arrow-right ml-2"></i> بازگشت
+    </a>
 
-        label:hover {
-        cursor:pointer;
-        }
-    </style>
-}
+    <h1 class="my-5">
+        <i class="fa fa-user-plus ml-2"></i> @ViewData["Title"] <q>@Model.Role.Title</q>
+    </h1>
 
-<h1 class="my-5"> <i class="fa fa-user-plus ml-2"></i> @ViewData["Title"] <q>@Model.Role.Title</q></h1>
-
-<!-- breadcrumb -->
-<div class="bc-icons-2">
-
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb dark-bg-admin lighten-5">
-            <li class="breadcrumb-item">
-                <a class="black-text" href="/Admin/Roles">لیست نقش ها</a><i class="fas fa-caret-left mx-2"></i>
-            </li>
-            <li class="breadcrumb-item active">@ViewData["Title"] <q>@Model.Role.Title</q></li>
-        </ol>
-    </nav>
-
-</div>
-
-<form method="post" class="md-form">
-    <input type="hidden" asp-for="Role.RoleId" />
-    <input type="hidden" asp-for="Role.IsDelete" />
-
-    <div class="container">
+    <form method="post" class="md-form">
+        <input type="hidden" asp-for="Role.RoleId" />
+        <input type="hidden" asp-for="Role.IsDelete" />
 
         <div asp-validation-summary="All" class="text-danger my-4"></div>
 
@@ -65,73 +44,99 @@
 
                 <!-- title -->
                 <div class="md-form mb-4">
-                    <input type="text" asp-for="Role.Title" class="form-control">
                     <label asp-for="Role.Title"></label>
+                    <input type="text" asp-for="Role.Title" class="form-control">
+
+                    <span asp-validation-for="Role.Title" class="text-danger"></span>
                 </div>
 
                 <div class="form-group my-5">
                     <!-- create -->
-                    <button type="submit" class="btn btn-outline-success btn-sm">
-                        <i class="fa fa-plus ml-2"></i> ایجاد نقش جدید
+                    <button type="submit" class="btn btn-outline-success">
+                        <i class="fa fa-pen ml-2"></i> ویرایش نقش
                     </button>
-
-                    <!-- back to roles -->
-                    <a asp-area=""
-                       asp-page="Index" 
-                       class="btn btn-outline-warning btn-sm">
-                        <i class="fas fa-arrow-right ml-2"></i> بازگشت
-                    </a>
                 </div>
 
-            </div>
-            <div class="col-12 col-sm-12 col-md-4 col-lg-4">
-                <!-- accessibility -->
-                <h4 class="mb-2">سطح دسترسی ها</h4>
+                </div>
 
-                @foreach (var permission in permissions.Where(p => p.ParentId == null))
-                {
-                    <div class="custom-control custom-checkbox margin-2">
-                        <input type="checkbox" class="custom-control-input" name="selectedPermission" value="@permission.PermissionId" id="@permission.PermissionId" 
-                               @((selectedPermissions.Any(p => p == permission.PermissionId)) ? "checked" : "") />
-                        <label class="custom-control-label text-dark" for="@permission.PermissionId">@permission.Title</label>
-                    </div>
+                <div class="col-12 col-sm-12 col-md-4 col-lg-4">
+                    <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
+                        <div class="card-header">
+                            دسترسی
+                        </div>
+                        <div class="card-body">
 
-                    @if (permissions.Any(p => p.ParentId == permission.ParentId))
-                    {
-
-                        @foreach (var sub in permissions.Where(p => p.ParentId == permission.PermissionId))
-                        {
-                            <div class="custom-control custom-checkbox margin-3">
-                                <input type="checkbox" class="custom-control-input" name="selectedPermission" value="@sub.PermissionId" id="@sub.PermissionId"
-                                       @((selectedPermissions.Any(p => p == sub.PermissionId)) ? "checked" : "")
-                                       />
-                                <label class="custom-control-label text-dark" for="@sub.PermissionId">@sub.Title</label>
-                            </div>
-
-                            @if (permissions.Any(p => p.ParentId == sub.ParentId))
+                            @foreach (var permission in permissions.Where(p => p.ParentId == null))
                             {
+                                <div class="form-check py-2">
+                                    <label class="class=" form-check-label"" for="@permission.PermissionId">
 
-                                @foreach (var doubleSub in permissions.Where(p => p.ParentId == sub.PermissionId))
+                                        <input type="checkbox" class="form-check-input" name="selectedPermission" value="@permission.PermissionId" id="@permission.PermissionId"
+                                               @((selectedPermissions.Any(p => p == permission.PermissionId)) ? "checked" : "") />
+                                        <span class="mr-4">@permission.Title</span>
+                                    </label>
+                                </div>
+
+                                @if (permissions.Any(p => p.ParentId == permission.ParentId))
                                 {
-                                    <div class="custom-control custom-checkbox margin-4">
-                                        <input type="checkbox" class="custom-control-input" name="selectedPermission" value="@doubleSub.PermissionId" id="@doubleSub.PermissionId"
-                                         @((selectedPermissions.Any(p => p == doubleSub.PermissionId)) ? "checked" : "")
-                                               />
-                                        <label class="custom-control-label text-dark" for="@doubleSub.PermissionId">@doubleSub.Title</label>
-                                    </div>
+
+                                    @foreach (var sub in permissions.Where(p => p.ParentId == permission.PermissionId))
+                                    {
+                                        <div class="form-check mr-3 py-2">
+                                            <label class="form-check-label"
+                                                   for="@sub.PermissionId">
+
+                                                <input type="checkbox"
+                                                       class="form-check-input"
+                                                       name="selectedPermission"
+                                                       value="@sub.PermissionId"
+                                                       id="@sub.PermissionId"
+                                                       @((selectedPermissions.Any(p => p == sub.PermissionId)) ? "checked" : "") />
+
+                                                <span class="mr-4">@sub.Title</span>
+
+                                            </label>
+                                        </div>
+
+                                        @if (permissions.Any(p => p.ParentId == sub.ParentId))
+                                        {
+
+                                            @foreach (var doubleSub in permissions.Where(p => p.ParentId == sub.PermissionId))
+                                            {
+                                                <div class="form-check mr-5 py-2">
+                                                    <label class="form-check-label"
+                                                           for="@doubleSub.PermissionId">
+
+                                                        <input type="checkbox"
+                                                               class="form-check-input"
+                                                               name="selectedPermission"
+                                                               value="@doubleSub.PermissionId"
+                                                               id="@doubleSub.PermissionId"
+                                                               @((selectedPermissions.Any(p => p == doubleSub.PermissionId)) ? "checked" : "") />
+
+                                                        <span class="mr-4">@doubleSub.Title</span>
+
+                                                    </label>
+                                                </div>
+
+                                            }
+
+                                        }
+
+                                    }
+
                                 }
 
                             }
 
-                        }
+                        </div>
 
-                    }
-
-                }
+                    </div>
+                </div>
 
             </div>
-        </div>
 
-    </div>
-</form>
+    </form>
+
+</div>
 

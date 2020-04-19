@@ -6,46 +6,24 @@
     ViewData["Title"] = "لیست بخش ها";
 }
 
-<h1 class="my-5"> <i class="fa fa-database ml-2"></i> @ViewData["Title"]</h1>
+<div class="container">
 
-<!-- breadcrumb -->
-<div class="bc-icons-2">
+    <h1 class="my-5"> <i class="fa fa-database ml-2"></i> @ViewData["Title"]</h1>
 
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb dark-bg-admin lighten-5">
-            <li class="breadcrumb-item active">@ViewData["Title"]</li>
-        </ol>
-    </nav>
-
-</div>
-
-<!-- create succeeded -->
-@if (TempData["Success"] != null)
-{
-    <div class="alert alert-success">
-        @TempData["Success"]
-    </div>
-}
-
-<!-- search -->
-<div class="row">
-    <div class="col-12 col-sm-12 col-md-6 col-lg-6">
-        <div class="md-form">
-            <input type="text" id="searchInput" class="form-control">
-            <label for="searchInput">جستجو دوره ها</label>
+    <!-- create succeeded -->
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Success"]
         </div>
-    </div>
-</div>
+    }
 
-<div class="p-3">
     <!-- add -->
-    <a asp-page="CreateEpisode" asp-route-id="@ViewData["CourseId"].ToString()" class="btn btn-success btn-sm"> <i class="fa fa-plus ml-2"></i> افزودن بخش جدید</a>
-</div>
+    <a asp-page="CreateEpisode" asp-route-id="@ViewData["CourseId"].ToString()" class="btn btn-outline-success my-3"> <i class="fa fa-plus ml-2"></i> افزودن بخش جدید</a>
 
-<!-- users table -->
-<div class="table-responsive">
-    <table class="table table-dark table-striped table-bordered">
-        <thead>
+    <!-- users table -->
+    <div class="table-responsive">
+        <table class="table table-dark table-striped table-bordered">
             <tr>
                 <th class="th-sm">
                     شناسه
@@ -63,8 +41,6 @@
                     دستورات
                 </th>
             </tr>
-        </thead>
-        <tbody id="dataTable">
             @if (Model.CourseEpisodes.Count == 0)
             {
                 <tr class="bg-dark text-light">
@@ -96,25 +72,21 @@
                             <td class="text-center">
                                 <a asp-area=""
                                    asp-page="/Admin/Courses/EditEpisode"
-                                   asp-route-id="@episode.CourseEpisodeId" 
-                                   class="btn btn-warning btn-sm"> 
-                                <i class="fa fa-pen ml-2"></i> ویرایش
+                                   asp-route-id="@episode.CourseEpisodeId"
+                                   class="btn btn-outline-warning btn-sm">
+                                    <i class="fa fa-pen ml-2"></i> ویرایش
                                 </a>
                                 <a asp-area=""
                                    asp-page="/Admin/Courses/DeleteEpisode"
-                                   asp-route-id="@episode.CourseEpisodeId" 
-                                   class="btn btn-danger btn-sm"> 
-                                <i class="fa fa-trash ml-2"></i> حذف
+                                   asp-route-id="@episode.CourseEpisodeId"
+                                   class="btn btn-outline-danger btn-sm">
+                                    <i class="fa fa-trash ml-2"></i> حذف
                                 </a>
                             </td>
                         </tr>
                     }
                 }
             }
-        </tbody>
-    </table>
+        </table>
+    </div>
 </div>
-
-@section Scripts {
-    <script src="~/Admin/Scripts/Site.js"></script>
-}

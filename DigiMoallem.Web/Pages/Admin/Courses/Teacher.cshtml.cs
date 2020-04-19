@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DigiMoallem.Web.Pages.Admin.Courses
 {
-    [PermissionChecker(1006)]
+    [PermissionChecker(23)]
     public class TeacherModel : PageModel
     {
             private ICourseService _courseService;

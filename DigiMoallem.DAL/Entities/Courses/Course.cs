@@ -1,4 +1,5 @@
-﻿using DigiMoallem.DAL.Entities.Orders;
+﻿using DigiMoallem.DAL.Entities.Accounting;
+using DigiMoallem.DAL.Entities.Orders;
 using DigiMoallem.DAL.Entities.Users;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,10 @@ namespace DigiMoallem.DAL.Entities.Courses
         [Display(Name = "وضعیت دوره")]
         [Required(ErrorMessage = "لطفاً {0} را وارد نمایید.")]
         public int CourseStatusId { get; set; }
+
+        [Display(Name = "نوع دوره")]
+        [Required(ErrorMessage = "لطفاً {0} را وارد نمایید.")]
+        public int CourseTypeId { get; set; }
 
         [Display(Name = "عنوان دوره")]
         [Required(ErrorMessage = "لطفاً {0} را وارد نمایید.")]
@@ -94,6 +99,9 @@ namespace DigiMoallem.DAL.Entities.Courses
         [ForeignKey("CourseStatusId")]
         public CourseStatus CourseStatus { get; set; }
 
+        [ForeignKey("CourseTypeId")]
+        public CourseType CourseTypes { get; set; }
+
         public List<CourseEpisode> CourseEpisodes { get; set; }
 
         public List<OrderDetail> OrderDetails { get; set; }
@@ -102,7 +110,7 @@ namespace DigiMoallem.DAL.Entities.Courses
 
         public List<Comment> Comments { get; set; }
 
-        // public List<Payment> Payments { get; set; }
+        public List<Payment> Payments { get; set; }
 
         public List<RateCourse> RateCourses { get; set; }
 

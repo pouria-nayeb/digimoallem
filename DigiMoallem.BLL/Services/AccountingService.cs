@@ -264,15 +264,28 @@ namespace DigiMoallem.BLL.Services
         #region TeacherRemainPayment
         public int TeacherRemainPayment(int teacherId, int courseId)
         {
-            int teacherTotalIncomePerCourse = (int)_courseService.GetCourseById(courseId).TeacherIncome;
-            return (teacherTotalIncomePerCourse - TeacherIncomePerCourse(teacherId, courseId));
+            var course = _courseService.GetCourseById(courseId);
+            var teacherPayment = TeacherIncomePerCourse(teacherId, courseId);
+
+            if (course.TeacherIncome > 0)
+            {
+                return (int)(course.TeacherIncome - teacherPayment);
+            }
+
+            return 0;
         }
 
         public async Task<int> TeacherRemainPaymentAsync(int teacherId, int courseId)
         {
             var course = await _courseService.GetCourseByIdAsync(courseId);
             var teacherPayment = await TeacherIncomePerCourseAsync(teacherId, courseId);
-            return (int)(course.TeacherIncome - teacherPayment);
+
+            if (course.TeacherIncome > 0)
+            {
+                return (int)(course.TeacherIncome - teacherPayment);
+            }
+
+            return 0;
         }
         #endregion
 

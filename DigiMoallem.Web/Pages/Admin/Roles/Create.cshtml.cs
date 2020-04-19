@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DigiMoallem.Web.Pages.Admin.Roles
 {
-    [PermissionChecker(1003)]
+    [PermissionChecker(10)]
     public class CreateModel : PageModel
     {
         private IPermissionService _permissionService;

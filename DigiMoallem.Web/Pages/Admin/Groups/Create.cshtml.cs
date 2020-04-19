@@ -1,4 +1,5 @@
-﻿using DigiMoallem.BLL.Interfaces;
+﻿using DigiMoallem.BLL.Helpers.Security;
+using DigiMoallem.BLL.Interfaces;
 using DigiMoallem.DAL.Entities.Courses;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace DigiMoallem.Web.Pages.Admin.Groups
 {
+    [PermissionChecker(15)]
     public class CreateModel : PageModel
     {
         private ICourseService _courseService;

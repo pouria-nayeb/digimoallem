@@ -6,6 +6,16 @@ namespace DigiMoallem.BLL.DTOs.Admin.Users
 {
     public class CreateUserViewModel
     {
+        [Display(Name = "نام")]
+        [Required(ErrorMessage = "لطفاً {0} را وارد نمایید.")]
+        [MaxLength(200, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]
+        public string FirstName { get; set; }
+
+        [Display(Name = "نام خانوادگی")]
+        [Required(ErrorMessage = "لطفاً {0} را وارد نمایید.")]
+        [MaxLength(200, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]
+        public string LastName { get; set; }
+
         [Display(Name = "نام کاربری")]
         [Required(ErrorMessage = "لطفاً {0} را وارد نمایید.")]
         [MaxLength(200, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]

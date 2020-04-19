@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DTOs\" />
     <Folder Include="DTOs\General\" />
     <Folder Include="Helpers\Converters\" />
     <Folder Include="Helpers\EmailServices\" />

@@ -59,6 +59,11 @@ namespace DigiMoallem.BLL.Interfaces
         Task<List<SelectListItem>> GetCourseStatusesAsync();
         #endregion
 
+        #region GetCourseTypes
+        List<SelectListItem> GetCourseTypes();
+        Task<List<SelectListItem>> GetCourseTypesAsync();
+        #endregion
+
         #region GetTeachers
         List<SelectListItem> GetTeachers();
         Task<List<SelectListItem>> GetTeachersAsync();

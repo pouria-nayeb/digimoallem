@@ -1,10 +1,12 @@
 using DigiMoallem.BLL.DTOs.Admin.Discounts;
+using DigiMoallem.BLL.Helpers.Security;
 using DigiMoallem.BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Threading.Tasks;
 
 namespace DigiMoallem.Web.Pages.Admin.Discounts
 {
+    [PermissionChecker(19)]
     public class IndexModel : PageModel
     {
         private IOrderService _orderService;

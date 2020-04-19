@@ -116,7 +116,7 @@ namespace DigiMoallem.DAL.Migrations
 
                     b.Property<int>("CourseStatusId");
 
-                    b.Property<int?>("CourseTypeId");
+                    b.Property<int>("CourseTypeId");
 
                     b.Property<DateTime>("CreateDate");
 
@@ -512,9 +512,15 @@ namespace DigiMoallem.DAL.Migrations
                         .IsRequired()
                         .HasMaxLength(200);
 
+                    b.Property<string>("FirstName")
+                        .HasMaxLength(200);
+
                     b.Property<bool>("IsActive");
 
                     b.Property<bool>("IsDelete");
+
+                    b.Property<string>("LastName")
+                        .HasMaxLength(200);
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -578,7 +584,7 @@ namespace DigiMoallem.DAL.Migrations
             modelBuilder.Entity("DigiMoallem.DAL.Entities.Accounting.Payment", b =>
                 {
                     b.HasOne("DigiMoallem.DAL.Entities.Courses.Course", "Course")
-                        .WithMany()
+                        .WithMany("Payments")
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Restrict);
 
@@ -634,9 +640,10 @@ namespace DigiMoallem.DAL.Migrations
                         .HasForeignKey("CourseStatusId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("DigiMoallem.DAL.Entities.Courses.CourseType")
+                    b.HasOne("DigiMoallem.DAL.Entities.Courses.CourseType", "CourseTypes")
                         .WithMany("Courses")
-                        .HasForeignKey("CourseTypeId");
+                        .HasForeignKey("CourseTypeId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("DigiMoallem.DAL.Entities.Courses.Group", "Group")
                         .WithMany("Courses")

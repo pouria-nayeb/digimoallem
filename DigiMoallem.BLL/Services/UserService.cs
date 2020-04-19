@@ -856,6 +856,8 @@ namespace DigiMoallem.BLL.Services
             newUser.Password = user.Password.EncodePassword();
             newUser.ActivationCode = CodeGenerator.GenerateUniqueCode();
             newUser.Email = user.Email;
+            newUser.FirstName = user.FirstName;
+            newUser.LastName = user.LastName;
             newUser.IsActive = true;
             newUser.RegisterDate = DateTime.Now;
             newUser.UserName = user.UserName;
@@ -872,6 +874,8 @@ namespace DigiMoallem.BLL.Services
             newUser.Password = user.Password.EncodePassword();
             newUser.ActivationCode = CodeGenerator.GenerateUniqueCode();
             newUser.Email = user.Email;
+            newUser.FirstName = user.FirstName;
+            newUser.LastName = user.LastName;
             newUser.IsActive = true;
             newUser.RegisterDate = DateTime.Now;
             newUser.UserName = user.UserName;
@@ -973,6 +977,9 @@ namespace DigiMoallem.BLL.Services
 
                 user.Email = model.Email;
 
+                user.FirstName = model.FirstName;
+                user.LastName = model.LastName;
+
                 if (!string.IsNullOrEmpty(model.Password))
                 {
                     user.Password = model.Password.EncodePassword();
@@ -995,6 +1002,9 @@ namespace DigiMoallem.BLL.Services
                 var user = await GetUserByIdAsync(model.UserId);
 
                 user.Email = model.Email;
+
+                user.FirstName = model.FirstName;
+                user.LastName = model.LastName;
 
                 if (!string.IsNullOrEmpty(model.Password))
                 {
@@ -1024,6 +1034,8 @@ namespace DigiMoallem.BLL.Services
             {
                 UserId = u.UserId,
                 UserName = u.UserName,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
                 Email = u.Email,
                 AvatarName = u.UserAvatar,
                 Description = u.Description,
@@ -1037,6 +1049,8 @@ namespace DigiMoallem.BLL.Services
             {
                 UserId = u.UserId,
                 UserName = u.UserName,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
                 Email = u.Email,
                 AvatarName = u.UserAvatar,
                 Description = u.Description,

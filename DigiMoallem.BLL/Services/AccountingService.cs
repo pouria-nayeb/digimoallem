@@ -3,6 +3,7 @@ using DigiMoallem.BLL.Interfaces;
 using DigiMoallem.DAL.Context;
 using DigiMoallem.DAL.Entities.Accounting;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -60,6 +61,52 @@ namespace DigiMoallem.BLL.Services
         }
         #endregion
 
+        #region AddTeacherPercent
+        public bool AddTeacherPercent(TeacherPercentViewModel teacherPercentVM)
+        {
+            try
+            {
+                // db success
+
+                var course = _courseService.GetCourseById(teacherPercentVM.CourseId);
+
+                course.TeacherPercent = teacherPercentVM.Percent;
+
+                _db.Courses.Update(course);
+                Save();
+
+                return true;
+            }
+            catch
+            {
+                // db failure
+                return false;
+            }
+        }
+
+        public async Task<bool> AddTeacherPercentAsync(TeacherPercentViewModel teacherPercentVM)
+        {
+            try
+            {
+                // db success
+
+                var course = await _courseService.GetCourseByIdAsync(teacherPercentVM.CourseId);
+
+                course.TeacherPercent = teacherPercentVM.Percent;
+
+                _db.Courses.Update(course);
+                await SaveAsync();
+
+                return true;
+            }
+            catch
+            {
+                // db failure
+                return false;
+            }
+        }
+        #endregion
+
         /// <summary>
         /// Get payment by id
         /// </summary>
@@ -92,49 +139,49 @@ namespace DigiMoallem.BLL.Services
         #region GetPayments
         public AccountingViewModel GetPayments(int pageId = 1, int recordsPerPage = 20)
         {
-            int skip = (pageId - 1) * recordsPerPage;
-            int pageCount = _db.Payments.Count() / recordsPerPage;
+            IQueryable<Payment> payments = _db.Payments;
 
-            if ((pageCount % 2) != 0)
-            {
-                pageCount += 1;
-            }
+            int take = recordsPerPage;
+            int skip = (pageId - 1) * recordsPerPage;
+            int paymensCount = payments.Count();
+
+            int pageCount = (int)Math.Ceiling(decimal.Divide(paymensCount, take));
 
             return new AccountingViewModel
             {
-                CurrentPage = pageId,
+                PageNumber = pageId,
                 PageCount = pageCount,
                 Payments = _db.Payments
+                                .Skip(skip)
+                .Take(recordsPerPage)
                 .Include(p => p.User)
                 .Include(p => p.Course)
                 .OrderByDescending(p => p.PaymentId)
-                .Skip(skip)
-                .Take(recordsPerPage)
                 .ToList()
             };
         }
 
         public async Task<AccountingViewModel> GetPaymentsAsync(int pageId = 1, int recordsPerPage = 20)
         {
-            int skip = (pageId - 1) * recordsPerPage;
-            int pageCount = ((await _db.Payments.CountAsync()) / recordsPerPage);
+            IQueryable<Payment> payments = _db.Payments;
 
-            if ((pageCount % 2) != 0)
-            {
-                pageCount += 1;
-            }
+            int take = recordsPerPage;
+            int skip = (pageId - 1) * recordsPerPage;
+            int paymensCount = payments.Count();
+
+            int pageCount = (int)Math.Ceiling(decimal.Divide(paymensCount, take));
 
             return new AccountingViewModel
             {
-                CurrentPage = pageId,
+                PageNumber = pageId,
                 PageCount = pageCount,
-                Payments = _db.Payments
+                Payments = await _db.Payments
+                                .Skip(skip)
+                .Take(recordsPerPage)
                 .Include(p => p.User)
                 .Include(p => p.Course)
                 .OrderByDescending(p => p.PaymentId)
-                .Skip(skip)
-                .Take(recordsPerPage)
-                .ToList()
+                .ToListAsync()
             };
         }
         #endregion

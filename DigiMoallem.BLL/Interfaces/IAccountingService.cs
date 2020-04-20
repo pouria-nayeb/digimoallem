@@ -11,6 +11,11 @@ namespace DigiMoallem.BLL.Interfaces
         Task<bool> AddPaymentAsync(Payment payemt);
         #endregion
 
+        #region AddTeacherPercent
+        bool AddTeacherPercent(TeacherPercentViewModel teacherPercentVM);
+        Task<bool> AddTeacherPercentAsync(TeacherPercentViewModel teacherPercentVM);
+        #endregion
+
         #region GetPaymentById
         Payment GetPaymentById(int paymentId);
         Task<Payment> GetPaymentByIdAsync(int paymentId);

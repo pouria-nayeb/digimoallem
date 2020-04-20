@@ -6,6 +6,10 @@
 
         public string TeacherName { get; set; }
 
-        public int Income { get; set; }
+        public int TeacherIncome { get; set; }
+
+        public int InstitudeIncome { get; set; }
+
+        public int AllIncome { get; set; }
     }
 }

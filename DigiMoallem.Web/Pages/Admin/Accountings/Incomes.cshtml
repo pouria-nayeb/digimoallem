@@ -1,0 +1,71 @@
+﻿@page
+@model DigiMoallem.Web.Pages.Admin.Accountings.IncomesModel
+
+@{
+    ViewData["Title"] = "درآمد دروس";
+}
+
+    <div class="container">
+
+        <h1 class="my-5"> <i class="fa fa-database ml-2"></i> @ViewData["Title"]</h1>
+
+        <!-- users table -->
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <tr>
+                    <th class="th-sm">
+                        نام درس
+                    </th>
+                    <th class="th-sm">
+                        نام مدرس
+                    </th>
+                    <th class="th-sm">
+                        درآمد مدرس
+                    </th>
+                    <th class="th-sm">
+                        درآمد استاد
+                    </th>
+                    <th class="th-sm">
+                        درآمد کل
+                    </th>
+                </tr>
+                @if (Model.IncomesVM.Incomes.Count == 0)
+                {
+                    <tr class="bg-dark text-light">
+                        <td colspan="6" class="py-4">
+                            <i class="fas fa-exclamation-triangle ml-2"></i> لیست تراکنش ها خالی است.
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var income in Model.IncomesVM.Incomes)
+                    {
+                        <tr>
+                            <td>@income.CourseTitle</td>
+                            <td>@income.TeacherName</td>
+                            <td>@income.TeacherIncome.ToString("#,0 تومان")</td>
+                            <td>@income.InstitudeIncome.ToString("#,0 تومان")</td>
+                            <td>@income.AllIncome.ToString("#,0 تومان")</td>
+                        </tr>
+                    }
+                }
+            </table>
+        </div>
+
+        @if (Model.IncomesVM.PageCount > 1)
+        {
+            <!-- pagination -->
+            <nav aria-label="Page navigation" class="my-3">
+                <ul class="pagination pagination-circle pg-dark justify-content-center">
+                    @for (int i = 1; i <= Model.IncomesVM.PageCount; i++)
+                    {
+                        <li class="page-item english-font @((Model.IncomesVM.PageNumber == i) ? "active" : "")">
+                            <a href="/Admin/Accountings/Incomes?pageId=@i" class="page-link">@i</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        }
+
+    </div>

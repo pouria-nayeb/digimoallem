@@ -20,7 +20,6 @@
     <Folder Include="Pages\Admin\Groups\" />
     <Folder Include="Pages\Admin\Discounts\" />
     <Folder Include="Pages\Admin\Courses\" />
-    <Folder Include="Pages\Admin\Accountings\" />
     <Folder Include="Pages\Admin\Roles\" />
     <Folder Include="Pages\Admin\Users\" />
     <Folder Include="wwwroot\fonts\" />

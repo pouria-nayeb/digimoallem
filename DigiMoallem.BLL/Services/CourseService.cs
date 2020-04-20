@@ -1,4 +1,5 @@
-﻿using DigiMoallem.BLL.DTOs.Admin.Courses;
+﻿using DigiMoallem.BLL.DTOs.Accountings;
+using DigiMoallem.BLL.DTOs.Admin.Courses;
 using DigiMoallem.BLL.DTOs.Courses;
 using DigiMoallem.BLL.Helpers.Converters;
 using DigiMoallem.BLL.Helpers.Generators;
@@ -351,6 +352,57 @@ namespace DigiMoallem.BLL.Services
         }
         #endregion
 
+        #region GetIncomesForAdmin
+        public IncomePagingViewModel GetIncomesForAdmin(int pageNumber=1, int pageSize = 24)
+        {
+            IQueryable<Course> courses = _db.Courses;
+
+            int take = pageSize;
+            int skip = (pageNumber - 1) * take;
+            int courseCount = courses.Count();
+
+            int pageCount = (int)Math.Ceiling(decimal.Divide(courseCount, pageSize));
+
+            return new IncomePagingViewModel
+            {
+                Incomes = courses.Skip(skip).Take(take).Select(c => new IncomesViewModel {
+                    CourseTitle = c.Title,
+                    TeacherName = c.User.FirstName + " " + c.User.LastName,
+                    TeacherIncome = ((c.TeacherIncome != null) ? c.TeacherIncome.Value : 0),
+                    InstitudeIncome = ((c.OwnerIncome != null) ? c.OwnerIncome.Value : 0),
+                    AllIncome = ((c.Totalncome != null) ? c.Totalncome.Value : 0)
+                }).ToList(),
+                PageNumber = pageNumber,
+                PageCount = pageCount
+            };
+        }
+
+        public async Task<IncomePagingViewModel> GetIncomesForAdminAsync(int pageNumber, int pageSize)
+        {
+            IQueryable<Course> courses = _db.Courses;
+
+            int take = pageSize;
+            int skip = (pageNumber - 1) * take;
+            int courseCount = courses.Count();
+
+            int pageCount = (int)Math.Ceiling(decimal.Divide(courseCount, pageSize));
+
+            return new IncomePagingViewModel
+            {
+                Incomes = await courses.Skip(skip).Take(take).Select(c => new IncomesViewModel
+                {
+                    CourseTitle = c.Title,
+                    TeacherName = c.User.FirstName + " " + c.User.LastName,
+                    TeacherIncome = ((c.TeacherIncome != null) ? c.TeacherIncome.Value : 0),
+                    InstitudeIncome = ((c.OwnerIncome != null) ? c.OwnerIncome.Value : 0),
+                    AllIncome = ((c.Totalncome != null) ? c.Totalncome.Value : 0)
+                }).ToListAsync(),
+                PageNumber = pageNumber,
+                PageCount = pageCount
+            };
+        }
+        #endregion
+
         /// <summary>
         /// 
         /// </summary>
@@ -572,6 +624,32 @@ namespace DigiMoallem.BLL.Services
                 .Select(c => new SelectListItem
                 {
                     Text = c.Title,
+                    Value = c.CourseId.ToString()
+                }).ToListAsync();
+        }
+        #endregion
+
+        #region GetCoursesItemList
+        public List<SelectListItem> GetCoursesItemList2()
+        {
+            return _db.Courses
+                .Include(c => c.User)
+                .Include(c => c.CourseId)
+                .Select(c => new SelectListItem
+                {
+                    Text = c.Title + " - " + c.User.FirstName + " " + c.User.LastName,
+                    Value = c.CourseId.ToString()
+                }).ToList();
+        }
+
+        public async Task<List<SelectListItem>> GetCoursesItemListAsync2()
+        {
+            return await _db.Courses
+                .Include(c => c.User)
+                .Include(c => c.CourseId)
+                .Select(c => new SelectListItem
+                {
+                    Text = c.Title + " - " + c.User.FirstName + " " + c.User.LastName,
                     Value = c.CourseId.ToString()
                 }).ToListAsync();
         }

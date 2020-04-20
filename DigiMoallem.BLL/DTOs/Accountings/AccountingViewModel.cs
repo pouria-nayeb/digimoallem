@@ -7,7 +7,7 @@ namespace DigiMoallem.BLL.DTOs.Accountings
     {
         public List<Payment> Payments { get; set; }
 
-        public int CurrentPage { get; set; }
+        public int PageNumber { get; set; }
 
         public int PageCount { get; set; }
     }

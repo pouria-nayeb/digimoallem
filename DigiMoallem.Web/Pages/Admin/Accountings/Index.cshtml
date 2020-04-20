@@ -17,74 +17,103 @@
             </div>
         }
 
-            <!-- add -->
-            <a asp-area=""
-               asp-page="Create"
-               class="btn btn-outline-success my-3">
-                <i class="fa fa-plus"></i> افزودن واریزی جدید
-            </a>
+        <!-- add -->
+        <a asp-area=""
+           asp-page="Create"
+           class="btn btn-outline-success my-3">
+            <i class="fa fa-plus ml-1"></i> افزودن واریزی جدید
+        </a>
+
+        <!-- incomes -->
+        <a asp-area=""
+           asp-page="/Admin/Accountings/Incomes"
+           class="btn btn-outline-info mx-2">
+            <i class="fa fa-money-bill ml-1"></i> مشاهده درآمدها
+        </a>
+
+        <!-- percent -->
+        <a asp-area=""
+           asp-page="/Admin/Accountings/Percent"
+           class="btn btn-outline-danger mx-2">
+            <i class="fa fa-percent ml-1"></i> درصد استاد
+        </a>
 
         <!-- users table -->
         <div class="table-responsive">
             <table class="table table-striped table-bordered">
-                    <tr>
-                        <th class="th-sm">
-                            شناسه
-                        </th>
-                        <th class="th-sm">
-                            نام مدرس
-                        </th>
-                        <th class="th-sm">
-                            نام درس
-                        </th>
-                        <th class="th-sm">
-                            میزان واریزی
-                        </th>
-                        <th class="th-sm">
-                            تاریخ
-                        </th>
-                        <th class="th-sm">
-                            دستورات
-                        </th>
+                <tr>
+                    <th class="th-sm">
+                        شناسه
+                    </th>
+                    <th class="th-sm">
+                        نام مدرس
+                    </th>
+                    <th class="th-sm">
+                        نام درس
+                    </th>
+                    <th class="th-sm">
+                        میزان واریزی
+                    </th>
+                    <th class="th-sm">
+                        تاریخ
+                    </th>
+                    <th class="th-sm">
+                        دستورات
+                    </th>
+                </tr>
+                @if (Model.PaymentVM.Payments.Count == 0)
+                {
+                    <tr class="bg-dark text-light">
+                        <td colspan="6" class="py-4">
+                            <i class="fas fa-exclamation-triangle ml-2"></i> لیست تراکنش ها خالی است.
+                        </td>
                     </tr>
-                    @if (Model.PaymentVM.Payments.Count == 0)
+                }
+                else
+                {
+                    @foreach (var payemnt in Model.PaymentVM.Payments)
                     {
-                        <tr class="bg-dark text-light">
-                            <td colspan="6" class="py-4">
-                                <i class="fas fa-exclamation-triangle ml-2"></i> لیست تراکنش ها خالی است.
+                        <tr>
+                            <td class="english-font">@payemnt.PaymentId</td>
+                            <td>@payemnt.User.UserName</td>
+                            <td>@payemnt.Course.Title</td>
+                            <td class="english-font">@payemnt.Amount.ThreeDigitSeperator()</td>
+                            <td class="english-font">@payemnt.PaymentDate.ToPersianDate()</td>
+                            <td class="text-center">
+
+                                <a asp-area=""
+                                   asp-page="/Admin/Accountings/Edit"
+                                   asp-route-id="@payemnt.PaymentId"
+                                   class="btn btn-outline-warning btn-sm">
+                                    <i class="fa fa-pen ml-2"></i> ویرایش
+                                </a>
+
+                                <a asp-area=""
+                                   asp-page="/Admin/Accountings/Details"
+                                   asp-route-id="@payemnt.PaymentId"
+                                   class="btn btn-outline-info btn-sm">
+                                    <i class="fa fa-info ml-2"></i> جزئیات
+                                </a>
                             </td>
                         </tr>
                     }
-                    else
-                    {
-                        @foreach (var payemnt in Model.PaymentVM.Payments)
-                        {
-                            <tr>
-                                <td class="english-font">@payemnt.PaymentId</td>
-                                <td>@payemnt.User.UserName</td>
-                                <td>@payemnt.Course.Title</td>
-                                <td class="english-font">@payemnt.Amount.ThreeDigitSeperator()</td>
-                                <td class="english-font">@payemnt.PaymentDate.ToPersianDate()</td>
-                                <td class="text-center">
-
-                                    <a asp-area=""
-                                       asp-page="/Admin/Accountings/Edit"
-                                       asp-route-id="@payemnt.PaymentId"
-                                       class="btn btn-outline-warning btn-sm">
-                                        <i class="fa fa-pen ml-2"></i> ویرایش
-                                    </a>
-
-                                    <a asp-area=""
-                                       asp-page="/Admin/Accountings/Details"
-                                       asp-route-id="@payemnt.PaymentId"
-                                       class="btn btn-outline-info btn-sm">
-                                        <i class="fa fa-info ml-2"></i> جزئیات
-                                    </a>
-                                </td>
-                            </tr>
-                        }
-                    }
+                }
             </table>
         </div>
+
+        @if (Model.PaymentVM.PageCount > 1)
+        {
+            <!-- pagination -->
+            <nav aria-label="Page navigation" class="my-3">
+                <ul class="pagination pagination-circle pg-dark justify-content-center">
+                    @for (int i = 1; i <= Model.PaymentVM.PageCount; i++)
+                    {
+                        <li class="page-item english-font @((Model.PaymentVM.PageNumber == i) ? "active" : "")">
+                            <a href="/Admin/Accountings?pageId=@i" class="page-link">@i</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        }
 
     </div>

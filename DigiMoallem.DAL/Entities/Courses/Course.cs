@@ -90,6 +90,10 @@ namespace DigiMoallem.DAL.Entities.Courses
         [ForeignKey("GroupId")]
         public Group Group { get; set; }
 
+        [Display(Name = "سهم استاد")]
+        [Range(0, 100, ErrorMessage = "درصد استاد باید بین 0 تا 100 باشد.")]
+        public int? TeacherPercent { get; set; }
+
         [ForeignKey("SubGroupId")]
         public Group SubGroup { get; set; }
 

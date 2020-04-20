@@ -1,4 +1,5 @@
-﻿using DigiMoallem.BLL.DTOs.Admin.Courses;
+﻿using DigiMoallem.BLL.DTOs.Accountings;
+using DigiMoallem.BLL.DTOs.Admin.Courses;
 using DigiMoallem.BLL.DTOs.Courses;
 using DigiMoallem.DAL.Entities.Courses;
 using Microsoft.AspNetCore.Http;
@@ -79,6 +80,11 @@ namespace DigiMoallem.BLL.Interfaces
         Task<CourseViewModel> GetCoursesForAdminAsync(int pageId = 1);
         #endregion
 
+        #region GetIncomesForAdmin
+        IncomePagingViewModel GetIncomesForAdmin(int pageNumber, int pageSize);
+        Task<IncomePagingViewModel> GetIncomesForAdminAsync(int pageNumber, int pageSize);
+        #endregion
+
         #region GetCourseById
         Course GetCourseById(int courseId);
         Task<Course> GetCourseByIdAsync(int courseId);
@@ -92,6 +98,11 @@ namespace DigiMoallem.BLL.Interfaces
         #region GetCoursesItemList
         List<SelectListItem> GetCoursesItemList();
         Task<List<SelectListItem>> GetCoursesItemListAsync();
+        #endregion
+
+        #region GetCoursesItemList2
+        List<SelectListItem> GetCoursesItemList2();
+        Task<List<SelectListItem>> GetCoursesItemListAsync2();
         #endregion
 
         #region PopularCourses

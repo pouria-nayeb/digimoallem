@@ -102,3 +102,5 @@ C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\obj\Debug\netcoreapp2.2\
 C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\obj\Debug\netcoreapp2.2\Razor\Pages\Shared\_ScriptsAdminPartial.cshtml.g.cs
 C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\obj\Debug\netcoreapp2.2\Razor\Pages\Shared\_StylesAdminPartial.cshtml.g.cs
 C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\bin\Debug\netcoreapp2.2\web.config
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\obj\Debug\netcoreapp2.2\Razor\Pages\Admin\Accountings\Incomes.cshtml.g.cs
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\obj\Debug\netcoreapp2.2\Razor\Pages\Admin\Accountings\Percent.cshtml.g.cs

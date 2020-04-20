@@ -1,1 +1,46 @@
-﻿
+﻿<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" asp-controller="Home" asp-action="Index"> دیجی معلم </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarColor03">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Home" asp-action="Index">صفحه اصلی</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Home" asp-action="About">درباره ما</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Home" asp-action="Contact">تماس با ما</a>
+            </li>
+        </ul>
+
+        @if (User.Identity.IsAuthenticated)
+        {
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Account" asp-action="Logout">خروج</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="UserPanel" asp-controller="Home" asp-action="Index">پروفایل</a>
+                </li>
+            </ul>
+        }
+        else
+        {
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Account" asp-action="Login">ورود به سایت</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Account" asp-action="Register">
+                        ثبت نام
+                    </a>
+                </li>
+            </ul>
+        }
+
+    </div>
+</nav>

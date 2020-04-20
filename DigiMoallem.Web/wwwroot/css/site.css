@@ -1,4 +1,6 @@
-﻿@font-face {
+﻿@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@500&display=swap');
+
+@font-face {
     font-family: 'BYekan';
     src: url(../fonts/BYekan.eot);
     src: url(../Fonts/BYekan.eot?#iefix) format("embedded-opentype"),url(../fonts/BYekan.woff) format("woff"),url(../Fonts//BYekan.ttf) format("truetype"),url(../Fonts//BYekan.svg) format("svg");
@@ -6,6 +8,63 @@
     font-style: normal
 }
 
+body, html {
+    font-size: 17px;
+}
+
 * {
     font-family: 'BYekan',Tahoma,Helvetica,sans-serif;
+    direction: rtl;
+    text-align: right;
+}
+
+.bg-purple {
+    background-color: #6c63ff;
+}
+
+.bg-purple-hover:hover {
+    background-color: #fff;
+    border: 1px solid #6c63ff;
+    color: #333 !important;
+    transition: 0.5s;
+}
+
+.text-purple {
+    color: #6c63ff;
+}
+
+.border-purple {
+    border-color: #6c63ff !important;
+}
+
+.border-purple-hover:hover {
+    background-color: #6c63ff !important;
+    color: #fff;
+}
+
+.text-direction-ltr {
+    direction: ltr;
+}
+
+.english-font {
+    font-family: 'Titillium Web', sans-serif;
+    color: #333 !important;
+}
+
+.bg-image {
+    background-image: url(../images/resources/pattern.png);
+    background-repeat: repeat;
+    background-color: #6c63ff;
+}
+
+main {
+min-height:450px;
+}
+
+.bg-black-transparent {
+background-color: rgba(0,0,0,0.85);
+}
+
+.bg-white-transparent {
+    background-color: rgba(255,255,255,0.5)
 }

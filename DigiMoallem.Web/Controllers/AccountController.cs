@@ -71,7 +71,7 @@ namespace DigiMoallem.Web.Controllers
                     IsActive = false,
                     RegisterDate = DateTime.Now,
                     ActivationCode = CodeGenerator.GenerateUniqueCode(),
-                    UserAvatar = "Default.jpg"
+                    UserAvatar = "default.jpg"
                 };
 
                 if (await _userService.AddUserAsync(user) > 0)
@@ -165,6 +165,17 @@ namespace DigiMoallem.Web.Controllers
                         // Resend activation email
                         SendActivationEmail("_ActivationEmail", "فعالسازی", user);
 
+                        return View(login);
+                    }
+                }
+
+                var existUser = await _userService.GetUserByEmailAsync(login.Email);
+
+                if (existUser != null)
+                {
+                    if (existUser.Email == login.Email)
+                    {
+                        ModelState.AddModelError("Password", "رمز عبور وارد شده صحیح نمی باشد.");
                         return View(login);
                     }
                 }

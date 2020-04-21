@@ -33,9 +33,14 @@ using DigiMoallem.BLL.Interfaces;
 
 #line default
 #line hidden
+#line 7 "C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\Pages\_ViewImports.cshtml"
+using DigiMoallem.DAL.Entities.General;
+
+#line default
+#line hidden
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorCompiledItemMetadataAttribute("RouteTemplate", "{id:min(1)}")]
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"eb93a5e6fdd94f18cb693a7613d917fbd6a32a3b", @"/Pages/Admin/Users/Delete.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"dffcbdc6572037889524702e104f98cbfa926fb4", @"/Pages/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"0ff04463b118475a92e5ef86a2eed7d859befe99", @"/Pages/_ViewImports.cshtml")]
     public class Pages_Admin_Users_Delete : global::Microsoft.AspNetCore.Mvc.RazorPages.Page
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("asp-area", "", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -79,7 +84,7 @@ using DigiMoallem.BLL.Interfaces;
             WriteLiteral("\r\n<div class=\"container\">\r\n\r\n    <!-- back to users -->\r\n    ");
             EndContext();
             BeginContext(183, 127, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "eb93a5e6fdd94f18cb693a7613d917fbd6a32a3b5604", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "eb93a5e6fdd94f18cb693a7613d917fbd6a32a3b5769", async() => {
                 BeginContext(244, 62, true);
                 WriteLiteral("\r\n        <i class=\"fas fa-arrow-right ml-2\"></i> بازگشت\r\n    ");
                 EndContext();
@@ -141,7 +146,7 @@ using DigiMoallem.BLL.Interfaces;
             WriteLiteral("\r\n    ");
             EndContext();
             BeginContext(559, 1302, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "eb93a5e6fdd94f18cb693a7613d917fbd6a32a3b8728", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "eb93a5e6fdd94f18cb693a7613d917fbd6a32a3b8893", async() => {
                 BeginContext(579, 55, true);
                 WriteLiteral("\r\n        <!-- hidden -->\r\n        <input type=\"hidden\"");
                 EndContext();

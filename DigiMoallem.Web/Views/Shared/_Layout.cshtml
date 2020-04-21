@@ -7,25 +7,33 @@
     <partial name="_StylesPartial" />
     @RenderSection("Styles", required: false)
 </head>
-<body>
+<body class="bg-image">
 
-    <header>
+    <div class="bg-white-transparent">
+        <header>
+            <!-- navigation menu -->
+            <partial name="_NavbarPartial" />
 
-        <!-- navigation menu -->
-        <partial name="_NavbarPartial" />
+            <div class="clearfix my-3">
+                <a asp-area="" asp-controller="Home" asp-action="Help"
+                   class="btn btn-info btn-sm float-left mx-3">
+                    <i class="fa fa-question ml-1"></i> راهنما اساتید
+                </a>
+            </div>
 
-    </header>
+        </header>
 
-    <main>
-        @RenderBody()
-    </main>
+        <main>
+            @RenderBody()
+        </main>
 
-    <footer class="pt-4 pt-md-5 mx-3 border-top">
+        <footer class="bg-light pt-4 pt-md-5 border-top">
 
-        <!-- footer -->
-        <partial name="_FooterPartial" />
+            <!-- footer -->
+            <partial name="_FooterPartial" />
 
-    </footer>
+        </footer>
+    </div>
 
     <partial name="_ScriptsPartial" />
     @RenderSection("Scripts", required: false)

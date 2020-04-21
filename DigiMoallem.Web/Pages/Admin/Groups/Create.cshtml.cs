@@ -20,6 +20,8 @@ namespace DigiMoallem.Web.Pages.Admin.Groups
         [BindProperty]
         public Group Group { get; set; }
 
+        public IFormFile Image { get; set; }
+
         public void OnGet(int? id)
         {
             Group = new Group()
@@ -28,13 +30,13 @@ namespace DigiMoallem.Web.Pages.Admin.Groups
             };
         }
 
-        public async Task<IActionResult> OnPostAsync(Group group, IFormFile imageName)
+        public async Task<IActionResult> OnPostAsync()
         {
             if (ModelState.IsValid)
             {
                 // user inputs is valid
 
-                if (await _courseService.AddGroupAsync(group, imageName))
+                if (await _courseService.AddGroupAsync(Group, Image))
                 {
                     // success
                     TempData["Success"] = "گروه با موفقیت افزوده شد.";

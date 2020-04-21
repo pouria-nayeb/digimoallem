@@ -335,6 +335,29 @@ namespace DigiMoallem.DAL.Migrations
                     b.ToTable("UserCourses");
                 });
 
+            modelBuilder.Entity("DigiMoallem.DAL.Entities.General.Contact", b =>
+                {
+                    b.Property<int>("ContactId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(200);
+
+                    b.Property<bool>("IsChecked");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(200);
+
+                    b.Property<DateTime>("SubmitDate");
+
+                    b.HasKey("ContactId");
+
+                    b.ToTable("Messages");
+                });
+
             modelBuilder.Entity("DigiMoallem.DAL.Entities.Orders.Discount", b =>
                 {
                     b.Property<int>("DiscountId")

@@ -1077,14 +1077,13 @@ namespace DigiMoallem.BLL.Services
             return _db.Courses
                 .Where(c => c.IsHidden == false)
                 .OrderByDescending(c => c.CourseId)
-                .Take(12)
+                .Take(8)
                 .Select(c => new DisplayCourseViewModel
                 {
                     CourseId = c.CourseId,
                     ImageName = c.ImageName,
                     Price = c.Price,
                     Title = c.Title,
-                    GroupName = c.Group.Title,
                     TotalTime = new TimeSpan(c.CourseEpisodes.Sum(ce => ce.EpisodeLength.Ticks))
                 }).ToList();
         }
@@ -1094,14 +1093,13 @@ namespace DigiMoallem.BLL.Services
             return await _db.Courses
                 .Where(c => c.IsHidden == false)
                  .OrderByDescending(c => c.CourseId)
-                 .Take(12)
+                 .Take(8)
                  .Select(c => new DisplayCourseViewModel
                  {
                      CourseId = c.CourseId,
                      ImageName = c.ImageName,
                      Price = c.Price,
                      Title = c.Title,
-                     GroupName = c.Group.Title,
                      TotalTime = new TimeSpan(c.CourseEpisodes.Sum(ce => ce.EpisodeLength.Ticks))
                  }).ToListAsync();
         }
@@ -1333,7 +1331,7 @@ namespace DigiMoallem.BLL.Services
             {
                 string fileName = CodeGenerator.GenerateUniqueCode() + Path.GetExtension(formFile.FileName);
 
-                string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Icons/", fileName);
+                string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/groups/", fileName);
 
                 using (var fileStream = new FileStream(path, FileMode.Create))
                 {
@@ -1354,7 +1352,7 @@ namespace DigiMoallem.BLL.Services
             {
                 if (group.ImageName != "default.svg" && group.ImageName != null)
                 {
-                    string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Icons/", group.ImageName);
+                    string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/groups/", group.ImageName);
 
                     if (File.Exists(path))
                     {

@@ -18,8 +18,28 @@ using DigiMoallem.BLL.DTOs.Accounts;
 
 #line default
 #line hidden
+#line 4 "C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\Views\_ViewImports.cshtml"
+using DigiMoallem.DAL.Entities.Courses;
+
+#line default
+#line hidden
+#line 5 "C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\Views\_ViewImports.cshtml"
+using DigiMoallem.BLL.DTOs.Courses;
+
+#line default
+#line hidden
+#line 6 "C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\Views\_ViewImports.cshtml"
+using DigiMoallem.BLL.DTOs.Display;
+
+#line default
+#line hidden
+#line 7 "C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\Views\_ViewImports.cshtml"
+using DigiMoallem.DAL.Entities.General;
+
+#line default
+#line hidden
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"ef8c51924761d05c998f652f711f1be88f8cf52a", @"/Views/Shared/Components/GroupComponent/Group.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"b52746a41e55210ca4862881411cf8239ab7e688", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"08fbc985ea20512d1769593c7b6c80260ff9221c", @"/Views/_ViewImports.cshtml")]
     public class Views_Shared_Components_GroupComponent_Group : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<IEnumerable<DigiMoallem.DAL.Entities.Courses.Group>>
     {
         #pragma warning disable 1998

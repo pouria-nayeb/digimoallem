@@ -1,0 +1,93 @@
+﻿@page
+@model DigiMoallem.Web.Pages.Admin.Messages.IndexModel
+
+@{
+    ViewBag.Title = "لیست پیام";
+}
+
+<section class="container">
+
+    <h1 class="text-capitalize display-4 mb-5">
+        <i class="fa fa-inbox text-light fa-fw"></i> @ViewBag.Title
+    </h1>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">
+            <i class="fa fa-check fa-fw"></i> @TempData["Success"]
+        </div>
+    }
+
+    <div class="clearfix">
+        <button type="button" class="btn btn-primary float-left mb-3">
+            <i class="fa fa-th-list fa-fw"></i> @Model.ContactsCount
+        </button>
+    </div>
+
+    @if (Model.ContactPagingVM.PageCount > 1)
+    {
+        <nav>
+            <ul class="pagination pagination-sm justify-content-center">
+                @for (int i = 1; i <= Model.ContactPagingVM.PageCount; i++)
+                {
+                    <li class="page-item @(Model.ContactPagingVM.PageNumber == i ? "active" : "")">
+                        <a class="page-link" href="/Admin/Messages?PageNumber=@i">@i</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    }
+
+    @if (Model.ContactPagingVM.Contacts.Any())
+    {
+        @foreach (Contact contact in Model.ContactPagingVM.Contacts)
+        {
+
+            <div class="card border-primary mb-3">
+                <header class="card-header">تلفن تماس: <span class="text-light">@contact.PhoneNumber</span></header>
+
+                <div class="card-body">
+                    <p class="card-text text-light">@contact.Description</p>
+
+                    <hr />
+
+                    <span class="my-2">تاریخ درج پیام: @contact.SubmitDate.ToPersianDate()</span>
+                </div>
+
+                <footer class="card-footer clearfix">
+                    <span class="float-left small">
+                        <a asp-page="Edit"
+                           asp-route-id="@contact.ContactId"
+                           class="btn btn-sm btn-warning">
+                            <i class="fa fa-pen fa-fw"></i> ویرایش
+                        </a>
+
+                        <a asp-page="Delete" asp-route-id="@contact.ContactId" class="btn btn-sm btn-danger">
+                            <i class="fa fa-trash-alt fa-fw"></i> حذف
+                        </a>
+                    </span>
+                    <span class="float-right mt-1">
+                        @if (contact.IsChecked)
+                        {
+                            <span class="badge badge-success text-light">بررسی شده</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-danger text-capitalize">بررسی نشده</span>
+                        }
+                    </span>
+                </footer>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="alert alert-primary border border-warning">
+            <p class="mb-0">
+                <i class="fa fa-exclamation-triangle fa-fw mx-2"></i> No Message Exist.
+            </p>
+        </div>
+    }
+
+</section>
+

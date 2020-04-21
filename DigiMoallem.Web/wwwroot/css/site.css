@@ -58,13 +58,46 @@ body, html {
 }
 
 main {
-min-height:450px;
+    min-height: 650px;
 }
 
 .bg-black-transparent {
-background-color: rgba(0,0,0,0.85);
+    background-color: rgba(0,0,0,0.85);
 }
 
 .bg-white-transparent {
-    background-color: rgba(255,255,255,0.5)
+    background-color: rgba(255,255,255,0.6)
+}
+
+.row {
+    max-width: 100%;
+}
+
+.rotate-180-deg {
+    transform: rotate(180deg);
+}
+
+.title-font-size {
+    font-size: 4.3vmax;
+}
+
+.search-font-size {
+    font-size: 1.1rem
+}
+
+.group {
+    background: #000;
+    transition: 0.5s;
+    cursor:pointer;
+}
+
+    .group:hover {
+        background-color: #6c63ff;
+        transform: translateY(-5px);
+        transition: 0.5s;
+        padding:0.5rem;
+    }
+
+.min-height-60px {
+    min-height:60px;
 }

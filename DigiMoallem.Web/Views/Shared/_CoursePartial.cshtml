@@ -1,1 +1,24 @@
-﻿
+﻿@model DisplayCourseViewModel
+
+<div class="col-12 col-sm-6 col-lg-4">
+    <div class="card border border-light my-3">
+        <img src="~/images/courses/@Model.ImageName"
+             alt="@Model.Title"
+             class="w-100" />
+
+        <a asp-controller="Course" asp-action="DisplayCourse" asp-route-id="@Model.CourseId"
+           class="d-block text-center text-purple my-3 min-height-60px">
+            @Model.Title
+        </a>
+
+        <div class="card-footer p-0 clearfix">
+            <span class="badge badge-info bg-purple m-1 py-2 float-left">
+                <i class="fa fa-stopwatch ml-1"></i> @Model.TotalTime
+            </span>
+
+            <span class="badge badge-success m-1 py-2 float-right">
+                 @Model.Price.ToString("#,0 تومان")
+            </span>
+        </div>
+    </div>
+</div>

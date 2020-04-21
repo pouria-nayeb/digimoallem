@@ -1,0 +1,51 @@
+﻿@page "id:min(1)"
+
+@model DigiMoallem.Web.Pages.Admin.Messages.EditModel
+
+@{
+    ViewData["Title"] = "ویرایش پیام";
+}
+
+<div class="container">
+    @if (ViewData["Message"] != null)
+    {
+        <div class="alert alert-danger">
+            <i class="fa fa-exclamation-circle fa-fw"></i> @ViewData["Message"]
+        </div>
+    }
+
+    <div class="card border-secondary mb-3">
+
+        <div class="card-header text-capitalize">
+            <i class="fa fa-plus fa-fw"></i> @ViewData["Title"]
+        </div>
+
+        <div class="card-body">
+
+            <form method="post" autocomplete="off" enctype="multipart/form-data">
+
+                <input type="hidden" asp-for="Contact.ContactId" />
+                <input type="hidden" asp-for="Contact.Description" />
+                <input type="hidden" asp-for="Contact.PhoneNumber" />
+                <input type="hidden" asp-for="Contact.SubmitDate" />
+
+                <!-- checked -->
+                <div class="form-group">
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" asp-for="Contact.IsChecked" />
+                        <label class="custom-control-label" asp-for="Contact.IsChecked"></label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-outline-warning">
+                        <i class="fa fa-pen ml-1"></i> ویرایش پیام
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+</div>

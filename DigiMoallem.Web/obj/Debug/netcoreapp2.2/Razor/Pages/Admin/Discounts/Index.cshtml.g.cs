@@ -33,8 +33,13 @@ using DigiMoallem.BLL.Interfaces;
 
 #line default
 #line hidden
+#line 7 "C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\Pages\_ViewImports.cshtml"
+using DigiMoallem.DAL.Entities.General;
+
+#line default
+#line hidden
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"6b7b4bf13e0a501decfce320f65697d4f6dcf029", @"/Pages/Admin/Discounts/Index.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"dffcbdc6572037889524702e104f98cbfa926fb4", @"/Pages/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"0ff04463b118475a92e5ef86a2eed7d859befe99", @"/Pages/_ViewImports.cshtml")]
     public class Pages_Admin_Discounts_Index : global::Microsoft.AspNetCore.Mvc.RazorPages.Page
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("asp-area", "", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -114,7 +119,7 @@ using DigiMoallem.BLL.Interfaces;
             WriteLiteral("\r\n    <div class=\"py-3\">\r\n        <!-- add -->\r\n        ");
             EndContext();
             BeginContext(465, 169, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "6b7b4bf13e0a501decfce320f65697d4f6dcf0297083", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "6b7b4bf13e0a501decfce320f65697d4f6dcf0297248", async() => {
                 BeginContext(554, 76, true);
                 WriteLiteral("\r\n            <i class=\"fa fa-plus ml-2\"></i> افزودن کد تخفیف جدید\r\n        ");
                 EndContext();
@@ -296,7 +301,7 @@ using DigiMoallem.BLL.Interfaces;
             WriteLiteral("                            </td>\r\n                            <td>\r\n\r\n                                ");
             EndContext();
             BeginContext(3090, 344, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "6b7b4bf13e0a501decfce320f65697d4f6dcf02914943", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "6b7b4bf13e0a501decfce320f65697d4f6dcf02915108", async() => {
                 BeginContext(3321, 109, true);
                 WriteLiteral("\r\n                                    <i class=\"fa fa-pen ml-2\"></i> ویرایش\r\n                                ");
                 EndContext();

@@ -33,8 +33,13 @@ using DigiMoallem.BLL.Interfaces;
 
 #line default
 #line hidden
+#line 7 "C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\Pages\_ViewImports.cshtml"
+using DigiMoallem.DAL.Entities.General;
+
+#line default
+#line hidden
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"4a0b48a29aaa6b6a81885c98ec627d6c7a3bc658", @"/Pages/Admin/Courses/Index.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"dffcbdc6572037889524702e104f98cbfa926fb4", @"/Pages/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"0ff04463b118475a92e5ef86a2eed7d859befe99", @"/Pages/_ViewImports.cshtml")]
     public class Pages_Admin_Courses_Index : global::Microsoft.AspNetCore.Mvc.RazorPages.Page
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("asp-area", "", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -119,7 +124,7 @@ using DigiMoallem.BLL.Interfaces;
             WriteLiteral("\r\n    <!-- add -->\r\n    ");
             EndContext();
             BeginContext(464, 153, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4a0b48a29aaa6b6a81885c98ec627d6c7a3bc6588568", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4a0b48a29aaa6b6a81885c98ec627d6c7a3bc6588733", async() => {
                 BeginContext(550, 63, true);
                 WriteLiteral("\r\n        <i class=\"fa fa-plus ml-2\"></i> افزودن درس جدید\r\n    ");
                 EndContext();
@@ -195,7 +200,7 @@ using DigiMoallem.BLL.Interfaces;
             WriteLiteral("                    <tr>\r\n                        <td>");
             EndContext();
             BeginContext(1815, 248, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "4a0b48a29aaa6b6a81885c98ec627d6c7a3bc65812134", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "4a0b48a29aaa6b6a81885c98ec627d6c7a3bc65812299", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -269,7 +274,7 @@ AddHtmlAttributeValue("", 1959, course.Title, 1959, 13, false);
             WriteLiteral("</td>\r\n                        <td class=\"text-center\">\r\n\r\n                            ");
             EndContext();
             BeginContext(2423, 318, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4a0b48a29aaa6b6a81885c98ec627d6c7a3bc65816103", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4a0b48a29aaa6b6a81885c98ec627d6c7a3bc65816268", async() => {
                 BeginContext(2636, 101, true);
                 WriteLiteral("\r\n                                <i class=\"fa fa-pen ml-2\"></i> ویرایش\r\n                            ");
                 EndContext();
@@ -307,7 +312,7 @@ AddHtmlAttributeValue("", 1959, course.Title, 1959, 13, false);
             WriteLiteral("\r\n\r\n                            ");
             EndContext();
             BeginContext(2773, 323, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4a0b48a29aaa6b6a81885c98ec627d6c7a3bc65818861", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4a0b48a29aaa6b6a81885c98ec627d6c7a3bc65819026", async() => {
                 BeginContext(2990, 102, true);
                 WriteLiteral("\r\n                                <i class=\"fa fa-plus ml-2\"></i> بخش ها\r\n                            ");
                 EndContext();

@@ -1,0 +1,19 @@
+﻿<form asp-area="" asp-controller="Home" asp-action="Search" autocomplete="off">
+    <div class="form-group my-5">
+        <label class="control-label search-font-size" for="search">جستجو :</label>
+        <div class="form-group">
+            <div class="input-group mb-3">
+                <input type="text" 
+                       id="search"
+                       name="query"
+                       class="form-control border border-dark rounded py-4"
+                       placeholder="جستجو بر اساس نام دوره ..." />
+                <div class="input-group-append">
+                    <button class="btn btn-primary bg-purple text-white input-group-text border border-dark rotate-180-deg">
+                        <i class="fa fa-search fa-fw rotate-180-deg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

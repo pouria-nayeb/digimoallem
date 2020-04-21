@@ -9,7 +9,7 @@
 
     <h1 class="m-4">@ViewData["Title"]</h1>
 
-    <form method="post" enctype="multipart/form-data" class="md-form">
+    <form method="post" enctype="multipart/form-data" class="form-group">
 
         @if (ViewData["WrongInputs"] != null)
         {
@@ -39,8 +39,8 @@
                 </div>
 
                 <div class="form-group my-5">
-                    <button type="submit" class="btn btn-outline-success">
-                        <i class="fas fa-plus ml-2"></i> افزودن گروه جدید
+                    <button type="submit" class="btn btn-outline-warning">
+                        <i class="fas fa-edit ml-2"></i> ویرایش گروه
                     </button>
                 </div>
             </div>
@@ -49,7 +49,7 @@
                 <!-- avatar section -->
                 <div class="container">
                     <img id="display-image"
-                         src="~/Images/Avatars/default.png"
+                         src="~/Images/groups/@Model.Group.ImageName"
                          class="mx-auto my-2 d-block rounded"
                          alt="default avatar"
                          style="max-width:250px" />

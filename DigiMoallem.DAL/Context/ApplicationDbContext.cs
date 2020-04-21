@@ -1,5 +1,6 @@
 ﻿using DigiMoallem.DAL.Entities.Accounting;
 using DigiMoallem.DAL.Entities.Courses;
+using DigiMoallem.DAL.Entities.General;
 using DigiMoallem.DAL.Entities.Orders;
 using DigiMoallem.DAL.Entities.Permissions;
 using DigiMoallem.DAL.Entities.Transactions;
@@ -30,6 +31,10 @@ namespace DigiMoallem.DAL.Context
         #region Permissions - PermissionsInRole
         public DbSet<Permission> Permissions { get; set; }
         public DbSet<PermissionsInRole> PermissionsInRole { get; set; }
+        #endregion
+
+        #region General
+        public DbSet<Contact> Messages { get; set; }
         #endregion
 
         #region Comments - CommentQAs - Courses - Episodes - Levels - Statuses - Types - Groups - Like - Rate - UserCourse

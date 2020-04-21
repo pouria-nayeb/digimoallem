@@ -20,18 +20,20 @@ namespace DigiMoallem.Web.Pages.Admin.Groups
         [BindProperty]
         public Group Group { get; set; }
 
+        public IFormFile Image { get; set; }
+
         public async Task OnGet(int id)
         {
             Group = await _courseService.GetGroupByIdAsync(id);
         }
 
-        public async Task<IActionResult> OnPost(Group group, IFormFile imageName)
+        public async Task<IActionResult> OnPost()
         {
             if (ModelState.IsValid)
             {
                 // user inputs is valid
 
-                if (await _courseService.UpdateGroupAsync(group, imageName))
+                if (await _courseService.UpdateGroupAsync(Group, Image))
                 {
                     // success
                     TempData["Success"] = "گروه با موفقیت ویرایش شد.";

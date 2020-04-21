@@ -1,4 +1,40 @@
-﻿
-@{ 
+﻿@model IndexViewModel
+
+@{
     ViewBag.Title = "صفحه اصلی";
 }
+
+    <div class="container clearfix">
+
+        <h1 class="text-center title-font-size my-5 pt-5">با دیجی معلم، سریع، آسان و مطمئن یاد بگیر</h1>
+
+        <!-- search box -->
+        <partial name="_SearchWidget" />
+
+        <!-- categories -->
+        <div class="row mx-auto">
+            @foreach (var group in Model.Groups)
+            {
+                <partial name="_GroupPartial" model="group" />
+            }
+        </div>
+
+        <br /><br />
+
+        <h3 class="my-3 py-3 border-bottom border-dark">
+            <i class="fa fa-clock ml-2"></i> جدیدترین دوره ها
+        </h3>
+
+        <!-- latest courses -->
+        <div class="row mx-auto">
+            @foreach (var course in Model.LatestCourses)
+            {
+                <partial name="_CoursePartial" model="course" />
+            }
+        </div>
+
+        <a class="btn btn-primary text-white float-left px-3 my-3">
+            <i class="fa fa-info ml-2"></i> لیست دوره ها
+        </a>
+
+    </div>

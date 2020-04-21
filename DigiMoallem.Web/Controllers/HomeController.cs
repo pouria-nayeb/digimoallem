@@ -1,5 +1,7 @@
-﻿using DigiMoallem.BLL.Helpers.Converters;
+﻿using DigiMoallem.BLL.DTOs.Display;
+using DigiMoallem.BLL.Helpers.Converters;
 using DigiMoallem.BLL.Interfaces;
+using DigiMoallem.DAL.Entities.General;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -14,12 +16,15 @@ namespace DigiMoallem.Web.Controllers
     {
         private readonly IUserService _userService;
         private readonly ICourseService _courseService;
+        private readonly IMessageService _messageService;
 
         public HomeController(IUserService userService,
-            ICourseService courseService)
+            ICourseService courseService,
+            IMessageService messageService)
         {
             _userService = userService;
             _courseService = courseService;
+            _messageService = messageService;
         }
 
         /// <summary>
@@ -28,8 +33,13 @@ namespace DigiMoallem.Web.Controllers
         /// <returns>HTML Page</returns>
         public async Task<IActionResult> Index()
         {
-            ViewBag.PopularCourses = await _courseService.GetPopularCoursesAsync();
-            return View(await _courseService.GetLatestCourseAsync());
+            var indexVM = new IndexViewModel
+            {
+                Groups = await _courseService.GetGroupsAsync(),
+                LatestCourses = await _courseService.GetLatestCourseAsync()
+            };
+
+            return View(indexVM);
         }
 
         [Route("About")]
@@ -45,33 +55,32 @@ namespace DigiMoallem.Web.Controllers
             return View();
         }
 
-        //[HttpPost]
-        //[Route("Contact")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Contact(Ticket ticket)
-        //{
-        //    ticket.SubmissionDate = DateTime.Now;
+        [HttpPost]
+        [Route("Contact")]
+        public async Task<IActionResult> Contact(Contact message)
+        {
+            message.SubmitDate = DateTime.Now;
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        if ((await _ticketService.AddTicketAsync(ticket)) != null)
-        //        {
-        //            TempData["Success"] = "پیام شما با موفقیت به دیجی معلم ارسال شد.";
+            if (ModelState.IsValid)
+            {
+                if ((await _messageService.AddContactAsync(message)) != null)
+                {
+                    TempData["Success"] = "پیام شما با موفقیت به دیجی معلم ارسال شد.";
 
-        //            return RedirectToAction("Contact", "Home");
-        //        }
-        //        else
-        //        {
-        //            ViewData["DbFailure"] = "بروز خطا در سامانه لطفاً مراتب را به ایمیل info@digimoallem.ir گزارش دهید.";
+                    return RedirectToAction("Contact", "Home");
+                }
+                else
+                {
+                    ViewData["DbFailure"] = "بروز خطا در سامانه لطفاً مراتب را به ایمیل info@digimoallem.ir گزارش دهید.";
 
-        //            return View();
-        //        }
-        //    }
+                    return View();
+                }
+            }
 
-        //    ViewData["InvalidInputs"] = "لطفاً اطلاعات خود را صحیح وارد نمایید.";
+            ViewData["InvalidInputs"] = "لطفاً اطلاعات خود را صحیح وارد نمایید.";
 
-        //    return View();
-        //}
+            return View();
+        }
 
         [HttpGet]
         [Route("Contribute")]

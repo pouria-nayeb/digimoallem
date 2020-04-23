@@ -1,0 +1,58 @@
+﻿@page "id:min(1)"
+
+@model DigiMoallem.Web.Pages.Admin.Works.EditModel
+
+@{
+    ViewData["Title"] = "ویرایش پیام";
+}
+
+<div class="container">
+    @if (ViewData["Message"] != null)
+    {
+        <div class="alert alert-danger">
+            <i class="fa fa-exclamation-circle fa-fw"></i> @ViewData["Message"]
+        </div>
+    }
+
+    <div class="card border-secondary mb-3">
+
+        <div class="card-header text-capitalize">
+            <i class="fa fa-plus fa-fw"></i> @ViewData["Title"]
+        </div>
+
+        <div class="card-body">
+
+            <form method="post" autocomplete="off" enctype="multipart/form-data">
+
+                <input type="hidden" asp-for="Work.WorkId" />
+                <input type="hidden" asp-for="Work.Skills" />
+                <input type="hidden" asp-for="Work.PhoneNumber" />
+                <input type="hidden" asp-for="Work.Mobile" />
+                <input type="hidden" asp-for="Work.SubmitDate" />
+                <input type="hidden" asp-for="Work.FirstName" />
+                <input type="hidden" asp-for="Work.LastName" />
+                <input type="hidden" asp-for="Work.AvatarName" />
+                <input type="hidden" asp-for="Work.CvTitle" />
+                <input type="hidden" asp-for="Work.ContributionFields" />
+                <input type="hidden" asp-for="Work.Gender" />
+
+                <!-- checked -->
+                <div class="form-group">
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" asp-for="Work.IsChecked" />
+                        <label class="custom-control-label" asp-for="Work.IsChecked"></label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-outline-warning">
+                        <i class="fa fa-pen ml-1"></i> ویرایش درخواست کار
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+</div>

@@ -38,8 +38,13 @@ using DigiMoallem.DAL.Entities.General;
 
 #line default
 #line hidden
+#line 8 "C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\Views\_ViewImports.cshtml"
+using DigiMoallem.BLL.Interfaces;
+
+#line default
+#line hidden
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"80ae4832c2298e3bf5f4990847b5ace3ca85c405", @"/Views/Course/OrderCourse.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"08fbc985ea20512d1769593c7b6c80260ff9221c", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"8c46b6595ec7c259c4823c37c33d60cf887e178a", @"/Views/_ViewImports.cshtml")]
     public class Views_Course_OrderCourse : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<dynamic>
     {
         #pragma warning disable 1998

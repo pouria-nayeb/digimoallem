@@ -1,7 +1,106 @@
-﻿
+﻿@model UserPanelViewModel
+@inject IPermissionService permissionService
+
 @{
     ViewData["Title"] = "پروفایل کاربری";
 }
 
-<h1>@ViewData["Title"]</h1>
+<div class="container my-4">
+
+    @if (TempData["Success"] != null)
+    {
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
+    }
+
+    <div class="row">
+
+        <div class="col-12 col-md-8">
+
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa fa-user-secret ml-1"></i> اطلاعات پروفایل
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <tr>
+                                <th>نام و نام خانوادگی</th>
+                                <td>
+                                    @if (Model.FirstName == null)
+                                    {
+                                        <span>نامشخض</span>
+                                    }
+                                    else
+                                    {
+                                        <span>@Model.FirstName @Model.LastName</span>
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>نام کاربری</th>
+                                <td class="english-font">@Model.UserName</td>
+                            </tr>
+                            <tr>
+                                <th>پست الکترونیک</th>
+                                <td class="english-font">@Model.Email</td>
+                            </tr>
+                            <tr>
+                                <th>تلفن تماس</th>
+                                <td class="english-font">@(Model.PhoneNumber != null ? Model.PhoneNumber.ToString() : "نامشخص")</td>
+                            </tr>
+                            <tr>
+                                <th>موجودی حساب کاربری</th>
+                                <td>@Model.Balance.ToString("#,0 تومان")</td>
+                            </tr>
+                            <tr>
+                                <th>تاریخ ثبت نام</th>
+                                <td class="english-font">@Model.RegisterDate.ToPersianDate()</td>
+                            </tr>
+                            @if (permissionService.CheckPermission(22, User.Identity.Name))
+                            {
+                                <tr>
+                                    <th>توضیحات</th>
+                                    <td>@Model.Description</td>
+                                </tr>
+                                <tr>
+                                    <th>مهارت ها</th>
+                                    <td>
+                                        <ul class="list-group p-0">
+                                            @foreach (var skill in Model.Skills.Split("-"))
+                                            {
+                                                <li class="list-group-item">@skill</li>
+                                            }
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>سوابق کاری</th>
+                                    <td>
+                                        <ul class="list-group p-0">
+                                            @foreach (var experience in Model.Experiences.Split("-"))
+                                            {
+                                                <li class="list-group-item">@experience</li>
+                                            }
+                                        </ul>
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-12 col-md-4">
+
+            <partial name="_SidebarPartial" />
+
+        </div>
+
+    </div>
+
+</div>
 

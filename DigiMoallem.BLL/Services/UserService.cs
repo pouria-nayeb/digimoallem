@@ -277,8 +277,13 @@ namespace DigiMoallem.BLL.Services
                 UserName = user.UserName,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
                 RegisterDate = user.RegisterDate,
-                Balance = GetUserBalance(userName)
+                Balance = GetUserBalance(userName),
+                Description = user.Description,
+                Skills = user.Skills,
+                Experiences = user.Experiences
             };
         }
 
@@ -290,9 +295,14 @@ namespace DigiMoallem.BLL.Services
             {
                 UserName = user.UserName,
                 Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
                 PhoneNumber = user.PhoneNumber,
                 RegisterDate = user.RegisterDate,
-                Balance = await GetUserBalanceAsync(userName)
+                Balance = await GetUserBalanceAsync(userName),
+                Description = user.Description,
+                Skills = user.Skills,
+                Experiences = user.Experiences
             };
         }
         #endregion
@@ -343,7 +353,12 @@ namespace DigiMoallem.BLL.Services
             {
                 Email = user.Email,
                 ImageName = user.UserAvatar,
-                PhoneNumber = user.PhoneNumber
+                PhoneNumber = user.PhoneNumber,          
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Description = user.Description,
+                Skills = user.Skills,
+                Experiences = user.Experiences
             };
         }
         public async Task<EditProfileViewModel> GetDetailsToEditUserProfileAsync(string userName)
@@ -353,7 +368,12 @@ namespace DigiMoallem.BLL.Services
             {
                 Email = user.Email,
                 ImageName = user.UserAvatar,
-                PhoneNumber = user.PhoneNumber
+                PhoneNumber = user.PhoneNumber,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Description = user.Description,
+                Skills = user.Skills,
+                Experiences = user.Experiences              
             };
         }
         #endregion
@@ -372,7 +392,13 @@ namespace DigiMoallem.BLL.Services
                 var user = GetUserByUserName(userName);
                 user.Email = profile.Email.TextTransform();
 
-                user.UserAvatar = ImageUpload(user, profile.ImageName, profile.UserAvatar);
+                user.FirstName = profile.FirstName;
+                user.LastName = profile.LastName;
+                user.Description = profile.Description;
+                user.Skills = profile.Skills;
+                user.Experiences = profile.Experiences;
+
+                user.UserAvatar = ImageUpload(user, profile.UserAvatar);
 
                 user.PhoneNumber = profile.PhoneNumber;
 
@@ -392,7 +418,13 @@ namespace DigiMoallem.BLL.Services
                 var user = GetUserByUserName(userName);
                 user.Email = profile.Email.TextTransform();
 
-                user.UserAvatar = ImageUpload(user, profile.ImageName, profile.UserAvatar);
+                user.FirstName = profile.FirstName;
+                user.LastName = profile.LastName;
+                user.Description = profile.Description;
+                user.Skills = profile.Skills;
+                user.Experiences = profile.Experiences;
+
+                user.UserAvatar = ImageUpload(user, profile.UserAvatar);
 
                 user.PhoneNumber = profile.PhoneNumber;
 
@@ -985,7 +1017,7 @@ namespace DigiMoallem.BLL.Services
                     user.Password = model.Password.EncodePassword();
                 }
 
-                user.UserAvatar = ImageUpload(user, user.UserAvatar, model.UserAvatar);
+                user.UserAvatar = ImageUpload(user, model.UserAvatar);
 
                 return UpdateUser(user); ;
             }
@@ -1011,7 +1043,7 @@ namespace DigiMoallem.BLL.Services
                     user.Password = model.Password.EncodePassword();
                 }
 
-                user.UserAvatar = ImageUpload(user, user.UserAvatar, model.UserAvatar);
+                user.UserAvatar = ImageUpload(user, model.UserAvatar);
 
                 return await UpdateUserAsync(user);
             }
@@ -1111,8 +1143,9 @@ namespace DigiMoallem.BLL.Services
         /// </summary>
         /// <param name="imageName"></param>
         /// <param name="fileName"></param>
-        public string ImageUpload(User user, string imageName, IFormFile fileName)
+        public string ImageUpload(User user, IFormFile fileName)
         {
+            string imageName = string.Empty;
             if (fileName != null)
             {
                 string imagePath = string.Empty;

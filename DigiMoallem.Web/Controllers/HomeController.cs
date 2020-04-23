@@ -1,4 +1,5 @@
 ﻿using DigiMoallem.BLL.DTOs.Display;
+using DigiMoallem.BLL.DTOs.Works;
 using DigiMoallem.BLL.Helpers.Converters;
 using DigiMoallem.BLL.Interfaces;
 using DigiMoallem.DAL.Entities.General;
@@ -83,27 +84,56 @@ namespace DigiMoallem.Web.Controllers
         }
 
         [HttpGet]
-        [Route("Contribute")]
-        public IActionResult Contribute()
+        [Route("WorkWithUs")]
+        public IActionResult WorkWithUs()
         {
             return View();
         }
 
         //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //[Route("Contribute")]
-        //public async Task<IActionResult> Contribute(Job job)
+        //[Route("WorkWithUs")]
+        //public async Task<IActionResult> WorkWithUs(WorkInitialDataViewModel workVM)
         //{
 
-        //    job.SubmissionDate = DateTime.Now;
+        //    workVM.SubmitDate = DateTime.Now;
 
         //    if (ModelState.IsValid)
         //    {
-        //        if ((await _contributeService.AddJobAsync(job)) != null)
+        //        if ((await _workService.AddJobAsync(workVM)) != null)
         //        {
-        //            TempData["Success"] = "درخواست شما با موفقیت به دیجی معلم ارسال شد.";
+        //            return RedirectToAction("WorkWithUsComplete", "Home");
+        //        }
+        //        else
+        //        {
+        //            ViewData["DbFailure"] = "بروز خطا در سامانه لطفاً مراتب را به ایمیل info@digimoallem.ir گزارش دهید.";
 
-        //            return RedirectToAction("Contribute", "Home");
+        //            return View();
+        //        }
+        //    }
+
+        //    ViewData["InvalidInputs"] = "لطفاً اطلاعات خود را صحیح وارد نمایید.";
+
+        //    return View();
+        //}
+
+        [HttpGet]
+        [Route("WorkWithUsComplete")]
+        public IActionResult WorkWithUsComplete()
+        {
+            return View();
+        }
+
+        //[HttpPost]
+        //[Route("WorkWithUsComplete")]
+        //public async Task<IActionResult> WorkWithUsComplete(WorkComplementDataViewModel workCVM)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        if ((await _workService.AddJobAsync(workCVM)) != null)
+        //        {
+        //            TempData["Success"] = "درخواست همکاری شما با دیجی معلم با موفقیت ثبت شد.";
+
+        //            return RedirectToAction("WorkWithUsComplete", "Home");
         //        }
         //        else
         //        {

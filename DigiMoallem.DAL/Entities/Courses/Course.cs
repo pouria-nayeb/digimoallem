@@ -68,6 +68,9 @@ namespace DigiMoallem.DAL.Entities.Courses
         [Display(Name = "در انتظار تایید")]
         public bool IsCheckedByAdmin { get; set; }
 
+        [Display(Name = "دوره برگزیده")]
+        public bool? IsFavorite { get; set; }
+
         [Display(Name = "درآمد کل")]
         public int? Totalncome { get; set; }
 

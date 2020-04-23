@@ -5,7 +5,6 @@ using DigiMoallem.DAL.Entities.Transactions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Transactions;
 
 namespace DigiMoallem.DAL.Entities.Users
 {
@@ -39,7 +38,7 @@ namespace DigiMoallem.DAL.Entities.Users
         public string Email { get; set; }
 
         [Display(Name = "توضیحات")]
-        [MaxLength(500, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]
+        [MaxLength(1500, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]
         public string Description { get; set; }
 
         [Display(Name = "رمز عبور")]
@@ -53,6 +52,14 @@ namespace DigiMoallem.DAL.Entities.Users
 
         [Display(Name = "وضعیت کاربر")]
         public bool IsActive { get; set; }
+
+        [Display(Name = "مهارت ها")]
+        [MaxLength(1500, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]
+        public string Skills { get; set; }
+
+        [Display(Name = "سابقه کاری")]
+        [MaxLength(1500, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]
+        public string Experiences { get; set; }
 
         [Display(Name = "شماره همراه")]
         [MaxLength(12, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]

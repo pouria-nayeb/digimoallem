@@ -57,6 +57,8 @@ namespace DigiMoallem.Web
             services.AddTransient<IAccountingService, AccountingService>();
 
             services.AddTransient<IMessageService, MessageService>();
+
+            services.AddTransient<IWorkService, WorkService>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

@@ -11,6 +11,10 @@
     <Compile Remove="Migrations\20200418152417_AddUserDiscountCodesDbSet.Designer.cs" />
     <Compile Remove="Migrations\20200419172525_AddCourseTypeRelation.cs" />
     <Compile Remove="Migrations\20200419172525_AddCourseTypeRelation.Designer.cs" />
+    <Compile Remove="Migrations\20200422103715_AddContributionField.cs" />
+    <Compile Remove="Migrations\20200422103715_AddContributionField.Designer.cs" />
+    <Compile Remove="Migrations\20200423073159_AddWorkDbSet.cs" />
+    <Compile Remove="Migrations\20200423073159_AddWorkDbSet.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

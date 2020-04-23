@@ -21,9 +21,10 @@
     <Folder Include="Pages\Admin\Discounts\" />
     <Folder Include="Pages\Admin\Courses\" />
     <Folder Include="Pages\Admin\Messages\" />
+    <Folder Include="Pages\Admin\Works\" />
     <Folder Include="Pages\Admin\Roles\" />
     <Folder Include="Pages\Admin\Users\" />
-    <Folder Include="wwwroot\fonts\" />
+    <Folder Include="wwwroot\fonts\english\" />
     <Folder Include="wwwroot\images\fullsizes\" />
     <Folder Include="wwwroot\images\avatars\" />
     <Folder Include="wwwroot\images\courses\" />

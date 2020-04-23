@@ -1,0 +1,59 @@
+﻿@page "{id:min(1)}"
+@model DigiMoallem.Web.Pages.Admin.Works.DeleteModel
+
+@{
+    ViewData["Title"] = "حذف درخواست همکاری";
+}
+
+    <div class="container">
+        @if (ViewData["Message"] != null)
+        {
+            <div class="alert alert-danger">
+                <i class="fa fa-exclamation-circle fa-fw"></i> @ViewData["Message"]
+            </div>
+        }
+
+        <a asp-page="Index" class="btn btn-primary border border-info text-capitalize my-4">
+            <i class="fas fa-arrow-right fa-fw"></i> بازگشت
+        </a>
+
+        <form method="post">
+
+            <input type="hidden" asp-for="Work.WorkId" />
+
+            <div class="card border-primary mb-3">
+                <header class="card-header">PhoneNumber: <span class="text-light">@Model.Work.PhoneNumber</span></header>
+
+                <div class="card-body">
+                    <p class="card-text text-light">@Model.Work.FirstName @Model.Work.LastName</p>
+
+                    <hr />
+
+                    <div class="clearfix">
+                        <span class="small float-left">@Model.Work.SubmitDate.ToPersianDate()</span>
+
+                        <span class="float-right">
+                            @if (Model.Work.IsChecked)
+                            {
+                                <span class="badge badge-success text-light">بررسی شده</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-danger text-capitalize">بررسی نشده</span>
+                            }
+                        </span>
+                    </div>
+                </div>
+
+                <footer class="card-footer">
+                    <span class="small">
+                        <button type="submit" class="btn btn-outline-danger">
+                            <i class="fa fa-trash-alt fa-fw"></i> حذف
+                        </button>
+                    </span>
+                </footer>
+            </div>
+        </form>
+
+
+    </div>

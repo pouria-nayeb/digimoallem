@@ -35,6 +35,8 @@ namespace DigiMoallem.DAL.Context
 
         #region General
         public DbSet<Contact> Messages { get; set; }
+
+        public DbSet<Work> Works { get; set; }
         #endregion
 
         #region Comments - CommentQAs - Courses - Episodes - Levels - Statuses - Types - Groups - Like - Rate - UserCourse

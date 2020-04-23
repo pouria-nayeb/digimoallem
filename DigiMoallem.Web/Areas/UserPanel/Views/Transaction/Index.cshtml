@@ -1,7 +1,88 @@
-﻿
+﻿@model ChargeAccountViewModel
+
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "شارژ حساب و تاریخچه تراکنش ها";
 }
 
-<h1>Index</h1>
+<div class="container">
 
+    <div class="row">
+
+        <!-- transactions details -->
+        <div class="col-12 col-md-8">
+
+            <div class="card">
+
+                <div class="card-header">
+                    <i class="fa fa-wallet ml-1"></i> @ViewData["Title"]
+                </div>
+
+                <div class="card-body">
+                    <!-- charge account -->
+                    <form method="post" autocomplete="off">
+
+                        @if (ViewData["DbFailure"] != null)
+                        {
+                            <p class="text-danger">@ViewData["DbFailure"]</p>
+                        }
+
+                        @if (ViewData["OnlinePaymentFailure"] != null)
+                        {
+                            <p class="text-danger">@ViewData["OnlinePaymentFailure"]</p>
+                        }
+
+                        <div asp-validation-summary="ModelOnly"></div>
+
+                        <!-- amount -->
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input type="number"
+                                       asp-for="Amount"
+                                       class="form-control border border-dark rounded py-4" />
+                                <div class="input-group-append">
+                                    <button type="submit"
+                                            class="btn bg-light border border-dark input-group-text rotate-180-deg">
+                                        <i class="fas fa-wallet text-primary rotate-180-deg"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <span asp-validation-for="Amount" class="text-danger d-inline-block mb-2"></span>
+
+                            <div class="alert alert-secondary p-2">
+                                <i class="fa fa-exclamation-triangle ml-1"></i> مبلغ شارژ را به <q class="mx-1 font-weight-bolder">تومان</q> وارد نمایید.
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- transactions details -->
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <tr>
+                                <th>مبلغ</th>
+                                <th>تاریخ</th>
+                                <th>نوع تراکنش</th>
+                                <th>توضیحات</th>
+                            </tr>
+                            <partial name="_TransactionPartial" />
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- user panel sidenav -->
+        <div class="col-12 col-md-4">
+
+            <partial name="_SidebarPartial" />
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

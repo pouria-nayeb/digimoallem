@@ -135,6 +135,8 @@ namespace DigiMoallem.DAL.Migrations
 
                     b.Property<bool>("IsCheckedByAdmin");
 
+                    b.Property<bool?>("IsFavorite");
+
                     b.Property<bool>("IsHidden");
 
                     b.Property<int?>("OwnerIncome");
@@ -358,6 +360,54 @@ namespace DigiMoallem.DAL.Migrations
                     b.ToTable("Messages");
                 });
 
+            modelBuilder.Entity("DigiMoallem.DAL.Entities.General.Work", b =>
+                {
+                    b.Property<int>("WorkId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AvatarName");
+
+                    b.Property<string>("ContributionFields")
+                        .HasMaxLength(1500);
+
+                    b.Property<string>("CvTitle");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(150);
+
+                    b.Property<string>("Experiences")
+                        .HasMaxLength(1500);
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(75);
+
+                    b.Property<bool>("Gender");
+
+                    b.Property<bool>("IsChecked");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(75);
+
+                    b.Property<string>("Mobile")
+                        .HasMaxLength(12);
+
+                    b.Property<string>("PhoneNumber")
+                        .HasMaxLength(12);
+
+                    b.Property<string>("Skills")
+                        .HasMaxLength(1500);
+
+                    b.Property<DateTime>("SubmitDate");
+
+                    b.HasKey("WorkId");
+
+                    b.ToTable("Works");
+                });
+
             modelBuilder.Entity("DigiMoallem.DAL.Entities.Orders.Discount", b =>
                 {
                     b.Property<int>("DiscountId")
@@ -531,11 +581,14 @@ namespace DigiMoallem.DAL.Migrations
                         .HasMaxLength(100);
 
                     b.Property<string>("Description")
-                        .HasMaxLength(500);
+                        .HasMaxLength(1500);
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(200);
+
+                    b.Property<string>("Experiences")
+                        .HasMaxLength(1500);
 
                     b.Property<string>("FirstName")
                         .HasMaxLength(200);
@@ -555,6 +608,9 @@ namespace DigiMoallem.DAL.Migrations
                         .HasMaxLength(12);
 
                     b.Property<DateTime>("RegisterDate");
+
+                    b.Property<string>("Skills")
+                        .HasMaxLength(1500);
 
                     b.Property<string>("UserAvatar")
                         .HasMaxLength(100);

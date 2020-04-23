@@ -1,1 +1,31 @@
-﻿
+﻿@inject IUserService userService
+
+@{
+    var user = userService.GetUserByUserName(User.Identity.Name);
+}
+
+<div class="card">
+    <div class="card-header">
+        <i class="fa fa-info ml-2"></i> دسترسی ها
+    </div>
+    <div class="card-body">
+
+        <img src="~/images/avatars/@user.UserAvatar"
+             alt="@user.FirstName @user.LastName"
+             class="img-fluid d-block mx-auto rounded"
+             asp-append-version="true" />
+
+        <ul class="list-group my-2 p-0">
+            <li class="list-group-item">
+                <a asp-area="UserPanel" asp-controller="Home" asp-action="Index" class="d-block"> پروفایل </a>
+            </li>
+            <li class="list-group-item">
+                <a asp-area="UserPanel" asp-controller="Home" asp-action="Edit" class="d-block"> ویرایش حساب کاربری </a>
+            </li>
+            <li class="list-group-item">
+                <a asp-area="UserPanel" asp-controller="Home" asp-action="ChangePassword" class="d-block"> تغییر رمز عبور </a>
+            </li>
+        </ul>
+
+    </div>
+</div>

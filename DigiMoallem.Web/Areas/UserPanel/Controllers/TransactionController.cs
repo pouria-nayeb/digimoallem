@@ -39,7 +39,10 @@ namespace DigiMoallem.Web.Areas.UserPanel.Controllers
             {
                 // user inputs is valid
 
-                var transactionId = await _userService.ChargeUserAccountAsync(User.Identity.Name, chargeAccount.Amount, "شارژ حساب");
+                var transactionId = await _userService.ChargeUserAccountAsync(User.Identity.Name, 
+                    chargeAccount.Amount, 
+                    "شارژ حساب");
+
                 if (transactionId != -1)
                 {
                     // success

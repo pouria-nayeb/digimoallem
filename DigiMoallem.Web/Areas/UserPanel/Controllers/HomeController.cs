@@ -42,7 +42,6 @@ namespace DigiMoallem.Web.Areas.UserPanel.Controllers
         /// <param name="model"></param>
         [Route("UserPanel/Edit")]
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(EditProfileViewModel profile)
         {
             if (ModelState.IsValid)

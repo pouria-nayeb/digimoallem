@@ -15,7 +15,7 @@
 
     <h1 class="my-5"> <i class="fa fa-user-edit ml-2"></i> @ViewData["Title"]</h1>
 
-    <form method="post" enctype="multipart/form-data" class="md-form" autocomplete="off">
+    <form method="post" enctype="multipart/form-data" class="form-group" autocomplete="off">
 
         <div asp-validation-summary="ModelOnly"></div>
 
@@ -145,8 +145,7 @@
                             <div class="custom-file">
                                 <input type="file" class="custom-file-input"
                                        asp-for="EditUserViewModel.UserAvatar"
-                                       id="image"
-                                       name="Image" />
+                                       id="image" />
                                 <label class="custom-file-label" style="padding-right:6rem"
                                        asp-for="EditUserViewModel.UserAvatar">انتخاب فایل</label>
                             </div>

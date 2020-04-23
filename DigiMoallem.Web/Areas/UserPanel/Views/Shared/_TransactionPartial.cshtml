@@ -1,1 +1,43 @@
-﻿
+﻿@inject IUserService userService
+
+@{
+    var transactions = await userService.GetUserTransactionsAsync(User.Identity.Name);
+}
+
+@if (transactions.Count() == 0)
+{
+    <tr class="alert alert-light">
+        <td colspan="5">
+            <i class="fa fa-info-circle faa-flash animated ml-1"></i> تراکنشی جهت نمایش وجود ندارد.
+        </td>
+    </tr>
+}
+else
+{
+    @foreach (var transaction in transactions)
+    {
+        <tr>
+            <td>@transaction.Amount.ThreeDigitSeperator()</td>
+            <td class="english-font">@transaction.TransactionDate.ToPersianDate()</td>
+            <td>
+                @if (transaction.TransactionType == 1)
+                {
+                    <text>واریز</text>
+                }
+                else
+                {
+                    <text>برداشت</text>
+                }
+            </td>
+            <td>
+
+                @{
+                    string anchorLink = "<a href='/Cart/" + transaction.Description.Replace("فاکتور شماره #", "") + "'>#</a>";
+                }
+
+                @Html.Raw(transaction.Description.Replace("#", anchorLink))
+
+            </td>
+        </tr>
+    }
+}

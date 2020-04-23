@@ -1,7 +1,180 @@
-﻿
+﻿@model DigiMoallem.DAL.Entities.Orders.Order
+@inject IUserService _userService;
+
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "جزئیات فاکتور";
+    int totalPrice = Model.TotalPrice;
+    string discountType = ViewBag.DiscountType.ToString();
 }
 
-<h1>Index</h1>
+<div class="container my-4">
+    <div class="row">
 
+        <div class="col-12 col-md-8">
+
+            <div class="card">
+
+                <div class="card-header">
+                    <i class="fa fa-shopping-bag ml-1"></i> @ViewData["Title"]
+                </div>
+
+                <div class="card-body p-0">
+
+                    @if (ViewBag.IsFinally == true)
+                    {
+                        <div class="alert alert-success">
+                            <i class="fa fa-check mx-1"></i> فاکتور شما با موفقیت پرداخت شد.
+                        </div>
+                    }
+
+                    @if (discountType != "")
+                    {
+                        switch (discountType)
+                        {
+                            case "Success":
+                                <div class="alert alert-success">کد تخفیف با موفقیت اعمال شد.</div>
+                                break;
+                            case "Expired":
+                                <div class="alert alert-danger">زمان استفاده از این کد تخفیف پایان یافته است.</div>
+                                break;
+                            case "NotFound":
+                                <div class="alert alert-danger">کد تخفیف یافت نشد.</div>
+                                break;
+                            case "Finished":
+                                <div class="alert alert-danger">کد تخفیف تمام شده است.</div>
+                                break;
+                            case "UsedByUser":
+                                <div class="alert alert-danger">این کد تخفیف توسط شما استفاده شده است.</div>
+                                break;
+                            default:
+                                <div class="alert alert-danger">درخواست نامعتبر.</div>
+                                break;
+                        }
+                    }
+
+                    @if (TempData["Success"] != null)
+                    {
+                        // token success
+                        <div class="alert alert-success">
+                            @TempData["Success"]
+                        </div>
+                    }
+
+                    @if (TempData["Failure"] != null)
+                    {
+                        // token failure
+                        <div class="alert alert-danger">
+                            @TempData["Failure"]
+                        </div>
+                    }
+
+
+                    @if (!Model.OrderDetails.Any())
+                    {
+                        <div class="alert alert-warning">
+                            <i class="fa fa-book mx-2"></i> در سبد خرید شما دوره ای موجود نمی باشد.
+                        </div>
+                    }
+                    else
+                    {
+                        <!-- order table -->
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>عنوان دوره</th>
+                                        <th>تعداد</th>
+                                        <th>قیمت</th>
+                                        @if (!Model.IsFinally)
+                                        {
+                                            <th class="text-center">عملیات</th>
+                                        }
+                                    </tr>
+                                </thead>
+
+                                @foreach (var orderDetail in Model.OrderDetails)
+                                {
+                                    <thead>
+                                        <tr>
+                                            <td>
+                                                <a href="/Course/@orderDetail.CourseId">@orderDetail.Course.Title</a>
+                                            </td>
+                                            <td class="english-font">
+                                                @orderDetail.Count
+                                            </td>
+                                            <td>
+                                                @orderDetail.Price.ThreeDigitSeperator()
+                                            </td>
+                                            @if (!Model.IsFinally)
+                                            {
+                                                <td class="text-center">
+                                                    <a href="/DeleteOrder/@orderDetail.CourseId" 
+                                                       class="btn btn-danger text-light btn-sm">
+                                                        حذف
+                                                    </a>
+                                                </td>
+                                            }
+                                        </tr>
+                                    </thead>
+                                }
+                                <tfoot class="bg-light">
+                                    @if (!Model.IsFinally)
+                                    {
+                                        <tr>
+                                            <td colspan="3" class="text-left">کد تخفیف:</td>
+                                            <td>
+                                                <form action="/ApplyDiscount" method="get">
+                                                    <input type="hidden" name="orderId" value="@Model.OrderId" />
+
+                                                    <input type="text" name="code" class="form-control" />
+                                                    <button type="submit" class="btn btn-dark btn-block mt-1">
+                                                        اعمال تخفیف
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    }
+                                    <tr>
+                                        <td colspan="3" class="text-left">جمع کل:</td>
+                                        <td>@totalPrice.ThreeDigitSeperator()</td>
+                                    </tr>
+                                </tfoot>
+
+                            </table>
+
+                            @if (!Model.IsFinally)
+                            {
+                                @if (_userService.GetUserBalance(User.Identity.Name) >= totalPrice)
+                                {
+                                    <!-- enough balance -->
+                                    <a class="btn btn-success" href="/Checkout/@Model.OrderId"> اعمال خرید </a>
+                                }
+                                else
+                                {
+                                    <!-- not enough balance -->
+                                    <div class="alert alert-danger">
+                                        موجود حساب کاربری شما کافی نمی باشد، لطفاً موجودی خود را از طریق
+                                        <a href="/UserPanel/Transactions" class="alert-link mx-2">این لینک</a>
+                                        شارژ نمایید.
+                                    </div>
+                                }
+                            }
+
+                        </div>
+                    }
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-12 col-md-4">
+
+            <partial name="_Sidebar" />
+
+        </div>
+
+    </div>
+</div>

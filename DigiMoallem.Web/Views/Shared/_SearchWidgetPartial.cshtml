@@ -1,12 +1,14 @@
-﻿<form asp-area="" asp-controller="Home" asp-action="Search" autocomplete="off">
+﻿<form asp-area="" asp-controller="Course" asp-action="Index" autocomplete="off" method="get">
     <div class="form-group my-5">
         <label class="control-label search-font-size" for="search">جستجو :</label>
         <div class="form-group">
             <div class="input-group mb-3">
-                <input type="text" 
-                       id="search"
-                       name="query"
+                <input type="text"
+                       id="tags"
+                       name="filter"
                        class="form-control border border-dark rounded py-4"
+                       value="@(Context.Request.Query["q"].ToString() != null ?
+                           Context.Request.Query["q"].ToString() : "")"
                        placeholder="جستجو بر اساس نام دوره ..." />
                 <div class="input-group-append">
                     <button class="btn btn-primary bg-purple text-white input-group-text border border-dark rotate-180-deg">

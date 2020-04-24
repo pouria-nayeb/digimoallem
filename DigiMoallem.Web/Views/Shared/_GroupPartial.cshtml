@@ -2,8 +2,10 @@
 
 <div class="col-6 col-sm-4 col-md-3 col-lg-2">
     <div class="card group my-3">
-        <img src="~/images/groups/@Model.ImageName"
-             alt="@Model.Title"
-             class="w-100" />
+        <a asp-area="" asp-controller="Course" asp-action="Index" asp-route-selectedGroups="@Model.GroupId">
+            <img src="~/images/groups/@Model.ImageName"
+                 alt="@Model.Title"
+                 class="w-100" />
+        </a>
     </div>
 </div>

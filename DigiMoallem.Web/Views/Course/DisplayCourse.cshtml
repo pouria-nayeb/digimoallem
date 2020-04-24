@@ -1,7 +1,440 @@
-﻿
+﻿@model Course
+
+@inject IOrderService _orderService
+@inject ICourseService _courseService
+
 @{
-    ViewData["Title"] = "DisplayCourse";
+    ViewData["Title"] = Model.Title;
+    bool IsUserBuyCourse = false;
+
+    if (User.Identity.IsAuthenticated)
+    {
+        IsUserBuyCourse = await _orderService.IsUserBuyCourseAsync(User.Identity.Name, Model.CourseId);
+    }
+
+    TimeSpan totalTime = new TimeSpan(Model.CourseEpisodes.Sum(ce => ce.EpisodeLength.Ticks));
+
+    int i = 1;
 }
 
-<h1>DisplayCourse</h1>
+@*@section MetaTags {
+        <meta name="description" content="@Model.Title" />
+        <meta name="keywords" content="@Model.Tags.Replace("-",",")" />
+    }*@
 
+<div class="container">
+
+    <!-- title -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card border-secondary my-5">
+                <div class="card-header">عنوان دوره</div>
+                <div class="card-body">
+                    <h1 class="course-title">@ViewData["Title"]</h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-5 my-4">
+            <!-- course image -->
+            <div class="mb-3">
+                <img src="~/images/courses/@Model.ImageName" alt="@ViewData["Title"]" class="img-fluid" />
+                @if (Model.Price > 0 && !IsUserBuyCourse)
+                {
+                    <a href="/OrderCourse/@Model.CourseId" class="btn btn-success btn-lg btn-block">
+                        <i class="fa fa-cart-plus ml-1"></i> افزودن به سبد خرید
+                    </a>
+                }
+            </div>
+
+            <!-- about publisher -->
+            <div class="row m-0 bg-light-blue text-white border border-info">
+                <div class="col-4">
+                    <img src="~/images/resources/logo.png" alt="لوگو دیجی معلم" class="img-fluid" />
+                </div>
+                <div class="col-8">
+                    <h5 class="border-bottom border-white py-2">دیجی معلم</h5>
+                    <p class="text-justify">دیجی معلم بزرگ‌ترین ناشر دیجیتال آموزش‌های تخصصی، دانشگاهی و مهندسی دانشگاه آزاد اسلامی است.</p>
+                </div>
+            </div>
+
+            <!-- teacher -->
+            <h4 class="my-2">درباره مدرس</h4>
+            <div class="row m-0 bg-light-yellow text-white border border-warning">
+                <div class="col-4">
+                    <img src="~/images/avatars/@Model.User.UserAvatar"
+                         alt="@User.Identity.Name "
+                         class="img-fluid rounded-circle mt-2" />
+                </div>
+                <div class="col-8">
+                    <div class="border-bottom border-white">
+                        <h5 class="my-2">@Model.User.FirstName @Model.User.LastName</h5>
+                        <p>کارشناس علوم اسلامی وب</p>
+                    </div>
+                    <p class="text-justify">
+                        @Model.User.Description
+                        <a href="#" class="text-warning d-inline-block">ادامه ...</a>
+                    </p>
+                </div>
+            </div>
+
+            <div class="card my-3">
+                <div class="card-header">جزئیات دوره</div>
+                <div class="card-body p-0">
+                    <table class="table table-striped table-bordered m-0">
+                        <tr>
+                            <th>سطح دوره:</th>
+                            <td>@Model.CourseLevel.Title</td>
+                        </tr>
+                        <tr>
+                            <th>مبلغ دوره:</th>
+                            <td>
+                                @if (Model.Price == 0)
+                                {
+                                    <!-- course is free -->
+                                    <text>رایگان</text>
+                                }
+                                else
+                                {
+                                    @if (!IsUserBuyCourse)
+                                    {
+                                        <!-- is not bought by the user -->
+                                        <text>@Model.Price.ThreeDigitSeperator()</text>
+                                    }
+                                    else
+                                    {
+                                        <text>خریداری شده</text>
+                                    }
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>وضعیت دوره:</th>
+                            <td>
+                                @if (Model.CourseStatus.Title == "در حال برگزاری")
+                                {
+                                    <i class="fa fa-circle-notch fa-spin ml-1"></i> @Model.CourseStatus.Title
+                                }
+                                else
+                                {
+                                    <i class="fa fa-stamp ml-1"></i> @Model.CourseStatus.Title
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>تاریخ شروع دوره:</th>
+                            <td>@Model.CreateDate.ToPersianDate()</td>
+                        </tr>
+                        @if (Model.UpdateDate != null)
+                        {
+                            <tr>
+                                <th>تاریخ بروزرسانی:</th>
+                                <td>@Model.UpdateDate.Value.ToPersianDate()</td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-7 my-4">
+            <div class="row bg-light-blue text-white m-0">
+                <!-- category -->
+                <div class="col-4 py-2">
+                    <p class="text-center border-bottom border-white py-2">دسته بندی</p>
+                    <p class="text-center">@Model.Group.Title</p>
+                </div>
+                <!-- course type -->
+                <div class="col-4 py-2">
+                    <p class="text-center border-bottom border-white py-2">نوع آموزش</p>
+                    <p class="text-center">@Model.CourseTypes.Title</p>
+                </div>
+                <!-- total hours -->
+                <div class="col-4 py-2">
+                    <p class="text-center border-bottom border-white py-2">مدت آموزش</p>
+                    <p class="text-center english-font text-pure-white">@totalTime</p>
+                </div>
+            </div>
+
+            <!-- course description -->
+            <div class="card border-secondary my-3">
+                <div class="card-header">توضیحات دوره</div>
+                <div class="card-body">
+                    @Html.Raw(Model.Description)
+
+                    <!-- keywords -->
+                    @if (Model.Tags != null)
+                    {
+                        <div class="my-1 py-2 border-top border-secondary">برچسب ها:</div>
+                        @foreach (var tag in Model.Tags.Split("-", StringSplitOptions.RemoveEmptyEntries))
+                        {
+                            <a href="/Courses?filter=@tag" class="btn btn-dark btn-sm">@tag</a>
+                        }
+                    }
+
+                    <div class="text-left mt-4">
+                        اشتراک گذاری:
+                        <!-- twitter -->
+                        <a href="https://twitter.com/intent/tweet?url=https://domain.com/Course/@Model.CourseId" class="px-2 fa-lg tw-ic"><i class="fab fa-twitter"></i></a>
+                        <!-- google -->
+                        <a href="https://plus.google.com/share?url=https://domain.com/Course/@Model.CourseId" class="px-2 fa-lg gplus-ic"><i class="fab fa-google"></i></a>
+                        <!-- facebook -->
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://domain.ir/Course/@Model.CourseId" class="px-2 fa-lg fb-ic"><i class="fab fa-facebook-f"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-black-transparent mt-3">
+                @if (Model.Demo != null)
+                {
+                    <video class="responsive-demo d-block mx-auto w-100" controls>
+                        <source src="/Demos/@Model.Demo" type="video/mp4" />
+                    </video>
+                }
+            </div>
+
+            <div class="row bg-light-blue text-white m-0">
+                <div class="col-4">
+                    <!-- price -->
+                    <p class="text-center border-bottom border-white py-2">مبلغ دوره</p>
+                    <p class="text-center">
+                        @if (Model.Price == 0)
+                        {
+                            <!-- course is free -->
+                            <text>رایگان</text>
+                        }
+                        else
+                        {
+                            @if (!IsUserBuyCourse)
+                            {
+                                <!-- is not bought by the user -->
+                                <text>@Model.Price.ThreeDigitSeperator()</text>
+                            }
+                            else
+                            {
+                                <text>خریداری شده</text>
+                            }
+                        }
+                    </p>
+                </div>
+                <div class="col-4">
+                    <!-- students count -->
+                    <p class="text-center border-bottom border-white py-2">تعداد دانشجویان</p>
+                    <p class="text-center"><span class="english-font text-pure-white">@Model.UserCourses.Count()</span> نفر</p>
+                </div>
+                <div class="col-4">
+                    <!-- episodes count -->
+                    <p class="text-center border-bottom border-white py-2">تعداد دوره ها</p>
+                    <p class="text-center"><span class="english-font text-pure-white">@Model.CourseEpisodes.Count()</span></p>
+                </div>
+            </div>
+
+            <div class="card border-secondary my-5">
+                <div class="card-body">
+                    <!-- tabs -->
+                    <div class="my-1">
+                        <ul class="nav nav-tabs p-1" id="myTab" role="tablist">
+
+                            <!-- episodes -->
+                            <li class="nav-item">
+                                <a class="nav-link active"
+                                   id="home-tab"
+                                   data-toggle="tab"
+                                   href="#home"
+                                   role="tab"
+                                   aria-controls="home"
+                                   aria-selected="true">لیست دوره ها</a>
+                            </li>
+
+                            <!-- comments -->
+                            <li class="nav-item">
+                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">نظرات</a>
+                            </li>
+
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+
+                            <!-- episodes list -->
+                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+
+                                <!-- episode -->
+                                @if (Model.CourseEpisodes.Any())
+                                {
+                                    @foreach (var episode in Model.CourseEpisodes)
+                                    {
+                                        <div class="margin-16 rounded border border-secondary padding-16">
+                                            <div class="row m-0">
+                                                <div class="col-12 border-bottom border-secondary pb-2">
+                                                    @if (User.Identity.IsAuthenticated)
+                                                    {
+                                                        @if (episode.IsFree || IsUserBuyCourse)
+                                                        {
+                                                            <a href="/DownloadFile/@episode.CourseEpisodeId">
+                                                                <span class="badge badge-primary badge-pill text-pure-white
+                                                                      p-2 border border-secondary english-font">
+                                                                    @(i++)
+                                                                </span>
+                                                                @episode.Title
+                                                            </a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a href="/OrderCourse/@Model.CourseId">
+                                                                <span class="badge badge-primary badge-pill p-2 text-pure-white
+                                                                      border border-secondary english-font">
+                                                                    @(i++)
+                                                                </span>
+                                                                @episode.Title
+                                                            </a>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <a asp-area="" asp-controller="Account" asp-action="Login">
+                                                            <span class="badge badge-primary badge-pill p-2 text-pure-white
+                                                                  border border-secondary english-font ">
+                                                                @(i++)
+                                                            </span>
+                                                            @episode.Title
+                                                        </a>
+                                                    }
+
+                                                </div>
+                                                <div class="col-12 clearfix mt-1">
+
+                                                    @if (episode.IsFree)
+                                                    {
+                                                        <span class="badge badge-success float-right">رایگان</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="badge badge-warning float-right">نقدی</span>
+                                                    }
+
+                                                    <span class="badge badge-primary float-left
+                                                          english-font text-pure-white">@episode.EpisodeLength</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                }
+                                else
+                                {
+                                    <div class="alert alert-info">
+                                        دوره ای برای این درس درج نشده است.
+                                    </div>
+                                }
+
+                            </div>
+
+                            <!-- comments -->
+                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+
+                                @if (Model.DisplayComment)
+                                {
+                                    if (User.Identity.IsAuthenticated)
+                                    {
+                                        if (Model.Price == 0)
+                                        {
+                                            <form method="post"
+                                                  data-ajax="true"
+                                                  data-ajax-method="post"
+                                                  data-ajax-mode="replace"
+                                                  data-ajax-update="#listComment"
+                                                  data-ajax-success="Success"
+                                                  class="p-3">
+
+                                                <!-- courseId -->
+                                                <input type="hidden" name="comment.CourseId" value="@Model.CourseId" />
+
+                                                <div class="m-2 py-4">
+                                                    <label for="comment_Body">متن پیام</label>
+                                                    <textarea class="form-control"
+                                                              id="comment_Body"
+                                                              name="comment.Body"
+                                                              rows="4"></textarea>
+                                                    <button class="btn btn-success mt-2">درج نظر</button>
+                                                </div>
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            @if (!IsUserBuyCourse)
+                                            {
+                                                <form method="post"
+                                                      data-ajax="true"
+                                                      data-ajax-method="post"
+                                                      data-ajax-mode="replace"
+                                                      data-ajax-update="#listComment"
+                                                      data-ajax-success="Success"
+                                                      class="p-3">
+
+                                                    <!-- courseId -->
+                                                    <input type="hidden" name="comment.CourseId" value="@Model.CourseId" />
+
+                                                    <div class="m-2 py-4">
+                                                        <label for="comment_Body">متن پیام</label>
+                                                        <textarea class="form-control"
+                                                                  id="comment_Body"
+                                                                  name="comment.Body"
+                                                                  rows="4"></textarea>
+                                                        <button class="btn btn-success mt-2">درج نظر</button>
+                                                    </div>
+                                                </form>
+                                            }
+                                            else
+                                            {
+                                                <div class="alert alert-info">
+                                                    تنها کاربرانی که دوره را خریده باشند می توانند نظر خود را درج کنند.
+                                                </div>
+                                            }
+                                        }
+
+                                        <!-- comment list -->
+                                        <div id="listComment"></div>
+                                    }
+                                    else
+                                    {
+                                        <div class="alert alert-info mt-4">
+                                            جهت درج نظر شما باید وارد حساب کاربری خود شوید.
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="alert alert-info mt-4">
+                                        امکان درج نظر تا زمان اتمام دوره وجود ندارد.
+                                    </div>
+                                }
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+    function Success() {
+        $("#comment_Body").val("");
+    }
+
+    $(document).ready(function () {
+
+        $("#listComment").load("/Course/ShowComment/" + @Model.CourseId + "?pageId=" + 1);
+
+    });
+
+    function commentPage(pageId)
+    {
+
+        $("#listComment").load("/Course/ShowComment/" + @Model.CourseId + "?pageId=" + pageId);
+
+    }
+    </script>
+}

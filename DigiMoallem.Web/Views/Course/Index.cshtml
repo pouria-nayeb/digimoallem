@@ -1,7 +1,118 @@
-﻿
+﻿@model Tuple<List<DigiMoallem.BLL.DTOs.Courses.DisplayCourseViewModel>, int>
+
 @{
-    ViewData["Title"] = "Index";
+    string filter = Context.Request.Query["filter"].ToString();
+    ViewData["Title"] = "لیست دوره ها";
+    List<Group> groups = ViewBag.Groups as List<Group>;
+    List<int> selectedGroups = ViewBag.SelectedGroups as List<int>;
+    string type = ViewBag.Type as string;
+    string sortedBy = ViewBag.SortedBy as string;
 }
 
-<h1>Index</h1>
+<form id="formFilter" asp-area="" asp-controller="Course" asp-action="Index" method="get">
 
+    <input type="hidden" id="pageId" name="pageId" value="@ViewBag.PageId.ToString()" />
+
+    <div class="container">
+        <h1 class="heading-font-size my-5"><i class="fa fa-book-open ml-2"></i> @ViewData["Title"]</h1>
+
+        <div class="row">
+
+            <div class="col-12 col-sm-6">
+
+                <!-- search -->
+                <div class="form-group">
+                    <label class="control-label search-font-size" for="search">جستجو :</label>
+                    <div class="form-group">
+                        <div class="input-group mb-3">
+                            <input type="text" id="tags" value="@( (!string.IsNullOrEmpty(filter)) ? filter : "" )" name="filter" class="form-control border border-dark rounded py-4" placeholder="جستجو بر اساس نام دوره ...">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary bg-purple text-white input-group-text border border-dark rotate-180-deg">
+                                    <i class="fa fa-search fa-fw rotate-180-deg"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-12 col-sm-6 text-center my-5">
+
+                <!-- all -->
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" class="custom-control-input" @((type == "all") ? "checked" : "") id="all" name="type" value="all" onclick="changeGroup()">
+                    <label class="custom-control-label" for="all">همه</label>
+                </div>
+
+                <!-- for sale -->
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" class="custom-control-input" @((type == "forSale") ? "checked" : "") id="for-sale" name="type" value="forSale" onclick="changeGroup()">
+                    <label class="custom-control-label" for="for-sale">خریدنی</label>
+                </div>
+
+                <!-- free -->
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" class="custom-control-input" @((type == "free") ? "checked" : "") id="free" name="type" value="free" onclick="changeGroup()">
+                    <label class="custom-control-label" for="free">رایگان</label>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            @if (Model.Item1.Any())
+            {
+                @foreach (var course in Model.Item1)
+                {
+                    <partial name="_CoursePartial" model="course" />
+                }
+            }
+            else
+            {
+                <div class="col-12">
+                    <div class="alert bg-white-transparent text-black border border-dark">
+                        دوره ای با مشخصات یاد شده یافت نشد.
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="col-12">
+            @if (Model.Item2 > 1)
+                {
+            <!-- pagination -->
+            <ul class="pagination pagination-sm">
+                @for (int i = 1; i <= Model.Item2; i++)
+                {
+                    <li class="page-item english-font @((ViewBag.PageId == i) ? "active" : "")" onclick="pageChange(@i)">
+                        <a class="page-link" href="javascript:void(0)">@i</a>
+                    </li>
+                }
+            </ul>
+            }
+        </div>
+
+    </div>
+
+
+</form>
+
+@section Scripts {
+
+    <script>
+
+        function pageChange(id) {
+            $("#pageId").val(id);
+            $("#formFilter").submit();
+        }
+
+        function changeGroup() {
+            $("#formFilter").submit();
+        }
+    </script>
+
+}

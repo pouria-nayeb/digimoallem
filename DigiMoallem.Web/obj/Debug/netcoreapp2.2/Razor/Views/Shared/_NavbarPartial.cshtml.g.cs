@@ -43,8 +43,18 @@ using DigiMoallem.BLL.Interfaces;
 
 #line default
 #line hidden
+#line 9 "C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\Views\_ViewImports.cshtml"
+using DigiMoallem.BLL.DTOs.Works;
+
+#line default
+#line hidden
+#line 10 "C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\Views\_ViewImports.cshtml"
+using DigiMoallem.BLL.Helpers.Converters;
+
+#line default
+#line hidden
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"18a66eaddb799b6257bfc7b73159430a27a1c779", @"/Views/Shared/_NavbarPartial.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"8c46b6595ec7c259c4823c37c33d60cf887e178a", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"427df6836bb3d6586c3f85e8750c5b6af5aa6643", @"/Views/_ViewImports.cshtml")]
     public class Views_Shared__NavbarPartial : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<dynamic>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("src", new global::Microsoft.AspNetCore.Html.HtmlString("~/images/resources/logo.png"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -94,12 +104,12 @@ using DigiMoallem.BLL.Interfaces;
             WriteLiteral("<nav class=\"navbar navbar-expand-lg navbar-light py-2 bg-light\">\r\n    ");
             EndContext();
             BeginContext(70, 277, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "18a66eaddb799b6257bfc7b73159430a27a1c77910726", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "18a66eaddb799b6257bfc7b73159430a27a1c77911053", async() => {
                 BeginContext(166, 10, true);
                 WriteLiteral("\r\n        ");
                 EndContext();
                 BeginContext(176, 142, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "18a66eaddb799b6257bfc7b73159430a27a1c77911115", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "18a66eaddb799b6257bfc7b73159430a27a1c77911442", async() => {
                 }
                 );
                 __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -150,7 +160,7 @@ using DigiMoallem.BLL.Interfaces;
                 ");
             EndContext();
             BeginContext(763, 87, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "18a66eaddb799b6257bfc7b73159430a27a1c77914560", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "18a66eaddb799b6257bfc7b73159430a27a1c77914887", async() => {
                 BeginContext(836, 10, true);
                 WriteLiteral(" صفحه اصلی");
                 EndContext();
@@ -177,7 +187,7 @@ using DigiMoallem.BLL.Interfaces;
             WriteLiteral("\r\n            </li>\r\n            <li class=\"nav-item\">\r\n                ");
             EndContext();
             BeginContext(922, 86, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "18a66eaddb799b6257bfc7b73159430a27a1c77916501", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "18a66eaddb799b6257bfc7b73159430a27a1c77916828", async() => {
                 BeginContext(995, 9, true);
                 WriteLiteral("درباره ما");
                 EndContext();
@@ -204,7 +214,7 @@ using DigiMoallem.BLL.Interfaces;
             WriteLiteral("\r\n            </li>\r\n            <li class=\"nav-item\">\r\n                ");
             EndContext();
             BeginContext(1080, 89, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "18a66eaddb799b6257bfc7b73159430a27a1c77918442", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "18a66eaddb799b6257bfc7b73159430a27a1c77918769", async() => {
                 BeginContext(1155, 10, true);
                 WriteLiteral("تماس با ما");
                 EndContext();
@@ -231,7 +241,7 @@ using DigiMoallem.BLL.Interfaces;
             WriteLiteral("\r\n            </li>\r\n            <li class=\"nav-item\">\r\n                ");
             EndContext();
             BeginContext(1241, 94, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "18a66eaddb799b6257bfc7b73159430a27a1c77920388", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "18a66eaddb799b6257bfc7b73159430a27a1c77920715", async() => {
                 BeginContext(1319, 12, true);
                 WriteLiteral("همکاری با ما");
                 EndContext();
@@ -267,7 +277,7 @@ using DigiMoallem.BLL.Interfaces;
             WriteLiteral("            <ul class=\"navbar-nav pr-3 mr-auto\">\r\n                <li class=\"nav-item\">\r\n                    ");
             EndContext();
             BeginContext(1538, 192, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "18a66eaddb799b6257bfc7b73159430a27a1c77922712", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "18a66eaddb799b6257bfc7b73159430a27a1c77923039", async() => {
                 BeginContext(1633, 93, true);
                 WriteLiteral("\r\n                        <i class=\"fa fa-house-user ml-1\"></i> پروفایل\r\n                    ");
                 EndContext();
@@ -294,7 +304,7 @@ using DigiMoallem.BLL.Interfaces;
             WriteLiteral("\r\n                </li>\r\n                <li class=\"nav-item\">\r\n                    ");
             EndContext();
             BeginContext(1814, 173, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "18a66eaddb799b6257bfc7b73159430a27a1c77924761", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "18a66eaddb799b6257bfc7b73159430a27a1c77925088", async() => {
                 BeginContext(1891, 92, true);
                 WriteLiteral("\r\n                        <i class=\"fa fa-sign-out-alt ml-1\"></i> خروج\r\n                    ");
                 EndContext();
@@ -329,7 +339,7 @@ using DigiMoallem.BLL.Interfaces;
             WriteLiteral("            <ul class=\"navbar-nav pr-3 mr-auto\">\r\n                <li class=\"nav-item\">\r\n                    ");
             EndContext();
             BeginContext(2176, 180, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "18a66eaddb799b6257bfc7b73159430a27a1c77926958", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "18a66eaddb799b6257bfc7b73159430a27a1c77927285", async() => {
                 BeginContext(2253, 99, true);
                 WriteLiteral("\r\n                        <i class=\"fa fa-sign-in-alt ml-1\"></i> ورود به سایت\r\n                    ");
                 EndContext();
@@ -354,7 +364,7 @@ using DigiMoallem.BLL.Interfaces;
             WriteLiteral("\r\n                </li>\r\n                <li class=\"nav-item\">\r\n                    ");
             EndContext();
             BeginContext(2440, 173, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "18a66eaddb799b6257bfc7b73159430a27a1c77928815", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "18a66eaddb799b6257bfc7b73159430a27a1c77929142", async() => {
                 BeginContext(2517, 92, true);
                 WriteLiteral("\r\n                        <i class=\"fa fa-user-plus ml-1\"></i> ثبت نام\r\n                    ");
                 EndContext();

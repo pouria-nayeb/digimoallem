@@ -18,14 +18,17 @@ namespace DigiMoallem.Web.Controllers
         private readonly IUserService _userService;
         private readonly ICourseService _courseService;
         private readonly IMessageService _messageService;
+        private readonly IWorkService _workService;
 
         public HomeController(IUserService userService,
             ICourseService courseService,
-            IMessageService messageService)
+            IMessageService messageService,
+            IWorkService workService)
         {
             _userService = userService;
             _courseService = courseService;
             _messageService = messageService;
+            _workService = workService;
         }
 
         /// <summary>
@@ -90,63 +93,66 @@ namespace DigiMoallem.Web.Controllers
             return View();
         }
 
-        //[HttpPost]
-        //[Route("WorkWithUs")]
-        //public async Task<IActionResult> WorkWithUs(WorkInitialDataViewModel workVM)
-        //{
-
-        //    workVM.SubmitDate = DateTime.Now;
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        if ((await _workService.AddJobAsync(workVM)) != null)
-        //        {
-        //            return RedirectToAction("WorkWithUsComplete", "Home");
-        //        }
-        //        else
-        //        {
-        //            ViewData["DbFailure"] = "بروز خطا در سامانه لطفاً مراتب را به ایمیل info@digimoallem.ir گزارش دهید.";
-
-        //            return View();
-        //        }
-        //    }
-
-        //    ViewData["InvalidInputs"] = "لطفاً اطلاعات خود را صحیح وارد نمایید.";
-
-        //    return View();
-        //}
-
-        [HttpGet]
-        [Route("WorkWithUsComplete")]
-        public IActionResult WorkWithUsComplete()
+        [HttpPost]
+        [Route("WorkWithUs")]
+        public async Task<IActionResult> WorkWithUs(WorkInitialDataViewModel workVM)
         {
+
+            workVM.SubmitDate = DateTime.Now;
+
+            if (ModelState.IsValid)
+            {
+                var work = await _workService.AddWorkAsync(workVM);
+                if (work != null)
+                {
+                    return RedirectToAction("WorkWithUsComplete", "Home", new { id = work.WorkId });
+                }
+                else
+                {
+                    ViewData["DbFailure"] = "بروز خطا در سامانه لطفاً مراتب را به ایمیل info@digimoallem.ir گزارش دهید.";
+
+                    return View();
+                }
+            }
+
+            ViewData["InvalidInputs"] = "لطفاً اطلاعات خود را صحیح وارد نمایید.";
+
             return View();
         }
 
-        //[HttpPost]
-        //[Route("WorkWithUsComplete")]
-        //public async Task<IActionResult> WorkWithUsComplete(WorkComplementDataViewModel workCVM)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        if ((await _workService.AddJobAsync(workCVM)) != null)
-        //        {
-        //            TempData["Success"] = "درخواست همکاری شما با دیجی معلم با موفقیت ثبت شد.";
+        [HttpGet]
+        [Route("WorkWithUsComplete")]
+        public IActionResult WorkWithUsComplete(int id)
+        {
+            var work = _workService.GetWorkCompById(id);
 
-        //            return RedirectToAction("WorkWithUsComplete", "Home");
-        //        }
-        //        else
-        //        {
-        //            ViewData["DbFailure"] = "بروز خطا در سامانه لطفاً مراتب را به ایمیل info@digimoallem.ir گزارش دهید.";
+            return View(work);
+        }
 
-        //            return View();
-        //        }
-        //    }
+        [HttpPost]
+        [Route("WorkWithUsComplete")]
+        public async Task<IActionResult> WorkWithUsComplete(WorkComplementDataViewModel workCVM)
+        {
+            if (ModelState.IsValid)
+            {
+                if ((await _workService.UpdateWorkAsync(workCVM)) != null)
+                {
+                    TempData["SuccessWork"] = "درخواست همکاری شما با موفقیت ثبت شد، تیم دیجی معلم در صورت تمایل با شما تماس خواهد گرفت.";
 
-        //    ViewData["InvalidInputs"] = "لطفاً اطلاعات خود را صحیح وارد نمایید.";
+                    return RedirectToAction("WorkWithUs", "Home");
+                }
+                else
+                {
+                    ViewData["DbFailure"] = "بروز خطا در سامانه لطفاً مراتب را به ایمیل info@digimoallem.ir گزارش دهید.";
 
-        //    return View();
-        //}
+                    return View();
+                }
+            }
+
+            ViewData["InvalidInputs"] = "لطفاً اطلاعات خود را صحیح وارد نمایید.";
+
+            return View();
+        }
 
         /// <summary>
         /// User redirect to this page after successful transaction

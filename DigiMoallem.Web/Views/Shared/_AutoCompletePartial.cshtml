@@ -1,0 +1,18 @@
+﻿@inject ICourseService CourseService
+
+@{
+    var courses = CourseService.GetCourseTitles();
+}
+
+<script>
+    $.ajax({
+        url: "/DisplayCourseTitles",
+        method: "get"
+    }).done(function (result) {
+        var availableTags = result;
+
+        $("#tags").autocomplete({
+            source: availableTags
+        });
+    });
+</script>

@@ -18,6 +18,7 @@
 
 body, html {
     font-size: 17px;
+    line-height: 1.7rem;
 }
 
 * {
@@ -108,4 +109,52 @@ main {
 
 .min-height-60px {
     min-height:60px;
+}
+
+.loader 
+{
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    transition: all;
+    transition-duration: 0.4s;
+}
+
+.text-black {
+    color: #333;
+}
+
+.bg-light-blue {
+    background: rgba(94,98,100,0.7);
+}
+
+.bg-light-yellow {
+    background: rgba(99,100,82,0.7);
+}
+
+a {
+color: grey;
+}
+
+.course-title {
+font-size:3vw;
+}
+
+.text-pure-white {
+    color: white !important;
+}
+
+.padding-16 {
+    padding: 16px 4px;
+}
+
+.margin-16 {
+margin: 16px 0;
+}
+
+.user-avatar-comment {
+    max-width: 75px;
 }

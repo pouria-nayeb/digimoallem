@@ -17,3 +17,10 @@ $("#image").change(function (event) {
     }
     readURL(this);
 });
+
+$("#cv").change(function (event) {
+    var fileName = event.target.files[0].name;
+    if (fileName.length > 0) {
+        $(this).next().text(fileName);
+    }
+});

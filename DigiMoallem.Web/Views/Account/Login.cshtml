@@ -4,95 +4,102 @@
     ViewData["Title"] = "ورود به سایت";
 }
 
-<div class="row m-0 w-100">
-    <div class="col-lg-6 col-md-6 col-12">
-
-        <div class="card border-primary my-5">
-            <div class="card-header">
-                <i class="fa fa-sign-in-alt ml-2"></i> @ViewData["Title"]
-            </div>
-            <div class="card-body">
-
-                <form asp-area="" asp-controller="Account" asp-action="Login" method="post">
-
-                    @if (ViewData["NotValid"] != null)
-                    {
-                        <!-- user inputs is not valid -->
-                        <div class="alert alert-danger">
-                            @ViewData["NotValid"]
-                        </div>
-                    }
-
-                    <div asp-validation-summary="ModelOnly"></div>
-
-                    <!-- email -->
-                    <div class="form-group mb-2">
-                        <label asp-for="Email"></label>
-                        <input type="text"
-                               asp-for="Email"
-                               class="form-control text-direction-ltr text-left english-font" />
-
-                        <span asp-validation-for="Email" class="text-danger"></span>
-                    </div>
-
-                    <!-- password -->
-                    <div class="form-group mb-2">
-                        <label asp-for="Password"></label>
-                        <input type="password"
-                               asp-for="Password"
-                               class="form-control text-direction-ltr text-left" />
-
-                        <span asp-validation-for="Password" class="text-danger"></span>
-                    </div>
-
-                    <!-- remember me -->
-                    <div class="form-check mt-4">
-                        <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input" asp-for="RememberMe" />
-                            <span class="mr-4">مرا به خاطر بسپار</span>
-                        </label>
-                    </div>
-
-                    <div class="form-group">
-                        <!-- submit -->
-                        <button type="submit"
-                                class="btn rounded-pill px-5 bg-purple bg-purple-hover text-white my-4">
-                            ورود به سامانه
-                        </button>
-                    </div>
-
-                    <div class="my-1">
-                        حساب کاربری ندارید؟
-                        <a asp-controller="Account" asp-action="Register"
-                           class="btn btn-link mx-1">
-                            ثبت نام در دیجی معلم
-                        </a>
-                    </div>
-
-                    <div class="my-2">
-                        رمز خود را فراموش کرده اید؟
-                        <a asp-controller="Account"
-                           asp-action="ForgetPassword"
-                           class="btn btn-link mx-1"> فراموشی رمز عبور </a>
-                    </div>
-
-                </form>
-            </div>
-        </div>
-
-    </div>
-    <div class="col-lg-6 col-md-6 col-12 py-4">
-
-        <div>
-            <img src="~/images/resources/sign-in.svg"
-                 alt="لاگین در دیجی معلم"
-                 class="img-fluid d-block mx-auto py-5" style="max-height:550px"
-                 asp-append-version="true" />
-        </div>
-
-    </div>
+<div class="loader d-flex justify-content-center align-items-center" style="display: block;">
+    <i class="fa fa-circle-notch fa-3x text-white fa-spin"></i>
 </div>
 
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
+<div class="container my-4" style="display:none;">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-12">
+
+            <div class="card border-primary my-5">
+                <div class="card-header">
+                    <i class="fa fa-sign-in-alt ml-2"></i> @ViewData["Title"]
+                </div>
+                <div class="card-body">
+
+                    <form asp-area="" asp-controller="Account" asp-action="Login" method="post">
+
+                        @if (ViewData["NotValid"] != null)
+                        {
+                            <!-- user inputs is not valid -->
+                            <div class="alert alert-danger">
+                                @ViewData["NotValid"]
+                            </div>
+                        }
+
+                        <div asp-validation-summary="ModelOnly"></div>
+
+                        <!-- email -->
+                        <div class="form-group mb-2">
+                            <label asp-for="Email"></label>
+                            <input type="text"
+                                   asp-for="Email"
+                                   class="form-control text-direction-ltr text-left english-font" />
+
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <!-- password -->
+                        <div class="form-group mb-2">
+                            <label asp-for="Password"></label>
+                            <input type="password"
+                                   asp-for="Password"
+                                   class="form-control text-direction-ltr text-left" />
+
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+
+                        <!-- remember me -->
+                        <div class="form-check mt-4">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" asp-for="RememberMe" />
+                                <span class="mr-4">مرا به خاطر بسپار</span>
+                            </label>
+                        </div>
+
+                        <div class="form-group">
+                            <!-- submit -->
+                            <button type="submit"
+                                    class="btn rounded-pill px-5 bg-purple bg-purple-hover text-white my-4">
+                                ورود به سامانه
+                            </button>
+                        </div>
+
+                        <div class="my-1">
+                            حساب کاربری ندارید؟
+                            <a asp-controller="Account" asp-action="Register"
+                               class="btn btn-link mx-1">
+                                ثبت نام در دیجی معلم
+                            </a>
+                        </div>
+
+                        <div class="my-2">
+                            رمز خود را فراموش کرده اید؟
+                            <a asp-controller="Account"
+                               asp-action="ForgetPassword"
+                               class="btn btn-link mx-1"> فراموشی رمز عبور </a>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-lg-6 col-md-6 col-12 py-4">
+
+            <div>
+                <img src="~/images/resources/sign-in.svg"
+                     alt="لاگین در دیجی معلم"
+                     class="img-fluid d-block mx-auto py-5" style="max-height:550px"
+                     asp-append-version="true" />
+            </div>
+
+        </div>
+    </div>
+    </div>
+
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+<script src="~/js/main.js"></script>
+    }

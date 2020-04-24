@@ -169,6 +169,8 @@ namespace DigiMoallem.BLL.Interfaces
         Task<Course> GetCourseAsync(int courseId);
         #endregion
 
+        List<string> GetCourseTitles();
+
         // Comments
         #region AddComment
         bool AddComment(Comment comment);

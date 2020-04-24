@@ -250,6 +250,11 @@ namespace DigiMoallem.BLL.Services
         }
         #endregion
 
+        public List<string> GetCourseTitles() => _db.Courses
+            .Where(c => c.IsHidden == false)
+            .Select(c => c.Title)
+            .ToList();
+
         /// <summary>
         /// Get course levels
         /// </summary>
@@ -937,7 +942,7 @@ namespace DigiMoallem.BLL.Services
             // pagination logic
             int skip = (pageId - 1) * take;
 
-            int pageCount = result.Count() / take;
+            int pageCount = (int)Math.Ceiling(decimal.Divide(result.Count(), take));
 
             return Tuple.Create(result.Include(c => c.Group).Include(c => c.CourseEpisodes)
                 .OrderByDescending(c => c.CourseId)
@@ -1019,7 +1024,7 @@ namespace DigiMoallem.BLL.Services
             // pagination logic
             int skip = (pageId - 1) * take;
 
-            int pageCount = (await result.CountAsync() / take);
+            int pageCount = (int)Math.Ceiling(decimal.Divide(result.Count(), take));
 
             return Tuple.Create(await result.Include(c => c.Group).Include(c => c.CourseEpisodes)
                 .OrderByDescending(c => c.CourseId)
@@ -1032,7 +1037,7 @@ namespace DigiMoallem.BLL.Services
                     Title = c.Title,
                     GroupName = c.Group.Title,
                     TotalTime = new TimeSpan(c.CourseEpisodes.Sum(ce => ce.EpisodeLength.Ticks))
-                }).Skip(skip).Take(take).ToListAsync(), pageCount); ;
+                }).Skip(skip).Take(take).ToListAsync(), pageCount);
         }
         #endregion
 
@@ -1050,6 +1055,7 @@ namespace DigiMoallem.BLL.Services
                 .Include(c => c.CourseLevel)
                 .Include(c => c.CourseStatus)
                 .Include(c => c.User)
+                .Include(c => c.CourseTypes)
                 .Include(c => c.UserCourses)
                 .SingleOrDefault(c => c.CourseId == courseId);
         }
@@ -1062,6 +1068,7 @@ namespace DigiMoallem.BLL.Services
                 .Include(c => c.CourseLevel)
                 .Include(c => c.CourseStatus)
                 .Include(c => c.User)
+                .Include(c => c.CourseTypes)
                 .Include(c => c.UserCourses)
                 .SingleOrDefaultAsync(c => c.CourseId == courseId);
         }

@@ -197,5 +197,11 @@ namespace DigiMoallem.Web.Controllers
             _courseService.AddRate(User.Identity.Name, id, rate);
             return Content("تست");
         }
+
+        [Route("DisplayCourseTitles")]
+        public IActionResult GetCourseTitles()
+        {
+            return Json(_courseService.GetCourseTitles());
+        }
     }
 }

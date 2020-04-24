@@ -4,106 +4,114 @@
     ViewData["Title"] = "تماس با ما";
 }
 
-<div class="row m-0 w-100">
-    <div class="col-lg-6 col-md-6 col-12">
+<div class="loader d-flex justify-content-center align-items-center" style="display: block;">
+    <i class="fa fa-circle-notch fa-3x text-white fa-spin"></i>
+</div>
 
-        <div class="card border-primary my-5">
-            <div class="card-header">
-                <i class="fa fa-envelope-open ml-2"></i> @ViewData["Title"]
-            </div>
-            <div class="card-body">
+<div class="container my-4" style="display:none;">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-12">
 
-                <form asp-area="" asp-controller="Home" asp-action="Contact" method="post">
+            <div class="card border-primary my-5">
+                <div class="card-header">
+                    <i class="fa fa-envelope-open ml-2"></i> @ViewData["Title"]
+                </div>
+                <div class="card-body">
 
-                    @if (ViewData["NotValid"] != null)
-                    {
-                        <!-- user inputs is not valid -->
-                        <div class="alert alert-danger">
-                            @ViewData["NotValid"]
+                    <form asp-area="" asp-controller="Home" asp-action="Contact" method="post">
+
+                        @if (ViewData["NotValid"] != null)
+                        {
+                            <!-- user inputs is not valid -->
+                            <div class="alert alert-danger">
+                                @ViewData["NotValid"]
+                            </div>
+                        }
+
+                        @if (TempData["Success"] != null)
+                        {
+                            <!-- success -->
+                            <div class="alert alert-success">
+                                @TempData["Success"]
+                            </div>
+                        }
+
+                        <div asp-validation-summary="ModelOnly"></div>
+
+                        <!-- phoneNumber -->
+                        <div class="form-group mb-2">
+                            <label asp-for="PhoneNumber"></label>
+                            <input type="tel"
+                                   asp-for="PhoneNumber"
+                                   class="form-control text-direction-ltr text-left english-font"
+                                   placeholder="09XXXXXXXXX" />
+
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                         </div>
-                    }
 
-                    @if (TempData["Success"] != null)
-                    {
-                        <!-- success -->
-                        <div class="alert alert-success">
-                            @TempData["Success"]
+                        <!-- description -->
+                        <div class="form-group mb-2">
+                            <label asp-for="Description"></label>
+                            <textarea type="text"
+                                      asp-for="Description"
+                                      class="form-control" rows="5" style="resize:none"></textarea>
+
+                            <span asp-validation-for="Description" class="text-danger"></span>
                         </div>
-                    }
 
-                    <div asp-validation-summary="ModelOnly"></div>
+                        <div class="form-group">
+                            <!-- submit -->
+                            <button type="submit"
+                                    class="btn rounded-pill px-5 bg-purple bg-purple-hover text-white my-4">
+                                ارسال پیام
+                            </button>
+                        </div>
 
-                    <!-- phoneNumber -->
-                    <div class="form-group mb-2">
-                        <label asp-for="PhoneNumber"></label>
-                        <input type="tel"
-                               asp-for="PhoneNumber"
-                               class="form-control text-direction-ltr text-left english-font"
-                               placeholder="09XXXXXXXXX" />
+                        <div class="alert alert-light">
+                            <strong><i class="fa fa-exclamation-triangle ml-1"></i> توجه: </strong> کارشناسان بعد از بررسی پیام شما در صورت لزوم با شما تماس خواهد گرفت.
+                        </div>
 
-                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-                    </div>
-
-                    <!-- description -->
-                    <div class="form-group mb-2">
-                        <label asp-for="Description"></label>
-                        <textarea type="text"
-                                  asp-for="Description"
-                                  class="form-control" rows="5" style="resize:none"></textarea>
-
-                        <span asp-validation-for="Description" class="text-danger"></span>
-                    </div>
-
-                    <div class="form-group">
-                        <!-- submit -->
-                        <button type="submit"
-                                class="btn rounded-pill px-5 bg-purple bg-purple-hover text-white my-4">
-                            ارسال پیام
-                        </button>
-                    </div>
-
-                    <div class="alert alert-light">
-                        <strong><i class="fa fa-exclamation-triangle ml-1"></i> توجه: </strong> کارشناسان بعد از بررسی پیام شما در صورت لزوم با شما تماس خواهد گرفت.
-                    </div>
-
-                </form>
+                    </form>
+                </div>
             </div>
+
         </div>
+        <div class="col-lg-6 col-md-6 col-12">
 
-    </div>
-    <div class="col-lg-6 col-md-6 col-12">
+            <div class="card border-primary mx-auto" style="max-width: 450px;margin: 50px auto">
+                <div class="card-header">
+                    <i class="fa fa-phone ml-2"></i> تلفن های تماس
+                </div>
+                <div class="card-body text-center english-font">
+                    09354425459
+                </div>
+            </div>
 
-        <div class="card border-primary mx-auto" style="max-width: 450px;margin: 50px auto">
-            <div class="card-header">
-                <i class="fa fa-phone ml-2"></i> تلفن های تماس
+            <div class="card border-primary" style="max-width: 450px;margin: 50px auto">
+                <div class="card-header">
+                    <i class="fa fa-map-signs ml-2"></i> آدرس
+                </div>
+                <div class="card-body text-center">
+                    ظفر، کوچه دفتری شرقی، پلاک 8، مرکز رشد دانشگاه آزاد اسلامی
+                </div>
             </div>
-            <div class="card-body text-center english-font">
-                09354425459
+
+            <div class="card border-primary" style="max-width: 450px;margin: 50px auto">
+                <div class="card-header">
+                    <i class="fa fa-envelope ml-2"></i> پست الکترونیک
+                </div>
+                <div class="card-body text-center english-font">
+                    Info@@DigiMoallem.ir
+                </div>
             </div>
+
         </div>
-
-        <div class="card border-primary" style="max-width: 450px;margin: 50px auto">
-            <div class="card-header">
-                <i class="fa fa-map-signs ml-2"></i> آدرس
-            </div>
-            <div class="card-body text-center">
-                ظفر، کوچه دفتری شرقی، پلاک 8، مرکز رشد دانشگاه آزاد اسلامی
-            </div>
-        </div>
-
-        <div class="card border-primary" style="max-width: 450px;margin: 50px auto">
-            <div class="card-header">
-                <i class="fa fa-envelope ml-2"></i> پست الکترونیک
-            </div>
-            <div class="card-body text-center english-font">
-                Info@@DigiMoallem.ir
-            </div>
-        </div>
-
     </div>
 </div>
 
+
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/main.js"></script>
 }
 

@@ -5,13 +5,17 @@
     ViewData["Title"] = "پروفایل کاربری";
 }
 
-<div class="container my-4">
+<div class="loader d-flex justify-content-center align-items-center" style="display: block;">
+    <i class="fa fa-circle-notch fa-3x text-white fa-spin"></i>
+</div>
+
+<div class="container my-4" style="display:none;">
 
     @if (TempData["Success"] != null)
     {
-    <div class="alert alert-success">
-        @TempData["Success"]
-    </div>
+        <div class="alert alert-success">
+            @TempData["Success"]
+        </div>
     }
 
     <div class="row">
@@ -103,4 +107,8 @@
     </div>
 
 </div>
+
+@section Scripts {
+<script src="~/js/main.js"></script>
+}
 

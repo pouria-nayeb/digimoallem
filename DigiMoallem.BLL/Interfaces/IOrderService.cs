@@ -1,6 +1,8 @@
 ﻿using DigiMoallem.BLL.DTOs.Admin.Discounts;
 using DigiMoallem.BLL.DTOs.Orders;
+using DigiMoallem.DAL.Entities.Courses;
 using DigiMoallem.DAL.Entities.Orders;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -47,6 +49,31 @@ namespace DigiMoallem.BLL.Interfaces
         #region GetUserOrders
         List<Order> GetUserOrders(string userName);
         Task<List<Order>> GetUserOrdersAsync(string userName);
+        #endregion
+
+        #region GetAllOrders
+        OrderPagingViewModel GetAllOrders(int pageNumber, int pageSize);
+        Task<OrderPagingViewModel> GetAllOrdersAsync(int pageNumber, int pageSize);
+        #endregion
+
+        #region GetAllUserCourses
+        UserCoursePagingViewModel GetAllUserCourses(int pageNumber, int pageSize);
+        Task<UserCoursePagingViewModel> GetAllUserCoursesAsync(int pageNumber, int pageSize);
+        #endregion
+
+        #region CourseSelectListItem
+        UserCourse AddUserCourse(UserCourse userCourse);
+        Task<UserCourse> AddUserCourseAsync(UserCourse userCourse);
+        #endregion
+
+        #region GetUserCourseById
+        UserCourse GetUserCourseById(int userCourseId);
+        Task<UserCourse> GetUserCourseByIdAsync(int userCourseId);
+        #endregion
+
+        #region UpdateUserCourse
+        UserCourse UpdateUserCourse(UserCourse userCourse);
+        Task<UserCourse> UpdateUserCourseAsync(UserCourse userCourse);
         #endregion
 
         // discount

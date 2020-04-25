@@ -10,6 +10,7 @@ using DigiMoallem.DAL.Context;
 using DigiMoallem.DAL.Entities.Transactions;
 using DigiMoallem.DAL.Entities.Users;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -65,11 +66,11 @@ namespace DigiMoallem.BLL.Services
         #region GetUserById
         public User GetUserById(int userId)
         {
-            return _db.Users.IgnoreQueryFilters().SingleOrDefault(u => u.UserId == userId);
+            return _db.Users.IgnoreQueryFilters().AsNoTracking().SingleOrDefault(u => u.UserId == userId);
         }
         public async Task<User> GetUserByIdAsync(int userId)
         {
-            return await _db.Users.IgnoreQueryFilters().SingleOrDefaultAsync(u => u.UserId == userId);
+            return await _db.Users.IgnoreQueryFilters().AsNoTracking().SingleOrDefaultAsync(u => u.UserId == userId);
         }
         #endregion
 
@@ -80,11 +81,11 @@ namespace DigiMoallem.BLL.Services
         #region GetUserByUserName
         public User GetUserByUserName(string userName)
         {
-            return _db.Users.SingleOrDefault(u => u.UserName == userName.TextTransform());
+            return _db.Users.AsNoTracking().SingleOrDefault(u => u.UserName == userName.TextTransform());
         }
         public async Task<User> GetUserByUserNameAsync(string userName)
         {
-            return await _db.Users.SingleOrDefaultAsync(u => u.UserName == userName.TextTransform());
+            return await _db.Users.AsNoTracking().SingleOrDefaultAsync(u => u.UserName == userName.TextTransform());
         }
         #endregion
 
@@ -201,12 +202,12 @@ namespace DigiMoallem.BLL.Services
         #region GetUserIdByUserName
         public int GetUserIdByUserName(string userName)
         {
-            return _db.Users.IgnoreQueryFilters().SingleOrDefault(u => u.UserName == userName.TextTransform()).UserId;
+            return _db.Users.IgnoreQueryFilters().AsNoTracking().SingleOrDefault(u => u.UserName == userName.TextTransform()).UserId;
         }
 
         public async Task<int> GetUserIdByUserNameAsync(string userName)
         {
-            var user = await _db.Users.IgnoreQueryFilters().SingleOrDefaultAsync(u => u.UserName == userName.TextTransform());
+            var user = await _db.Users.IgnoreQueryFilters().AsNoTracking().SingleOrDefaultAsync(u => u.UserName == userName.TextTransform());
             return user.UserId;
         }
         #endregion
@@ -218,11 +219,11 @@ namespace DigiMoallem.BLL.Services
         #region GetUserByActivationCode
         public User GetUserByActivationCode(string activationCode)
         {
-            return _db.Users.SingleOrDefault(u => u.ActivationCode == activationCode);
+            return _db.Users.AsNoTracking().SingleOrDefault(u => u.ActivationCode == activationCode);
         }
         public async Task<User> GetUserByActivationCodeAsync(string activationCode)
         {
-            return await _db.Users.SingleOrDefaultAsync(u => u.ActivationCode == activationCode);
+            return await _db.Users.AsNoTracking().SingleOrDefaultAsync(u => u.ActivationCode == activationCode);
         }
         #endregion
 
@@ -261,6 +262,20 @@ namespace DigiMoallem.BLL.Services
                 return false;
             }
         }
+        #endregion
+
+        #region UserSelectList
+        public List<SelectListItem> GetUserSelectList() => _db.Users.Select(u => new SelectListItem
+        {
+            Text = u.Email,
+            Value = u.UserId.ToString()
+        }).ToList();
+
+        public async Task<List<SelectListItem>> GetUserSelectListAsync() => await _db.Users.Select(u => new SelectListItem
+        {
+            Text = u.Email,
+            Value = u.UserId.ToString()
+        }).ToListAsync();
         #endregion
 
         /// <summary>
@@ -763,11 +778,19 @@ namespace DigiMoallem.BLL.Services
             int recordsPerPages = 20;
             int skip = (pageId - 1) * recordsPerPages;
 
+            int usersCount = users.Count();
+
+            int pagesCount = (int)Math.Ceiling(decimal.Divide(usersCount, recordsPerPages));
+
             var userVM = new UserViewModel()
             {
                 CurrentPage = pageId,
-                PageCount = users.Count() / recordsPerPages,
-                Users = users.OrderByDescending(u => u.RegisterDate).Skip(skip).Take(recordsPerPages).ToList()
+                PageCount = pagesCount,
+                Users = users.OrderByDescending(u => u.RegisterDate)
+                .Skip(skip)
+                .Take(recordsPerPages)
+                .AsNoTracking()
+                .ToList()
             };
 
             return userVM;
@@ -790,13 +813,18 @@ namespace DigiMoallem.BLL.Services
             int recordsPerPage = 20;
             int skip = (pageId - 1) * recordsPerPage;
 
+            int usersCount = users.Count();
+
+            int pagesCount = (int)Math.Ceiling(decimal.Divide(usersCount, recordsPerPage));
+
             var userVM = new UserViewModel()
             {
                 CurrentPage = pageId,
-                PageCount = users.Count() / recordsPerPage,
+                PageCount = pagesCount,
                 Users = await users.OrderByDescending(u => u.RegisterDate)
                 .Skip(skip)
                 .Take(recordsPerPage)
+                .AsNoTracking()
                 .ToListAsync()
             };
 

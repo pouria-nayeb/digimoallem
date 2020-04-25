@@ -21,7 +21,6 @@
     <Folder Include="Pages\Admin\Discounts\" />
     <Folder Include="Pages\Admin\Courses\" />
     <Folder Include="Pages\Admin\Messages\" />
-    <Folder Include="Pages\Admin\Orders\" />
     <Folder Include="Pages\Admin\Works\" />
     <Folder Include="Pages\Admin\Roles\" />
     <Folder Include="Pages\Admin\Users\" />

@@ -35,12 +35,12 @@ namespace DigiMoallem.BLL.Services
         #region GetOrderById
         public Order GetOrderById(int orderId)
         {
-            return _db.Orders.SingleOrDefault(o => o.OrderId == orderId);
+            return _db.Orders.AsNoTracking().SingleOrDefault(o => o.OrderId == orderId);
         }
 
         public async Task<Order> GetOrderByIdAsync(int orderId)
         {
-            return await _db.Orders.SingleOrDefaultAsync(o => o.OrderId == orderId);
+            return await _db.Orders.AsNoTracking().SingleOrDefaultAsync(o => o.OrderId == orderId);
         }
         #endregion
 
@@ -497,6 +497,7 @@ namespace DigiMoallem.BLL.Services
             return _db.Orders
                 .OrderByDescending(o => o.OrderId)
                 .Where(o => o.UserId == userId)
+                .AsNoTracking()
                 .ToList();
         }
 
@@ -507,7 +508,132 @@ namespace DigiMoallem.BLL.Services
             return await _db.Orders
                 .OrderByDescending(o => o.OrderId)
                 .Where(o => o.UserId == userId)
+                .AsNoTracking()
                 .ToListAsync();
+        }
+        #endregion
+
+        #region GetAllOrders
+        public OrderPagingViewModel GetAllOrders(int pageNumber = 1, int pageSize = 32) 
+        { 
+            IQueryable<Order> orders = _db.Orders;
+
+            int take = pageSize;
+            int skip = (pageNumber - 1) * take;
+            int ordersCount = orders.Count();
+
+            int pagesCount = (int)Math.Ceiling(decimal.Divide(ordersCount, take));
+
+            return new OrderPagingViewModel
+            {
+                Orders = orders.Skip(skip).Take(take)
+                .OrderByDescending(o => o.OrderId)
+                .Include(o => o.User)
+                .AsNoTracking()
+                .ToList(),
+                PageNumber = pageNumber,
+               PagesCount = pagesCount
+            };
+        }
+
+        public async Task<OrderPagingViewModel> GetAllOrdersAsync(int pageNumber, int pageSize)
+        {
+            IQueryable<Order> orders = _db.Orders;
+
+            int take = pageSize;
+            int skip = (pageNumber - 1) * take;
+            int ordersCount = await orders.CountAsync();
+
+            int pagesCount = (int)Math.Ceiling(decimal.Divide(ordersCount, take));
+
+            return new OrderPagingViewModel
+            {
+                Orders = await orders.Skip(skip).Take(take)
+                .OrderByDescending(o => o.OrderId)
+                .Include(o => o.User)
+                .AsNoTracking()
+                .ToListAsync(),
+                PageNumber = pageNumber,
+                PagesCount = pagesCount
+            };
+        }
+        #endregion
+
+        #region GetAllUserCourses
+        public UserCoursePagingViewModel GetAllUserCourses(int pageNumber, int pageSize)
+        {
+            IQueryable<UserCourse> userCourses = _db.UserCourses;
+
+            int take = pageSize;
+            int skip = (pageNumber - 1) * take;
+            int ordersCount = userCourses.Count();
+
+            int pagesCount = (int)Math.Ceiling(decimal.Divide(ordersCount, take));
+
+            return new UserCoursePagingViewModel
+            {
+                UserCourses = userCourses.Skip(skip).Take(take)
+                .OrderByDescending(o => o.UserCourseId)
+                .Include(o => o.User)
+                .Include(o => o.Course)
+                .AsNoTracking()
+                .ToList(),
+                PageNumber = pageNumber,
+                PagesCount = pagesCount
+            };
+        }
+        public async Task<UserCoursePagingViewModel> GetAllUserCoursesAsync(int pageNumber, int pageSize) 
+        {
+            IQueryable<UserCourse> userCourses = _db.UserCourses;
+
+            int take = pageSize;
+            int skip = (pageNumber - 1) * take;
+            int ordersCount = await userCourses.CountAsync();
+
+            int pagesCount = (int)Math.Ceiling(decimal.Divide(ordersCount, take));
+
+            return new UserCoursePagingViewModel
+            {
+                UserCourses = await userCourses.Skip(skip).Take(take)
+                .OrderByDescending(o => o.UserCourseId)
+                .Include(o => o.User)
+                .Include(o => o.Course)
+                .AsNoTracking()
+                .ToListAsync(),
+                PageNumber = pageNumber,
+                PagesCount = pagesCount
+            };
+        }
+        #endregion
+
+        #region AddUserCourse
+        public UserCourse AddUserCourse(UserCourse userCourse)
+        {
+            try
+            {
+                _db.UserCourses.Add(userCourse);
+                Save();
+
+                return userCourse;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        public async Task<UserCourse> AddUserCourseAsync(UserCourse userCourse) 
+        {
+            try
+            {
+                await _db.UserCourses.AddAsync(userCourse);
+                await SaveAsync();
+
+                return userCourse;
+            }
+            catch
+            {
+                return null;
+            }
         }
         #endregion
 
@@ -645,6 +771,47 @@ namespace DigiMoallem.BLL.Services
         }
         #endregion
 
+        #region GetUserCourseById
+        public UserCourse GetUserCourseById(int userCourseId) => _db.UserCourses
+            .AsNoTracking()
+            .SingleOrDefault(uc => uc.UserCourseId == userCourseId);
+
+        public async Task<UserCourse> GetUserCourseByIdAsync(int userCourseId) => await _db.UserCourses
+            .AsNoTracking()
+            .SingleOrDefaultAsync(uc => uc.UserCourseId == userCourseId);
+        #endregion
+
+        #region UpdateUserCourse
+        public UserCourse UpdateUserCourse(UserCourse userCourse) 
+        {
+            try
+            {
+                _db.UserCourses.Update(userCourse);
+                Save();
+
+                return userCourse;
+            }
+            catch 
+            {
+                return null;
+            }
+        }
+        public async Task<UserCourse> UpdateUserCourseAsync(UserCourse userCourse) 
+        {
+            try
+            {
+                _db.UserCourses.Update(userCourse);
+                await SaveAsync();
+
+                return userCourse;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        #endregion
+
         /// <summary>
         /// Add discount
         /// </summary>
@@ -700,14 +867,19 @@ namespace DigiMoallem.BLL.Services
             int recordsPerPage = 20;
             int skip = (pageId - 1) * recordsPerPage;
 
+            int discountsCount = result.Count();
+
+            int pagesCount = (int)Math.Ceiling(decimal.Divide(discountsCount, recordsPerPage));
+
             var discountVM = new DiscountViewModel
             {
                 CurrentPage = pageId,
-                PageCount = result.Count() / recordsPerPage,
+                PageCount = pagesCount,
                 Discounts = result
                 .OrderByDescending(d => d.DiscountId)
                 .Skip(skip)
                 .Take(recordsPerPage)
+                .AsNoTracking()
                 .ToList()
             };
 
@@ -723,14 +895,19 @@ namespace DigiMoallem.BLL.Services
             int recordsPerPage = 20;
             int skip = (pageId - 1) * recordsPerPage;
 
+            int discountsCount = result.Count();
+
+            int pagesCount = (int)Math.Ceiling(decimal.Divide(discountsCount, recordsPerPage));
+
             var discountVM = new DiscountViewModel
             {
                 CurrentPage = pageId,
-                PageCount = await result.CountAsync() / recordsPerPage,
+                PageCount = pagesCount,
                 Discounts = await result
                 .OrderByDescending(d => d.DiscountId)
                 .Skip(skip)
                 .Take(recordsPerPage)
+                .AsNoTracking()
                 .ToListAsync()
             };
 
@@ -746,12 +923,12 @@ namespace DigiMoallem.BLL.Services
         #region GetDiscount
         public Discount GetDiscountById(int discountId)
         {
-            return _db.Discounts.SingleOrDefault(d => d.DiscountId == discountId);
+            return _db.Discounts.AsNoTracking().SingleOrDefault(d => d.DiscountId == discountId);
         }
 
         public async Task<Discount> GetDiscountByIdAsync(int discountId)
         {
-            return await _db.Discounts.SingleOrDefaultAsync(d => d.DiscountId == discountId);
+            return await _db.Discounts.AsNoTracking().SingleOrDefaultAsync(d => d.DiscountId == discountId);
         }
         #endregion
 

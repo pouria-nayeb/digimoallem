@@ -1,0 +1,58 @@
+﻿@page "{id:min(1)}"
+@model DigiMoallem.Web.Pages.Admin.Orders.EditModel
+
+@{
+    ViewData["Title"] = "ویرایش سفارش";
+}
+
+<div class="container">
+
+    <h1 class="m-4">@ViewData["Title"]</h1>
+
+    <form method="post" enctype="multipart/form-data" class="form-group">
+
+        @if (ViewData["Message"] != null)
+        {
+            <div class="alert alert-danger">
+                @ViewData["Message"]
+            </div>
+        }
+
+        <input type="hidden" asp-for="Order.OrderId" />
+        <input type="hidden" asp-for="Order.CreateDate" />
+        <input type="hidden" asp-for="Order.UserId" />
+
+        <div class="row">
+
+            <div class="col-12 col-sm-6">
+                <div class="form-group mb-5">
+                    <label asp-for="Order.TotalPrice">مبلغ قابل پرداخت</label>
+                    <input type="text" asp-for="Order.TotalPrice" class="form-control">
+                    <span asp-validation-for="Order.TotalPrice" class="text-danger"></span>
+                </div>
+
+                <div class="form-group my-5">
+                    <button type="submit" class="btn btn-outline-warning">
+                        <i class="fas fa-edit ml-2"></i> ویرایش گروه
+                    </button>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-6">
+                <div class="form-group my-5">
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" asp-for="Order.IsFinally" />
+                        <label class="custom-control-label" asp-for="Order.IsFinally">خرید انجام شده؟</label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+
+@section Scripts {
+    <script src="~/Admin/Scripts/Site.js"></script>
+}

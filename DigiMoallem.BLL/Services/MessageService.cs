@@ -84,6 +84,7 @@ namespace DigiMoallem.BLL.Services
             {
                 Contacts = Messages.Skip(skip).Take(take)
                 .OrderByDescending(c => c.ContactId)
+                .AsNoTracking()
                 .ToList(),
                 PageNumber = pageNumber,
                 PageCount = pageCount
@@ -104,6 +105,7 @@ namespace DigiMoallem.BLL.Services
             {
                 Contacts = await Messages.Skip(skip).Take(take)
                 .OrderByDescending(c => c.ContactId)
+                .AsNoTracking()
                 .ToListAsync(),
                 PageNumber = pageNumber,
                 PageCount = pageCount
@@ -117,10 +119,12 @@ namespace DigiMoallem.BLL.Services
         /// <param name="contactId"></param>
         /// <returns></returns>
         #region Get contact by id
-        public Contact GetContactById(int contactId) => _context.Messages.Find(contactId);
+        public Contact GetContactById(int contactId) => _context.Messages
+            .AsNoTracking()
+            .SingleOrDefault(c => c.ContactId == contactId);
 
-        public async Task<Contact> GetContactByIdAsync(int contactId) => await _context.Messages
-            .FindAsync(contactId);
+        public async Task<Contact> GetContactByIdAsync(int contactId) => await _context.Messages.AsNoTracking()
+            .SingleOrDefaultAsync(c => c.ContactId == contactId);
         #endregion
 
         /// <summary>
@@ -194,10 +198,12 @@ namespace DigiMoallem.BLL.Services
         #region Search Messages
         public List<Contact> SearchContacts(string phoneNumber) => _context.Messages
             .Where(c => c.PhoneNumber.Contains(phoneNumber))
+            .AsNoTracking()
             .ToList();
 
         public async Task<List<Contact>> SearchContactsAsync(string phoneNumber) => await _context.Messages
             .Where(c => c.PhoneNumber.Contains(phoneNumber))
+            .AsNoTracking()
             .ToListAsync();
         #endregion
 

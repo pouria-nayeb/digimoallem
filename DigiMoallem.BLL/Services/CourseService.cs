@@ -36,12 +36,12 @@ namespace DigiMoallem.BLL.Services
         #region GetGroups
         public List<Group> GetGroups()
         {
-            return _db.Groups.ToList();
+            return _db.Groups.AsNoTracking().ToList();
         }
 
         public async Task<List<Group>> GetGroupsAsync()
         {
-            return await _db.Groups.ToListAsync();
+            return await _db.Groups.AsNoTracking().ToListAsync();
         }
         #endregion
 
@@ -155,12 +155,12 @@ namespace DigiMoallem.BLL.Services
         #region GetGroupById
         public Group GetGroupById(int groupId)
         {
-            return _db.Groups.SingleOrDefault(g => g.GroupId == groupId);
+            return _db.Groups.AsNoTracking().SingleOrDefault(g => g.GroupId == groupId);
         }
 
         public async Task<Group> GetGroupByIdAsync(int groupId)
         {
-            return await _db.Groups.SingleOrDefaultAsync(g => g.GroupId == groupId);
+            return await _db.Groups.AsNoTracking().SingleOrDefaultAsync(g => g.GroupId == groupId);
         }
         #endregion
 
@@ -376,7 +376,7 @@ namespace DigiMoallem.BLL.Services
                     TeacherIncome = ((c.TeacherIncome != null) ? c.TeacherIncome.Value : 0),
                     InstitudeIncome = ((c.OwnerIncome != null) ? c.OwnerIncome.Value : 0),
                     AllIncome = ((c.Totalncome != null) ? c.Totalncome.Value : 0)
-                }).ToList(),
+                }).AsNoTracking().ToList(),
                 PageNumber = pageNumber,
                 PageCount = pageCount
             };
@@ -401,7 +401,7 @@ namespace DigiMoallem.BLL.Services
                     TeacherIncome = ((c.TeacherIncome != null) ? c.TeacherIncome.Value : 0),
                     InstitudeIncome = ((c.OwnerIncome != null) ? c.OwnerIncome.Value : 0),
                     AllIncome = ((c.Totalncome != null) ? c.Totalncome.Value : 0)
-                }).ToListAsync(),
+                }).AsNoTracking().ToListAsync(),
                 PageNumber = pageNumber,
                 PageCount = pageCount
             };
@@ -474,10 +474,14 @@ namespace DigiMoallem.BLL.Services
             int recordsPerPages = 20;
             int skip = (pageId - 1) * recordsPerPages;
 
+            int coursesCount = courses.Count();
+
+            int pagesCount = (int)Math.Ceiling(decimal.Divide(coursesCount, recordsPerPages));
+
             return new CourseViewModel()
             {
                 CurrentPage = pageId,
-                PageCount = courses.Count() / recordsPerPages,
+                PageCount = pagesCount,
                 Courses = courses
                 .Include(c => c.User)
                 .Include(c => c.CourseEpisodes)
@@ -493,6 +497,7 @@ namespace DigiMoallem.BLL.Services
                     ImageName = c.ImageName,
                     EpisodesCount = c.CourseEpisodes.Count
                 })
+                .AsNoTracking()
                 .ToList()
             };
         }
@@ -505,10 +510,14 @@ namespace DigiMoallem.BLL.Services
             int recordsPerPages = 20;
             int skip = (pageId - 1) * recordsPerPages;
 
+            int coursesCount = courses.Count();
+
+            int pagesCount = (int)Math.Ceiling(decimal.Divide(coursesCount, recordsPerPages));
+
             return new CourseViewModel()
             {
                 CurrentPage = pageId,
-                PageCount = courses.Count() / recordsPerPages,
+                PageCount = pagesCount,
                 Courses = await courses
                 .Include(c => c.User)
                 .Include(c => c.CourseEpisodes)
@@ -524,6 +533,7 @@ namespace DigiMoallem.BLL.Services
                     ImageName = c.ImageName,
                     EpisodesCount = c.CourseEpisodes.Count
                 })
+                .AsNoTracking()
                 .ToListAsync()
             };
         }
@@ -537,12 +547,12 @@ namespace DigiMoallem.BLL.Services
         #region GetCourseById
         public Course GetCourseById(int courseId)
         {
-            return _db.Courses.Include(c => c.User).SingleOrDefault(c => c.CourseId == courseId);
+            return _db.Courses.Include(c => c.User).AsNoTracking().SingleOrDefault(c => c.CourseId == courseId);
         }
 
         public async Task<Course> GetCourseByIdAsync(int courseId)
         {
-            return await _db.Courses.Include(c => c.User).SingleOrDefaultAsync(c => c.CourseId == courseId);
+            return await _db.Courses.Include(c => c.User).AsNoTracking().SingleOrDefaultAsync(c => c.CourseId == courseId);
         }
         #endregion
 
@@ -729,6 +739,7 @@ namespace DigiMoallem.BLL.Services
                 .Include(ce => ce.Course)
                 .OrderByDescending(ce => ce.CourseEpisodeId)
                 .Where(ce => ce.CourseId == courseId)
+                .AsNoTracking()
                 .ToList();
         }
 
@@ -738,6 +749,7 @@ namespace DigiMoallem.BLL.Services
                 .Include(ce => ce.Course)
                 .OrderByDescending(ce => ce.CourseEpisodeId)
                 .Where(ce => ce.CourseId == courseId)
+                .AsNoTracking()
                 .ToListAsync();
         }
         #endregion
@@ -751,12 +763,14 @@ namespace DigiMoallem.BLL.Services
         public CourseEpisode GetEpisodeById(int episodeId)
         {
             return _db.CourseEpisodes
+                .AsNoTracking()
                 .SingleOrDefault(ce => ce.CourseEpisodeId == episodeId);
         }
 
         public async Task<CourseEpisode> GetEpisodeByIdAsync(int episodeId)
         {
             return await _db.CourseEpisodes
+                .AsNoTracking()
                 .SingleOrDefaultAsync(ce => ce.CourseEpisodeId == episodeId);
         }
         #endregion
@@ -955,7 +969,7 @@ namespace DigiMoallem.BLL.Services
                     Price = c.Price,
                     Title = c.Title,
                     TotalTime = new TimeSpan(c.CourseEpisodes.Sum(ce => ce.EpisodeLength.Ticks))
-                }).Skip(skip).Take(take).ToList(), pageCount);
+                }).Skip(skip).Take(take).AsNoTracking().ToList(), pageCount);
         }
 
         public async Task<Tuple<List<DisplayCourseViewModel>, int>> GetCoursesAsync(int pageId = 1,
@@ -1037,7 +1051,7 @@ namespace DigiMoallem.BLL.Services
                     Title = c.Title,
                     GroupName = c.Group.Title,
                     TotalTime = new TimeSpan(c.CourseEpisodes.Sum(ce => ce.EpisodeLength.Ticks))
-                }).Skip(skip).Take(take).ToListAsync(), pageCount);
+                }).Skip(skip).Take(take).AsNoTracking().ToListAsync(), pageCount);
         }
         #endregion
 
@@ -1057,6 +1071,7 @@ namespace DigiMoallem.BLL.Services
                 .Include(c => c.User)
                 .Include(c => c.CourseTypes)
                 .Include(c => c.UserCourses)
+                .AsNoTracking()
                 .SingleOrDefault(c => c.CourseId == courseId);
         }
 
@@ -1070,6 +1085,7 @@ namespace DigiMoallem.BLL.Services
                 .Include(c => c.User)
                 .Include(c => c.CourseTypes)
                 .Include(c => c.UserCourses)
+                .AsNoTracking()
                 .SingleOrDefaultAsync(c => c.CourseId == courseId);
         }
         #endregion
@@ -1092,7 +1108,7 @@ namespace DigiMoallem.BLL.Services
                     Price = c.Price,
                     Title = c.Title,
                     TotalTime = new TimeSpan(c.CourseEpisodes.Sum(ce => ce.EpisodeLength.Ticks))
-                }).ToList();
+                }).AsNoTracking().ToList();
         }
 
         public async Task<List<DisplayCourseViewModel>> GetLatestCourseAsync()
@@ -1108,7 +1124,7 @@ namespace DigiMoallem.BLL.Services
                      Price = c.Price,
                      Title = c.Title,
                      TotalTime = new TimeSpan(c.CourseEpisodes.Sum(ce => ce.EpisodeLength.Ticks))
-                 }).ToListAsync();
+                 }).AsNoTracking().ToListAsync();
         }
         #endregion
 
@@ -1162,12 +1178,12 @@ namespace DigiMoallem.BLL.Services
         {
             int recordsPerPage = 10;
             int skip = (pageId - 1) * recordsPerPage;
-            int pageCount = _db.Comments.Where(c => c.CourseId == courseId && !c.IsDelete).Count() / recordsPerPage;
 
-            if ((pageCount % 2) != 0)
-            {
-                pageCount += 1;
-            }
+            int commentsCount = _db.Comments.Where(c => c.CourseId == courseId && !c.IsDelete).Count();
+
+            int pagesCount =  (int)Math.Ceiling(decimal.Divide(commentsCount, recordsPerPage));
+
+            
 
             return Tuple.Create(_db.Comments
                 .Include(c => c.User)
@@ -1175,25 +1191,25 @@ namespace DigiMoallem.BLL.Services
                 .Where(c => c.CourseId == courseId && !c.IsDelete)
                 .Skip(skip)
                 .Take(recordsPerPage)
-                .ToList(), pageCount);
+                .AsNoTracking()
+                .ToList(), pagesCount);
         }
 
         public async Task<Tuple<List<Comment>, int>> GetCommentsAsync(int courseId, int pageId = 1)
         {
             int recordsPerPage = 10;
             int skip = (pageId - 1) * recordsPerPage;
-            int pageCount = ((await _db.Comments.Where(c => c.CourseId == courseId && !c.IsDelete).CountAsync()) / recordsPerPage);
 
-            if ((pageCount % 2) != 0)
-            {
-                pageCount += 1;
-            }
+            int commentsCount = _db.Comments.Where(c => c.CourseId == courseId && !c.IsDelete).Count();
+
+            int pagesCount = (int)Math.Ceiling(decimal.Divide(commentsCount, recordsPerPage));
 
             return Tuple.Create(await _db.Comments
                 .Include(c => c.User)
                 .OrderByDescending(c => c.CommentId)
                 .Where(c => c.CourseId == courseId && !c.IsDelete)
-                .ToListAsync(), pageCount);
+                .AsNoTracking()
+                .ToListAsync(), pagesCount);
         }
         #endregion
 
@@ -1248,6 +1264,7 @@ namespace DigiMoallem.BLL.Services
                     ImageName = c.ImageName,
                     TotalTime = new TimeSpan(c.CourseEpisodes.Sum(e => e.EpisodeLength.Ticks))
                 })
+                .AsNoTracking()
                 .ToList();
         }
 
@@ -1266,6 +1283,7 @@ namespace DigiMoallem.BLL.Services
                     ImageName = c.ImageName,
                     TotalTime = new TimeSpan(c.CourseEpisodes.Sum(e => e.EpisodeLength.Ticks))
                 })
+                .AsNoTracking()
                 .ToListAsync();
         }
         #endregion

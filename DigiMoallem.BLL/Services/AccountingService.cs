@@ -118,6 +118,7 @@ namespace DigiMoallem.BLL.Services
             return _db.Payments
                 .Include(p => p.User)
                 .Include(p => p.Course)
+                .AsNoTracking()
                 .SingleOrDefault(p => p.PaymentId == paymentId);
         }
 
@@ -126,6 +127,7 @@ namespace DigiMoallem.BLL.Services
             return await _db.Payments
                 .Include(p => p.User)
                 .Include(p => p.Course)
+                .AsNoTracking()
                 .SingleOrDefaultAsync(p => p.PaymentId == paymentId);
         }
         #endregion
@@ -152,11 +154,12 @@ namespace DigiMoallem.BLL.Services
                 PageNumber = pageId,
                 PageCount = pageCount,
                 Payments = _db.Payments
-                                .Skip(skip)
+                .Skip(skip)
                 .Take(recordsPerPage)
                 .Include(p => p.User)
                 .Include(p => p.Course)
                 .OrderByDescending(p => p.PaymentId)
+                .AsNoTracking()
                 .ToList()
             };
         }
@@ -181,6 +184,7 @@ namespace DigiMoallem.BLL.Services
                 .Include(p => p.User)
                 .Include(p => p.Course)
                 .OrderByDescending(p => p.PaymentId)
+                .AsNoTracking()
                 .ToListAsync()
             };
         }

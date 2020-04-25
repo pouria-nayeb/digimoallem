@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -166,6 +165,7 @@ namespace DigiMoallem.BLL.Services
                 .OrderByDescending(w => w.WorkId)
                 .Take(take)
                 .Skip(skip)
+                .AsNoTracking()
                 .ToList(),
                 PageCount = pagesCount,
                 PageNumber = pageNumber
@@ -188,6 +188,7 @@ namespace DigiMoallem.BLL.Services
                 .OrderByDescending(w => w.WorkId)
                 .Take(take)
                 .Skip(skip)
+                .AsNoTracking()
                 .ToListAsync(),
                 PageCount = pagesCount,
                 PageNumber = pageNumber

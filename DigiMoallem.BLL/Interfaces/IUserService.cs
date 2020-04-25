@@ -4,6 +4,7 @@ using DigiMoallem.BLL.DTOs.Transactions;
 using DigiMoallem.BLL.DTOs.UserPanel;
 using DigiMoallem.DAL.Entities.Transactions;
 using DigiMoallem.DAL.Entities.Users;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -66,6 +67,11 @@ namespace DigiMoallem.BLL.Interfaces
         #region UpdateUser
         bool UpdateUser(User user);
         Task<bool> UpdateUserAsync(User user);
+        #endregion
+
+        #region UserSelectList
+        List<SelectListItem> GetUserSelectList();
+        Task<List<SelectListItem>> GetUserSelectListAsync();
         #endregion
 
         // userpanel

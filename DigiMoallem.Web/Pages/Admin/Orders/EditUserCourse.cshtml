@@ -1,0 +1,61 @@
+﻿@page "{id:min(1)}"
+@model DigiMoallem.Web.Pages.Admin.Orders.EditUserCourseModel
+
+@{
+    ViewData["Title"] = "ویرایش خرید کاربر";
+}
+
+<div class="container">
+
+    <h1 class="m-4">@ViewData["Title"]</h1>
+
+    <form method="post" enctype="multipart/form-data" class="form-group">
+
+        <input type="hidden" asp-for="UserCourse.UserCourseId" />
+
+        @if (ViewData["Message"] != null)
+        {
+            <div class="alert alert-danger">
+                @ViewData["Message"]
+            </div>
+        }
+
+        <div class="row">
+
+            <div class="col-12 col-sm-6">
+                <!-- users list -->
+                <div class="form-group">
+                    <label for="exampleSelect2">ایمیل کاربر</label>
+                    <select multiple="" class="form-control"
+                            asp-for="UserCourse.UserId"
+                            asp-items="Model.Users">
+                    </select>
+                </div>
+
+                <div class="form-group my-5">
+                    <button type="submit" class="btn btn-outline-warning">
+                        <i class="fas fa-edit ml-2"></i> خرید درس
+                    </button>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-6">
+                <div class="form-group">
+                    <label for="exampleSelect2">نام دوره آموزشی</label>
+                    <select multiple="" class="form-control"
+                            asp-for="UserCourse.CourseId"
+                            asp-items="Model.Courses">
+                    </select>
+                </div>
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+
+@section Scripts {
+    <script src="~/Admin/Scripts/Site.js"></script>
+}
+

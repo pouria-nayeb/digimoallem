@@ -113,3 +113,8 @@ C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\obj\Debug\netcoreapp2.2\
 C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\obj\Debug\netcoreapp2.2\Razor\Views\Home\WorkWithUsComplete.cshtml.g.cs
 C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\obj\Debug\netcoreapp2.2\Razor\Views\Course\ShowComment.cshtml.g.cs
 C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_AutoCompletePartial.cshtml.g.cs
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\obj\Debug\netcoreapp2.2\Razor\Pages\Admin\Orders\All.cshtml.g.cs
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\obj\Debug\netcoreapp2.2\Razor\Pages\Admin\Orders\Edit.cshtml.g.cs
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\obj\Debug\netcoreapp2.2\Razor\Pages\Admin\Orders\Index.cshtml.g.cs
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\obj\Debug\netcoreapp2.2\Razor\Pages\Admin\Orders\Create.cshtml.g.cs
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\obj\Debug\netcoreapp2.2\Razor\Pages\Admin\Orders\EditUserCourse.cshtml.g.cs

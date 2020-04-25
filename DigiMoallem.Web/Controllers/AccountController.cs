@@ -71,7 +71,7 @@ namespace DigiMoallem.Web.Controllers
                     IsActive = false,
                     RegisterDate = DateTime.Now,
                     ActivationCode = CodeGenerator.GenerateUniqueCode(),
-                    UserAvatar = "default.jpg"
+                    UserAvatar = "default.png"
                 };
 
                 if (await _userService.AddUserAsync(user) > 0)

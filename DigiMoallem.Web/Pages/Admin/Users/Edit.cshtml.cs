@@ -70,7 +70,7 @@ namespace DigiMoallem.Web.Pages.Admin.Users
         public void SendActivationEmail(string specificPage, string title, User user)
         {
             string body = _viewRender.RenderToString(specificPage, user);
-            SendEmail.Send(user.Email, title, body);
+            SendEmailClient.Send(user.Email, title, body);
         }
     }
 }

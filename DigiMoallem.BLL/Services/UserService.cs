@@ -66,11 +66,11 @@ namespace DigiMoallem.BLL.Services
         #region GetUserById
         public User GetUserById(int userId)
         {
-            return _db.Users.IgnoreQueryFilters().AsNoTracking().SingleOrDefault(u => u.UserId == userId);
+            return _db.Users.IgnoreQueryFilters().SingleOrDefault(u => u.UserId == userId);
         }
         public async Task<User> GetUserByIdAsync(int userId)
         {
-            return await _db.Users.IgnoreQueryFilters().AsNoTracking().SingleOrDefaultAsync(u => u.UserId == userId);
+            return await _db.Users.IgnoreQueryFilters().SingleOrDefaultAsync(u => u.UserId == userId);
         }
         #endregion
 
@@ -81,11 +81,11 @@ namespace DigiMoallem.BLL.Services
         #region GetUserByUserName
         public User GetUserByUserName(string userName)
         {
-            return _db.Users.AsNoTracking().SingleOrDefault(u => u.UserName == userName.TextTransform());
+            return _db.Users.SingleOrDefault(u => u.UserName == userName.TextTransform());
         }
         public async Task<User> GetUserByUserNameAsync(string userName)
         {
-            return await _db.Users.AsNoTracking().SingleOrDefaultAsync(u => u.UserName == userName.TextTransform());
+            return await _db.Users.SingleOrDefaultAsync(u => u.UserName == userName.TextTransform());
         }
         #endregion
 
@@ -124,6 +124,12 @@ namespace DigiMoallem.BLL.Services
                 return -1;
             }
         }
+        #endregion
+
+        #region RolesCount
+        public int RolesCount() => _db.Roles.Count();
+
+        public async Task<int> RolesCountAsync() => await _db.Roles.CountAsync();
         #endregion
 
         /// <summary>
@@ -202,12 +208,12 @@ namespace DigiMoallem.BLL.Services
         #region GetUserIdByUserName
         public int GetUserIdByUserName(string userName)
         {
-            return _db.Users.IgnoreQueryFilters().AsNoTracking().SingleOrDefault(u => u.UserName == userName.TextTransform()).UserId;
+            return _db.Users.IgnoreQueryFilters().SingleOrDefault(u => u.UserName == userName.TextTransform()).UserId;
         }
 
         public async Task<int> GetUserIdByUserNameAsync(string userName)
         {
-            var user = await _db.Users.IgnoreQueryFilters().AsNoTracking().SingleOrDefaultAsync(u => u.UserName == userName.TextTransform());
+            var user = await _db.Users.IgnoreQueryFilters().SingleOrDefaultAsync(u => u.UserName == userName.TextTransform());
             return user.UserId;
         }
         #endregion
@@ -219,11 +225,11 @@ namespace DigiMoallem.BLL.Services
         #region GetUserByActivationCode
         public User GetUserByActivationCode(string activationCode)
         {
-            return _db.Users.AsNoTracking().SingleOrDefault(u => u.ActivationCode == activationCode);
+            return _db.Users.SingleOrDefault(u => u.ActivationCode == activationCode);
         }
         public async Task<User> GetUserByActivationCodeAsync(string activationCode)
         {
-            return await _db.Users.AsNoTracking().SingleOrDefaultAsync(u => u.ActivationCode == activationCode);
+            return await _db.Users.SingleOrDefaultAsync(u => u.ActivationCode == activationCode);
         }
         #endregion
 
@@ -922,6 +928,7 @@ namespace DigiMoallem.BLL.Services
             newUser.RegisterDate = DateTime.Now;
             newUser.UserName = user.UserName;
             newUser.Description = user.Description;
+            newUser.ScientificField = user.ScientificField;
 
             newUser.UserAvatar = AddAndUplaodImage(newUser.UserAvatar, user.UserAvatar);
 
@@ -940,6 +947,7 @@ namespace DigiMoallem.BLL.Services
             newUser.RegisterDate = DateTime.Now;
             newUser.UserName = user.UserName;
             newUser.Description = user.Description;
+            newUser.ScientificField = user.ScientificField;
 
             newUser.UserAvatar = AddAndUplaodImage(newUser.UserAvatar, user.UserAvatar);
 
@@ -1039,6 +1047,8 @@ namespace DigiMoallem.BLL.Services
 
                 user.FirstName = model.FirstName;
                 user.LastName = model.LastName;
+                user.ScientificField = model.ScientificField;
+                user.IsActive = true;
 
                 if (!string.IsNullOrEmpty(model.Password))
                 {
@@ -1065,6 +1075,10 @@ namespace DigiMoallem.BLL.Services
 
                 user.FirstName = model.FirstName;
                 user.LastName = model.LastName;
+                user.ScientificField = model.ScientificField;
+                user.Skills = model.Skills;
+                user.Experiences = model.Experiences;
+                user.IsActive = true;
 
                 if (!string.IsNullOrEmpty(model.Password))
                 {
@@ -1099,6 +1113,9 @@ namespace DigiMoallem.BLL.Services
                 Email = u.Email,
                 AvatarName = u.UserAvatar,
                 Description = u.Description,
+                Skills = u.Skills,
+                Experiences = u.Experiences,
+                ScientificField = u.ScientificField,         
                 Roles = u.UserInRoles.Select(r => r.RoleId).ToList()
             }).Single();
         }
@@ -1114,6 +1131,9 @@ namespace DigiMoallem.BLL.Services
                 Email = u.Email,
                 AvatarName = u.UserAvatar,
                 Description = u.Description,
+                Skills = u.Skills,
+                Experiences = u.Experiences,
+                ScientificField = u.ScientificField,
                 Roles = u.UserInRoles.Select(r => r.RoleId).ToList()
             }).SingleAsync();
         }

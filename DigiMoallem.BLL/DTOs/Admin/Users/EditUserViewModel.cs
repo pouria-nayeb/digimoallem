@@ -28,6 +28,21 @@ namespace DigiMoallem.BLL.DTOs.Admin.Users
         [EmailAddress(ErrorMessage = "ایمیل وارد شده معتبر نمی باشد.")]
         public string Email { get; set; }
 
+        [Display(Name = "آخرین مدرک تحصیلی")]
+        [Required(ErrorMessage = "لطفاً {0} را وارد نمایید.")]
+        [MaxLength(200, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]
+        public string ScientificField { get; set; }
+
+        [Display(Name = "مهارت ها")]
+        [Required(ErrorMessage = "لطفاً {0} را وارد نمایید.")]
+        [MaxLength(200, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]
+        public string Skills { get; set; }
+
+        [Display(Name = "تجارب کاری")]
+        [Required(ErrorMessage = "لطفاً {0} را وارد نمایید.")]
+        [MaxLength(200, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]
+        public string Experiences { get; set; }
+
         [Display(Name = "رمز عبور")]
         [MaxLength(200, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]
         public string Password { get; set; }

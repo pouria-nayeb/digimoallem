@@ -31,7 +31,7 @@
                 @for (int i = 1; i <= Model.WorkPagingVM.PageCount; i++)
                 {
                     <li class="page-item @(Model.WorkPagingVM.PageNumber == i ? "active" : "")">
-                        <a class="page-link" href="/Admin/Messages?PageNumber=@i">@i</a>
+                        <a class="page-link" href="/Admin/Works?PageNumber=@i">@i</a>
                     </li>
                 }
             </ul>

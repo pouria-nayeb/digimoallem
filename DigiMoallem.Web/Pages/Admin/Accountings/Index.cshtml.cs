@@ -18,9 +18,13 @@ namespace DigiMoallem.Web.Pages.Admin.Accountings
 
         public AccountingViewModel PaymentVM { get; set; }
 
+        public int PaymentsCount { get; set; }
+
         public async Task OnGetAsync(int pageId = 1, int pageSize = 20)
         {
             PaymentVM = await _accountingService.GetPaymentsAsync(pageId, pageSize);
+
+            PaymentsCount = await _accountingService.PaymentCountsAsync();
         }
     }
 }

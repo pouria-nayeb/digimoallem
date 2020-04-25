@@ -105,6 +105,11 @@ namespace DigiMoallem.BLL.Interfaces
         Task<bool> ChangeUserPasswordAsync(string userName, string newPassword);
         #endregion
 
+        #region RolesCount
+        int RolesCount();
+        Task<int> RolesCountAsync();
+        #endregion
+
         // Transactions
         #region GetUserBalance
         int GetUserBalance(string userName);

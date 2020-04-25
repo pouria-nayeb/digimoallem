@@ -95,10 +95,35 @@
                     <span asp-validation-for="CreateUserViewModel.Email" class="text-danger"></span>
                 </div>
 
+                <!-- scientific -->
+                <div class="form-group">
+                    <label asp-for="CreateUserViewModel.ScientificField"></label>
+                    <input type="text" class="form-control text-direction-ltr text-left english-font"
+                           asp-for="CreateUserViewModel.ScientificField" />
+
+                    <span asp-validation-for="CreateUserViewModel.ScientificField" class="text-danger"></span>
+                </div>
+
                 <!-- description -->
                 <div class="form-group mb-4">
                     <label asp-for="CreateUserViewModel.Description"></label>
                     <textarea class="form-control" asp-for="CreateUserViewModel.Description" rows="3"></textarea>
+                </div>
+
+                <!-- skills -->
+                <div class="form-group mb-4">
+                    <label asp-for="CreateUserViewModel.Skills"></label>
+                    <textarea class="form-control" asp-for="CreateUserViewModel.Skills" rows="3"></textarea>
+
+                    <span asp-validation-for="CreateUserViewModel.Skills" class="text-danger"></span>
+                </div>
+
+                <!-- experiences -->
+                <div class="form-group mb-4">
+                    <label asp-for="CreateUserViewModel.Experiences"></label>
+                    <textarea class="form-control" asp-for="CreateUserViewModel.Experiences" rows="3"></textarea>
+
+                    <span asp-validation-for="CreateUserViewModel.Experiences" class="text-danger"></span>
                 </div>
 
                 <!-- password -->

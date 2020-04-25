@@ -12,6 +12,8 @@ using DigiMoallem.BLL.DTOs.Orders;
 using DigiMoallem.DAL.Entities.Users;
 using DigiMoallem.BLL.DTOs.Admin.Discounts;
 using System.Runtime.InteropServices;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using DigiMoallem.BLL.DTOs.Transactions;
 
 namespace DigiMoallem.BLL.Services
 {
@@ -36,12 +38,12 @@ namespace DigiMoallem.BLL.Services
         #region GetOrderById
         public Order GetOrderById(int orderId)
         {
-            return _db.Orders.Include(o => o.User).AsNoTracking().SingleOrDefault(o => o.OrderId == orderId);
+            return _db.Orders.Include(o => o.User).SingleOrDefault(o => o.OrderId == orderId);
         }
 
         public async Task<Order> GetOrderByIdAsync(int orderId)
         {
-            return await _db.Orders.Include(o => o.User).AsNoTracking().SingleOrDefaultAsync(o => o.OrderId == orderId);
+            return await _db.Orders.Include(o => o.User).SingleOrDefaultAsync(o => o.OrderId == orderId);
         }
         #endregion
 
@@ -497,6 +499,14 @@ namespace DigiMoallem.BLL.Services
         }
         #endregion
 
+        #region GetTransactionById
+        public Exchange GetTransactionById(int transactionId) => _db.Exchanges
+            .SingleOrDefault(t => t.ExchangeId == transactionId);
+
+        public async Task<Exchange> GetTransactionByIdAsync(int transactionId) => await _db.Exchanges
+            .SingleOrDefaultAsync(t => t.ExchangeId == transactionId);
+        #endregion
+
         /// <summary>
         /// List of user orders
         /// </summary>
@@ -527,8 +537,8 @@ namespace DigiMoallem.BLL.Services
         #endregion
 
         #region GetAllOrders
-        public OrderPagingViewModel GetAllOrders(int pageNumber = 1, int pageSize = 32) 
-        { 
+        public OrderPagingViewModel GetAllOrders(int pageNumber = 1, int pageSize = 32)
+        {
             IQueryable<Order> orders = _db.Orders;
 
             int take = pageSize;
@@ -545,7 +555,7 @@ namespace DigiMoallem.BLL.Services
                 .AsNoTracking()
                 .ToList(),
                 PageNumber = pageNumber,
-               PagesCount = pagesCount
+                PagesCount = pagesCount
             };
         }
 
@@ -595,7 +605,7 @@ namespace DigiMoallem.BLL.Services
                 PagesCount = pagesCount
             };
         }
-        public async Task<UserCoursePagingViewModel> GetAllUserCoursesAsync(int pageNumber, int pageSize) 
+        public async Task<UserCoursePagingViewModel> GetAllUserCoursesAsync(int pageNumber, int pageSize)
         {
             IQueryable<UserCourse> userCourses = _db.UserCourses;
 
@@ -619,6 +629,12 @@ namespace DigiMoallem.BLL.Services
         }
         #endregion
 
+        public List<SelectListItem> TransactionTypeSelectList() => _db.TransactionTypes.Select(tt => new SelectListItem
+        {
+            Text = tt.TypeTitle,
+            Value = tt.TransactionTypeId.ToString()
+        }).ToList();
+
         #region AddUserCourse
         public UserCourse AddUserCourse(UserCourse userCourse)
         {
@@ -634,7 +650,7 @@ namespace DigiMoallem.BLL.Services
                 return null;
             }
         }
-        public async Task<UserCourse> AddUserCourseAsync(UserCourse userCourse) 
+        public async Task<UserCourse> AddUserCourseAsync(UserCourse userCourse)
         {
             try
             {
@@ -651,12 +667,66 @@ namespace DigiMoallem.BLL.Services
         #endregion
 
         #region RemoveUserCourse
-        public void RemoveUserCourse(int userCourseId) 
+        public void RemoveUserCourse(int userCourseId)
         {
             var userCourse = GetUserCourseById(userCourseId);
 
             _db.UserCourses.Remove(userCourse);
             Save();
+        }
+        #endregion
+
+        #region GetAllTransactions
+        public TransactionPagingViewModel GetAllTransactions(int pageNumber = 1, int pageSize = 64)
+        {
+            IQueryable<Exchange> result = _db.Exchanges;
+
+            // pagination logic
+            int take = pageSize;
+            int skip = (pageNumber - 1) * take;
+
+            int discountsCount = result.Count();
+
+            int pagesCount = (int)Math.Ceiling(decimal.Divide(discountsCount, take));
+
+            return new TransactionPagingViewModel
+            {
+                PageNumber = pageNumber,
+                PageCount = pagesCount,
+                Exchanges = result
+                .OrderByDescending(d => d.ExchangeId)
+                .Skip(skip)
+                .Take(take)
+                .Include(e => e.User)
+                .AsNoTracking()
+                .ToList()
+            };
+        }
+
+        public async Task<TransactionPagingViewModel> GetAllTransactionsAsync(int pageNumber = 1, int pageSize = 64)
+        {
+            IQueryable<Exchange> result = _db.Exchanges;
+
+            // pagination logic
+            int take = pageSize;
+            int skip = (pageNumber - 1) * take;
+
+            int discountsCount = await result.CountAsync();
+
+            int pagesCount = (int)Math.Ceiling(decimal.Divide(discountsCount, take));
+
+            return new TransactionPagingViewModel
+            {
+                PageNumber = pageNumber,
+                PageCount = pagesCount,
+                Exchanges = await result
+                .OrderByDescending(d => d.ExchangeId)
+                .Skip(skip)
+                .Take(take)
+                .Include(e => e.User)
+                .AsNoTracking()
+                .ToListAsync()
+            };
         }
         #endregion
 
@@ -794,22 +864,52 @@ namespace DigiMoallem.BLL.Services
         }
         #endregion
 
+        #region UpdateTransaction
+        public Exchange UpdateTransaction(Exchange exchange)
+        {
+            try
+            {
+                _db.Exchanges.Update(exchange);
+                Save();
+
+                return exchange;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public async Task<Exchange> UpdateTransactionAsync(Exchange exchange)
+        {
+            try
+            {
+                _db.Exchanges.Update(exchange);
+                await SaveAsync();
+
+                return exchange;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        #endregion
+
         #region GetUserCourseById
         public UserCourse GetUserCourseById(int userCourseId) => _db.UserCourses
             .Include(uc => uc.User)
             .Include(uc => uc.Course)
-            .AsNoTracking()
             .SingleOrDefault(uc => uc.UserCourseId == userCourseId);
 
         public async Task<UserCourse> GetUserCourseByIdAsync(int userCourseId) => await _db.UserCourses
             .Include(uc => uc.User)
             .Include(uc => uc.Course)
-            .AsNoTracking()
             .SingleOrDefaultAsync(uc => uc.UserCourseId == userCourseId);
         #endregion
 
         #region UpdateUserCourse
-        public UserCourse UpdateUserCourse(UserCourse userCourse) 
+        public UserCourse UpdateUserCourse(UserCourse userCourse)
         {
             try
             {
@@ -818,12 +918,12 @@ namespace DigiMoallem.BLL.Services
 
                 return userCourse;
             }
-            catch 
+            catch
             {
                 return null;
             }
         }
-        public async Task<UserCourse> UpdateUserCourseAsync(UserCourse userCourse) 
+        public async Task<UserCourse> UpdateUserCourseAsync(UserCourse userCourse)
         {
             try
             {
@@ -911,7 +1011,6 @@ namespace DigiMoallem.BLL.Services
             };
 
             return discountVM;
-            ;
         }
 
         public async Task<DiscountViewModel> GetDiscountsAsync(int pageId = 1)
@@ -942,6 +1041,10 @@ namespace DigiMoallem.BLL.Services
         }
         #endregion
 
+        #region TransactionsCount
+        public int TransactionsCount() => _db.Exchanges.Count();
+        #endregion
+
         /// <summary>
         /// Get discount by id
         /// </summary>
@@ -950,12 +1053,12 @@ namespace DigiMoallem.BLL.Services
         #region GetDiscount
         public Discount GetDiscountById(int discountId)
         {
-            return _db.Discounts.AsNoTracking().SingleOrDefault(d => d.DiscountId == discountId);
+            return _db.Discounts.SingleOrDefault(d => d.DiscountId == discountId);
         }
 
         public async Task<Discount> GetDiscountByIdAsync(int discountId)
         {
-            return await _db.Discounts.AsNoTracking().SingleOrDefaultAsync(d => d.DiscountId == discountId);
+            return await _db.Discounts.SingleOrDefaultAsync(d => d.DiscountId == discountId);
         }
         #endregion
 
@@ -1037,6 +1140,16 @@ namespace DigiMoallem.BLL.Services
 
             return await _db.UserCourses.AnyAsync(uc => uc.UserId == userId && uc.CourseId == courseId);
         }
+        #endregion
+
+        #region OrdersCount
+        public int OrdersCount() => _db.Orders.Count();
+        public async Task<int> OrdersCountAsync() => await _db.Orders.CountAsync();
+        #endregion
+
+        #region DiscountsCount
+        public int DiscountsCount() => _db.Discounts.Count();
+        public async Task<int> DiscountsCountAsync() => await _db.Discounts.CountAsync();
         #endregion
 
         #region Save

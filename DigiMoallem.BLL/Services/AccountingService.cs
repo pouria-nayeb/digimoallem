@@ -118,7 +118,6 @@ namespace DigiMoallem.BLL.Services
             return _db.Payments
                 .Include(p => p.User)
                 .Include(p => p.Course)
-                .AsNoTracking()
                 .SingleOrDefault(p => p.PaymentId == paymentId);
         }
 
@@ -127,7 +126,6 @@ namespace DigiMoallem.BLL.Services
             return await _db.Payments
                 .Include(p => p.User)
                 .Include(p => p.Course)
-                .AsNoTracking()
                 .SingleOrDefaultAsync(p => p.PaymentId == paymentId);
         }
         #endregion

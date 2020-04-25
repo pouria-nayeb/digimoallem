@@ -107,7 +107,7 @@
             @for (int i = 1; i <= Model.UserViewModel.PageCount; i++)
             {
                 <li class="page-item @((Model.UserViewModel.CurrentPage == i) ? "active" : "")">
-                    <a href="/Admin/Users?pageId=@i" class="page-link">@i</a>
+                    <a href="/Admin/DeletedUsers?pageId=@i" class="page-link">@i</a>
                 </li>
             }
         </ul>

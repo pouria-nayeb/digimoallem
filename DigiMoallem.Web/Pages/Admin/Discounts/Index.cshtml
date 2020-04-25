@@ -5,50 +5,54 @@
     ViewData["Title"] = "لیست کدهای تخفیف";
 }
 
-<div class="container">
+    <div class="container">
 
-    <h1 class="my-5"> <i class="fas fa-percent ml-2"></i> @ViewData["Title"]</h1>
+        <h1 class="my-5"> <i class="fas fa-percent ml-2"></i> @ViewData["Title"]</h1>
 
-    <!-- create succeeded -->
-    @if (TempData["Success"] != null)
-    {
-        <div class="alert alert-success">
-            @TempData["Success"]
+        <!-- create succeeded -->
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success">
+                @TempData["Success"]
+            </div>
+        }
+
+        <div class="py-3 clearfix">
+            <!-- add -->
+            <a asp-area=""
+               asp-page="Create"
+               class="btn btn-outline-success float-right">
+                <i class="fa fa-plus ml-2"></i> افزودن کد تخفیف جدید
+            </a>
+
+            <button class="btn btn-primary float-left">
+                <i class="fa fa-list ml-1"></i> @Model.DiscountsCount
+            </button>
         </div>
-    }
 
-    <div class="py-3">
-        <!-- add -->
-        <a asp-area=""
-           asp-page="Create"
-           class="btn btn-outline-success">
-            <i class="fa fa-plus ml-2"></i> افزودن کد تخفیف جدید
-        </a>
-    </div>
-
-    <!-- users table -->
-    <div class="table-responsive">
-        <table class="table table-striped table-bordered">
-            <tr>
-                <th class="th-sm">
-                    شناسه
-                </th>
-                <th class="th-sm">
-                    کد تخفیف
-                </th>
-                <th class="th-sm">
-                    درصد تخفیف
-                </th>
-                <th class="th-sm">
-                    تاریخ شروع
-                </th>
-                <th class="th-sm">
-                    تاریخ انقضا
-                </th>
-                <th class="th-sm">
-                    عملیات
-                </th>
-            </tr>
+        <!-- users table -->
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <tr>
+                    <th class="th-sm">
+                        شناسه
+                    </th>
+                    <th class="th-sm">
+                        کد تخفیف
+                    </th>
+                    <th class="th-sm">
+                        درصد تخفیف
+                    </th>
+                    <th class="th-sm">
+                        تاریخ شروع
+                    </th>
+                    <th class="th-sm">
+                        تاریخ انقضا
+                    </th>
+                    <th class="th-sm">
+                        عملیات
+                    </th>
+                </tr>
                 @if (Model.DiscountViewModel.Discounts.Count == 0)
                 {
                     <tr class="bg-dark text-light">
@@ -98,19 +102,22 @@
                         </tr>
                     }
                 }
-        </table>
+            </table>
+        </div>
+
+        @if (Model.DiscountViewModel.PageCount > 1)
+        {
+            <!-- pagination -->
+            <nav aria-label="Page navigation" class="my-3">
+                <ul class="pagination pagination-circle pg-dark justify-content-center">
+                    @for (int i = 1; i <= Model.DiscountViewModel.PageCount; i++)
+                    {
+                        <li class="page-item english-font @((Model.DiscountViewModel.CurrentPage == i) ? "active" : "")">
+                            <a href="/Admin/Discounts?pageId=@i" class="page-link">@i</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        }
+
     </div>
-
-    <!-- pagination -->
-    <nav aria-label="Page navigation" class="my-3">
-        <ul class="pagination pagination-circle pg-dark justify-content-center">
-            @for (int i = 1; i <= Model.DiscountViewModel.PageCount; i++)
-            {
-                <li class="page-item english-font @((Model.DiscountViewModel.CurrentPage == i) ? "active" : "")">
-                    <a href="/Admin/Discounts?pageId=@i" class="page-link">@i</a>
-                </li>
-            }
-        </ul>
-    </nav>
-
-</div>

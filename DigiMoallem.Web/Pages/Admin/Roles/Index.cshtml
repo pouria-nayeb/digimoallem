@@ -16,12 +16,18 @@
         </div>
     }
 
+<div class="my-3 clearfix">
     <!-- add -->
     <a asp-area=""
        asp-page="Create"
-       class="btn btn-outline-success my-3">
+       class="btn btn-outline-success float-right">
         <i class="fa fa-plus ml-2"></i> افزودن نقش جدید
     </a>
+
+    <button class="btn btn-primary float-left">
+        <i class="fa fa-list ml-1"></i> @Model.RolesCount
+    </button>
+</div>
 
     <!-- users table -->
     <div class="table-responsive">

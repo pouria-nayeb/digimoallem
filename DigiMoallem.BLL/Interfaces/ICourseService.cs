@@ -95,6 +95,11 @@ namespace DigiMoallem.BLL.Interfaces
         Task<bool> UpdateCourseAsync(Course course, IFormFile imageCourse, IFormFile demoCourse);
         #endregion
 
+        #region CoursesCount
+        int CoursesCount();
+        Task<int> CoursesCountAsync();
+        #endregion
+
         #region GetCoursesItemList
         List<SelectListItem> GetCoursesItemList();
         Task<List<SelectListItem>> GetCoursesItemListAsync();

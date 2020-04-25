@@ -17,9 +17,12 @@ namespace DigiMoallem.Web.Pages.Admin.Users
 
         public UserViewModel UserViewModel { get; set; }
 
+        public int UsersCount { get; set; }
+
         public async Task OnGetAsync(int pageId = 1, string filterEmail = "", string filterUserName = "")
         {
             UserViewModel = await _userService.GetUsersAsync(pageId, filterEmail, filterUserName);
+            UsersCount = await _userService.UsersCountAsync();
         }
     }
 }

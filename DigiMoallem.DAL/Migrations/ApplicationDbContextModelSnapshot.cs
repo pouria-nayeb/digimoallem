@@ -609,6 +609,9 @@ namespace DigiMoallem.DAL.Migrations
 
                     b.Property<DateTime>("RegisterDate");
 
+                    b.Property<string>("ScientificField")
+                        .HasMaxLength(200);
+
                     b.Property<string>("Skills")
                         .HasMaxLength(1500);
 

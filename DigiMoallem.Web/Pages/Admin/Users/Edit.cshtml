@@ -94,10 +94,34 @@
                     <span asp-validation-for="EditUserViewModel.Email"></span>
                 </div>
 
+                <!-- scientific -->
+                <div class="form-group">
+                    <label asp-for="EditUserViewModel.ScientificField"></label>
+                    <input type="text" class="form-control" asp-for="EditUserViewModel.ScientificField" />
+
+                    <span asp-validation-for="EditUserViewModel.ScientificField" class="text-danger"></span>
+                </div>
+
                 <!-- description -->
                 <div class="form-group mb-4">
                     <label asp-for="EditUserViewModel.Description"></label>
                     <textarea class="form-control" asp-for="EditUserViewModel.Description" rows="3"></textarea>
+                </div>
+
+                <!-- Skills -->
+                <div class="form-group mb-4">
+                    <label asp-for="EditUserViewModel.Skills"></label>
+                    <textarea class="form-control" asp-for="EditUserViewModel.Skills" rows="3"></textarea>
+
+                    <span asp-validation-for="EditUserViewModel.Skills" class="text-danger"></span>
+                </div>
+
+                <!-- Experiences -->
+                <div class="form-group mb-4">
+                    <label asp-for="EditUserViewModel.Experiences"></label>
+                    <textarea class="form-control" asp-for="EditUserViewModel.Experiences" rows="3"></textarea>
+
+                    <span asp-validation-for="EditUserViewModel.Experiences" class="text-danger"></span>
                 </div>
 
                 <!-- password -->
@@ -114,7 +138,7 @@
                         <div class="form-check">
                             <label class="form-check-label">
                                 <input type="checkbox" class="form-check-input"
-                                       value="@role.RoleId" 
+                                       value="@role.RoleId"
                                        name="SelectedRoles"
                                        @((Model.EditUserViewModel.Roles.Any(r => r == role.RoleId)) ? "checked" : "") />
                                 <span class="mr-4">@role.Title</span>

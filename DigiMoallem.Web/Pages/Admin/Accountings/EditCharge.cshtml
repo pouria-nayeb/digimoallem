@@ -1,0 +1,89 @@
+﻿@page "{id:min(1)}"
+@model DigiMoallem.Web.Pages.Admin.Accountings.EditChargeModel
+
+@{
+    ViewData["Title"] = "ویرایش شارژ کاربر";
+}
+
+<div class="container">
+
+    <!-- back to accountings -->
+    <a asp-area=""
+       asp-page="Transactions"
+       class="btn btn-outline-info">
+        <i class="fas fa-arrow-right ml-2"></i> بازگشت
+    </a>
+
+    <h1 class="my-5"> <i class="fa fa-book ml-2"></i> @ViewData["Title"]</h1>
+
+    <form method="post">
+
+        <div asp-validation-summary="ModelOnly" class="text-danger my-4"></div>
+
+        @if (TempData["Message"] != null)
+        {
+            <div class="alert alert-danger">
+                @TempData["Message"]
+            </div>
+        }
+
+        <input type="hidden" asp-for="Exchange.ExchangeId" />
+
+        <!-- user -->
+        <div class="form-group">
+            <label asp-for="Exchange.UserId"></label>
+            <select multiple="" size="6" class="form-control"
+                    asp-for="Exchange.UserId"
+                    asp-items="Model.UsersSelectList">
+            </select>
+
+            <span asp-validation-for="Exchange.UserId" class="text-danger"></span>
+        </div>
+
+        <!-- transaction type -->
+        <div class="form-group">
+            <label asp-for="Exchange.TransactionTypeId"></label>
+            <select multiple="" size="2" class="form-control"
+                    asp-for="Exchange.TransactionTypeId"
+                    asp-items="Model.TransactionTypeSelectList">
+            </select>
+
+            <span asp-validation-for="Exchange.TransactionTypeId" class="text-danger"></span>
+        </div>
+
+        <!-- amount -->
+        <div class="form-group mb-4">
+            <label asp-for="Exchange.Amount"></label>
+            <input type="number" asp-for="Exchange.Amount" class="form-control english-font text-left text-direction-ltr" />
+
+            <span asp-validation-for="Exchange.Amount" class="text-danger"></span>
+        </div>
+
+        <!-- description -->
+        <div class="form-group mb-4">
+            <label asp-for="Exchange.Description"></label>
+            <input type="text" asp-for="Exchange.Description" class="form-control" />
+
+            <span asp-validation-for="Exchange.Description" class="text-danger"></span>
+        </div>
+
+        <!-- checked -->
+        <div class="form-group">
+            <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" asp-for="Exchange.IsPay" />
+                <label class="custom-control-label" asp-for="Exchange.IsPay"></label>
+            </div>
+        </div>
+
+        <div class="form-group my-5">
+            <!-- create -->
+            <button type="submit" class="btn btn-outline-warning">
+                <i class="fa fa-pen ml-2"></i> @ViewData["Title"]
+            </button>
+        </div>
+
+    </form>
+
+</div>
+
+

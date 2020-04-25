@@ -61,7 +61,7 @@
                     @for (int i = 1; i <= Model.IncomesVM.PageCount; i++)
                     {
                         <li class="page-item english-font @((Model.IncomesVM.PageNumber == i) ? "active" : "")">
-                            <a href="/Admin/Accountings/Incomes?pageId=@i" class="page-link">@i</a>
+                            <a href="/Admin/Accountings/Incomes?pageNumber=@i" class="page-link">@i</a>
                         </li>
                     }
                 </ul>

@@ -120,10 +120,9 @@ namespace DigiMoallem.BLL.Services
         /// <returns></returns>
         #region Get contact by id
         public Contact GetContactById(int contactId) => _context.Messages
-            .AsNoTracking()
             .SingleOrDefault(c => c.ContactId == contactId);
 
-        public async Task<Contact> GetContactByIdAsync(int contactId) => await _context.Messages.AsNoTracking()
+        public async Task<Contact> GetContactByIdAsync(int contactId) => await _context.Messages
             .SingleOrDefaultAsync(c => c.ContactId == contactId);
         #endregion
 

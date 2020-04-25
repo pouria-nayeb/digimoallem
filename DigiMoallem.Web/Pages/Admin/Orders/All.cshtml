@@ -9,11 +9,17 @@
 
         <h1 class="my-5"> <i class="fa fa-shopping-bag ml-2"></i> @ViewData["Title"]</h1>
 
-        <a asp-area=""
-           asp-page="Index"
-           class="btn btn-outline-info btn-md my-3">
-            <i class="fas fa-shopping-cart ml-2"></i> دوره های خریداری شده
-        </a>
+        <div class="my-3 clearfix">
+            <a asp-area=""
+               asp-page="Index"
+               class="btn btn-outline-info btn-md float-right">
+                <i class="fas fa-shopping-cart ml-2"></i> دوره های خریداری شده
+            </a>
+
+            <button class="btn btn-primary float-left">
+                <i class="fa fa-list ml-1"></i> @Model.OrdersCount
+            </button>
+        </div>
 
         <!-- orders table -->
         <div class="table-responsive">
@@ -93,7 +99,7 @@
                     @for (int i = 1; i <= Model.OrderPagingVM.PagesCount; i++)
                     {
                         <li class="page-item english-font @((Model.OrderPagingVM.PageNumber == i) ? "active" : "")">
-                            <a href="/Admin/Orders/All?pageId=@i" class="page-link">@i</a>
+                            <a href="/Admin/Orders/All?pageNumber=@i" class="page-link">@i</a>
                         </li>
                     }
                 </ul>

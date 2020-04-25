@@ -5,67 +5,71 @@
     ViewData["Title"] = "لیست کاربران";
 }
 
-<div class="container">
+    <div class="container">
 
-    <h1 class="my-5"> <i class="fa fa-users ml-2"></i> @ViewData["Title"]</h1>
+        <h1 class="my-5"> <i class="fa fa-users ml-2"></i> @ViewData["Title"]</h1>
 
-    <!-- create succeeded -->
-    @if (TempData["Success"] != null)
-    {
-        <div class="alert alert-success">
-            @TempData["Success"]
-        </div>
-    }
+        <!-- create succeeded -->
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success">
+                @TempData["Success"]
+            </div>
+        }
 
-    <form autocomplete="off">
+        <form autocomplete="off">
 
-        <div class="row p-3">
+            <div class="row p-3">
 
-            <!-- userName -->
-            <div class="col-12 col-sm-12 col-md-4">
-                <div class="form-group">
-                    <input type="text" id="username" name="filterUserName" 
-                           class="form-control english-font text-direction-ltr text-left">
-                    <label for="username">نام کاربری</label>
+                <!-- userName -->
+                <div class="col-12 col-sm-12 col-md-4">
+                    <div class="form-group">
+                        <input type="text" id="username" name="filterUserName"
+                               class="form-control english-font text-direction-ltr text-left">
+                        <label for="username">نام کاربری</label>
+                    </div>
                 </div>
-            </div>
 
-            <!-- email -->
-            <div class="col-12 col-sm-12 col-md-4">
-                <div class="form-group">
-                    <input type="text" id="email" name="filterEmail" 
-                           class="form-control english-font text-direction-ltr text-left">
-                    <label for="email">آدرس ایمیل</label>
+                <!-- email -->
+                <div class="col-12 col-sm-12 col-md-4">
+                    <div class="form-group">
+                        <input type="text" id="email" name="filterEmail"
+                               class="form-control english-font text-direction-ltr text-left">
+                        <label for="email">آدرس ایمیل</label>
+                    </div>
                 </div>
-            </div>
 
-            <!-- search -->
-            <div class="col-12 col-sm-12 col-md-4">
-                <button class="btn btn-primary"> <i class="fa fa-search ml-2"></i> جستجو</button>
-                <a href="/Admin/Users" class="btn btn-secondary"> <i class="fa fa-filter ml-2"></i> حذف فیلترها</a>
-            </div>
+                <!-- search -->
+                <div class="col-12 col-sm-12 col-md-4">
+                    <button class="btn btn-primary"> <i class="fa fa-search ml-2"></i> جستجو</button>
+                    <a href="/Admin/Users" class="btn btn-secondary"> <i class="fa fa-filter ml-2"></i> حذف فیلترها</a>
+                </div>
 
+            </div>
+        </form>
+
+        <div class="p-3 clearfix">
+            <!-- add -->
+            <a asp-area=""
+               asp-page="Create"
+               class="btn btn-outline-success float-right ml-2">
+                <i class="fa fa-plus ml-2"></i> افزودن کاربر جدید
+            </a>
+            <!-- deleted users -->
+            <a asp-area=""
+               asp-page="/Admin/Users/DeletedUsers"
+               class="btn btn-outline-danger float-right">
+                <i class="fa fa-users ml-2"></i> کاربران حذف شده
+            </a>
+
+            <button class="btn btn-primary float-left">
+                <i class="fa fa-list ml-1"></i> @Model.UsersCount
+            </button>
         </div>
-    </form>
 
-    <div class="p-3">
-        <!-- add -->
-        <a asp-area=""
-           asp-page="Create"
-           class="btn btn-outline-success ml-2">
-            <i class="fa fa-plus ml-2"></i> افزودن کاربر جدید
-        </a>
-        <!-- deleted users -->
-        <a asp-area=""
-           asp-page="/Admin/Users/DeletedUsers"
-           class="btn btn-outline-danger">
-            <i class="fa fa-users ml-2"></i> کاربران حذف شده
-        </a>
-    </div>
-
-    <!-- users table -->
-    <div class="table-responsive">
-        <table class="table table-dark table-striped table-bordered">
+        <!-- users table -->
+        <div class="table-responsive">
+            <table class="table table-dark table-striped table-bordered">
                 <tr>
                     <th class="th-sm">
                         نام کاربری
@@ -122,19 +126,22 @@
                         </tr>
                     }
                 }
-        </table>
+            </table>
+        </div>
+
+        @if (Model.UserViewModel.PageCount > 1)
+        {
+            <!-- pagination -->
+            <nav aria-label="Page navigation" class="my-3">
+                <ul class="pagination pagination-circle pg-dark justify-content-center">
+                    @for (int i = 1; i <= Model.UserViewModel.PageCount; i++)
+                    {
+                        <li class="page-item english-font @((Model.UserViewModel.CurrentPage == i) ? "active" : "")">
+                            <a href="/Admin/Users?pageId=@i" class="page-link">@i</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        }
+
     </div>
-
-    <!-- pagination -->
-    <nav aria-label="Page navigation" class="my-3">
-        <ul class="pagination pagination-circle pg-dark justify-content-center">
-            @for (int i = 1; i <= Model.UserViewModel.PageCount; i++)
-            {
-                <li class="page-item english-font @((Model.UserViewModel.CurrentPage == i) ? "active" : "")">
-                    <a href="/Admin/Users?pageId=@i" class="page-link">@i</a>
-                </li>
-            }
-        </ul>
-    </nav>
-
-</div>

@@ -18,9 +18,12 @@ namespace DigiMoallem.Web.Pages.Admin.Discounts
 
         public DiscountViewModel DiscountViewModel { get; set; }
 
+        public int DiscountsCount { get; set; }
+
         public async Task OnGetAsync(int pageId = 1)
         {
             DiscountViewModel = await _orderService.GetDiscountsAsync(pageId);
+            DiscountsCount = await _orderService.DiscountsCountAsync();
         }
     }
 }

@@ -18,9 +18,13 @@ namespace DigiMoallem.Web.Pages.Admin.Groups
 
         public List<Group> Groups { get; set; }
 
+        public int GroupsCount { get; set; }
+
         public async Task OnGetAsync()
         {
             Groups = await _courseService.GetGroupsAsync();
+
+            GroupsCount = await _courseService.GroupsCountAsync();
         }
     }
 }

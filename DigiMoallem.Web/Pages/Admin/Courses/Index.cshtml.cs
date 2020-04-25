@@ -18,9 +18,13 @@ namespace DigiMoallem.Web.Pages.Admin.Courses
 
         public CourseViewModel CourseVM { get; set; }
 
+        public int CoursesCount { get; set; }
+
         public async Task OnGetAsync(int pageId = 1)
         {
             CourseVM = await _courseService.GetCoursesForAdminAsync(pageId);
+
+            CoursesCount = await _courseService.CoursesCountAsync();
         }
     }
 }

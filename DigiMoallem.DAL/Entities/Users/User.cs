@@ -37,6 +37,10 @@ namespace DigiMoallem.DAL.Entities.Users
         [EmailAddress(ErrorMessage = "ایمیل وارد شده معتبر نمی باشد.")]
         public string Email { get; set; }
 
+        [Display(Name = "آخرین مدرک")]
+        [MaxLength(200, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]
+        public string ScientificField { get; set; }
+
         [Display(Name = "توضیحات")]
         [MaxLength(1500, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]
         public string Description { get; set; }

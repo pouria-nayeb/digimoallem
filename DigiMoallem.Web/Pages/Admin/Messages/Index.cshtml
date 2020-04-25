@@ -24,20 +24,6 @@
         </button>
     </div>
 
-    @if (Model.ContactPagingVM.PageCount > 1)
-    {
-        <nav>
-            <ul class="pagination pagination-sm justify-content-center">
-                @for (int i = 1; i <= Model.ContactPagingVM.PageCount; i++)
-                {
-                    <li class="page-item @(Model.ContactPagingVM.PageNumber == i ? "active" : "")">
-                        <a class="page-link" href="/Admin/Messages?PageNumber=@i">@i</a>
-                    </li>
-                }
-            </ul>
-        </nav>
-    }
-
     @if (Model.ContactPagingVM.Contacts.Any())
     {
         @foreach (Contact contact in Model.ContactPagingVM.Contacts)
@@ -87,6 +73,20 @@
                 <i class="fa fa-exclamation-triangle fa-fw mx-2"></i> پیامی وجود ندارد.
             </p>
         </div>
+    }
+
+    @if (Model.ContactPagingVM.PageCount > 1)
+    {
+        <nav>
+            <ul class="pagination pagination-sm justify-content-center">
+                @for (int i = 1; i <= Model.ContactPagingVM.PageCount; i++)
+                {
+                    <li class="page-item @(Model.ContactPagingVM.PageNumber == i ? "active" : "")">
+                        <a class="page-link" href="/Admin/Messages?PageNumber=@i">@i</a>
+                    </li>
+                }
+            </ul>
+        </nav>
     }
 
 </section>

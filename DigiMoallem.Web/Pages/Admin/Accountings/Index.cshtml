@@ -17,26 +17,39 @@
             </div>
         }
 
+    <div class="my-3 clearfix">
         <!-- add -->
         <a asp-area=""
            asp-page="Create"
-           class="btn btn-outline-success my-3">
+           class="btn btn-outline-success float-right">
             <i class="fa fa-plus ml-1"></i> افزودن واریزی جدید
         </a>
 
         <!-- incomes -->
         <a asp-area=""
            asp-page="/Admin/Accountings/Incomes"
-           class="btn btn-outline-info mx-2">
+           class="btn btn-outline-info mx-2 float-right">
             <i class="fa fa-money-bill ml-1"></i> مشاهده درآمدها
         </a>
 
         <!-- percent -->
         <a asp-area=""
            asp-page="/Admin/Accountings/Percent"
-           class="btn btn-outline-danger mx-2">
+           class="btn btn-outline-danger mx-2 float-right">
             <i class="fa fa-percent ml-1"></i> درصد استاد
         </a>
+
+        <!-- transactions -->
+        <a asp-area=""
+           asp-page="/Admin/Accountings/Transactions"
+           class="btn btn-outline-warning mx-2 float-right">
+            <i class="fa fa-sync ml-1"></i> تراکنش ها
+        </a>
+
+        <button class="btn btn-primary float-left">
+            <i class="fa fa-list ml-1"></i> @Model.PaymentsCount
+        </button>
+    </div>
 
         <!-- users table -->
         <div class="table-responsive">

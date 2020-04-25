@@ -53,8 +53,13 @@ using DigiMoallem.BLL.Helpers.Converters;
 
 #line default
 #line hidden
+#line 11 "C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\Views\_ViewImports.cshtml"
+using DigiMoallem.DAL.Entities.Users;
+
+#line default
+#line hidden
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"05d49b7e146a9a3a460f3972e28569cd55bf9046", @"/Views/Shared/_FooterPartial.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"427df6836bb3d6586c3f85e8750c5b6af5aa6643", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"8f46ee54e3ec075b06ba192b910ab63bbfe2ccba", @"/Views/_ViewImports.cshtml")]
     public class Views_Shared__FooterPartial : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<dynamic>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("class", new global::Microsoft.AspNetCore.Html.HtmlString("text-muted"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -90,7 +95,7 @@ using DigiMoallem.BLL.Helpers.Converters;
             WriteLiteral("    <div class=\"row mx-3\">\r\n    <div class=\"col-12 col-sm-3\">\r\n        <h5>دسترسی های سریع</h5>\r\n        <ul class=\"list-unstyled p-0 text-small\">\r\n            <li>");
             EndContext();
             BeginContext(164, 88, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "05d49b7e146a9a3a460f3972e28569cd55bf90466587", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "05d49b7e146a9a3a460f3972e28569cd55bf90466751", async() => {
                 BeginContext(239, 9, true);
                 WriteLiteral("درباره ما");
                 EndContext();
@@ -117,7 +122,7 @@ using DigiMoallem.BLL.Helpers.Converters;
             WriteLiteral("</li>\r\n            <li>");
             EndContext();
             BeginContext(275, 91, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "05d49b7e146a9a3a460f3972e28569cd55bf90468470", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "05d49b7e146a9a3a460f3972e28569cd55bf90468634", async() => {
                 BeginContext(352, 10, true);
                 WriteLiteral("تماس با ما");
                 EndContext();
@@ -144,7 +149,7 @@ using DigiMoallem.BLL.Helpers.Converters;
             WriteLiteral("</li>\r\n            <li>");
             EndContext();
             BeginContext(389, 96, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "05d49b7e146a9a3a460f3972e28569cd55bf904610355", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "05d49b7e146a9a3a460f3972e28569cd55bf904610519", async() => {
                 BeginContext(469, 12, true);
                 WriteLiteral("همکاری با ما");
                 EndContext();
@@ -171,7 +176,7 @@ using DigiMoallem.BLL.Helpers.Converters;
             WriteLiteral("</li>\r\n            <li>");
             EndContext();
             BeginContext(508, 90, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "05d49b7e146a9a3a460f3972e28569cd55bf904612243", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "05d49b7e146a9a3a460f3972e28569cd55bf904612407", async() => {
                 BeginContext(585, 9, true);
                 WriteLiteral("نقشه سایت");
                 EndContext();

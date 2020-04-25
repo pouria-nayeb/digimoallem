@@ -155,12 +155,12 @@ namespace DigiMoallem.BLL.Services
         #region GetGroupById
         public Group GetGroupById(int groupId)
         {
-            return _db.Groups.AsNoTracking().SingleOrDefault(g => g.GroupId == groupId);
+            return _db.Groups.SingleOrDefault(g => g.GroupId == groupId);
         }
 
         public async Task<Group> GetGroupByIdAsync(int groupId)
         {
-            return await _db.Groups.AsNoTracking().SingleOrDefaultAsync(g => g.GroupId == groupId);
+            return await _db.Groups.SingleOrDefaultAsync(g => g.GroupId == groupId);
         }
         #endregion
 
@@ -248,6 +248,12 @@ namespace DigiMoallem.BLL.Services
                 return false;
             }
         }
+        #endregion
+
+        #region CoursesCount
+        public int CoursesCount() => _db.Courses.Count();
+
+        public async Task<int> CoursesCountAsync() => await _db.Courses.CountAsync();
         #endregion
 
         public List<string> GetCourseTitles() => _db.Courses
@@ -547,12 +553,12 @@ namespace DigiMoallem.BLL.Services
         #region GetCourseById
         public Course GetCourseById(int courseId)
         {
-            return _db.Courses.Include(c => c.User).AsNoTracking().SingleOrDefault(c => c.CourseId == courseId);
+            return _db.Courses.Include(c => c.User).SingleOrDefault(c => c.CourseId == courseId);
         }
 
         public async Task<Course> GetCourseByIdAsync(int courseId)
         {
-            return await _db.Courses.Include(c => c.User).AsNoTracking().SingleOrDefaultAsync(c => c.CourseId == courseId);
+            return await _db.Courses.Include(c => c.User).SingleOrDefaultAsync(c => c.CourseId == courseId);
         }
         #endregion
 
@@ -763,14 +769,12 @@ namespace DigiMoallem.BLL.Services
         public CourseEpisode GetEpisodeById(int episodeId)
         {
             return _db.CourseEpisodes
-                .AsNoTracking()
                 .SingleOrDefault(ce => ce.CourseEpisodeId == episodeId);
         }
 
         public async Task<CourseEpisode> GetEpisodeByIdAsync(int episodeId)
         {
             return await _db.CourseEpisodes
-                .AsNoTracking()
                 .SingleOrDefaultAsync(ce => ce.CourseEpisodeId == episodeId);
         }
         #endregion
@@ -1071,7 +1075,6 @@ namespace DigiMoallem.BLL.Services
                 .Include(c => c.User)
                 .Include(c => c.CourseTypes)
                 .Include(c => c.UserCourses)
-                .AsNoTracking()
                 .SingleOrDefault(c => c.CourseId == courseId);
         }
 
@@ -1085,7 +1088,6 @@ namespace DigiMoallem.BLL.Services
                 .Include(c => c.User)
                 .Include(c => c.CourseTypes)
                 .Include(c => c.UserCourses)
-                .AsNoTracking()
                 .SingleOrDefaultAsync(c => c.CourseId == courseId);
         }
         #endregion
@@ -1225,8 +1227,8 @@ namespace DigiMoallem.BLL.Services
             int totalAmount = course.UserCourses.Count() * course.Price;
 
             course.Totalncome = totalAmount;
-            course.TeacherIncome = (int)(totalAmount * 0.3);
-            course.OwnerIncome = (int)(totalAmount * 0.7);
+            course.TeacherIncome = (int)(totalAmount * (course.TeacherPercent / 100));
+            course.OwnerIncome = (int)(totalAmount * ((100 - course.TeacherPercent) / 100));
 
             Save();
         }
@@ -1238,8 +1240,8 @@ namespace DigiMoallem.BLL.Services
             int totalAmount = course.UserCourses.Count() * course.Price;
 
             course.Totalncome = totalAmount;
-            course.TeacherIncome = (int)(totalAmount * 0.3);
-            course.OwnerIncome = (int)(totalAmount * 0.7);
+            course.TeacherIncome = (int)(totalAmount * (course.TeacherPercent / 100));
+            course.OwnerIncome = (int)(totalAmount * ((100 - course.TeacherPercent) / 100));
 
             await SaveAsync();
         }

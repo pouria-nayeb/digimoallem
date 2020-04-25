@@ -1,0 +1,23 @@
+﻿@model User
+
+<div style="direction:rtl; padding: 1.5rem; border:3px inset black;border-radius:5px;max-width: 450px; margin:0 auto;background-color: #444;color:white;">
+    <img src="logo.png" style="display: block;margin: 0 auto; max-width:100%" />
+    <h2 style="text-align: center;"> نام کاربری: @Model.UserName </h2>
+    <table style="width:100%;max-width:350px;margin:16px auto;border:1px solid black;border-collapse: collapse;padding: 15px;text-align: center;" border="1">
+        <tr>
+            <td style="padding: 16px;">پست الکترونیک</td>
+            <td style="padding: 16px;">@Model.Email</td>
+        </tr>
+        <tr>
+            <td style="padding: 16px;">رمز عبور</td>
+            <td style="padding: 16px;">@Model.PhoneNumber</td>
+        </tr>
+    </table>
+    <p style="text-align: center;">
+        با تشکر از ثبت نام شما استاد عزیز در سامانه دیجی معلم.
+        <a href="https://digimoallem.ir" style="display: block;color:#fff;padding: 8px 0;">
+            سایت دیجی معلم
+        </a>
+
+    </p>
+</div>

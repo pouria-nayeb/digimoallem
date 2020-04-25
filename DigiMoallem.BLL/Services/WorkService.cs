@@ -136,11 +136,9 @@ namespace DigiMoallem.BLL.Services
         }
 
         public Work GetWorkById(int workId) => _context.Works
-            .AsNoTracking()
             .SingleOrDefault(w => w.WorkId == workId);
 
         public async Task<Work> GetWorkByIdAsync(int workId) => await _context.Works
-            .AsNoTracking()
             .SingleOrDefaultAsync(w => w.WorkId == workId);
 
         public WorkComplementDataViewModel GetWorkCompById(int workId) => _context.Works.Select(w =>

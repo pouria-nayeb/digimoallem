@@ -7,7 +7,6 @@
   <ItemGroup>
     <Folder Include="DTOs\General\" />
     <Folder Include="Helpers\Converters\" />
-    <Folder Include="Helpers\EmailServices\" />
     <Folder Include="Helpers\Generators\" />
     <Folder Include="Helpers\Security\" />
   </ItemGroup>

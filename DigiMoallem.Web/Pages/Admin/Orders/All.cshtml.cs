@@ -22,9 +22,13 @@ namespace DigiMoallem.Web.Pages.Admin.Orders
 
         public OrderPagingViewModel OrderPagingVM { get; set; }
 
+        public int OrdersCount { get; set; }
+
         public async Task OnGetAsync(int pageNumber = 1, int pageSize = 32)
         {
             OrderPagingVM = await _orderService.GetAllOrdersAsync(pageNumber, pageSize);
+
+            OrdersCount = await _orderService.OrdersCountAsync();
         }
     }
 }

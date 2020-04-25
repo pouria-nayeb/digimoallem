@@ -83,7 +83,7 @@
                 @for (int i = 1; i <= Model.UserCourseVM.PagesCount; i++)
                 {
                     <li class="page-item english-font @((Model.UserCourseVM.PageNumber == i) ? "active" : "")">
-                        <a href="/Admin/Orders?pageId=@i" class="page-link">@i</a>
+                        <a href="/Admin/Orders?pageNumber=@i" class="page-link">@i</a>
                     </li>
                 }
             </ul>

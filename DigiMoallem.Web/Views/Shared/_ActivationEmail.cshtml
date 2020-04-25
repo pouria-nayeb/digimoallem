@@ -1,1 +1,11 @@
-﻿
+﻿@model User
+
+<div style="direction:rtl; padding: 1.5rem; border:3px inset black;border-radius:5px;max-width: 450px; margin:0 auto;background-color: #444;color:white;">
+    <h2> نام کاربری: @Model.UserName </h2>
+    <p>
+        با تشکر از ثبت نام شما در سامانه دیجی معلم، جهت فعال سازی حساب کاربری خود کافی است روی
+        <a href="https://digimoallem.ir/Account/ActiveAccount/@Model.ActivationCode"> این لینک</a>
+        کلیک کنید.
+    </p>
+    <img src="logo.png" style="display: block;margin: 0 auto; max-width:100%" />
+</div>

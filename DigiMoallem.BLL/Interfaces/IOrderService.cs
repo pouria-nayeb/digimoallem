@@ -1,10 +1,13 @@
 ﻿using DigiMoallem.BLL.DTOs.Admin.Discounts;
 using DigiMoallem.BLL.DTOs.Orders;
+using DigiMoallem.BLL.DTOs.Transactions;
 using DigiMoallem.DAL.Entities.Courses;
 using DigiMoallem.DAL.Entities.Orders;
+using DigiMoallem.DAL.Entities.Transactions;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace DigiMoallem.BLL.Interfaces
 {
@@ -76,12 +79,40 @@ namespace DigiMoallem.BLL.Interfaces
         Task<UserCourse> UpdateUserCourseAsync(UserCourse userCourse);
         #endregion
 
+        #region GetTransactionById
+        Exchange GetTransactionById(int transactionId);
+        Task<Exchange> GetTransactionByIdAsync(int transactionId);
+        #endregion
+
+        #region UpdateTransaction
+        Exchange UpdateTransaction(Exchange exchange);
+        Task<Exchange> UpdateTransactionAsync(Exchange exchange);
+        #endregion
+
         #region RemoveUserCourse
         void RemoveUserCourse(int userCourseId);
         #endregion
 
         #region RemoveOrder
         void RemoveOrder(int orderId);
+        #endregion
+
+        #region OrdersCount
+        int OrdersCount();
+        Task<int> OrdersCountAsync();
+        #endregion
+
+        #region TransactionTypeSelectList
+        List<SelectListItem> TransactionTypeSelectList();
+        #endregion
+
+        #region GetAllTransactions
+        TransactionPagingViewModel GetAllTransactions(int pageNumber = 1, int pageSize = 64);
+        Task<TransactionPagingViewModel> GetAllTransactionsAsync(int pageNumber = 1, int pageSize = 64);
+        #endregion
+
+        #region TransactionsCount
+        int TransactionsCount();
         #endregion
 
         // discount
@@ -118,6 +149,11 @@ namespace DigiMoallem.BLL.Interfaces
         #region IsUserBuyCourse
         bool IsUserBuyCourse(string userName, int courseId);
         Task<bool> IsUserBuyCourseAsync(string userName, int courseId);
+        #endregion
+
+        #region DiscountsCount
+        int DiscountsCount();
+        Task<int> DiscountsCountAsync();
         #endregion
 
         #region Save

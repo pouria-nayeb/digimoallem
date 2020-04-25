@@ -2,7 +2,7 @@
 @model DigiMoallem.Web.Pages.Admin.Orders.IndexModel
 
 @{
-    ViewData["Title"] = "سفارشات کاربران";
+    ViewData["Title"] = "دوره های خریداری شده";
 }
 
 <div class="container">
@@ -13,6 +13,12 @@
        asp-page="Create"
        class="btn btn-outline-success btn-md my-3">
         <i class="fas fa-plus ml-2"></i> افزودن دوره به کاربر
+    </a>
+
+    <a asp-area=""
+       asp-page="All"
+       class="btn btn-outline-info btn-md my-3">
+        <i class="fas fa-shopping-bag ml-2"></i> سفارشات
     </a>
 
     @if (TempData["Success"] != null)
@@ -29,6 +35,9 @@
                 </th>
                 <th class="th-sm">
                     نام دوره
+                </th>
+                <th class="th-sm">
+                    مبلغ دوره
                 </th>
                 <th class="th-sm">
                     عملیات
@@ -49,10 +58,15 @@
                     <tr>
                         <td class="english-font">@userCourse.User.Email</td>
                         <td>@userCourse.Course.Title</td>
+                        <td>@userCourse.Course.Price.ThreeDigitSeperator()</td>
                         <td>
-                            <a href="/Admin/Orders/EditUserCourse/@userCourse.UserCourseId" 
+                            <a href="/Admin/Orders/EditUserCourse/@userCourse.UserCourseId"
                                class="btn btn-sm btn-warning">
                                 <i class="fa fa-pen ml-1"></i> ویرایش
+                            </a>
+                            <a href="/Admin/Orders/Delete/@userCourse.UserCourseId"
+                               class="btn btn-sm btn-danger">
+                                <i class="fa fa-trash ml-1"></i> حذف
                             </a>
                         </td>
                     </tr>

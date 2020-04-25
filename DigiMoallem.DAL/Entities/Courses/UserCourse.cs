@@ -8,8 +8,12 @@ namespace DigiMoallem.DAL.Entities.Courses
         [Key]
         public int UserCourseId { get; set; }
 
+        [Display(Name = "کاربر")]
+        [Required(ErrorMessage = "لطفاً {0} را انتخاب نمایید.")]
         public int UserId { get; set; }
 
+        [Display(Name = "دوره")]
+        [Required(ErrorMessage = "لطفاً {0} را انتخاب نمایید.")]
         public int CourseId { get; set; }
 
         #region Relations - Navigation Properties

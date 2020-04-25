@@ -1,0 +1,65 @@
+﻿@page "{id:min(1)}"
+@model DigiMoallem.Web.Pages.Admin.Orders.DeleteUserCourseModel
+
+@{
+    ViewData["Title"] = "حذف سفارش";
+}
+
+    <div class="container">
+
+        <!-- back to users -->
+        <a asp-area="" asp-page="Index" class="btn btn-outline-info">
+            <i class="fas fa-arrow-right ml-2"></i> بازگشت
+        </a>
+
+        <h1 class="my-5"> <i class="fa fa-luggage-cart ml-2"></i> @ViewData["Title"]</h1>
+
+        @if (TempData["RecoverUser"] != null)
+        {
+            <div class="alert alert-danger">
+                @TempData["RecoverUser"]
+            </div>
+        }
+
+        <form method="post">
+            <!-- hidden -->
+            <input type="hidden" asp-for="Order.OrderId" />
+
+            <!-- user table -->
+            <div class="table-responsive">
+                <table class="table table-dark table-striped table-bordered">
+                    <tr>
+                        <th>ایمیل</th>
+                        <td class="english-font">@Model.Order.User.Email</td>
+                    </tr>
+                    <tr>
+                        <th>تاریخ</th>
+                        <td>@Model.Order.CreateDate.ToPersianDate()</td>
+                    </tr>
+                    <tr>
+                        <th>وضعیت</th>
+                        <td>
+                            @if (Model.Order.IsFinally)
+                            {
+                                <span class="badge badge-success">موفق</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-danger">ناموفق</span>
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <!-- delete -->
+                            <button class="btn btn-outline-danger">
+                                <i class="fa fa-trash ml-2"></i> حذف سفارش
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </form>
+
+    </div>
+

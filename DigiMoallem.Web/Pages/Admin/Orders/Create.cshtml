@@ -28,6 +28,8 @@
                             asp-for="UserCourse.UserId" 
                             asp-items="Model.Users">
                     </select>
+
+                    <span asp-validation-for="UserCourse.UserId" class="text-danger"></span>
                 </div>
 
                 <div class="form-group my-5">
@@ -40,10 +42,12 @@
             <div class="col-12 col-sm-6">
                 <div class="form-group">
                     <label for="exampleSelect2">نام دوره آموزشی</label>
-                    <select multiple="" class="form-control" 
-                            asp-for="UserCourse.CourseId" 
+                    <select multiple="" class="form-control"
+                            asp-for="UserCourse.CourseId"
                             asp-items="Model.Courses">
                     </select>
+
+                    <span asp-validation-for="UserCourse.CourseId" class="text-danger"></span>
                 </div>
             </div>
 

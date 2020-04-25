@@ -11,6 +11,7 @@ using DigiMoallem.DAL.Entities.Courses;
 using DigiMoallem.BLL.DTOs.Orders;
 using DigiMoallem.DAL.Entities.Users;
 using DigiMoallem.BLL.DTOs.Admin.Discounts;
+using System.Runtime.InteropServices;
 
 namespace DigiMoallem.BLL.Services
 {
@@ -35,12 +36,12 @@ namespace DigiMoallem.BLL.Services
         #region GetOrderById
         public Order GetOrderById(int orderId)
         {
-            return _db.Orders.AsNoTracking().SingleOrDefault(o => o.OrderId == orderId);
+            return _db.Orders.Include(o => o.User).AsNoTracking().SingleOrDefault(o => o.OrderId == orderId);
         }
 
         public async Task<Order> GetOrderByIdAsync(int orderId)
         {
-            return await _db.Orders.AsNoTracking().SingleOrDefaultAsync(o => o.OrderId == orderId);
+            return await _db.Orders.Include(o => o.User).AsNoTracking().SingleOrDefaultAsync(o => o.OrderId == orderId);
         }
         #endregion
 
@@ -303,6 +304,18 @@ namespace DigiMoallem.BLL.Services
                 .Include(o => o.OrderDetails)
                 .ThenInclude(od => od.Course)
                 .SingleOrDefaultAsync(o => o.UserId == userId && o.OrderId == orderId);
+        }
+        #endregion
+
+        #region RemoveOrder
+        public void RemoveOrder(int orderId)
+        {
+            var order = GetOrderById(orderId);
+
+            order.IsFinally = false;
+
+            UpdateOrder(order);
+            Save();
         }
         #endregion
 
@@ -637,6 +650,16 @@ namespace DigiMoallem.BLL.Services
         }
         #endregion
 
+        #region RemoveUserCourse
+        public void RemoveUserCourse(int userCourseId) 
+        {
+            var userCourse = GetUserCourseById(userCourseId);
+
+            _db.UserCourses.Remove(userCourse);
+            Save();
+        }
+        #endregion
+
         /// <summary>
         /// User used discount
         /// </summary>
@@ -773,10 +796,14 @@ namespace DigiMoallem.BLL.Services
 
         #region GetUserCourseById
         public UserCourse GetUserCourseById(int userCourseId) => _db.UserCourses
+            .Include(uc => uc.User)
+            .Include(uc => uc.Course)
             .AsNoTracking()
             .SingleOrDefault(uc => uc.UserCourseId == userCourseId);
 
         public async Task<UserCourse> GetUserCourseByIdAsync(int userCourseId) => await _db.UserCourses
+            .Include(uc => uc.User)
+            .Include(uc => uc.Course)
             .AsNoTracking()
             .SingleOrDefaultAsync(uc => uc.UserCourseId == userCourseId);
         #endregion

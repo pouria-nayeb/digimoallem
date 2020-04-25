@@ -76,6 +76,14 @@ namespace DigiMoallem.BLL.Interfaces
         Task<UserCourse> UpdateUserCourseAsync(UserCourse userCourse);
         #endregion
 
+        #region RemoveUserCourse
+        void RemoveUserCourse(int userCourseId);
+        #endregion
+
+        #region RemoveOrder
+        void RemoveOrder(int orderId);
+        #endregion
+
         // discount
         #region UseDicount
         DiscountType UseDiscount(int orderId, string code);

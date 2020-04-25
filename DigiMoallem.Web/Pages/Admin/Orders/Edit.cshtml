@@ -5,53 +5,59 @@
     ViewData["Title"] = "ویرایش سفارش";
 }
 
-<div class="container">
+    <div class="container">
 
-    <h1 class="m-4">@ViewData["Title"]</h1>
+        <a asp-area=""
+           asp-page="All"
+           class="btn btn-outline-info btn-md my-4">
+            <i class="fas fa-arrow-right ml-2"></i> سفارشات
+        </a>
 
-    <form method="post" enctype="multipart/form-data" class="form-group">
+        <h1 class="m-4">@ViewData["Title"]</h1>
 
-        @if (ViewData["Message"] != null)
-        {
-            <div class="alert alert-danger">
-                @ViewData["Message"]
-            </div>
-        }
+        <form method="post" enctype="multipart/form-data" class="form-group">
 
-        <input type="hidden" asp-for="Order.OrderId" />
-        <input type="hidden" asp-for="Order.CreateDate" />
-        <input type="hidden" asp-for="Order.UserId" />
-
-        <div class="row">
-
-            <div class="col-12 col-sm-6">
-                <div class="form-group mb-5">
-                    <label asp-for="Order.TotalPrice">مبلغ قابل پرداخت</label>
-                    <input type="text" asp-for="Order.TotalPrice" class="form-control">
-                    <span asp-validation-for="Order.TotalPrice" class="text-danger"></span>
+            @if (ViewData["Message"] != null)
+            {
+                <div class="alert alert-danger">
+                    @ViewData["Message"]
                 </div>
+            }
 
-                <div class="form-group my-5">
-                    <button type="submit" class="btn btn-outline-warning">
-                        <i class="fas fa-edit ml-2"></i> ویرایش گروه
-                    </button>
-                </div>
-            </div>
+            <input type="hidden" asp-for="Order.OrderId" />
+            <input type="hidden" asp-for="Order.CreateDate" />
+            <input type="hidden" asp-for="Order.UserId" />
 
-            <div class="col-12 col-sm-6">
-                <div class="form-group my-5">
-                    <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" asp-for="Order.IsFinally" />
-                        <label class="custom-control-label" asp-for="Order.IsFinally">خرید انجام شده؟</label>
+            <div class="row">
+
+                <div class="col-12 col-sm-6">
+                    <div class="form-group mb-5">
+                        <label asp-for="Order.TotalPrice">مبلغ قابل پرداخت</label>
+                        <input type="text" asp-for="Order.TotalPrice" class="form-control">
+                        <span asp-validation-for="Order.TotalPrice" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group my-5">
+                        <button type="submit" class="btn btn-outline-warning">
+                            <i class="fas fa-edit ml-2"></i> ویرایش سفارش
+                        </button>
                     </div>
                 </div>
+
+                <div class="col-12 col-sm-6">
+                    <div class="form-group my-5">
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" asp-for="Order.IsFinally" />
+                            <label class="custom-control-label" asp-for="Order.IsFinally">خرید انجام شده؟</label>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
-        </div>
+        </form>
 
-    </form>
-
-</div>
+    </div>
 
 @section Scripts {
     <script src="~/Admin/Scripts/Site.js"></script>

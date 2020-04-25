@@ -1,0 +1,56 @@
+﻿@page "{id:min(1)}"
+@model DigiMoallem.Web.Pages.Admin.Orders.DeleteModel
+
+@{
+    ViewData["Title"] = "حذف سفارش مشتری";
+}
+
+<div class="container">
+
+    <!-- back to users -->
+    <a asp-area="" asp-page="Index" class="btn btn-outline-info">
+        <i class="fas fa-arrow-right ml-2"></i> بازگشت
+    </a>
+
+    <h1 class="my-5"> <i class="fa fa-luggage-cart ml-2"></i> @ViewData["Title"]</h1>
+
+    @if (TempData["RecoverUser"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["RecoverUser"]
+        </div>
+    }
+
+    <form method="post">
+        <!-- hidden -->
+        <input type="hidden" value="@ViewData["Id"]" />
+
+        <!-- user table -->
+        <div class="table-responsive">
+            <table class="table table-dark table-striped table-bordered">
+                <tr>
+                    <th>ایمیل</th>
+                    <td class="english-font">@Model.UserCourse.User.Email</td>
+                </tr>
+                <tr>
+                    <th>نام دوره</th>
+                    <td>@Model.UserCourse.Course.Title</td>
+                </tr>
+                <tr>
+                    <th>ارزش دوره</th>
+                    <td>@Model.UserCourse.Course.Price.ThreeDigitSeperator()</td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <!-- delete -->
+                        <button class="btn btn-outline-danger">
+                            <i class="fa fa-trash ml-2"></i> حذف سفارش
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+
+</div>
+

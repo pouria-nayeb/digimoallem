@@ -1,16 +1,15 @@
-﻿using DigiMoallem.BLL.Interfaces;
+﻿using DigiMoallem.BLL.Helpers.Security;
+using DigiMoallem.BLL.Interfaces;
 using DigiMoallem.DAL.Entities.Courses;
-using DigiMoallem.DAL.Entities.Orders;
-using DigiMoallem.DAL.Entities.Users;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DigiMoallem.Web.Pages.Admin.Orders
 {
+    [PermissionChecker(41)]
     public class CreateModel : PageModel
     {
         private readonly IOrderService _orderService;

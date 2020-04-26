@@ -69,7 +69,7 @@
                 <div class="col-8">
                     <div class="border-bottom border-white">
                         <h5 class="my-2">@Model.User.FirstName @Model.User.LastName</h5>
-                        <p>کارشناس علوم اسلامی وب</p>
+                        <p>@Model.User.ScientificField</p>
                     </div>
                     <p class="text-justify">
                         @Model.User.Description
@@ -123,13 +123,13 @@
                         </tr>
                         <tr>
                             <th>تاریخ شروع دوره:</th>
-                            <td>@Model.CreateDate.ToPersianDate()</td>
+                            <td class="english-font">@Model.CreateDate.ToPersianDate()</td>
                         </tr>
                         @if (Model.UpdateDate != null)
                         {
                             <tr>
                                 <th>تاریخ بروزرسانی:</th>
-                                <td>@Model.UpdateDate.Value.ToPersianDate()</td>
+                                <td class="english-font">@Model.UpdateDate.Value.ToPersianDate()</td>
                             </tr>
                         }
                     </table>

@@ -1,10 +1,12 @@
 ﻿using DigiMoallem.BLL.DTOs.Transactions;
+using DigiMoallem.BLL.Helpers.Security;
 using DigiMoallem.BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Threading.Tasks;
 
 namespace DigiMoallem.Web.Pages.Admin.Accountings
 {
+    [PermissionChecker(28)]
     public class TransactionsModel : PageModel
     {
         private readonly IOrderService _orderService;

@@ -577,7 +577,7 @@ namespace DigiMoallem.BLL.Services
                 // db success
                 course.UpdateDate = DateTime.Now;
 
-                course.ImageName = EditAndUplaodImage(course, course.ImageName, imageCourse);
+                course.ImageName = EditAndUplaodImage(course, imageCourse);
 
                 course.Demo = EditAndUplaodDemo(course, demoCourse);
 
@@ -600,7 +600,7 @@ namespace DigiMoallem.BLL.Services
                 // db success
                 course.UpdateDate = DateTime.Now;
 
-                course.ImageName = EditAndUplaodImage(course, course.ImageName, imageCourse);
+                course.ImageName = EditAndUplaodImage(course, imageCourse);
 
                 if (demoCourse != null)
                 {
@@ -1239,11 +1239,15 @@ namespace DigiMoallem.BLL.Services
 
             int totalAmount = course.UserCourses.Count() * course.Price;
 
-            course.Totalncome = totalAmount;
-            course.TeacherIncome = (int)(totalAmount * (course.TeacherPercent / 100));
-            course.OwnerIncome = (int)(totalAmount * ((100 - course.TeacherPercent) / 100));
+            int teacherPercent = course.TeacherPercent.Value;
+            int teacherIncome = (int)((totalAmount * teacherPercent) / 100);
+            int ownerIncome = (int)((totalAmount * (100 - teacherPercent)) / 100);
 
-            await SaveAsync();
+            course.Totalncome = totalAmount;
+            course.TeacherIncome = teacherIncome;
+            course.OwnerIncome = ownerIncome;
+
+            await UpdateCourseAsync(course, null, null);
         }
         #endregion
 
@@ -1469,10 +1473,11 @@ namespace DigiMoallem.BLL.Services
         /// </summary>
         /// <param name="imageName"></param>
         /// <param name="ImageFile"></param>
-        public string EditAndUplaodImage(Course course, string imageName, IFormFile ImageFile)
+        public string EditAndUplaodImage(Course course, IFormFile ImageFile)
         {
             if (ImageFile != null && ImageFile.IsImage())
             {
+                string imageName = string.Empty;
                 // user select new image
 
                 if (course.ImageName != "default.jpg")

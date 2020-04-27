@@ -13,7 +13,7 @@ namespace DigiMoallem.BLL.Services
 {
     public class MessageService : IMessageService
     {
-        private readonly ApplicationDbContext _context;
+        private ApplicationDbContext _context;
         private readonly ILogger<MessageService> _logger;
 
         public MessageService(ApplicationDbContext context, ILogger<MessageService> logger)
@@ -195,15 +195,52 @@ namespace DigiMoallem.BLL.Services
         /// <param name="phoneNumber"></param>
         /// <returns></returns>
         #region Search Messages
-        public List<Contact> SearchContacts(string phoneNumber) => _context.Messages
-            .Where(c => c.PhoneNumber.Contains(phoneNumber))
-            .AsNoTracking()
-            .ToList();
+        public ContactPagingViewModel SearchContacts(string phoneNumber, int pageNumber = 1, int pageSize = 24) 
+        {
+            IQueryable<Contact> Messages = _context.Messages;
 
-        public async Task<List<Contact>> SearchContactsAsync(string phoneNumber) => await _context.Messages
-            .Where(c => c.PhoneNumber.Contains(phoneNumber))
-            .AsNoTracking()
-            .ToListAsync();
+            int take = pageSize;
+            int skip = (pageNumber - 1) * take;
+            int MessagesCount = Messages.Count();
+
+            int pageCount = (int)Math.Ceiling(Decimal.Divide(MessagesCount, take));
+
+            return new ContactPagingViewModel
+            {
+                Contacts = Messages
+                                .Where(m => m.PhoneNumber.Contains(phoneNumber))
+                .Skip(skip).Take(take)
+                .OrderByDescending(c => c.SubmitDate)
+                .AsNoTracking()
+                .ToList(),
+                PageNumber = pageNumber,
+                PageCount = pageCount
+            };
+        }
+
+        public async Task<ContactPagingViewModel> SearchContactsAsync(string phoneNumber, int pageNumber = 1, int pageSize = 24)
+        {
+            IQueryable<Contact> messages = _context.Messages;
+
+            int take = pageSize;
+            int skip = (pageNumber - 1) * take;
+            int MessagesCount = messages.Count();
+
+            int pageCount = (int)Math.Ceiling(Decimal.Divide(MessagesCount, take));
+
+            return new ContactPagingViewModel
+            {
+                Contacts = await messages
+                                .Where(m => m.PhoneNumber.Contains(phoneNumber))
+                .Skip(skip)
+                .Take(take)
+                .OrderByDescending(c => c.SubmitDate)
+                .AsNoTracking()
+                .ToListAsync(),
+                PageNumber = pageNumber,
+                PageCount = pageCount
+            };
+        }
         #endregion
 
         /// <summary>
@@ -225,6 +262,17 @@ namespace DigiMoallem.BLL.Services
         public async Task<int> NewContactsCountAsync() => await _context.Messages
             .Where(c => c.IsChecked == false)
             .CountAsync();
+
+        public void Dispose()
+        {
+            if (_context != null)
+            {
+                _context.Dispose();
+                GC.SuppressFinalize(true);
+            }
+
+            _context = null;
+        }
         #endregion
     }
 }

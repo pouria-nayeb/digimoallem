@@ -153,6 +153,30 @@ namespace DigiMoallem.Web.Controllers
             }
         }
 
+        [Route("Help")]
+        public IActionResult Help() 
+        {
+            return View();
+        }
+
+        [Route("Cvs/{id}")]
+        public IActionResult DisplayCvs(int? id) 
+        {
+            if (id == null)
+            {
+                return BadRequest();
+            }
+
+            var teacher = _userServive.GetUserById(id.Value);
+
+            if (teacher == null)
+            {
+                return NotFound();
+            }
+
+            return View(teacher);
+        }
+
         /// <summary>
         /// Let server download files for the user (Security)
         /// </summary>

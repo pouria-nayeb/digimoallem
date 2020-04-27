@@ -1,6 +1,7 @@
 ﻿using DigiMoallem.BLL.DTOs.General;
 using DigiMoallem.BLL.Helpers.Security;
 using DigiMoallem.BLL.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Threading.Tasks;
 
@@ -23,11 +24,21 @@ namespace DigiMoallem.Web.Pages.Admin.Messages
 
         public int ContactsCount { get; private set; }
 
-        public async Task OnGetAsync(int pageNumber = 1, int pageSize = 24)
+        public async Task<IActionResult> OnGetAsync(string phoneNumber, int pageNumber = 1, int pageSize = 24)
         {
+            if (!string.IsNullOrEmpty(phoneNumber))
+            {
+                ContactPagingVM = await _messageService.SearchContactsAsync(phoneNumber, pageNumber, pageSize);
+
+                return Page();
+            }
+              
             // step 4: feed ContactPagingVM and ContactsCount
             ContactPagingVM = await _messageService.GetContactsAsync(pageNumber, pageSize);
             ContactsCount = await _messageService.ContactsCountAsync();
+
+
+            return Page();
         }
     }
 }

@@ -1,0 +1,68 @@
+﻿@model User
+
+@{
+    ViewData["Title"] = $"رزومه {Model.FirstName} {Model.LastName}";
+}
+
+<section class="container my-4">
+    <div class="card">
+
+        <!-- fullname -->
+        <div class="card-header">@ViewData["Title"]</div>
+
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12 col-sm-4">
+
+                    <!-- user avatar -->
+                    <img src="~/images/avatars/@Model.UserAvatar"
+                         alt="@Model.FirstName @Model.LastName"
+                         class="img-fluid d-block mx-auto" />
+
+                    <h1 class="text-center border-bottom border-secondary pb-4 my-3" style="font-size:1.5rem">@Model.FirstName @Model.LastName</h1>
+
+                </div>
+                <div class="col-12 col-sm-8">
+
+                    <h4 class="mb-4">مدرس دیجی معلم</h4>
+
+                    <div class="my-5">
+                        <h5>رشته تحصیلی:</h5>
+                        <p class="text-dark">@Model.ScientificField</p>
+                    </div>
+
+                    <div>
+                        <h5>توضیحات:</h5>
+                        <p class="text-dark">@Model.Description</p>
+                    </div>
+
+                    <div class="my-5">
+                        <h5 class="mb-4">مهارت ها:</h5>
+                        <ul class="list-group text-dark">
+                            @foreach (var skill in Model.Skills.Split("-"))
+                            {
+                                <li class="list-group-item">
+                                    @skill
+                                </li>
+                            }
+                        </ul>
+                    </div>
+
+                    <div class="my-4">
+                        <h5 class="mb-4">سوابق کاری:</h5>
+                        <ul class="list-group text-dark">
+                            @foreach (var experience in Model.Experiences.Split("-"))
+                            {
+                                <li class="list-group-item">
+                                    @experience
+                                </li>
+                            }
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

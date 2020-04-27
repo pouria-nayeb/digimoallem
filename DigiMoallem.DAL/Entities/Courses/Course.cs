@@ -74,6 +74,9 @@ namespace DigiMoallem.DAL.Entities.Courses
         [Display(Name = "درآمد کل")]
         public int? Totalncome { get; set; }
 
+        [Display(Name = "درآمد جدید")]
+        public int? RemaningIncome { get; set; }
+
         [Display(Name = "سهم استاد")]
         public int? TeacherIncome { get; set; }
 

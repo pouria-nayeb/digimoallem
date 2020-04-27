@@ -1,10 +1,11 @@
 ﻿using DigiMoallem.BLL.DTOs.Accountings;
 using DigiMoallem.DAL.Entities.Accounting;
+using System;
 using System.Threading.Tasks;
 
 namespace DigiMoallem.BLL.Interfaces
 {
-    public interface IAccountingService
+    public interface IAccountingService : IDisposable
     {
         #region AddPayment
         bool AddPayment(Payment payemt);
@@ -14,6 +15,16 @@ namespace DigiMoallem.BLL.Interfaces
         #region AddTeacherPercent
         bool AddTeacherPercent(TeacherPercentViewModel teacherPercentVM);
         Task<bool> AddTeacherPercentAsync(TeacherPercentViewModel teacherPercentVM);
+        #endregion
+
+        #region GetTeacherPaymentsByUsername
+        TeacherPaymentViewModel GetTeacherPaymentByUserName(int userId, int pageNumber = 1, int pageSize = 32);
+        Task<TeacherPaymentViewModel> GetTeacherPaymentByUserNameAsync(int userId, int pageNumber = 1, int pageSize = 32);
+        #endregion
+
+        #region GetTeacherCurrentShare
+        TeacherShareViewModel GetTeacherCurrentShare(int userId, int pageNumber = 1, int pageSize = 32);
+        Task<TeacherShareViewModel> GetTeacherCurrentShareAsync(int userId, int pageNumber = 1, int pageSize = 32);
         #endregion
 
         #region GetPaymentById

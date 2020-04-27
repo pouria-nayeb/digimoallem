@@ -1,4 +1,5 @@
 ﻿using DigiMoallem.BLL.DTOs.Works;
+using DigiMoallem.BLL.Helpers.Converters;
 using DigiMoallem.BLL.Helpers.Generators;
 using DigiMoallem.BLL.Interfaces;
 using DigiMoallem.DAL.Context;
@@ -15,7 +16,7 @@ namespace DigiMoallem.BLL.Services
 {
     public class WorkService : IWorkService
     {
-        private readonly ApplicationDbContext _context;
+        private ApplicationDbContext _context;
         private readonly ILogger<WorkService> _logger;
 
         public WorkService(ApplicationDbContext context,
@@ -144,14 +145,14 @@ namespace DigiMoallem.BLL.Services
         public WorkComplementDataViewModel GetWorkCompById(int workId) => _context.Works.Select(w =>
         new WorkComplementDataViewModel { WorkId = w.WorkId }).SingleOrDefault(w => w.WorkId == workId);
 
-        public async Task<WorkComplementDataViewModel> GetWorkCompByIdAsync(int workId) => await _context.Works.Select(w => 
+        public async Task<WorkComplementDataViewModel> GetWorkCompByIdAsync(int workId) => await _context.Works.Select(w =>
         new WorkComplementDataViewModel { WorkId = w.WorkId }).SingleOrDefaultAsync(w => w.WorkId == workId);
 
         public WorkPagingViewModel GetWorks(int pageNumber = 1, int pageSize = 16)
         {
             IQueryable<Work> works = _context.Works;
 
-            int take = pageNumber;
+            int take = pageSize;
             int skip = (pageNumber - 1) * pageSize;
             int worksCount = works.Count();
 
@@ -160,9 +161,9 @@ namespace DigiMoallem.BLL.Services
             return new WorkPagingViewModel
             {
                 Works = works
-                .OrderByDescending(w => w.WorkId)
-                .Take(take)
                 .Skip(skip)
+                .Take(take)
+                .OrderByDescending(w => w.WorkId)
                 .AsNoTracking()
                 .ToList(),
                 PageCount = pagesCount,
@@ -174,7 +175,7 @@ namespace DigiMoallem.BLL.Services
         {
             IQueryable<Work> works = _context.Works;
 
-            int take = pageNumber;
+            int take = pageSize;
             int skip = (pageNumber - 1) * pageSize;
             int worksCount = await works.CountAsync();
 
@@ -183,9 +184,9 @@ namespace DigiMoallem.BLL.Services
             return new WorkPagingViewModel
             {
                 Works = await works
-                .OrderByDescending(w => w.WorkId)
+                                .Skip(skip)
                 .Take(take)
-                .Skip(skip)
+                                .OrderByDescending(w => w.WorkId)
                 .AsNoTracking()
                 .ToListAsync(),
                 PageCount = pagesCount,
@@ -225,6 +226,56 @@ namespace DigiMoallem.BLL.Services
                 return null;
             }
         }
+
+        #region SearchWorks
+        public WorkPagingViewModel SearchWorks(string email, int pageNumber, int pageSize)
+        {
+            IQueryable<Work> works = _context.Works;
+
+            int take = pageSize;
+            int skip = (pageNumber - 1) * pageSize;
+            int worksCount = works.Count();
+
+            int pagesCount = (int)Math.Ceiling(decimal.Divide(worksCount, take));
+
+            return new WorkPagingViewModel
+            {
+                Works = works
+                .Where(p => p.Email.TextTransform().Contains(email.TextTransform()) || p.PhoneNumber.Contains(email))
+                .OrderByDescending(w => w.SubmitDate)
+                .Skip(skip)
+                .Take(take)
+                .AsNoTracking()
+                .ToList(),
+                PageCount = pagesCount,
+                PageNumber = pageNumber
+            };
+        }
+
+        public async Task<WorkPagingViewModel> SearchWorksAsync(string email, int pageNumber, int pageSize)
+        {
+            IQueryable<Work> works = _context.Works;
+
+            int take = pageSize;
+            int skip = (pageNumber - 1) * pageSize;
+            int worksCount = await works.CountAsync();
+
+            int pagesCount = (int)Math.Ceiling(decimal.Divide(worksCount, take));
+
+            return new WorkPagingViewModel
+            {
+                Works = await works
+                .Where(p => p.Email.TextTransform().Contains(email.TextTransform()) || p.PhoneNumber.Contains(email))
+                .OrderByDescending(w => w.SubmitDate)
+                                .Skip(skip)
+                .Take(take)
+                .AsNoTracking()
+                .ToListAsync(),
+                PageCount = pagesCount,
+                PageNumber = pageNumber
+            };
+        }
+        #endregion
 
         public async Task<Work> UpdateWorkAsync(Work work)
         {
@@ -289,6 +340,17 @@ namespace DigiMoallem.BLL.Services
                 // no cv file uploaded
                 return null;
             }
+        }
+
+        public void Dispose()
+        {
+            if (_context != null)
+            {
+                _context.Dispose();
+                GC.SuppressFinalize(true);
+            }
+
+            _context = null;
         }
     }
 }

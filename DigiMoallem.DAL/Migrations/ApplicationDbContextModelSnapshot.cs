@@ -143,6 +143,8 @@ namespace DigiMoallem.DAL.Migrations
 
                     b.Property<int>("Price");
 
+                    b.Property<int?>("RemaningIncome");
+
                     b.Property<int?>("SubGroupId");
 
                     b.Property<string>("Tags")
@@ -431,6 +433,33 @@ namespace DigiMoallem.DAL.Migrations
                     b.ToTable("Discounts");
                 });
 
+            modelBuilder.Entity("DigiMoallem.DAL.Entities.Orders.DiscountPerCourse", b =>
+                {
+                    b.Property<int>("DiscountPerCourseId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CourseId");
+
+                    b.Property<string>("DiscountCode")
+                        .IsRequired()
+                        .HasMaxLength(150);
+
+                    b.Property<int>("DiscountPercent");
+
+                    b.Property<DateTime?>("EndDate");
+
+                    b.Property<DateTime?>("StartDate");
+
+                    b.Property<int?>("UsableCount");
+
+                    b.HasKey("DiscountPerCourseId");
+
+                    b.HasIndex("CourseId");
+
+                    b.ToTable("DiscountPerCourses");
+                });
+
             modelBuilder.Entity("DigiMoallem.DAL.Entities.Orders.Order", b =>
                 {
                     b.Property<int>("OrderId")
@@ -635,11 +664,15 @@ namespace DigiMoallem.DAL.Migrations
 
                     b.Property<int>("DiscountId");
 
+                    b.Property<int?>("DiscountPerCourseId");
+
                     b.Property<int>("UserId");
 
                     b.HasKey("UserDiscountCodeId");
 
                     b.HasIndex("DiscountId");
+
+                    b.HasIndex("DiscountPerCourseId");
 
                     b.HasIndex("UserId");
 
@@ -798,6 +831,14 @@ namespace DigiMoallem.DAL.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
+            modelBuilder.Entity("DigiMoallem.DAL.Entities.Orders.DiscountPerCourse", b =>
+                {
+                    b.HasOne("DigiMoallem.DAL.Entities.Courses.Course", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
             modelBuilder.Entity("DigiMoallem.DAL.Entities.Orders.Order", b =>
                 {
                     b.HasOne("DigiMoallem.DAL.Entities.Users.User", "User")
@@ -858,6 +899,10 @@ namespace DigiMoallem.DAL.Migrations
                         .WithMany("UserDiscountCodes")
                         .HasForeignKey("DiscountId")
                         .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("DigiMoallem.DAL.Entities.Orders.DiscountPerCourse")
+                        .WithMany("UserDiscountCodes")
+                        .HasForeignKey("DiscountPerCourseId");
 
                     b.HasOne("DigiMoallem.DAL.Entities.Users.User", "User")
                         .WithMany("UserDiscountCodes")

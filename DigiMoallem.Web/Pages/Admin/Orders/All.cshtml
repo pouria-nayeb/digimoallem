@@ -7,7 +7,34 @@
 
     <div class="container">
 
-        <h1 class="my-5"> <i class="fa fa-shopping-bag ml-2"></i> @ViewData["Title"]</h1>
+        <h1 class="my-5"> <i class="fa fa-shopping-bag text-info ml-2"></i> @ViewData["Title"]</h1>
+
+        <form autocomplete="off">
+
+            <div class="row p-3">
+
+                <!-- email -->
+                <div class="col-12 col-sm-12 col-md-4">
+                    <div class="form-group">
+                        <input type="text" id="email" name="email"
+                               class="form-control text-left text-direction-ltr english-font">
+                        <label for="username">پست الکترونیک</label>
+                    </div>
+                </div>
+
+                <!-- search -->
+                <div class="col-12 col-sm-12 col-md-4">
+                    <button class="btn btn-primary"> <i class="fa fa-search ml-2"></i> جستجو</button>
+                    <a href="/Admin/Orders/All" class="btn btn-secondary"> <i class="fa fa-filter ml-2"></i> حذف فیلترها</a>
+                </div>
+
+                <!-- search -->
+                <div class="col-12 col-sm-12 col-md-4">
+
+                </div>
+
+            </div>
+        </form>
 
         <div class="my-3 clearfix">
             <a asp-area=""
@@ -72,6 +99,12 @@
                                 }
                             </td>
                             <td class="text-center">
+                                <a asp-area=""
+                                   asp-page="/Admin/Orders/Details"
+                                   asp-route-id="@order.OrderId"
+                                   class="btn btn-outline-success btn-sm">
+                                    <i class="fa fa-info ml-2"></i> جزئیات
+                                </a>
                                 <a asp-area=""
                                    asp-page="/Admin/Orders/Edit"
                                    asp-route-id="@order.OrderId"

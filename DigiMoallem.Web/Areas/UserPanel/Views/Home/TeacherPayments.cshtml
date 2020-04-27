@@ -1,0 +1,64 @@
+﻿@model DigiMoallem.BLL.DTOs.Accountings.TeacherPaymentViewModel
+
+@{
+    ViewData["Title"] = "پرداختی های مدرس";
+}
+
+<div class="loader d-flex justify-content-center align-items-center" style="display: block;">
+    <i class="fa fa-circle-notch fa-3x text-white fa-spin"></i>
+</div>
+
+<div class="container my-4" style="display:none;">
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Success"]
+        </div>
+    }
+
+    <div class="row">
+
+        <div class="col-12 col-md-8">
+
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa fa-user-secret ml-1"></i> اطلاعات پروفایل
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <tr>
+                                <th>نام درس</th>
+                                <th>میزان پرداختی</th>
+                                <th>تاریخ پرداختی</th>
+                            </tr>
+                            @foreach (var payment in Model.Payments)
+                            {
+                                <tr>
+                                    <td>@payment.Course.Title</td>
+                                    <td>@payment.Amount.ThreeDigitSeperator()</td>
+                                    <td>@payment.PaymentDate.ToPersianDate()</td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-12 col-md-4">
+
+            <partial name="_SidebarPartial" />
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    <script src="~/js/main.js"></script>
+}
+

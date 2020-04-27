@@ -1,0 +1,73 @@
+﻿@model DigiMoallem.BLL.DTOs.Accountings.TeacherShareViewModel
+
+@{
+    ViewData["Title"] = "سهم های مدرس";
+}
+
+<div class="loader d-flex justify-content-center align-items-center" style="display: block;">
+    <i class="fa fa-circle-notch fa-3x text-white fa-spin"></i>
+</div>
+
+<div class="container my-4" style="display:none;">
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Success"]
+        </div>
+    }
+
+    <div class="row">
+
+        <div class="col-12 col-md-8">
+
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa fa-user-secret ml-1"></i> اطلاعات پروفایل
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <tr>
+                                <th>نام درس</th>
+                                <th>سهم استاد</th>
+                                <th>درصد استاد</th>
+                                <th>فروش تصفیه نشده</th>
+                                <th>فروش کل</th>
+                            </tr>
+                            @foreach (var course in Model.Courses)
+                            {
+                                <tr>
+                                    <td>
+                                        <a asp-area="" asp-controller="Course"
+                                           asp-action="DisplayCourse"
+                                           asp-route-id="@course.CourseId"
+                                           >@course.Title</a>
+                                    </td>
+                                    <td>@course.TeacherIncome.Value.ThreeDigitSeperator()</td>
+                                    <td>@course.TeacherPercent.Value درصد</td>
+                                    <td></td>
+                                    <td>@course.Totalncome.Value.ThreeDigitSeperator()</td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-12 col-md-4">
+
+            <partial name="_SidebarPartial" />
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    <script src="~/js/main.js"></script>
+}
+

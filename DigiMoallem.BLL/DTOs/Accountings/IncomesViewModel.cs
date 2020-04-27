@@ -11,5 +11,7 @@
         public int InstitudeIncome { get; set; }
 
         public int AllIncome { get; set; }
+
+        public int TeacherPercent { get; set; }
     }
 }

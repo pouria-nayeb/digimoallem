@@ -16,15 +16,15 @@
             <!-- navigation menu -->
             <partial name="_NavbarPartial" />
 
-            @if (User.Identity.IsAuthenticated)
-            {
-                <div class="clearfix my-3">
+            <div class="clearfix my-3">
+                <a asp-area="" asp-controller="Course" asp-action="Help"
+                   class="btn btn-info btn-sm float-left m-1">
+                    <i class="fa fa-question ml-1"></i> راهنما
+                </a>
+                @if (User.Identity.IsAuthenticated)
+                {
                     @if (permissionService.CheckPermission(22, User.Identity.Name))
                     {
-                        <a asp-area="" asp-controller="Home" asp-action="Help"
-                           class="btn btn-info btn-sm float-left m-1">
-                            <i class="fa fa-question ml-1"></i> راهنما اساتید
-                        </a>
                         <a asp-area="" asp-page="/Admin/Courses/Teacher"
                            class="btn btn-secondary btn-sm float-right m-1">
                             <i class="fa fa-list-alt ml-1"></i> مدیریت دروس
@@ -49,8 +49,8 @@
                             <i class="fa fa-tachometer-alt ml-1"></i> داشبورد
                         </a>
                     }
-                </div>
-            }
+                }
+            </div>
 
         </header>
 

@@ -1,11 +1,12 @@
 ﻿using DigiMoallem.DAL.Entities.Permissions;
 using DigiMoallem.DAL.Entities.Users;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DigiMoallem.BLL.Interfaces
 {
-    public interface IPermissionService
+    public interface IPermissionService : IDisposable
     {
         // role admin
         #region Get roles

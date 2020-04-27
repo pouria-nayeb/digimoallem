@@ -5,13 +5,13 @@ using DigiMoallem.DAL.Entities.Courses;
 using DigiMoallem.DAL.Entities.Orders;
 using DigiMoallem.DAL.Entities.Transactions;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Transactions;
 
 namespace DigiMoallem.BLL.Interfaces
 {
-    public interface IOrderService
+    public interface IOrderService : IDisposable
     {
         // order
         #region GetOrderById
@@ -89,6 +89,10 @@ namespace DigiMoallem.BLL.Interfaces
         Task<Exchange> UpdateTransactionAsync(Exchange exchange);
         #endregion
 
+        #region SearchUserCourses
+        Task<UserCoursePagingViewModel> SearchUserCoursesAsync(string email, int pageNumber, int pageSize);
+        #endregion
+
         #region RemoveUserCourse
         void RemoveUserCourse(int userCourseId);
         #endregion
@@ -113,6 +117,10 @@ namespace DigiMoallem.BLL.Interfaces
 
         #region TransactionsCount
         int TransactionsCount();
+        #endregion
+
+        #region SearchOrders
+        Task<OrderPagingViewModel> SearchOrdersAsync(string email, int pageNumber, int pageSize);
         #endregion
 
         // discount

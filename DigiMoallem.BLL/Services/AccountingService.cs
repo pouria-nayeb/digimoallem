@@ -2,6 +2,7 @@
 using DigiMoallem.BLL.Interfaces;
 using DigiMoallem.DAL.Context;
 using DigiMoallem.DAL.Entities.Accounting;
+using DigiMoallem.DAL.Entities.Courses;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
@@ -188,6 +189,56 @@ namespace DigiMoallem.BLL.Services
         }
         #endregion
 
+        #region GetTeacherPaymentsByUsername
+        public TeacherPaymentViewModel GetTeacherPaymentByUserName(int userId, int pageNumber = 1, int pageSize = 32)
+        {
+            IQueryable<Payment> payments = _db.Payments;
+
+            int take = pageSize;
+            int skip = (pageNumber - 1) * take;
+            int paymentsCount = payments.Count();
+
+            int pagesCount = (int)Math.Ceiling(decimal.Divide(paymentsCount, take));
+
+            return new TeacherPaymentViewModel
+            {
+                Payments = payments
+                .Where(p => p.TeacherId == userId)
+                .Skip(skip)
+                .Take(take)
+                .Include(p => p.Course)
+                .OrderByDescending(p => p.PaymentId)
+                .ToList(),
+                PageNumber = pageNumber,
+                PagesCount = pagesCount
+            };
+        }
+
+        public async Task<TeacherPaymentViewModel> GetTeacherPaymentByUserNameAsync(int userId, int pageNumber = 1, int pageSize = 32)
+        {
+            IQueryable<Payment> payments = _db.Payments;
+
+            int take = pageSize;
+            int skip = (pageNumber - 1) * take;
+            int paymentsCount = await payments.CountAsync();
+
+            int pagesCount = (int)Math.Ceiling(decimal.Divide(paymentsCount, take));
+
+            return new TeacherPaymentViewModel
+            {
+                Payments = await payments
+                .Where(p => p.TeacherId == userId)
+                .Skip(skip)
+                .Take(take)
+                .Include(p => p.Course)
+                .OrderByDescending(p => p.PaymentId)
+                .ToListAsync(),
+                PageNumber = pageNumber,
+                PagesCount = pagesCount
+            };
+        }
+        #endregion
+
         /// <summary>
         /// update payment
         /// </summary>
@@ -310,6 +361,54 @@ namespace DigiMoallem.BLL.Services
         }
         #endregion
 
+        #region GetTeacherCurrentShare
+        public TeacherShareViewModel GetTeacherCurrentShare(int userId, int pageNumber = 1, int pageSize = 32)
+        {
+            IQueryable<Course> courses = _db.Courses;
+
+            int take = pageSize;
+            int skip = (pageNumber - 1) * take;
+            int paymentsCount = courses.Count();
+
+            int pagesCount = (int)Math.Ceiling(decimal.Divide(paymentsCount, take));
+
+            return new TeacherShareViewModel
+            {
+                Courses = courses
+                .Where(p => p.TeacherId == userId)
+                .Skip(skip)
+                .Take(take)
+                .OrderByDescending(p => p.CourseId)
+                .ToList(),
+                PageNumber = pageNumber,
+                PagesCount = pagesCount
+            };
+        }
+
+        public async Task<TeacherShareViewModel> GetTeacherCurrentShareAsync(int userId, int pageNumber = 1, int pageSize = 32) 
+        {
+            IQueryable<Course> courses = _db.Courses;
+
+            int take = pageSize;
+            int skip = (pageNumber - 1) * take;
+            int paymentsCount = await courses.CountAsync();
+
+            int pagesCount = (int)Math.Ceiling(decimal.Divide(paymentsCount, take));
+
+            return new TeacherShareViewModel
+            {
+                Courses = await courses
+                .Where(p => p.TeacherId == userId)
+                .Skip(skip)
+                .Take(take)
+                .OrderByDescending(p => p.CourseId)
+                .ToListAsync(),
+                PageNumber = pageNumber,
+                PagesCount = pagesCount
+            };
+        }
+        #endregion
+
         #region TeacherRemainPayment
         public int TeacherRemainPayment(int teacherId, int courseId)
         {
@@ -347,6 +446,17 @@ namespace DigiMoallem.BLL.Services
         public async Task SaveAsync()
         {
             await _db.SaveChangesAsync();
+        }
+
+        public void Dispose()
+        {
+            if (_db != null)
+            {
+                _db.Dispose();
+                GC.SuppressFinalize(true);
+            }
+
+            _db = null;
         }
         #endregion
     }

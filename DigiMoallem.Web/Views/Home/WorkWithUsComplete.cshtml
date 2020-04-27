@@ -17,6 +17,7 @@
                     <form method="post">
 
                         <input type="hidden" asp-for="WorkId" />
+                        <input type="hidden" name="userid" value="@ViewBag.UserId" />
 
                         @if (ViewData["NotValid"] != null)
                         {

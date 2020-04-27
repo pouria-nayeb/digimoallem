@@ -9,6 +9,33 @@
 
         <h1 class="my-5"> <i class="fa fa-database ml-2"></i> @ViewData["Title"]</h1>
 
+        <form autocomplete="off">
+
+            <div class="row p-3">
+
+                <!-- title -->
+                <div class="col-12 col-sm-12 col-md-4">
+                    <div class="form-group">
+                        <input type="text" id="title" name="title"
+                               class="form-control english-font text-direction-ltr text-left">
+                        <label for="username">پست الکترونیک</label>
+                    </div>
+                </div>
+
+                <!-- search -->
+                <div class="col-12 col-sm-12 col-md-4">
+                    <button class="btn btn-primary"> <i class="fa fa-search ml-2"></i> جستجو</button>
+                    <a href="/Admin/Accountings/Incomes" class="btn btn-secondary"> <i class="fa fa-filter ml-2"></i> حذف فیلترها</a>
+                </div>
+
+                <!-- search -->
+                <div class="col-12 col-sm-12 col-md-4">
+
+                </div>
+
+            </div>
+        </form>
+
         <!-- users table -->
         <div class="table-responsive">
             <table class="table table-striped table-bordered">
@@ -21,6 +48,9 @@
                     </th>
                     <th class="th-sm">
                         درآمد مدرس
+                    </th>
+                    <th class="th-sm">
+                        درصد مدرس
                     </th>
                     <th class="th-sm">
                         درآمد استاد
@@ -45,6 +75,7 @@
                             <td>@income.CourseTitle</td>
                             <td>@income.TeacherName</td>
                             <td>@income.TeacherIncome.ToString("#,0 تومان")</td>
+                            <td>%@income.TeacherPercent</td>
                             <td>@income.InstitudeIncome.ToString("#,0 تومان")</td>
                             <td>@income.AllIncome.ToString("#,0 تومان")</td>
                         </tr>

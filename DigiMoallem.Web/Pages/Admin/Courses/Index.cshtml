@@ -8,7 +8,7 @@
 
     <div class="container">
 
-        <h1 class="my-5"> <i class="fa fa-database ml-2"></i> @ViewData["Title"]</h1>
+        <h1 class="my-5"> <i class="fa fa-book-open text-info ml-2"></i> @ViewData["Title"]</h1>
 
         <!-- create succeeded -->
         @if (TempData["Success"] != null)
@@ -18,6 +18,33 @@
             </div>
         }
 
+        <form autocomplete="off">
+
+            <div class="row p-3">
+
+                <!-- title -->
+                <div class="col-12 col-sm-12 col-md-4">
+                    <div class="form-group">
+                        <input type="text" id="title" name="title"
+                               class="form-control">
+                        <label for="username">عنوان دوره</label>
+                    </div>
+                </div>
+
+                <!-- search -->
+                <div class="col-12 col-sm-12 col-md-4">
+                    <button class="btn btn-primary"> <i class="fa fa-search ml-2"></i> جستجو</button>
+                    <a href="/Admin/Courses" class="btn btn-secondary"> <i class="fa fa-filter ml-2"></i> حذف فیلترها</a>
+                </div>
+
+                <!-- search -->
+                <div class="col-12 col-sm-12 col-md-4">
+
+                </div>
+
+            </div>
+        </form>
+
         <div class="my-3 clearfix">
             <!-- add -->
             <a asp-area=""
@@ -26,7 +53,7 @@
                 <i class="fa fa-plus ml-2"></i> افزودن درس جدید
             </a>
 
-            <!-- add -->
+            <!-- count -->
             <a asp-area=""
                asp-page="Create"
                class="btn btn-primary float-left">

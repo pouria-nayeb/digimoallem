@@ -1,10 +1,11 @@
 ﻿using DigiMoallem.BLL.DTOs.Works;
 using DigiMoallem.DAL.Entities.General;
+using System;
 using System.Threading.Tasks;
 
 namespace DigiMoallem.BLL.Interfaces
 {
-    public interface IWorkService
+    public interface IWorkService : IDisposable
     {
         Work AddWork(WorkInitialDataViewModel work);
         Task<Work> AddWorkAsync(WorkInitialDataViewModel work);
@@ -29,5 +30,8 @@ namespace DigiMoallem.BLL.Interfaces
 
         int WorksCount();
         Task<int> WorksCountAsync();
+
+        WorkPagingViewModel SearchWorks(string email, int pageNumber, int pageSize);
+        Task<WorkPagingViewModel> SearchWorksAsync(string email, int pageNumber, int pageSize);
     }
 }

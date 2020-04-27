@@ -24,6 +24,9 @@ namespace DigiMoallem.BLL.DTOs.UserPanel
         [Display(Name = "مهارت ها")]
         public string Skills { get; set; }
 
+        [Display(Name = "مدرک دانشگاهی")]
+        public string ScientificField { get; set; }
+
         [Display(Name = "سوابق کاری")]
         public string Experiences { get; set; }
 

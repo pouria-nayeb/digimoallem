@@ -13,6 +13,7 @@ namespace DigiMoallem.BLL.DTOs.UserPanel
         public string PhoneNumber { get; set; }
         public string ImageName { get; set; }
         public string Description { get; set; }
+        public string ScientificField { get; set; }
         public string Skills { get; set; }
         public string Experiences { get; set; }
     }

@@ -64,32 +64,48 @@
                             </tr>
                             @if (permissionService.CheckPermission(22, User.Identity.Name))
                             {
-                                <tr>
-                                    <th>توضیحات</th>
-                                    <td>@Model.Description</td>
-                                </tr>
-                                <tr>
-                                    <th>مهارت ها</th>
-                                    <td>
-                                        <ul class="list-group p-0">
-                                            @foreach (var skill in Model.Skills.Split("-"))
-                                            {
-                                                <li class="list-group-item">@skill</li>
-                                            }
-                                        </ul>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>سوابق کاری</th>
-                                    <td>
-                                        <ul class="list-group p-0">
-                                            @foreach (var experience in Model.Experiences.Split("-"))
-                                            {
-                                                <li class="list-group-item">@experience</li>
-                                            }
-                                        </ul>
-                                    </td>
-                                </tr>
+                                @if (!string.IsNullOrEmpty(Model.ScientificField))
+                                {
+                                    <tr>
+                                        <th>مدرک تحصیلی</th>
+                                        <td>@Model.ScientificField</td>
+                                    </tr>
+                                }
+                                @if (!string.IsNullOrEmpty(Model.Description))
+                                {
+                                    <tr>
+                                        <th>توضیحات</th>
+                                        <td>@Model.Description</td>
+                                    </tr>
+                                }
+                                @if (Model.Skills != null)
+                                {
+                                    <tr>
+                                        <th>مهارت ها</th>
+                                        <td>
+                                            <ul class="list-group p-0">
+                                                @foreach (var skill in Model.Skills.Split("-"))
+                                                {
+                                                    <li class="list-group-item">@skill</li>
+                                                }
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                }
+                                @if (Model.Experiences != null)
+                                {
+                                    <tr>
+                                        <th>سوابق کاری</th>
+                                        <td>
+                                            <ul class="list-group p-0">
+                                                @foreach (var experience in Model.Experiences.Split("-"))
+                                                {
+                                                    <li class="list-group-item">@experience</li>
+                                                }
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                }
                             }
                         </table>
                     </div>
@@ -109,6 +125,6 @@
 </div>
 
 @section Scripts {
-<script src="~/js/main.js"></script>
+    <script src="~/js/main.js"></script>
 }
 

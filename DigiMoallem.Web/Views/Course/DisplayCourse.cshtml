@@ -22,10 +22,10 @@
         <meta name="keywords" content="@Model.Tags.Replace("-",",")" />
     }*@
 
-<div class="container">
+<div class="container-fluid">
 
     <!-- title -->
-    <div class="row">
+    <div class="row mx-auto">
         <div class="col-12">
             <div class="card border-secondary my-5">
                 <div class="card-header">عنوان دوره</div>
@@ -35,7 +35,7 @@
             </div>
         </div>
 
-        <div class="col-12 col-sm-5 my-4">
+        <div class="col-12 col-sm-4 my-4">
             <!-- course image -->
             <div class="mb-3">
                 <img src="~/images/courses/@Model.ImageName" alt="@ViewData["Title"]" class="img-fluid" />
@@ -53,7 +53,7 @@
                     <img src="~/images/resources/logo.png" alt="لوگو دیجی معلم" class="img-fluid" />
                 </div>
                 <div class="col-8">
-                    <h5 class="border-bottom border-white py-2">دیجی معلم</h5>
+                    <h5 class="border-bottom border-white py-2">ناشر</h5>
                     <p class="text-justify">دیجی معلم بزرگ‌ترین ناشر دیجیتال آموزش‌های تخصصی، دانشگاهی و مهندسی دانشگاه آزاد اسلامی است.</p>
                 </div>
             </div>
@@ -73,7 +73,7 @@
                     </div>
                     <p class="text-justify">
                         @Model.User.Description
-                        <a href="#" class="text-warning d-inline-block">ادامه ...</a>
+                        <a href="/Cvs/@Model.TeacherId" class="text-warning d-inline-block">ادامه ...</a>
                     </p>
                 </div>
             </div>
@@ -108,7 +108,7 @@
                                 }
                             </td>
                         </tr>
-                        <tr>
+                        @*<tr>
                             <th>وضعیت دوره:</th>
                             <td>
                                 @if (Model.CourseStatus.Title == "در حال برگزاری")
@@ -120,11 +120,11 @@
                                     <i class="fa fa-stamp ml-1"></i> @Model.CourseStatus.Title
                                 }
                             </td>
-                        </tr>
-                        <tr>
+                        </tr>*@
+                        @*<tr>
                             <th>تاریخ شروع دوره:</th>
                             <td class="english-font">@Model.CreateDate.ToPersianDate()</td>
-                        </tr>
+                        </tr>*@
                         @if (Model.UpdateDate != null)
                         {
                             <tr>
@@ -136,7 +136,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-12 col-sm-7 my-4">
+        <div class="col-12 col-sm-8 my-4">
             <div class="row bg-light-blue text-white m-0">
                 <!-- category -->
                 <div class="col-4 py-2">

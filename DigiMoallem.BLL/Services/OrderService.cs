@@ -14,6 +14,8 @@ using DigiMoallem.BLL.DTOs.Admin.Discounts;
 using System.Runtime.InteropServices;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using DigiMoallem.BLL.DTOs.Transactions;
+using DigiMoallem.BLL.Helpers.Converters;
+using System.ComponentModel.DataAnnotations;
 
 namespace DigiMoallem.BLL.Services
 {
@@ -38,12 +40,19 @@ namespace DigiMoallem.BLL.Services
         #region GetOrderById
         public Order GetOrderById(int orderId)
         {
-            return _db.Orders.Include(o => o.User).SingleOrDefault(o => o.OrderId == orderId);
+            return _db.Orders.Include(o => o.User)
+                .Include(o => o.OrderDetails)
+                .ThenInclude(od => od.Course)
+                .SingleOrDefault(o => o.OrderId == orderId);
         }
 
         public async Task<Order> GetOrderByIdAsync(int orderId)
         {
-            return await _db.Orders.Include(o => o.User).SingleOrDefaultAsync(o => o.OrderId == orderId);
+            return await _db.Orders
+                .Include(o => o.User)
+                .Include(o => o.OrderDetails)
+                .ThenInclude(od => od.Course)
+                .SingleOrDefaultAsync(o => o.OrderId == orderId);
         }
         #endregion
 
@@ -582,6 +591,34 @@ namespace DigiMoallem.BLL.Services
         }
         #endregion
 
+        #region SearchOrdersAsync
+        public async Task<OrderPagingViewModel> SearchOrdersAsync(string email, int pageNumber, int pageSize)
+        {
+            IQueryable<Order> orders = _db.Orders;
+
+            int take = pageSize;
+            int skip = (pageNumber - 1) * take;
+            int ordersCount = await orders.CountAsync();
+
+            int pagesCount = (int)Math.Ceiling(decimal.Divide(ordersCount, take));
+
+            return new OrderPagingViewModel
+            {
+                Orders = await orders
+                .Include(o => o.User)
+                .Where(o => o.User.Email.TextTransform().Contains(email.TextTransform()))
+                .Skip(skip)
+                .Take(take)
+                .OrderByDescending(o => o.CreateDate)
+                .Include(o => o.User)
+                .AsNoTracking()
+                .ToListAsync(),
+                PageNumber = pageNumber,
+                PagesCount = pagesCount
+            };
+        }
+        #endregion
+
         #region GetAllUserCourses
         public UserCoursePagingViewModel GetAllUserCourses(int pageNumber, int pageSize)
         {
@@ -605,6 +642,7 @@ namespace DigiMoallem.BLL.Services
                 PagesCount = pagesCount
             };
         }
+
         public async Task<UserCoursePagingViewModel> GetAllUserCoursesAsync(int pageNumber, int pageSize)
         {
             IQueryable<UserCourse> userCourses = _db.UserCourses;
@@ -621,6 +659,34 @@ namespace DigiMoallem.BLL.Services
                 .OrderByDescending(o => o.UserCourseId)
                 .Include(o => o.User)
                 .Include(o => o.Course)
+                .AsNoTracking()
+                .ToListAsync(),
+                PageNumber = pageNumber,
+                PagesCount = pagesCount
+            };
+        }
+        #endregion
+
+        #region SearchUserCoursesAsync
+        public async Task<UserCoursePagingViewModel> SearchUserCoursesAsync(string email, int pageNumber, int pageSize)
+        {
+            IQueryable<UserCourse> userCourses = _db.UserCourses;
+
+            int take = pageSize;
+            int skip = (pageNumber - 1) * take;
+            int ordersCount = await userCourses.CountAsync();
+
+            int pagesCount = (int)Math.Ceiling(decimal.Divide(ordersCount, take));
+
+            return new UserCoursePagingViewModel
+            {
+                UserCourses = await userCourses
+                .Include(o => o.User)
+                .Include(o => o.Course)
+                .Where(uc => uc.User.Email.TextTransform().Contains(email.TextTransform()))
+                .Skip(skip)
+                .Take(take)
+                .OrderByDescending(o => o.UserId)
                 .AsNoTracking()
                 .ToListAsync(),
                 PageNumber = pageNumber,
@@ -1161,6 +1227,17 @@ namespace DigiMoallem.BLL.Services
         public async Task SaveAsync()
         {
             await _db.SaveChangesAsync();
+        }
+
+        public void Dispose()
+        {
+            if (_db != null)
+            {
+                _db.Dispose();
+                GC.SuppressFinalize(true);
+            }
+
+            _db = null;
         }
         #endregion
     }

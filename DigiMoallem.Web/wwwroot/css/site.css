@@ -2,8 +2,8 @@
 
 @font-face {
     font-family: 'BYekan';
-    src: url(../fonts/BYekan.eot);
-    src: url(../Fonts/BYekan.eot?#iefix) format("embedded-opentype"),url(../fonts/BYekan.woff) format("woff"),url(../Fonts//BYekan.ttf) format("truetype"),url(../Fonts//BYekan.svg) format("svg");
+    src: url(../fonts/iransans/iransans.eot);
+    src: url(../fonts/iransans/iransans.eot?#iefix) format("embedded-opentype"),url(../fonts/iransans/iransans.woff) format("woff"),url(../fonts/iransans/iransans.ttf) format("truetype");
     font-weight: 400;
     font-style: normal
 }
@@ -17,7 +17,7 @@
 }
 
 body, html {
-    font-size: 17px;
+    font-size: 16px;
     line-height: 1.7rem;
 }
 
@@ -75,7 +75,7 @@ main {
 }
 
 .bg-white-transparent {
-    background-color: rgba(255,255,255,0.6)
+    background-color: rgba(255,255,255,0.6);
 }
 
 .row {
@@ -121,6 +121,7 @@ main {
     background: rgba(0,0,0,0.7);
     transition: all;
     transition-duration: 0.4s;
+    z-index: 1000;
 }
 
 .text-black {
@@ -157,4 +158,8 @@ margin: 16px 0;
 
 .user-avatar-comment {
     max-width: 75px;
+}
+
+.text-dark {
+color: #444 !important;
 }

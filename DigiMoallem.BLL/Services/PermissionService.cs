@@ -3,6 +3,7 @@ using DigiMoallem.DAL.Context;
 using DigiMoallem.DAL.Entities.Permissions;
 using DigiMoallem.DAL.Entities.Users;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace DigiMoallem.BLL.Services
 {
     public class PermissionService : IPermissionService
     {
-        private readonly ApplicationDbContext _db;
+        private ApplicationDbContext _db;
 
         public PermissionService(ApplicationDbContext db)
         {
@@ -468,6 +469,17 @@ namespace DigiMoallem.BLL.Services
         public async Task SaveAsync()
         {
             await _db.SaveChangesAsync();
+        }
+
+        public void Dispose()
+        {
+            if (_db != null)
+            {
+                _db.Dispose();
+                GC.SuppressFinalize(true);
+            }
+
+            _db = null;
         }
         #endregion
     }

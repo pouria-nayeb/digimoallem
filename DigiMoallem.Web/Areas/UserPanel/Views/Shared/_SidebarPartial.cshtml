@@ -1,4 +1,5 @@
 ﻿@inject IUserService userService
+@inject IPermissionService permissionService
 
 @{
     var user = userService.GetUserByUserName(User.Identity.Name);
@@ -22,6 +23,22 @@
             <li class="list-group-item">
                 <a asp-area="UserPanel" asp-controller="Home" asp-action="Edit" class="d-block"> ویرایش حساب کاربری </a>
             </li>
+            @if (permissionService.CheckPermission(22, User.Identity.Name))
+            {
+                <li class="list-group-item">
+                    <a asp-area="UserPanel" asp-controller="Home" asp-action="TeacherPayments"
+                       asp-route-id="@user.UserId"
+                       class="d-block"> مشاهده واریزی ها </a>
+                </li>
+            }
+            @if (permissionService.CheckPermission(22, User.Identity.Name))
+            {
+                <li class="list-group-item">
+                    <a asp-area="UserPanel" asp-controller="Home" asp-action="TeacherShare"
+                       asp-route-id="@user.UserId"
+                       class="d-block"> میزان درآمد </a>
+                </li>
+            }
             <li class="list-group-item">
                 <a asp-area="UserPanel" asp-controller="Home" asp-action="ChangePassword" class="d-block"> تغییر رمز عبور </a>
             </li>

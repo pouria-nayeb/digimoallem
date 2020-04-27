@@ -57,6 +57,7 @@ namespace DigiMoallem.DAL.Context
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<Discount> Discounts { get; set; }
+        public DbSet<DiscountPerCourse> DiscountPerCourses { get; set; }
         #endregion
 
         #region Transactions - TransactionTypes

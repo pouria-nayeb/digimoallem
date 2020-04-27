@@ -1,11 +1,11 @@
 ﻿using DigiMoallem.BLL.DTOs.General;
 using DigiMoallem.DAL.Entities.General;
-using System.Collections.Generic;
+using System;
 using System.Threading.Tasks;
 
 namespace DigiMoallem.BLL.Interfaces
 {
-    public interface IMessageService
+    public interface IMessageService : IDisposable
     {
         #region Add new contact
         Contact AddContact(Contact contact);
@@ -33,8 +33,8 @@ namespace DigiMoallem.BLL.Interfaces
         #endregion
 
         #region Search contacts
-        List<Contact> SearchContacts(string phoneNumber);
-        Task<List<Contact>> SearchContactsAsync(string phoneNumber);
+        ContactPagingViewModel SearchContacts(string phoneNumber, int pageNumber, int pageSize);
+        Task<ContactPagingViewModel> SearchContactsAsync(string phoneNumber, int pageNumber, int pageSize);
         #endregion
 
         #region Contacts count

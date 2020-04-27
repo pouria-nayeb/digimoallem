@@ -5,12 +5,13 @@ using DigiMoallem.BLL.DTOs.UserPanel;
 using DigiMoallem.DAL.Entities.Transactions;
 using DigiMoallem.DAL.Entities.Users;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DigiMoallem.BLL.Interfaces
 {
-    public interface IUserService
+    public interface IUserService : IDisposable
     {
         // users
         #region CheckUserNameExistance

@@ -343,11 +343,13 @@ namespace DigiMoallem.BLL.Services
             return _db.UserInRoles
                 .Where(ur => ur.RoleId == 2)
                 .Include(ur => ur.User)
+                .OrderByDescending(ur => ur.UserId)
                 .Select(ur => new SelectListItem
                 {
                     Text = ur.User.UserName,
                     Value = ur.UserId.ToString()
-                }).ToList();
+                })
+                .ToList();
         }
 
         public async Task<List<SelectListItem>> GetTeachersAsync()
@@ -355,6 +357,7 @@ namespace DigiMoallem.BLL.Services
             return await _db.UserInRoles
                 .Where(ur => ur.RoleId == 2)
                 .Include(ur => ur.User)
+                .OrderByDescending(ur => ur.UserId)
                 .Select(ur => new SelectListItem
                 {
                     Text = ur.User.UserName,
@@ -381,7 +384,8 @@ namespace DigiMoallem.BLL.Services
                     TeacherName = c.User.FirstName + " " + c.User.LastName,
                     TeacherIncome = ((c.TeacherIncome != null) ? c.TeacherIncome.Value : 0),
                     InstitudeIncome = ((c.OwnerIncome != null) ? c.OwnerIncome.Value : 0),
-                    AllIncome = ((c.Totalncome != null) ? c.Totalncome.Value : 0)
+                    AllIncome = ((c.Totalncome != null) ? c.Totalncome.Value : 0),
+                    TeacherPercent = ((c.TeacherPercent != null) ? c.TeacherPercent.Value : 0)
                 }).AsNoTracking().ToList(),
                 PageNumber = pageNumber,
                 PageCount = pageCount
@@ -406,7 +410,41 @@ namespace DigiMoallem.BLL.Services
                     TeacherName = c.User.FirstName + " " + c.User.LastName,
                     TeacherIncome = ((c.TeacherIncome != null) ? c.TeacherIncome.Value : 0),
                     InstitudeIncome = ((c.OwnerIncome != null) ? c.OwnerIncome.Value : 0),
-                    AllIncome = ((c.Totalncome != null) ? c.Totalncome.Value : 0)
+                    AllIncome = ((c.Totalncome != null) ? c.Totalncome.Value : 0),
+                    TeacherPercent = ((c.TeacherPercent != null) ? c.TeacherPercent.Value : 0)
+                }).AsNoTracking().ToListAsync(),
+                PageNumber = pageNumber,
+                PageCount = pageCount
+            };
+        }
+        #endregion
+
+        #region SearchIncome
+        public async Task<IncomePagingViewModel> SearchIncomeAsync(string title, int pageNumber = 1, int pageSize = 16)
+        {
+            IQueryable<Course> courses = _db.Courses;
+
+            int take = pageSize;
+            int skip = (pageNumber - 1) * take;
+            int courseCount = courses.Count();
+
+            int pageCount = (int)Math.Ceiling(decimal.Divide(courseCount, pageSize));
+
+            return new IncomePagingViewModel
+            {
+                Incomes = await courses
+                .Where(c => c.Title.TextTransform().Contains(title.TextTransform()))
+                .Skip(skip)
+                .Take(take)
+                .OrderByDescending(c => c.CreateDate)
+                .Select(c => new IncomesViewModel
+                {
+                    CourseTitle = c.Title,
+                    TeacherName = c.User.FirstName + " " + c.User.LastName,
+                    TeacherIncome = ((c.TeacherIncome != null) ? c.TeacherIncome.Value : 0),
+                    InstitudeIncome = ((c.OwnerIncome != null) ? c.OwnerIncome.Value : 0),
+                    AllIncome = ((c.Totalncome != null) ? c.Totalncome.Value : 0),
+                    TeacherPercent = ((c.TeacherPercent != null) ? c.TeacherPercent.Value : 0)
                 }).AsNoTracking().ToListAsync(),
                 PageNumber = pageNumber,
                 PageCount = pageCount
@@ -530,6 +568,82 @@ namespace DigiMoallem.BLL.Services
                 .Skip(skip)
                 .Take(recordsPerPages)
                  .OrderByDescending(u => u.CourseId)
+                .Select(c => new CourseDetailsViewModel
+                {
+                    CourseId = c.CourseId,
+                    TeacherId = c.TeacherId,
+                    Title = c.Title,
+                    Teacher = c.User.UserName,
+                    ImageName = c.ImageName,
+                    EpisodesCount = c.CourseEpisodes.Count
+                })
+                .AsNoTracking()
+                .ToListAsync()
+            };
+        }
+        #endregion
+
+        #region SearchCourse
+        public CourseViewModel SearchCourses(string title,int pageId)
+        {
+            IQueryable<Course> courses = _db.Courses;
+
+            // pagination logic
+            int recordsPerPages = 20;
+            int skip = (pageId - 1) * recordsPerPages;
+
+            int coursesCount = courses.Count();
+
+            int pagesCount = (int)Math.Ceiling(decimal.Divide(coursesCount, recordsPerPages));
+
+            return new CourseViewModel()
+            {
+                CurrentPage = pageId,
+                PageCount = pagesCount,
+                Courses = courses
+                .Include(c => c.User)
+                .Include(c => c.CourseEpisodes)
+                .Skip(skip)
+                .Take(recordsPerPages)
+                 .OrderByDescending(u => u.CourseId)
+                 .Where(c => c.Title.Contains(title))
+                .Select(c => new CourseDetailsViewModel
+                {
+                    CourseId = c.CourseId,
+                    TeacherId = c.TeacherId,
+                    Title = c.Title,
+                    Teacher = c.User.UserName,
+                    ImageName = c.ImageName,
+                    EpisodesCount = c.CourseEpisodes.Count
+                })
+                .AsNoTracking()
+                .ToList()
+            };
+        }
+
+        public async Task<CourseViewModel> SearchCoursesAsync(string title, int pageId)
+        {
+            IQueryable<Course> courses = _db.Courses;
+
+            // pagination logic
+            int recordsPerPages = 20;
+            int skip = (pageId - 1) * recordsPerPages;
+
+            int coursesCount = courses.Count();
+
+            int pagesCount = (int)Math.Ceiling(decimal.Divide(coursesCount, recordsPerPages));
+
+            return new CourseViewModel()
+            {
+                CurrentPage = pageId,
+                PageCount = pagesCount,
+                Courses = await courses
+                .Include(c => c.User)
+                .Include(c => c.CourseEpisodes)
+                .Skip(skip)
+                .Take(recordsPerPages)
+                 .OrderByDescending(u => u.CourseId)
+                 .Where(c => c.Title.Contains(title))
                 .Select(c => new CourseDetailsViewModel
                 {
                     CourseId = c.CourseId,
@@ -1586,6 +1700,17 @@ namespace DigiMoallem.BLL.Services
             }
 
             return episodeName;
+        }
+
+        public void Dispose()
+        {
+            if (_db != null)
+            {
+                _db.Dispose();
+                GC.SuppressFinalize(true);
+            }
+
+            _db = null;
         }
 
         #endregion

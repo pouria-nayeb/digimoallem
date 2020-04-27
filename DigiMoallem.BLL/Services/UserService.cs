@@ -22,7 +22,7 @@ namespace DigiMoallem.BLL.Services
 {
     public class UserService : IUserService
     {
-        private readonly ApplicationDbContext _db;
+        private ApplicationDbContext _db;
 
         public UserService(ApplicationDbContext db)
         {
@@ -304,7 +304,8 @@ namespace DigiMoallem.BLL.Services
                 Balance = GetUserBalance(userName),
                 Description = user.Description,
                 Skills = user.Skills,
-                Experiences = user.Experiences
+                Experiences = user.Experiences,
+                ScientificField = user.ScientificField
             };
         }
 
@@ -323,7 +324,8 @@ namespace DigiMoallem.BLL.Services
                 Balance = await GetUserBalanceAsync(userName),
                 Description = user.Description,
                 Skills = user.Skills,
-                Experiences = user.Experiences
+                Experiences = user.Experiences,
+                ScientificField = user.ScientificField
             };
         }
         #endregion
@@ -379,7 +381,8 @@ namespace DigiMoallem.BLL.Services
                 LastName = user.LastName,
                 Description = user.Description,
                 Skills = user.Skills,
-                Experiences = user.Experiences
+                Experiences = user.Experiences,
+                ScientificField = user.ScientificField
             };
         }
         public async Task<EditProfileViewModel> GetDetailsToEditUserProfileAsync(string userName)
@@ -394,7 +397,8 @@ namespace DigiMoallem.BLL.Services
                 LastName = user.LastName,
                 Description = user.Description,
                 Skills = user.Skills,
-                Experiences = user.Experiences              
+                Experiences = user.Experiences,
+                ScientificField = user.ScientificField
             };
         }
         #endregion
@@ -418,6 +422,7 @@ namespace DigiMoallem.BLL.Services
                 user.Description = profile.Description;
                 user.Skills = profile.Skills;
                 user.Experiences = profile.Experiences;
+                user.ScientificField = profile.ScientificField;
 
                 user.UserAvatar = ImageUpload(user, profile.UserAvatar);
 
@@ -444,6 +449,7 @@ namespace DigiMoallem.BLL.Services
                 user.Description = profile.Description;
                 user.Skills = profile.Skills;
                 user.Experiences = profile.Experiences;
+                user.ScientificField = profile.ScientificField;
 
                 user.UserAvatar = ImageUpload(user, profile.UserAvatar);
 
@@ -1231,6 +1237,17 @@ namespace DigiMoallem.BLL.Services
         public async Task SaveAsync()
         {
             await _db.SaveChangesAsync();
+        }
+
+        public void Dispose()
+        {
+            if (_db != null)
+            {
+                _db.Dispose();
+                GC.SuppressFinalize(true);
+            }
+
+            _db = null;
         }
         #endregion
     }

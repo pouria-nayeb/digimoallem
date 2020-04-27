@@ -1,8 +1,11 @@
 ﻿using DigiMoallem.BLL.DTOs.Display;
 using DigiMoallem.BLL.DTOs.Works;
 using DigiMoallem.BLL.Helpers.Converters;
+using DigiMoallem.BLL.Helpers.Generators;
+using DigiMoallem.BLL.Helpers.Security;
 using DigiMoallem.BLL.Interfaces;
 using DigiMoallem.DAL.Entities.General;
+using DigiMoallem.DAL.Entities.Users;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -100,12 +103,37 @@ namespace DigiMoallem.Web.Controllers
 
             workVM.SubmitDate = DateTime.Now;
 
+            if (await _userService.IsEmailExistAsync(workVM.Email.TextTransform()))
+            {
+                // email is not unique
+                ModelState.AddModelError("Email", "ایمیل شما تکراری می باشد.");
+                return View(workVM);
+            }
+
             if (ModelState.IsValid)
             {
                 var work = await _workService.AddWorkAsync(workVM);
                 if (work != null)
                 {
-                    return RedirectToAction("WorkWithUsComplete", "Home", new { id = work.WorkId });
+                    var user = new User
+                    {
+                        UserName = workVM.Email,
+                        FirstName = workVM.FirstName,
+                        LastName = workVM.LastName,
+                        Email = workVM.Email,
+                        PhoneNumber = workVM.Mobile,
+                        ActivationCode = CodeGenerator.GenerateUniqueCode(),
+                        IsActive = true,
+                        IsDelete = false,
+                        Password = workVM.Mobile.EncodePassword(),
+                        RegisterDate = workVM.SubmitDate
+                    };
+
+                    var userId = await _userService.AddUserAsync(user);
+
+                    TempData["UserId"] = userId;
+
+                    return RedirectToAction("WorkWithUsComplete", "Home", new { id = work.WorkId, userid = userId });
                 }
                 else
                 {
@@ -122,22 +150,42 @@ namespace DigiMoallem.Web.Controllers
 
         [HttpGet]
         [Route("WorkWithUsComplete")]
-        public IActionResult WorkWithUsComplete(int id)
+        public IActionResult WorkWithUsComplete(int id, int userid)
         {
             var work = _workService.GetWorkCompById(id);
+
+            if (TempData["UserId"] == null)
+            {
+                return BadRequest();
+            }
+
+            int userId = (int)TempData["UserId"];
+
+            if (userId == userid)
+            {
+                ViewBag.UserId = userid;
+            }
+            else {
+                return BadRequest();
+            }
 
             return View(work);
         }
 
         [HttpPost]
         [Route("WorkWithUsComplete")]
-        public async Task<IActionResult> WorkWithUsComplete(WorkComplementDataViewModel workCVM)
+        public async Task<IActionResult> WorkWithUsComplete(WorkComplementDataViewModel workCVM, int userid)
         {
             if (ModelState.IsValid)
             {
                 if ((await _workService.UpdateWorkAsync(workCVM)) != null)
                 {
                     TempData["SuccessWork"] = "درخواست همکاری شما با موفقیت ثبت شد، تیم دیجی معلم در صورت تمایل با شما تماس خواهد گرفت.";
+
+                    var user = await _userService.GetUserByIdAsync(userid);
+
+                    user.Skills = workCVM.Skills;
+                    user.Experiences = workCVM.Experiences;
 
                     return RedirectToAction("WorkWithUs", "Home");
                 }

@@ -1,6 +1,7 @@
 ﻿using DigiMoallem.BLL.DTOs.Orders;
 using DigiMoallem.BLL.Helpers.Security;
 using DigiMoallem.BLL.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
@@ -22,9 +23,18 @@ namespace DigiMoallem.Web.Pages.Admin.Orders
 
         public UserCoursePagingViewModel UserCourseVM { get; set; }
 
-        public async Task OnGetAsync(int pageNumber = 1, int pageSize = 32)
+        public async Task<IActionResult> OnGetAsync(string email, int pageNumber = 1, int pageSize = 32)
         {
+            if (!string.IsNullOrEmpty(email))
+            {
+                UserCourseVM = await _orderService.SearchUserCoursesAsync(email, pageNumber, pageSize);
+
+                return Page();
+            }
+
             UserCourseVM = await _orderService.GetAllUserCoursesAsync(pageNumber, pageSize);
+
+            return Page();
         }
     }
 }

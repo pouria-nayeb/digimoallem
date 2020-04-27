@@ -12,10 +12,13 @@ namespace DigiMoallem.Web.Areas.UserPanel.Controllers
     public class HomeController : Controller
     {
         private readonly IUserService _userService;
+        private readonly IAccountingService _accountingService;
 
-        public HomeController(IUserService userService)
+        public HomeController(IUserService userService,
+            IAccountingService accountingService)
         {
             _userService = userService;
+            _accountingService = accountingService;
         }
 
         /// <summary>
@@ -118,5 +121,36 @@ namespace DigiMoallem.Web.Areas.UserPanel.Controllers
             // user inputs is not valid
             return View(changePassword);
         }
+
+        [Route("Payments/{id}")]
+        public async Task<IActionResult> TeacherPayments(int id, int pageNumber = 1, int pageSize = 32) 
+        {
+            var user = await _userService.GetUserByIdAsync(id);
+            if (user.UserName.TextTransform() == User.Identity.Name.TextTransform())
+            {
+                var teacherPayments = await _accountingService
+                .GetTeacherPaymentByUserNameAsync(id, pageNumber, pageSize);
+
+                return View(teacherPayments);
+            }
+
+            return BadRequest();
+        }
+
+        [Route("Shares/{id}")]
+        public async Task<IActionResult> TeacherShare(int id, int pageNumber = 1, int pageSize = 32) 
+        {
+            var user = await _userService.GetUserByIdAsync(id);
+            if (user.UserName.TextTransform() == User.Identity.Name.TextTransform())
+            {
+                var teacherShare = await _accountingService
+                .GetTeacherCurrentShareAsync(id, pageNumber, pageSize);
+
+                return View(teacherShare);
+            }
+
+            return BadRequest();
+        }
+
     }
 }

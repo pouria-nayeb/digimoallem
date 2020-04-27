@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DigiMoallem.BLL.Interfaces
 {
-    public interface ICourseService
+    public interface ICourseService : IDisposable
     {
         // groups
         #region GetGroups
@@ -85,6 +85,11 @@ namespace DigiMoallem.BLL.Interfaces
         Task<IncomePagingViewModel> GetIncomesForAdminAsync(int pageNumber, int pageSize);
         #endregion
 
+        #region SearchCourses
+        CourseViewModel SearchCourses(string title, int pageId);
+        Task<CourseViewModel> SearchCoursesAsync(string title, int pageId);
+        #endregion
+
         #region GetCourseById
         Course GetCourseById(int courseId);
         Task<Course> GetCourseByIdAsync(int courseId);
@@ -108,6 +113,10 @@ namespace DigiMoallem.BLL.Interfaces
         #region GetCoursesItemList2
         List<SelectListItem> GetCoursesItemList2();
         Task<List<SelectListItem>> GetCoursesItemListAsync2();
+        #endregion
+
+        #region IncomeSearch
+        Task<IncomePagingViewModel> SearchIncomeAsync(string title, int pageNumber = 1, int pageSize = 16);
         #endregion
 
         #region PopularCourses

@@ -47,6 +47,8 @@ namespace DigiMoallem.Web.Pages.Admin.Courses
                 "Text",
                 selectedSubgroup);
 
+            ViewData["SelectedCourseTypes"] = _courseService.GetCourseTypeByCourseId(id);
+
             List<SelectListItem> teachers = await _courseService
                 .GetTeachersAsync();
             ViewData["Teachers"] = new SelectList(teachers, "Value", "Text", Course.TeacherId);
@@ -66,13 +68,13 @@ namespace DigiMoallem.Web.Pages.Admin.Courses
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(IFormFile imgCourseUpload, IFormFile demo)
+        public async Task<IActionResult> OnPostAsync(IFormFile imgCourseUpload, IFormFile demo, List<int> courseTypes)
         {
             if (ModelState.IsValid)
             {
                 // user inputs is valid
 
-                if (await _courseService.UpdateCourseAsync(Course, imgCourseUpload, demo))
+                if (await _courseService.UpdateCourseAsync(Course, imgCourseUpload, demo, courseTypes))
                 {
                     // success
                     TempData["Success"] = "درس با موفقیت ویرایش شد.";

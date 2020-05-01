@@ -25,13 +25,7 @@ namespace DigiMoallem.Web.Pages.Admin.Accountings
 
         public async Task OnGet()
         {
-            List<SelectListItem> teachers = await _courseService
-                .GetTeachersAsync();
-            ViewData["Teachers"] = new SelectList(teachers, "Value", "Text");
-
-            List<SelectListItem> courses = await _courseService
-                .GetCoursesItemListAsync();
-            ViewData["Courses"] = new SelectList(courses, "Value", "Text");
+            await SeedDataAsync();
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -51,12 +45,28 @@ namespace DigiMoallem.Web.Pages.Admin.Accountings
 
                 // failure
                 TempData["OperationFailed"] = "متاسفانه عملیات افزودن تراکنش توسط حسابدار با مشکل روبرو شد.";
+
+                await SeedDataAsync();
+
                 return Page();
             }
 
             // user inputs is not valid
             TempData["WrongInputs"] = "ورودی شما نامعتبر است.";
+
+            await SeedDataAsync();
+
             return Page();
+        }
+
+        private async Task SeedDataAsync() {
+            List<SelectListItem> teachers = await _courseService
+        .GetTeachersAsync();
+            ViewData["Teachers"] = new SelectList(teachers, "Value", "Text");
+
+            List<SelectListItem> courses = await _courseService
+                .GetCoursesItemListAsync();
+            ViewData["Courses"] = new SelectList(courses, "Value", "Text");
         }
     }
 }

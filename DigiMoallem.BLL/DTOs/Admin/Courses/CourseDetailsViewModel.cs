@@ -4,6 +4,7 @@
     {
         public int CourseId { get; set; }
         public int TeacherId { get; set; }
+        public int? TeacherPercent { get; set; }
         public string Title { get; set; }
         public string Teacher { get; set; }
         public string ImageName { get; set; }

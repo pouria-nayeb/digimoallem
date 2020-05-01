@@ -77,6 +77,8 @@ namespace DigiMoallem.Web.Controllers
                 return NotFound();
             }
 
+            ViewData["RelatedCourses"] = _courseService.GetRelatedCourses(course.GroupId);
+
             return View(course);
         }
 
@@ -92,7 +94,15 @@ namespace DigiMoallem.Web.Controllers
             comment.IsDelete = false;
             comment.CreateDate = DateTime.Now;
             comment.UserId = _userServive.GetUserIdByUserName(User.Identity.Name);
-            comment.ReadByAdmin = false;
+
+            if (comment.ParentId != null)
+            {
+                comment.ReadByAdmin = true;
+            }
+            else {
+                comment.ReadByAdmin = false;
+            }
+
             _courseService.AddComment(comment);
             // success
             return View("ShowComment", _courseService.GetComments(comment.CourseId));

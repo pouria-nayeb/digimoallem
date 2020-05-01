@@ -1,21 +1,19 @@
-﻿using DigiMoallem.BLL.Interfaces;
+﻿using DigiMoallem.BLL.DTOs.Admin.Discounts;
+using DigiMoallem.BLL.DTOs.Orders;
+using DigiMoallem.BLL.DTOs.Transactions;
+using DigiMoallem.BLL.Helpers.Converters;
+using DigiMoallem.BLL.Interfaces;
 using DigiMoallem.DAL.Context;
+using DigiMoallem.DAL.Entities.Courses;
 using DigiMoallem.DAL.Entities.Orders;
+using DigiMoallem.DAL.Entities.Transactions;
+using DigiMoallem.DAL.Entities.Users;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DigiMoallem.DAL.Entities.Transactions;
-using DigiMoallem.DAL.Entities.Courses;
-using DigiMoallem.BLL.DTOs.Orders;
-using DigiMoallem.DAL.Entities.Users;
-using DigiMoallem.BLL.DTOs.Admin.Discounts;
-using System.Runtime.InteropServices;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using DigiMoallem.BLL.DTOs.Transactions;
-using DigiMoallem.BLL.Helpers.Converters;
-using System.ComponentModel.DataAnnotations;
 
 namespace DigiMoallem.BLL.Services
 {
@@ -372,7 +370,6 @@ namespace DigiMoallem.BLL.Services
                             UserId = userId
                         });
 
-                        _courseService.CourseIncomeCalculator(orderDetail.CourseId);
                     }
 
                     Save();
@@ -424,7 +421,6 @@ namespace DigiMoallem.BLL.Services
                             UserId = userId
                         });
 
-                        await _courseService.CourseIncomeCalculatorAsync(orderDetail.CourseId);
                     }
 
                     await SaveAsync();

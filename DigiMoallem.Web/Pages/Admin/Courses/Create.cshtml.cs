@@ -50,13 +50,13 @@ namespace DigiMoallem.Web.Pages.Admin.Courses
             ViewData["CourseTypes"] = new SelectList(courseTypes, "Value", "Text");
         }
 
-        public async Task<IActionResult> OnPostAsync(IFormFile imgCourseUpload, IFormFile demo)
+        public async Task<IActionResult> OnPostAsync(IFormFile imgCourseUpload, IFormFile demo, List<int> courseTypes)
         {
             if (ModelState.IsValid)
             {
                 // user inputs is valid
 
-                if (await _courseService.AddCourseAsync(Course, imgCourseUpload, demo) > 0)
+                if (await _courseService.AddCourseAsync(Course, imgCourseUpload, demo, courseTypes) > 0)
                 {
                     // success
                     TempData["Success"] = "درس با موفقیت افزوده شد.";

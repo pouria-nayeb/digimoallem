@@ -1,6 +1,7 @@
 ﻿@page "{id}"
 @model DigiMoallem.Web.Pages.Admin.Courses.EpisodesModel
 @inject ICourseService  _courseService
+@inject IPermissionService _permissionService
 
 @{
     ViewData["Title"] = "لیست بخش ها";
@@ -53,7 +54,8 @@
             {
                 @foreach (var episode in Model.CourseEpisodes)
                 {
-                    @if (User.Identity.Name == _courseService.GetCourseById(episode.Course.CourseId).User.UserName)
+                    @if (User.Identity.Name == _courseService.GetCourseById(episode.Course.CourseId).User.UserName ||
+                        _permissionService.CheckPermission(2, User.Identity.Name))
                     {
                         <tr>
                             <td class="english-font">@episode.CourseEpisodeId</td>

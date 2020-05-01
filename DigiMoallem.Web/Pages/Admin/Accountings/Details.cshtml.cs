@@ -21,9 +21,6 @@ namespace DigiMoallem.Web.Pages.Admin.Accountings
         public async Task OnGetAsync(int id)
         {
             Payment = await _accountingService.GetPaymentByIdAsync(id);
-            ViewData["TeacherIncomePerCourse"] = await _accountingService.TeacherIncomePerCourseAsync(Payment.TeacherId, Payment.CourseId);
-
-            ViewData["TeacherRemaningPayment"] = await _accountingService.TeacherRemainPaymentAsync(Payment.TeacherId, Payment.CourseId);
         }
     }
 }

@@ -32,10 +32,6 @@ namespace DigiMoallem.DAL.Entities.Courses
         [Required(ErrorMessage = "لطفاً {0} را وارد نمایید.")]
         public int CourseStatusId { get; set; }
 
-        [Display(Name = "نوع دوره")]
-        [Required(ErrorMessage = "لطفاً {0} را وارد نمایید.")]
-        public int CourseTypeId { get; set; }
-
         [Display(Name = "عنوان دوره")]
         [Required(ErrorMessage = "لطفاً {0} را وارد نمایید.")]
         [MaxLength(500, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]
@@ -72,16 +68,12 @@ namespace DigiMoallem.DAL.Entities.Courses
         public bool? IsFavorite { get; set; }
 
         [Display(Name = "درآمد کل")]
-        public int? Totalncome { get; set; }
+        public int? TotalIncome { get; set; }
 
-        [Display(Name = "درآمد جدید")]
-        public int? RemaningIncome { get; set; }
+        [Display(Name = "مجموع پرداختی ها")]
+        public int? TotalPayment { get; set; }
 
-        [Display(Name = "سهم استاد")]
-        public int? TeacherIncome { get; set; }
-
-        [Display(Name = "سهم موسسه")]
-        public int? OwnerIncome { get; set; }
+        public int? TotalInstitutePayment { get; set; }
 
         [Required(ErrorMessage = "لطفاً {0} را وارد نمایید.")]
         public DateTime CreateDate { get; set; }
@@ -96,7 +88,7 @@ namespace DigiMoallem.DAL.Entities.Courses
         [ForeignKey("GroupId")]
         public Group Group { get; set; }
 
-        [Display(Name = "سهم استاد")]
+        [Display(Name = "درصد استاد")]
         [Range(0, 100, ErrorMessage = "درصد استاد باید بین 0 تا 100 باشد.")]
         public int? TeacherPercent { get; set; }
 
@@ -108,9 +100,6 @@ namespace DigiMoallem.DAL.Entities.Courses
 
         [ForeignKey("CourseStatusId")]
         public CourseStatus CourseStatus { get; set; }
-
-        [ForeignKey("CourseTypeId")]
-        public CourseType CourseTypes { get; set; }
 
         public List<CourseEpisode> CourseEpisodes { get; set; }
 
@@ -125,6 +114,8 @@ namespace DigiMoallem.DAL.Entities.Courses
         public List<RateCourse> RateCourses { get; set; }
 
         public List<LikeCourse> LikeCourses { get; set; }
+
+        public List<CourseInCourseType> CourseInCourseTypes { get; set; }
 
         #endregion
     }

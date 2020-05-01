@@ -5,7 +5,7 @@
     string pageId = Context.Request.Query["pageId"].ToString();
 }
 
-@if (Model.Item2 > 0)
+@if (Model.Item2 > 1)
 {
     <nav aria-label="Page navigation example">
         <ul class="pagination pg-blue">
@@ -17,7 +17,7 @@
     </nav>
 }
 
-@foreach (var comment in Model.Item1)
+@foreach (var comment in Model.Item1.Where(c =>c.ParentId == null))
 {
     <div class="m-1 rounded border border-dark" style="padding:16px 4px">
         <div class="row m-0">
@@ -31,8 +31,9 @@
                     {
                         @comment.User.FirstName @comment.User.LastName
                     }
-                    else { 
-                    @comment.User.UserName
+                    else
+                    {
+                        @comment.User.UserName
                     }
                 </span>
             </div>
@@ -42,8 +43,79 @@
                     <span class="float-left english-font mt-2">
                         <i class="fa fa-calendar ml-1"></i> @comment.CreateDate.ToPersianDate()
                     </span>
+
+                    @if (User.Identity.Name.TextTransform() == comment.Course.User.UserName.TextTransform())
+                    {
+                        <button class="answerComment btn btn-info btn-sm mt-2 float-right">
+                            پاسخ
+                        </button>
+
+                        <form method="post"
+                              data-ajax="true"
+                              data-ajax-method="post"
+                              data-ajax-mode="replace"
+                              data-ajax-update="#listComment"
+                              data-ajax-success="Success"
+                              class="p-3" style="display:none;">
+
+                            <!-- courseId -->
+                            <input type="hidden" name="comment.CourseId" value="@comment.CourseId" />
+                            <input type="hidden" name="comment.ParentId" value="@comment.CommentId" />
+
+                            <div class="m-2 py-4">
+                                <label for="comment_Body">متن پیام</label>
+                                <textarea class="form-control"
+                                          id="comment_Body"
+                                          name="comment.Body"
+                                          rows="4"></textarea>
+                                <button class="btn btn-success mt-2">درج نظر</button>
+                            </div>
+                        </form>
+                    }
+
                 </div>
             </div>
         </div>
     </div>
+    @if (Model.Item1.Any(c => c.ParentId == comment.CommentId))
+    {
+        foreach (var subComment in Model.Item1.Where(c => c.ParentId == comment.CommentId))
+        {
+            <div class="mr-3 rounded border border-info" style="padding:16px 4px">
+                <div class="row m-0">
+                    <div class="col-12 border-bottom border-white clearfix pb-2">
+                        <img src="~/images/avatars/@subComment.User.UserAvatar"
+                             alt="@subComment.User.UserName"
+                             class="img-fluid user-avatar-comment mx-1 rounded-circle float-right" />
+
+                        <span class="mt-3 pr-2 d-inline-block">
+                            @if (subComment.User.FirstName != null && subComment.User.LastName != null)
+                            {
+                                @subComment.User.FirstName @subComment.User.LastName <i class="fa fa-check-circle text-info mr-2"></i>
+                            }
+                            else
+                            {
+                                @subComment.User.UserName <i class="fa fa-check-circle text-info mr-2"></i>
+                            }
+                        </span>
+                    </div>
+                    <div class="col-12 text-left mt-1">
+                        <p class="text-muted">@subComment.Body</p>
+                        <div class="clearfix border-top border-info">
+                            <span class="float-left english-font mt-2">
+                                <i class="fa fa-calendar ml-1"></i> @subComment.CreateDate.ToPersianDate()
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        <br />
+    }
 }
+
+<script>
+    $(".answerComment").click(function () {
+        $(this).next().slideToggle()
+    });
+</script>

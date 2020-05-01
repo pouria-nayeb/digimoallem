@@ -77,7 +77,7 @@ namespace DigiMoallem.DAL.Migrations
 
             modelBuilder.Entity("DigiMoallem.DAL.Entities.Courses.CommentQA", b =>
                 {
-                    b.Property<int>("CommentId")
+                    b.Property<int>("CommentQAId")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -97,9 +97,11 @@ namespace DigiMoallem.DAL.Migrations
 
                     b.Property<int>("UserId");
 
-                    b.HasKey("CommentId");
+                    b.HasKey("CommentQAId");
 
                     b.HasIndex("CourseId");
+
+                    b.HasIndex("ParentId");
 
                     b.HasIndex("UserId");
 
@@ -115,8 +117,6 @@ namespace DigiMoallem.DAL.Migrations
                     b.Property<int>("CourseLevelId");
 
                     b.Property<int>("CourseStatusId");
-
-                    b.Property<int>("CourseTypeId");
 
                     b.Property<DateTime>("CreateDate");
 
@@ -139,11 +139,7 @@ namespace DigiMoallem.DAL.Migrations
 
                     b.Property<bool>("IsHidden");
 
-                    b.Property<int?>("OwnerIncome");
-
                     b.Property<int>("Price");
-
-                    b.Property<int?>("RemaningIncome");
 
                     b.Property<int?>("SubGroupId");
 
@@ -152,15 +148,17 @@ namespace DigiMoallem.DAL.Migrations
 
                     b.Property<int>("TeacherId");
 
-                    b.Property<int?>("TeacherIncome");
-
                     b.Property<int?>("TeacherPercent");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(500);
 
-                    b.Property<int?>("Totalncome");
+                    b.Property<int?>("TotalIncome");
+
+                    b.Property<int?>("TotalInstitutePayment");
+
+                    b.Property<int?>("TotalPayment");
 
                     b.Property<DateTime?>("UpdateDate");
 
@@ -169,8 +167,6 @@ namespace DigiMoallem.DAL.Migrations
                     b.HasIndex("CourseLevelId");
 
                     b.HasIndex("CourseStatusId");
-
-                    b.HasIndex("CourseTypeId");
 
                     b.HasIndex("GroupId");
 
@@ -207,6 +203,25 @@ namespace DigiMoallem.DAL.Migrations
                     b.HasIndex("CourseId");
 
                     b.ToTable("CourseEpisodes");
+                });
+
+            modelBuilder.Entity("DigiMoallem.DAL.Entities.Courses.CourseInCourseType", b =>
+                {
+                    b.Property<int>("CourseInCourseTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CourseId");
+
+                    b.Property<int>("CourseTypeId");
+
+                    b.HasKey("CourseInCourseTypeId");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("CourseTypeId");
+
+                    b.ToTable("CourseInCoursetypes");
                 });
 
             modelBuilder.Entity("DigiMoallem.DAL.Entities.Courses.CourseLevel", b =>
@@ -609,6 +624,8 @@ namespace DigiMoallem.DAL.Migrations
                     b.Property<string>("ActivationCode")
                         .HasMaxLength(100);
 
+                    b.Property<int?>("Balance");
+
                     b.Property<string>("Description")
                         .HasMaxLength(1500);
 
@@ -700,7 +717,7 @@ namespace DigiMoallem.DAL.Migrations
 
             modelBuilder.Entity("DigiMoallem.DAL.Entities.Accounting.Payment", b =>
                 {
-                    b.HasOne("DigiMoallem.DAL.Entities.Courses.Course", "Course")
+                    b.HasOne("DigiMoallem.DAL.Entities.Courses.Course")
                         .WithMany("Payments")
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Restrict);
@@ -722,10 +739,6 @@ namespace DigiMoallem.DAL.Migrations
                         .WithMany("Comments")
                         .HasForeignKey("ParentId");
 
-                    b.HasOne("DigiMoallem.DAL.Entities.Courses.CommentQA")
-                        .WithMany("Comments")
-                        .HasForeignKey("ParentId");
-
                     b.HasOne("DigiMoallem.DAL.Entities.Users.User", "User")
                         .WithMany("Comments")
                         .HasForeignKey("UserId")
@@ -738,6 +751,10 @@ namespace DigiMoallem.DAL.Migrations
                         .WithMany()
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("DigiMoallem.DAL.Entities.Courses.CommentQA")
+                        .WithMany("CommentQAs")
+                        .HasForeignKey("ParentId");
 
                     b.HasOne("DigiMoallem.DAL.Entities.Users.User", "User")
                         .WithMany()
@@ -755,11 +772,6 @@ namespace DigiMoallem.DAL.Migrations
                     b.HasOne("DigiMoallem.DAL.Entities.Courses.CourseStatus", "CourseStatus")
                         .WithMany("Courses")
                         .HasForeignKey("CourseStatusId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("DigiMoallem.DAL.Entities.Courses.CourseType", "CourseTypes")
-                        .WithMany("Courses")
-                        .HasForeignKey("CourseTypeId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("DigiMoallem.DAL.Entities.Courses.Group", "Group")
@@ -782,6 +794,19 @@ namespace DigiMoallem.DAL.Migrations
                     b.HasOne("DigiMoallem.DAL.Entities.Courses.Course", "Course")
                         .WithMany("CourseEpisodes")
                         .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("DigiMoallem.DAL.Entities.Courses.CourseInCourseType", b =>
+                {
+                    b.HasOne("DigiMoallem.DAL.Entities.Courses.Course", "Course")
+                        .WithMany("CourseInCourseTypes")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("DigiMoallem.DAL.Entities.Courses.CourseType", "CourseType")
+                        .WithMany("CourseInCourseTypes")
+                        .HasForeignKey("CourseTypeId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 

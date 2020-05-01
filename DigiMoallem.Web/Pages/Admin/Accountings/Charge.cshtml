@@ -27,50 +27,62 @@
             </div>
         }
 
-        <!-- user -->
-        <div class="form-group">
-            <label asp-for="Exchange.UserId"></label>
-            <select multiple="" size="6" class="form-control"
-                    asp-for="Exchange.UserId"
-                    asp-items="Model.UsersSelectList">
-            </select>
+        <div class="row">
 
-            <span asp-validation-for="Exchange.UserId" class="text-danger"></span>
-        </div>
+            <div class="col-12 col-md-6">
+                <!-- user -->
+                <div class="form-group">
+                    <label asp-for="Exchange.UserId"></label>
+                    <select class="form-control"
+                            asp-for="Exchange.UserId"
+                            asp-items="Model.UsersSelectList">
+                    </select>
 
-        <!-- transaction type -->
-        <div class="form-group">
-            <label asp-for="Exchange.TransactionTypeId"></label>
-            <select multiple="" size="2" class="form-control"
-                    asp-for="Exchange.TransactionTypeId"
-                    asp-items="Model.TransactionTypeSelectList">
-            </select>
+                    <span asp-validation-for="Exchange.UserId" class="text-danger"></span>
+                </div>
 
-            <span asp-validation-for="Exchange.TransactionTypeId" class="text-danger"></span>
-        </div>
+                <br />
 
-        <!-- amount -->
-        <div class="form-group mb-4">
-            <label asp-for="Exchange.Amount"></label>
-            <input type="number" asp-for="Exchange.Amount" class="form-control english-font text-left text-direction-ltr" />
+                <!-- amount -->
+                <div class="form-group mb-4">
+                    <label asp-for="Exchange.Amount"></label>
+                    <input type="number" asp-for="Exchange.Amount" class="form-control english-font text-left text-direction-ltr" />
 
-            <span asp-validation-for="Exchange.Amount" class="text-danger"></span>
-        </div>
+                    <span asp-validation-for="Exchange.Amount" class="text-danger"></span>
+                </div>
 
-        <!-- description -->
-        <div class="form-group mb-4">
-            <label asp-for="Exchange.Description"></label>
-            <input type="text" asp-for="Exchange.Description" class="form-control" />
-
-            <span asp-validation-for="Exchange.Description" class="text-danger"></span>
-        </div>
-
-        <!-- checked -->
-        <div class="form-group">
-            <div class="custom-control custom-switch">
-                <input type="checkbox" class="custom-control-input" asp-for="Exchange.IsPay" />
-                <label class="custom-control-label" asp-for="Exchange.IsPay"></label>
+                <!-- checked -->
+                <div class="form-group">
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" asp-for="Exchange.IsPay" />
+                        <label class="custom-control-label" asp-for="Exchange.IsPay"></label>
+                    </div>
+                </div>
             </div>
+
+            <div class="col-12 col-md-6">
+
+                <!-- transaction type -->
+                <div class="form-group">
+                    <label asp-for="Exchange.TransactionTypeId"></label>
+                    <select multiple="" size="2" class="form-control"
+                            asp-for="Exchange.TransactionTypeId"
+                            asp-items="Model.TransactionTypeSelectList">
+                    </select>
+
+                    <span asp-validation-for="Exchange.TransactionTypeId" class="text-danger"></span>
+                </div>
+
+                <!-- description -->
+                <div class="form-group mb-4">
+                    <label asp-for="Exchange.Description"></label>
+                    <input type="text" asp-for="Exchange.Description" class="form-control" />
+
+                    <span asp-validation-for="Exchange.Description" class="text-danger"></span>
+                </div>
+
+            </div>
+
         </div>
 
         <div class="form-group my-5">

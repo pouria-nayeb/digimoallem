@@ -25,11 +25,11 @@
             <i class="fa fa-plus ml-1"></i> افزودن واریزی جدید
         </a>
 
-        <!-- incomes -->
+        <!-- search -->
         <a asp-area=""
-           asp-page="/Admin/Accountings/Incomes"
+           asp-page="/Admin/Accountings/Search"
            class="btn btn-outline-info mx-2 float-right">
-            <i class="fa fa-money-bill ml-1"></i> مشاهده درآمدها
+            <i class="fa fa-search ml-1"></i> جستجو
         </a>
 
         <!-- percent -->
@@ -86,29 +86,29 @@
                 {
                     @foreach (var payemnt in Model.PaymentVM.Payments)
                     {
-                        <tr>
-                            <td class="english-font">@payemnt.PaymentId</td>
-                            <td>@payemnt.User.UserName</td>
-                            <td>@payemnt.Course.Title</td>
-                            <td class="english-font">@payemnt.Amount.ThreeDigitSeperator()</td>
-                            <td class="english-font">@payemnt.PaymentDate.ToPersianDate()</td>
-                            <td class="text-center">
+            <tr>
+                <td class="english-font">@payemnt.PaymentId</td>
+                <td>@payemnt.User.UserName</td>
+                <td>@payemnt.Course.Title</td>
+                <td class="english-font">@payemnt.Amount.ThreeDigitSeperator()</td>
+                <td class="english-font">@payemnt.PaymentDate.ToPersianDate()</td>
+                <td class="text-center">
 
-                                <a asp-area=""
-                                   asp-page="/Admin/Accountings/Edit"
-                                   asp-route-id="@payemnt.PaymentId"
-                                   class="btn btn-outline-warning btn-sm">
-                                    <i class="fa fa-pen ml-2"></i> ویرایش
-                                </a>
+                    <a asp-area=""
+                       asp-page="/Admin/Accountings/Edit"
+                       asp-route-id="@payemnt.PaymentId"
+                       class="btn btn-outline-warning btn-sm">
+                        <i class="fa fa-pen ml-2"></i> ویرایش
+                    </a>
 
-                                <a asp-area=""
-                                   asp-page="/Admin/Accountings/Details"
-                                   asp-route-id="@payemnt.PaymentId"
-                                   class="btn btn-outline-info btn-sm">
-                                    <i class="fa fa-info ml-2"></i> جزئیات
-                                </a>
-                            </td>
-                        </tr>
+                    <a asp-area=""
+                       asp-page="/Admin/Accountings/Details"
+                       asp-route-id="@payemnt.PaymentId"
+                       class="btn btn-outline-info btn-sm">
+                        <i class="fa fa-info ml-2"></i> جزئیات
+                    </a>
+                </td>
+            </tr>
                     }
                 }
             </table>

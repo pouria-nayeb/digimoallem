@@ -1,7 +1,9 @@
 ﻿using DigiMoallem.BLL.DTOs.Accountings;
 using DigiMoallem.BLL.DTOs.Admin.Courses;
 using DigiMoallem.BLL.DTOs.Courses;
+using DigiMoallem.BLL.DTOs.Orders;
 using DigiMoallem.DAL.Entities.Courses;
+using DigiMoallem.DAL.Entities.Orders;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -48,6 +50,14 @@ namespace DigiMoallem.BLL.Interfaces
         Task<bool> DeleteGroupAsync(Group group);
         #endregion
 
+        #region Relatedcourses
+        List<DisplayCourseViewModel> GetRelatedCourses(int groupId);
+        Task<List<DisplayCourseViewModel>> GetRelatedCoursesAsync(int groupId);
+        #endregion
+
+        #region GetCourseTypesByCourseId
+        List<int> GetCourseTypeByCourseId(int courseId);
+        #endregion
 
         // courses
         #region GetCourseLevels
@@ -71,18 +81,15 @@ namespace DigiMoallem.BLL.Interfaces
         #endregion
 
         #region AddCourse
-        int AddCourse(Course course, IFormFile imageCourse, IFormFile demoCourse);
-        Task<int> AddCourseAsync(Course course, IFormFile imageCourse, IFormFile demoCourse);
+        int AddCourse(Course course, IFormFile imageCourse, IFormFile demoCourse,
+            List<int> courseTypes);
+        Task<int> AddCourseAsync(Course course, IFormFile imageCourse, IFormFile demoCourse,
+            List<int> courseTypes);
         #endregion
 
         #region GetCoursesForAdmin
         CourseViewModel GetCoursesForAdmin(int pageId = 1);
         Task<CourseViewModel> GetCoursesForAdminAsync(int pageId = 1);
-        #endregion
-
-        #region GetIncomesForAdmin
-        IncomePagingViewModel GetIncomesForAdmin(int pageNumber, int pageSize);
-        Task<IncomePagingViewModel> GetIncomesForAdminAsync(int pageNumber, int pageSize);
         #endregion
 
         #region SearchCourses
@@ -96,8 +103,8 @@ namespace DigiMoallem.BLL.Interfaces
         #endregion
 
         #region UpdateCourse
-        bool UpdateCourse(Course course, IFormFile imageCourse, IFormFile demoCourse);
-        Task<bool> UpdateCourseAsync(Course course, IFormFile imageCourse, IFormFile demoCourse);
+        bool UpdateCourse(Course course, IFormFile imageCourse, IFormFile demoCourse, List<int> courseTypes);
+        Task<bool> UpdateCourseAsync(Course course, IFormFile imageCourse, IFormFile demoCourse, List<int> courseTypes);
         #endregion
 
         #region CoursesCount
@@ -115,10 +122,6 @@ namespace DigiMoallem.BLL.Interfaces
         Task<List<SelectListItem>> GetCoursesItemListAsync2();
         #endregion
 
-        #region IncomeSearch
-        Task<IncomePagingViewModel> SearchIncomeAsync(string title, int pageNumber = 1, int pageSize = 16);
-        #endregion
-
         #region PopularCourses
         List<DisplayCourseViewModel> GetPopularCourses();
         Task<List<DisplayCourseViewModel>> GetPopularCoursesAsync();
@@ -127,6 +130,15 @@ namespace DigiMoallem.BLL.Interfaces
         #region LatestCourses
         List<DisplayCourseViewModel> GetLatestCourse();
         Task<List<DisplayCourseViewModel>> GetLatestCourseAsync();
+        #endregion
+
+        #region AdvanceSearchCourse
+        SearchOrderViewModel AdvanceSearchCourse(DateTime startDate, DateTime endDate, int teacherId, int pageNumber = 1, int pageSize = 16);
+        #endregion
+
+        #region TeacherTotalIncome
+        int TeacherTotalIncome(int teacherId);
+        Task<int> TeacherTotalIncomeAsync(int teacherId);
         #endregion
 
         // episodes
@@ -194,11 +206,6 @@ namespace DigiMoallem.BLL.Interfaces
         #region GetComments
         Tuple<List<Comment>, int> GetComments(int courseId, int pageId = 1);
         Task<Tuple<List<Comment>, int>> GetCommentsAsync(int courseId, int pageId = 1);
-        #endregion
-
-        #region CourseIncomeCalculator
-        void CourseIncomeCalculator(int courseId);
-        Task CourseIncomeCalculatorAsync(int courseId);
         #endregion
 
         // rate course

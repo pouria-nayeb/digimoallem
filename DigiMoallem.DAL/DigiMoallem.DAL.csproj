@@ -15,6 +15,12 @@
     <Compile Remove="Migrations\20200422103715_AddContributionField.Designer.cs" />
     <Compile Remove="Migrations\20200423073159_AddWorkDbSet.cs" />
     <Compile Remove="Migrations\20200423073159_AddWorkDbSet.Designer.cs" />
+    <Compile Remove="Migrations\20200428152815_UpdateCommentQA.cs" />
+    <Compile Remove="Migrations\20200428152815_UpdateCommentQA.Designer.cs" />
+    <Compile Remove="Migrations\20200429135314_ModifyCourseTypes.cs" />
+    <Compile Remove="Migrations\20200429135314_ModifyCourseTypes.Designer.cs" />
+    <Compile Remove="Migrations\20200501131858_addNPToPayment.cs" />
+    <Compile Remove="Migrations\20200501131858_addNPToPayment.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

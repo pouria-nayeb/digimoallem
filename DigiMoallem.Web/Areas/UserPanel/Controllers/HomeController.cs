@@ -137,20 +137,5 @@ namespace DigiMoallem.Web.Areas.UserPanel.Controllers
             return BadRequest();
         }
 
-        [Route("Shares/{id}")]
-        public async Task<IActionResult> TeacherShare(int id, int pageNumber = 1, int pageSize = 32) 
-        {
-            var user = await _userService.GetUserByIdAsync(id);
-            if (user.UserName.TextTransform() == User.Identity.Name.TextTransform())
-            {
-                var teacherShare = await _accountingService
-                .GetTeacherCurrentShareAsync(id, pageNumber, pageSize);
-
-                return View(teacherShare);
-            }
-
-            return BadRequest();
-        }
-
     }
 }

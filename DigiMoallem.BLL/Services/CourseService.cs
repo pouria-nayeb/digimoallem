@@ -1,12 +1,14 @@
 ﻿using DigiMoallem.BLL.DTOs.Accountings;
 using DigiMoallem.BLL.DTOs.Admin.Courses;
 using DigiMoallem.BLL.DTOs.Courses;
+using DigiMoallem.BLL.DTOs.Orders;
 using DigiMoallem.BLL.Helpers.Converters;
 using DigiMoallem.BLL.Helpers.Generators;
 using DigiMoallem.BLL.Helpers.Security;
 using DigiMoallem.BLL.Interfaces;
 using DigiMoallem.DAL.Context;
 using DigiMoallem.DAL.Entities.Courses;
+using DigiMoallem.DAL.Entities.Orders;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -72,6 +74,14 @@ namespace DigiMoallem.BLL.Services
                 }).ToListAsync();
         }
         #endregion
+
+        public List<int> GetCourseTypeByCourseId(int courseId)
+        {
+            return _db.CourseInCoursetypes
+                .Where(cc => cc.CourseId == courseId)
+                .Select(cc => cc.CourseTypeId)
+                .ToList();
+        }
 
         /// <summary>
         /// Get subgroups to manage course
@@ -309,6 +319,21 @@ namespace DigiMoallem.BLL.Services
         }
         #endregion
 
+        #region TeacherTotalIncome
+        public int TeacherTotalIncome(int teacherId) => _db.OrderDetails
+                .Include(od => od.Course)
+                .Include(od => od.Order)
+                .Where(c => c.Course.TeacherId == teacherId && c.Order.IsFinally == true)
+                .Select(od => od.Order.TotalPrice).Sum();
+
+
+        public async Task<int> TeacherTotalIncomeAsync(int teacherId) => await _db.OrderDetails
+                .Include(od => od.Course)
+                .Include(od => od.Order)
+                .Where(c => c.Course.TeacherId == teacherId && c.Order.IsFinally == true)
+                .Select(od => od.Order.TotalPrice).SumAsync();
+        #endregion
+
         /// <summary>
         /// Get course types
         /// </summary>
@@ -360,95 +385,9 @@ namespace DigiMoallem.BLL.Services
                 .OrderByDescending(ur => ur.UserId)
                 .Select(ur => new SelectListItem
                 {
-                    Text = ur.User.UserName,
+                    Text = $"{ur.User.UserId} - {ur.User.FirstName} {ur.User.LastName} - {ur.User.UserName}",
                     Value = ur.UserId.ToString()
                 }).ToListAsync();
-        }
-        #endregion
-
-        #region GetIncomesForAdmin
-        public IncomePagingViewModel GetIncomesForAdmin(int pageNumber=1, int pageSize = 24)
-        {
-            IQueryable<Course> courses = _db.Courses;
-
-            int take = pageSize;
-            int skip = (pageNumber - 1) * take;
-            int courseCount = courses.Count();
-
-            int pageCount = (int)Math.Ceiling(decimal.Divide(courseCount, pageSize));
-
-            return new IncomePagingViewModel
-            {
-                Incomes = courses.Skip(skip).Take(take).Select(c => new IncomesViewModel {
-                    CourseTitle = c.Title,
-                    TeacherName = c.User.FirstName + " " + c.User.LastName,
-                    TeacherIncome = ((c.TeacherIncome != null) ? c.TeacherIncome.Value : 0),
-                    InstitudeIncome = ((c.OwnerIncome != null) ? c.OwnerIncome.Value : 0),
-                    AllIncome = ((c.Totalncome != null) ? c.Totalncome.Value : 0),
-                    TeacherPercent = ((c.TeacherPercent != null) ? c.TeacherPercent.Value : 0)
-                }).AsNoTracking().ToList(),
-                PageNumber = pageNumber,
-                PageCount = pageCount
-            };
-        }
-
-        public async Task<IncomePagingViewModel> GetIncomesForAdminAsync(int pageNumber, int pageSize)
-        {
-            IQueryable<Course> courses = _db.Courses;
-
-            int take = pageSize;
-            int skip = (pageNumber - 1) * take;
-            int courseCount = courses.Count();
-
-            int pageCount = (int)Math.Ceiling(decimal.Divide(courseCount, pageSize));
-
-            return new IncomePagingViewModel
-            {
-                Incomes = await courses.Skip(skip).Take(take).Select(c => new IncomesViewModel
-                {
-                    CourseTitle = c.Title,
-                    TeacherName = c.User.FirstName + " " + c.User.LastName,
-                    TeacherIncome = ((c.TeacherIncome != null) ? c.TeacherIncome.Value : 0),
-                    InstitudeIncome = ((c.OwnerIncome != null) ? c.OwnerIncome.Value : 0),
-                    AllIncome = ((c.Totalncome != null) ? c.Totalncome.Value : 0),
-                    TeacherPercent = ((c.TeacherPercent != null) ? c.TeacherPercent.Value : 0)
-                }).AsNoTracking().ToListAsync(),
-                PageNumber = pageNumber,
-                PageCount = pageCount
-            };
-        }
-        #endregion
-
-        #region SearchIncome
-        public async Task<IncomePagingViewModel> SearchIncomeAsync(string title, int pageNumber = 1, int pageSize = 16)
-        {
-            IQueryable<Course> courses = _db.Courses;
-
-            int take = pageSize;
-            int skip = (pageNumber - 1) * take;
-            int courseCount = courses.Count();
-
-            int pageCount = (int)Math.Ceiling(decimal.Divide(courseCount, pageSize));
-
-            return new IncomePagingViewModel
-            {
-                Incomes = await courses
-                .Where(c => c.Title.TextTransform().Contains(title.TextTransform()))
-                .Skip(skip)
-                .Take(take)
-                .OrderByDescending(c => c.CreateDate)
-                .Select(c => new IncomesViewModel
-                {
-                    CourseTitle = c.Title,
-                    TeacherName = c.User.FirstName + " " + c.User.LastName,
-                    TeacherIncome = ((c.TeacherIncome != null) ? c.TeacherIncome.Value : 0),
-                    InstitudeIncome = ((c.OwnerIncome != null) ? c.OwnerIncome.Value : 0),
-                    AllIncome = ((c.Totalncome != null) ? c.Totalncome.Value : 0),
-                    TeacherPercent = ((c.TeacherPercent != null) ? c.TeacherPercent.Value : 0)
-                }).AsNoTracking().ToListAsync(),
-                PageNumber = pageNumber,
-                PageCount = pageCount
-            };
         }
         #endregion
 
@@ -460,7 +399,8 @@ namespace DigiMoallem.BLL.Services
         /// <param name="demoCourse"></param>
         /// <returns></returns>
         #region AddCourse
-        public int AddCourse(Course course, IFormFile imageCourse, IFormFile demoCourse)
+        public int AddCourse(Course course, IFormFile imageCourse, IFormFile demoCourse,
+            List<int> courseTypes)
         {
             try
             {
@@ -482,7 +422,8 @@ namespace DigiMoallem.BLL.Services
             }
         }
 
-        public async Task<int> AddCourseAsync(Course course, IFormFile imageCourse, IFormFile demoCourse)
+        public async Task<int> AddCourseAsync(Course course, IFormFile imageCourse, IFormFile demoCourse,
+            List<int> courseTypes)
         {
             try
             {
@@ -495,6 +436,18 @@ namespace DigiMoallem.BLL.Services
 
                 await _db.Courses.AddAsync(course);
                 await SaveAsync();
+
+                foreach (var courseTypeId in courseTypes)
+                {
+                    _db.CourseInCoursetypes.Add(new CourseInCourseType
+                    {
+                        CourseId = course.CourseId,
+                        CourseTypeId = courseTypeId
+                    });
+
+                    _db.SaveChanges();
+                }
+
                 return course.CourseId;
             }
             catch
@@ -539,6 +492,7 @@ namespace DigiMoallem.BLL.Services
                     Title = c.Title,
                     Teacher = c.User.UserName,
                     ImageName = c.ImageName,
+                    TeacherPercent = (c.TeacherPercent == null) ? 0 : c.TeacherPercent.Value,
                     EpisodesCount = c.CourseEpisodes.Count
                 })
                 .AsNoTracking()
@@ -575,6 +529,7 @@ namespace DigiMoallem.BLL.Services
                     Title = c.Title,
                     Teacher = c.User.UserName,
                     ImageName = c.ImageName,
+                    TeacherPercent = (c.TeacherPercent == null) ? 0 : c.TeacherPercent.Value,
                     EpisodesCount = c.CourseEpisodes.Count
                 })
                 .AsNoTracking()
@@ -583,8 +538,46 @@ namespace DigiMoallem.BLL.Services
         }
         #endregion
 
+        #region AdvanceSearchCourse
+        public SearchOrderViewModel AdvanceSearchCourse(DateTime startDate, DateTime endDate, int teacherId, 
+            int pageNumber = 1, int pageSize = 16)
+        {
+            IQueryable<OrderDetail> orderDetails = _db.OrderDetails
+                .Include(od => od.Course)
+                .Include(od => od.Order)
+                .Where(c => c.Course.TeacherId == teacherId && c.Order.IsFinally == true);
+
+            int take = pageSize;
+            int skip = (pageNumber - 1) * take;
+            int orderDetailsCount = orderDetails.Count();
+            int pagesCount = (int)Math.Ceiling(decimal.Divide(orderDetailsCount, take));
+
+            if (startDate != null)
+            {
+                orderDetails = orderDetails.Where(o => o.Order.CreateDate >= startDate);
+            }
+
+            if (endDate != null)
+            {
+                orderDetails = orderDetails.Where(o => o.Order.CreateDate <= endDate);
+            }
+
+            return new SearchOrderViewModel
+            {
+             OrderDetails = orderDetails
+            .Skip(skip)
+            .Take(take)
+            .OrderByDescending(od => od.OrderDetailId).ToList(),
+                PageNumber = pageNumber,
+                PagesCount = pagesCount,
+                TotalPayment = orderDetails.Select(od => od.Order.TotalPrice).Sum()
+            };
+        }
+
+        #endregion
+
         #region SearchCourse
-        public CourseViewModel SearchCourses(string title,int pageId)
+        public CourseViewModel SearchCourses(string title, int pageId)
         {
             IQueryable<Course> courses = _db.Courses;
 
@@ -667,12 +660,18 @@ namespace DigiMoallem.BLL.Services
         #region GetCourseById
         public Course GetCourseById(int courseId)
         {
-            return _db.Courses.Include(c => c.User).SingleOrDefault(c => c.CourseId == courseId);
+            return _db.Courses.Include(c => c.User)
+                .Include(c => c.UserCourses)
+                .SingleOrDefault(c => c.CourseId == courseId);
         }
 
         public async Task<Course> GetCourseByIdAsync(int courseId)
         {
-            return await _db.Courses.Include(c => c.User).SingleOrDefaultAsync(c => c.CourseId == courseId);
+            return await _db.Courses
+                .Include(c => c.User)
+                .Include(c => c.UserCourses)
+                .Include(c => c.CourseInCourseTypes)
+                .SingleOrDefaultAsync(c => c.CourseId == courseId);
         }
         #endregion
 
@@ -684,7 +683,9 @@ namespace DigiMoallem.BLL.Services
         /// <param name="demoCourse"></param>
         /// <returns></returns>
         #region UpdateCourse
-        public bool UpdateCourse(Course course, IFormFile imageCourse, IFormFile demoCourse)
+        public bool UpdateCourse(Course course, IFormFile imageCourse,
+            IFormFile demoCourse,
+            List<int> courseTypes)
         {
             try
             {
@@ -707,7 +708,8 @@ namespace DigiMoallem.BLL.Services
             }
         }
 
-        public async Task<bool> UpdateCourseAsync(Course course, IFormFile imageCourse, IFormFile demoCourse)
+        public async Task<bool> UpdateCourseAsync(Course course, IFormFile imageCourse, IFormFile demoCourse,
+            List<int> courseTypes)
         {
             try
             {
@@ -719,6 +721,11 @@ namespace DigiMoallem.BLL.Services
                 if (demoCourse != null)
                 {
                     course.Demo = EditAndUplaodDemo(course, demoCourse);
+                }
+
+                if (courseTypes != null)
+                {
+                    EditCourseTypeInCourse(course.CourseId, courseTypes);
                 }
 
                 _db.Courses.Update(course);
@@ -1078,7 +1085,7 @@ namespace DigiMoallem.BLL.Services
 
             return Tuple.Create(result.Include(c => c.Group).Include(c => c.CourseEpisodes)
                 .OrderByDescending(c => c.CourseId)
-                .Where(c => c.IsHidden == false)
+                .Where(c => c.IsHidden == false && c.IsCheckedByAdmin == true)
                 .Select(c => new DisplayCourseViewModel
                 {
                     CourseId = c.CourseId,
@@ -1087,7 +1094,9 @@ namespace DigiMoallem.BLL.Services
                     Price = c.Price,
                     Title = c.Title,
                     TotalTime = new TimeSpan(c.CourseEpisodes.Sum(ce => ce.EpisodeLength.Ticks))
-                }).Skip(skip).Take(take).AsNoTracking().ToList(), pageCount);
+                })
+                .Skip(skip).Take(take)
+                .AsNoTracking().ToList(), pageCount);
         }
 
         public async Task<Tuple<List<DisplayCourseViewModel>, int>> GetCoursesAsync(int pageId = 1,
@@ -1160,7 +1169,7 @@ namespace DigiMoallem.BLL.Services
 
             return Tuple.Create(await result.Include(c => c.Group).Include(c => c.CourseEpisodes)
                 .OrderByDescending(c => c.CourseId)
-                .Where(c => c.IsHidden == false)
+                .Where(c => c.IsHidden == false && c.IsCheckedByAdmin == true)
                 .Select(c => new DisplayCourseViewModel
                 {
                     CourseId = c.CourseId,
@@ -1182,12 +1191,12 @@ namespace DigiMoallem.BLL.Services
         public Course GetCourse(int courseId)
         {
             return _db.Courses
+                .Where(c => c.IsCheckedByAdmin == true)
                 .Include(c => c.Group)
                 .Include(c => c.CourseEpisodes)
                 .Include(c => c.CourseLevel)
                 .Include(c => c.CourseStatus)
                 .Include(c => c.User)
-                .Include(c => c.CourseTypes)
                 .Include(c => c.UserCourses)
                 .SingleOrDefault(c => c.CourseId == courseId);
         }
@@ -1195,12 +1204,12 @@ namespace DigiMoallem.BLL.Services
         public async Task<Course> GetCourseAsync(int courseId)
         {
             return await _db.Courses
+                .Where(c => c.IsCheckedByAdmin == true)
                 .Include(c => c.Group)
                 .Include(c => c.CourseEpisodes)
                 .Include(c => c.CourseLevel)
                 .Include(c => c.CourseStatus)
                 .Include(c => c.User)
-                .Include(c => c.CourseTypes)
                 .Include(c => c.UserCourses)
                 .SingleOrDefaultAsync(c => c.CourseId == courseId);
         }
@@ -1214,7 +1223,7 @@ namespace DigiMoallem.BLL.Services
         public List<DisplayCourseViewModel> GetLatestCourse()
         {
             return _db.Courses
-                .Where(c => c.IsHidden == false)
+                .Where(c => c.IsHidden == false && c.IsCheckedByAdmin == true)
                 .OrderByDescending(c => c.CourseId)
                 .Take(8)
                 .Select(c => new DisplayCourseViewModel
@@ -1230,9 +1239,48 @@ namespace DigiMoallem.BLL.Services
         public async Task<List<DisplayCourseViewModel>> GetLatestCourseAsync()
         {
             return await _db.Courses
-                .Where(c => c.IsHidden == false)
-                 .OrderByDescending(c => c.CourseId)
+                .Where(c => c.IsHidden == false && c.IsCheckedByAdmin == true)
                  .Take(8)
+                                  .OrderByDescending(c => c.CourseId)
+
+                 .Select(c => new DisplayCourseViewModel
+                 {
+                     CourseId = c.CourseId,
+                     ImageName = c.ImageName,
+                     Price = c.Price,
+                     Title = c.Title,
+                     TotalTime = new TimeSpan(c.CourseEpisodes.Sum(ce => ce.EpisodeLength.Ticks))
+                 }).AsNoTracking().ToListAsync();
+        }
+        #endregion
+
+        /// <summary>
+        /// Get latest course
+        /// </summary>
+        /// <returns></returns>
+        #region RelatedCourses
+        public List<DisplayCourseViewModel> GetRelatedCourses(int groupId)
+        {
+            return _db.Courses
+                .Where(c => c.IsHidden == false && c.IsCheckedByAdmin == true && c.GroupId == groupId)
+                .Take(8)
+                .OrderByDescending(c => c.CourseId)
+                .Select(c => new DisplayCourseViewModel
+                {
+                    CourseId = c.CourseId,
+                    ImageName = c.ImageName,
+                    Price = c.Price,
+                    Title = c.Title,
+                    TotalTime = new TimeSpan(c.CourseEpisodes.Sum(ce => ce.EpisodeLength.Ticks))
+                }).AsNoTracking().ToList();
+        }
+
+        public async Task<List<DisplayCourseViewModel>> GetRelatedCoursesAsync(int groupId)
+        {
+            return await _db.Courses
+                .Where(c => c.IsHidden == false && c.IsCheckedByAdmin == true && c.GroupId == groupId)
+                 .Take(8)
+                 .OrderByDescending(c => c.CourseId)
                  .Select(c => new DisplayCourseViewModel
                  {
                      CourseId = c.CourseId,
@@ -1292,19 +1340,20 @@ namespace DigiMoallem.BLL.Services
         #region GetComments
         public Tuple<List<Comment>, int> GetComments(int courseId, int pageId = 1)
         {
-            int recordsPerPage = 10;
+            IQueryable<Comment> comments = _db.Comments
+                .Where(c => c.CourseId == courseId && !c.IsDelete && c.ReadByAdmin == true);
+            int recordsPerPage = 16;
             int skip = (pageId - 1) * recordsPerPage;
 
-            int commentsCount = _db.Comments.Where(c => c.CourseId == courseId && !c.IsDelete).Count();
+            int commentsCount = comments.Count();
 
-            int pagesCount =  (int)Math.Ceiling(decimal.Divide(commentsCount, recordsPerPage));
-
-            
+            int pagesCount = (int)Math.Ceiling(decimal.Divide(commentsCount, recordsPerPage));
 
             return Tuple.Create(_db.Comments
                 .Include(c => c.User)
-                .OrderByDescending(c => c.CommentId)
-                .Where(c => c.CourseId == courseId && !c.IsDelete)
+                .Include(c => c.Course)
+                .ThenInclude(co => co.User)
+                .Where(c => c.CourseId == courseId && !c.IsDelete && c.ReadByAdmin == true)
                 .Skip(skip)
                 .Take(recordsPerPage)
                 .AsNoTracking()
@@ -1313,55 +1362,22 @@ namespace DigiMoallem.BLL.Services
 
         public async Task<Tuple<List<Comment>, int>> GetCommentsAsync(int courseId, int pageId = 1)
         {
+            IQueryable<Comment> comments = _db.Comments
+                .Where(c => c.CourseId == courseId && !c.IsDelete && c.ReadByAdmin == true);
             int recordsPerPage = 10;
             int skip = (pageId - 1) * recordsPerPage;
 
-            int commentsCount = _db.Comments.Where(c => c.CourseId == courseId && !c.IsDelete).Count();
+            int commentsCount = comments.Count();
 
             int pagesCount = (int)Math.Ceiling(decimal.Divide(commentsCount, recordsPerPage));
 
             return Tuple.Create(await _db.Comments
                 .Include(c => c.User)
-                .OrderByDescending(c => c.CommentId)
+                .Include(c => c.Course)
+                .ThenInclude(co => co.User)
                 .Where(c => c.CourseId == courseId && !c.IsDelete)
                 .AsNoTracking()
                 .ToListAsync(), pagesCount);
-        }
-        #endregion
-
-        /// <summary>
-        /// Calculate course income
-        /// </summary>
-        /// <param name="courseId"></param>
-        #region CourseIncomeCalculator
-        public void CourseIncomeCalculator(int courseId)
-        {
-            Course course = GetCourse(courseId);
-
-            int totalAmount = course.UserCourses.Count() * course.Price;
-
-            course.Totalncome = totalAmount;
-            course.TeacherIncome = (int)(totalAmount * (course.TeacherPercent / 100));
-            course.OwnerIncome = (int)(totalAmount * ((100 - course.TeacherPercent) / 100));
-
-            Save();
-        }
-
-        public async Task CourseIncomeCalculatorAsync(int courseId)
-        {
-            Course course = await GetCourseAsync(courseId);
-
-            int totalAmount = course.UserCourses.Count() * course.Price;
-
-            int teacherPercent = course.TeacherPercent.Value;
-            int teacherIncome = (int)((totalAmount * teacherPercent) / 100);
-            int ownerIncome = (int)((totalAmount * (100 - teacherPercent)) / 100);
-
-            course.Totalncome = totalAmount;
-            course.TeacherIncome = teacherIncome;
-            course.OwnerIncome = ownerIncome;
-
-            await UpdateCourseAsync(course, null, null);
         }
         #endregion
 
@@ -1538,7 +1554,7 @@ namespace DigiMoallem.BLL.Services
                 return imageName;
             }
 
-            return "default.jpg";
+            return "default.png";
         }
 
         /// <summary>
@@ -1594,7 +1610,7 @@ namespace DigiMoallem.BLL.Services
                 string imageName = string.Empty;
                 // user select new image
 
-                if (course.ImageName != "default.jpg")
+                if (course.ImageName != "default.png")
                 {
                     // course old image
 
@@ -1711,6 +1727,33 @@ namespace DigiMoallem.BLL.Services
             }
 
             _db = null;
+        }
+
+        public bool EditCourseTypeInCourse(int courseId, List<int> courseTypes)
+        {
+            try
+            {
+                _db.CourseInCoursetypes.Where(cc => cc.CourseId == courseId).ToList()
+                     .ForEach(cc => _db.CourseInCoursetypes.Remove(cc));
+
+                foreach (var courseTypeId in courseTypes)
+                {
+                    _db.CourseInCoursetypes.Add(new CourseInCourseType
+                    {
+                        CourseId = courseId,
+                        CourseTypeId = courseTypeId
+                    });
+
+                    _db.SaveChanges();
+                }
+
+                return true;
+            }
+            catch
+            {
+                // TODO: log error
+                return false;
+            }
         }
 
         #endregion

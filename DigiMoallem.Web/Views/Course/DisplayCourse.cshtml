@@ -12,17 +12,19 @@
         IsUserBuyCourse = await _orderService.IsUserBuyCourseAsync(User.Identity.Name, Model.CourseId);
     }
 
+    var relatedCourses = ViewData["RelatedCourses"] as List<DisplayCourseViewModel>;
+
     TimeSpan totalTime = new TimeSpan(Model.CourseEpisodes.Sum(ce => ce.EpisodeLength.Ticks));
 
     int i = 1;
 }
 
-@*@section MetaTags {
-        <meta name="description" content="@Model.Title" />
-        <meta name="keywords" content="@Model.Tags.Replace("-",",")" />
-    }*@
+@section MetaTags {
+    <meta name="description" content="@Model.Title" />
+    <meta name="keywords" content="@Model.Tags.Replace("-",",")" />
+}
 
-<div class="container-fluid">
+<div class="container">
 
     <!-- title -->
     <div class="row mx-auto">
@@ -35,7 +37,7 @@
             </div>
         </div>
 
-        <div class="col-12 col-sm-4 my-4">
+        <div class="col-12 col-lg-4 my-4">
             <!-- course image -->
             <div class="mb-3">
                 <img src="~/images/courses/@Model.ImageName" alt="@ViewData["Title"]" class="img-fluid" />
@@ -109,22 +111,22 @@
                             </td>
                         </tr>
                         @*<tr>
-                            <th>وضعیت دوره:</th>
-                            <td>
-                                @if (Model.CourseStatus.Title == "در حال برگزاری")
-                                {
-                                    <i class="fa fa-circle-notch fa-spin ml-1"></i> @Model.CourseStatus.Title
-                                }
-                                else
-                                {
-                                    <i class="fa fa-stamp ml-1"></i> @Model.CourseStatus.Title
-                                }
-                            </td>
-                        </tr>*@
+                                <th>وضعیت دوره:</th>
+                                <td>
+                                    @if (Model.CourseStatus.Title == "در حال برگزاری")
+                                    {
+                                        <i class="fa fa-circle-notch fa-spin ml-1"></i> @Model.CourseStatus.Title
+                                    }
+                                    else
+                                    {
+                                        <i class="fa fa-stamp ml-1"></i> @Model.CourseStatus.Title
+                                    }
+                                </td>
+                            </tr>*@
                         @*<tr>
-                            <th>تاریخ شروع دوره:</th>
-                            <td class="english-font">@Model.CreateDate.ToPersianDate()</td>
-                        </tr>*@
+                                <th>تاریخ شروع دوره:</th>
+                                <td class="english-font">@Model.CreateDate.ToPersianDate()</td>
+                            </tr>*@
                         @if (Model.UpdateDate != null)
                         {
                             <tr>
@@ -136,7 +138,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-12 col-sm-8 my-4">
+        <div class="col-12 col-lg-8 my-4">
             <div class="row bg-light-blue text-white m-0">
                 <!-- category -->
                 <div class="col-4 py-2">
@@ -144,10 +146,10 @@
                     <p class="text-center">@Model.Group.Title</p>
                 </div>
                 <!-- course type -->
-                <div class="col-4 py-2">
+                @*<div class="col-4 py-2">
                     <p class="text-center border-bottom border-white py-2">نوع آموزش</p>
                     <p class="text-center">@Model.CourseTypes.Title</p>
-                </div>
+                </div>*@
                 <!-- total hours -->
                 <div class="col-4 py-2">
                     <p class="text-center border-bottom border-white py-2">مدت آموزش</p>
@@ -355,10 +357,12 @@
                                                     <button class="btn btn-success mt-2">درج نظر</button>
                                                 </div>
                                             </form>
+
+                                            <div id="listComment"></div>
                                         }
                                         else
                                         {
-                                            @if (!IsUserBuyCourse)
+                                            @if (IsUserBuyCourse)
                                             {
                                                 <form method="post"
                                                       data-ajax="true"
@@ -380,6 +384,8 @@
                                                         <button class="btn btn-success mt-2">درج نظر</button>
                                                     </div>
                                                 </form>
+
+                                                <div id="listComment"></div>
                                             }
                                             else
                                             {
@@ -416,9 +422,30 @@
 
         </div>
     </div>
+
+    @if (relatedCourses.Where(c => c.CourseId != Model.CourseId).Any())
+    {
+        <h3 class="my-3 py-3 border-bottom border-dark">
+            <i class="fa fa-clock ml-2"></i> دوره های مرتبط
+        </h3>
+
+        <!-- latest courses -->
+        <div class="row mx-auto pb-5">
+            @foreach (var course in relatedCourses.Where(c => c.CourseId != Model.CourseId))
+            {
+                <partial name="_CoursePartial" model="course" />
+            }
+            }
+        </div>
+
+    }
 </div>
 
 @section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
     <script>
     function Success() {
         $("#comment_Body").val("");

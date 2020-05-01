@@ -9,7 +9,7 @@ namespace DigiMoallem.DAL.Entities.Courses
     public class CommentQA
     {
         [Key]
-        public int CommentId { get; set; }
+        public int CommentQAId { get; set; }
 
         public int CourseId { get; set; }
 
@@ -32,7 +32,7 @@ namespace DigiMoallem.DAL.Entities.Courses
         #region Relations - Navigation Properties
 
         [ForeignKey("ParentId")]
-        public List<Comment> Comments { get; set; }
+        public List<CommentQA> CommentQAs { get; set; }
 
         public Course Course { get; set; }
 

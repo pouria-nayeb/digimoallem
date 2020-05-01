@@ -1,6 +1,7 @@
 ﻿@page "{id}"
 @model DigiMoallem.Web.Pages.Admin.Courses.EditEpisodeModel
 @inject ICourseService  _courseService
+@inject IPermissionService permissionService
 
 @{
     ViewData["Title"] = "ویرایش بخش";
@@ -17,7 +18,8 @@
 
         <h1 class="my-5"> <i class="fa fa-book ml-2"></i> @ViewData["Title"]</h1>
 
-        @if (User.Identity.Name == _courseService.GetCourseById(Model.CourseEpisode.CourseId).User.UserName)
+        @if (User.Identity.Name == _courseService.GetCourseById(Model.CourseEpisode.CourseId).User.UserName ||
+                            permissionService.CheckPermission(2, User.Identity.Name))
         {
 
             <form method="post" enctype="multipart/form-data">

@@ -36,7 +36,6 @@
                             @foreach (var payment in Model.Payments)
                             {
                                 <tr>
-                                    <td>@payment.Course.Title</td>
                                     <td>@payment.Amount.ThreeDigitSeperator()</td>
                                     <td>@payment.PaymentDate.ToPersianDate()</td>
                                 </tr>

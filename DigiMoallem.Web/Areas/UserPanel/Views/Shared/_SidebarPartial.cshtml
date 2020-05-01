@@ -30,9 +30,7 @@
                        asp-route-id="@user.UserId"
                        class="d-block"> مشاهده واریزی ها </a>
                 </li>
-            }
-            @if (permissionService.CheckPermission(22, User.Identity.Name))
-            {
+
                 <li class="list-group-item">
                     <a asp-area="UserPanel" asp-controller="Home" asp-action="TeacherShare"
                        asp-route-id="@user.UserId"

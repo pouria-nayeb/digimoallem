@@ -3,8 +3,10 @@ using DigiMoallem.BLL.Interfaces;
 using DigiMoallem.DAL.Context;
 using DigiMoallem.DAL.Entities.Accounting;
 using DigiMoallem.DAL.Entities.Courses;
+using DigiMoallem.DAL.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,11 +16,13 @@ namespace DigiMoallem.BLL.Services
     {
         private ApplicationDbContext _db;
         private readonly ICourseService _courseService;
+        private readonly IUserService _userService;
 
-        public AccountingService(ApplicationDbContext db, ICourseService courseService)
+        public AccountingService(ApplicationDbContext db, ICourseService courseService, IUserService userService)
         {
             _db = db;
             _courseService = courseService;
+            _userService = userService;
         }
 
         /// <summary>
@@ -27,13 +31,17 @@ namespace DigiMoallem.BLL.Services
         /// <param name="payemt"></param>
         /// <returns></returns>
         #region AddPayment
-        public bool AddPayment(Payment payemt)
+        public bool AddPayment(Payment payment)
         {
             try
             {
                 // db success
-                _db.Payments.Add(payemt);
+                _db.Payments.Add(payment);
                 Save();
+
+                var course = _courseService.GetCourseById(payment.CourseId);
+
+                CourseSharesCalculator(payment.TeacherId, payment.CourseId, course.TeacherPercent.Value);
 
                 return true;
             }
@@ -44,13 +52,17 @@ namespace DigiMoallem.BLL.Services
             }
         }
 
-        public async Task<bool> AddPaymentAsync(Payment payemt)
+        public async Task<bool> AddPaymentAsync(Payment payment)
         {
             try
             {
                 // db success
-                await _db.Payments.AddAsync(payemt);
+                await _db.Payments.AddAsync(payment);
                 await SaveAsync();
+
+                var course = _courseService.GetCourseById(payment.CourseId);
+
+                CourseSharesCalculator(payment.TeacherId, payment.CourseId, course.TeacherPercent.Value);
 
                 return true;
             }
@@ -118,7 +130,6 @@ namespace DigiMoallem.BLL.Services
         {
             return _db.Payments
                 .Include(p => p.User)
-                .Include(p => p.Course)
                 .SingleOrDefault(p => p.PaymentId == paymentId);
         }
 
@@ -126,7 +137,6 @@ namespace DigiMoallem.BLL.Services
         {
             return await _db.Payments
                 .Include(p => p.User)
-                .Include(p => p.Course)
                 .SingleOrDefaultAsync(p => p.PaymentId == paymentId);
         }
         #endregion
@@ -206,7 +216,6 @@ namespace DigiMoallem.BLL.Services
                 .Where(p => p.TeacherId == userId)
                 .Skip(skip)
                 .Take(take)
-                .Include(p => p.Course)
                 .OrderByDescending(p => p.PaymentId)
                 .ToList(),
                 PageNumber = pageNumber,
@@ -230,7 +239,6 @@ namespace DigiMoallem.BLL.Services
                 .Where(p => p.TeacherId == userId)
                 .Skip(skip)
                 .Take(take)
-                .Include(p => p.Course)
                 .OrderByDescending(p => p.PaymentId)
                 .ToListAsync(),
                 PageNumber = pageNumber,
@@ -278,6 +286,16 @@ namespace DigiMoallem.BLL.Services
                 return false;
             }
         }
+        #endregion
+
+        #region TeacherTotalPayments
+        public int TeacherTotalPayments(int teacherId) => _db.Payments
+            .Where(p => p.TeacherId == teacherId)
+            .Select(p => p.Amount).Sum();
+
+        public async Task<int> TeacherTotalPaymentsAsync(int teacherId) => await _db.Payments
+            .Where(p => p.TeacherId == teacherId)
+            .Select(p => p.Amount).SumAsync();
         #endregion
 
         /// <summary>
@@ -340,22 +358,20 @@ namespace DigiMoallem.BLL.Services
         #endregion
 
         #region TeacherIncomePerCourse
-        public int TeacherIncomePerCourse(int teacherId, int courseId)
+        public int TeacherIncomePerCourse(int teacherId)
         {
             return _db.Payments
                 .Include(p => p.User)
-                .Include(p => p.Course)
-                .Where(p => p.TeacherId == teacherId && p.CourseId == courseId)
+                .Where(p => p.TeacherId == teacherId)
                 .Select(p => p.Amount)
                 .Sum();
         }
 
-        public async Task<int> TeacherIncomePerCourseAsync(int teacherId, int courseId)
+        public async Task<int> TeacherIncomePerCourseAsync(int teacherId)
         {
             return await _db.Payments
                 .Include(p => p.User)
-                .Include(p => p.Course)
-                .Where(p => p.TeacherId == teacherId && p.CourseId == courseId)
+                .Where(p => p.TeacherId == teacherId)
                 .Select(p => p.Amount)
                 .SumAsync();
         }
@@ -385,7 +401,7 @@ namespace DigiMoallem.BLL.Services
             };
         }
 
-        public async Task<TeacherShareViewModel> GetTeacherCurrentShareAsync(int userId, int pageNumber = 1, int pageSize = 32) 
+        public async Task<TeacherShareViewModel> GetTeacherCurrentShareAsync(int userId, int pageNumber = 1, int pageSize = 32)
         {
             IQueryable<Course> courses = _db.Courses;
 
@@ -406,34 +422,6 @@ namespace DigiMoallem.BLL.Services
                 PageNumber = pageNumber,
                 PagesCount = pagesCount
             };
-        }
-        #endregion
-
-        #region TeacherRemainPayment
-        public int TeacherRemainPayment(int teacherId, int courseId)
-        {
-            var course = _courseService.GetCourseById(courseId);
-            var teacherPayment = TeacherIncomePerCourse(teacherId, courseId);
-
-            if (course.TeacherIncome > 0)
-            {
-                return (int)(course.TeacherIncome - teacherPayment);
-            }
-
-            return 0;
-        }
-
-        public async Task<int> TeacherRemainPaymentAsync(int teacherId, int courseId)
-        {
-            var course = await _courseService.GetCourseByIdAsync(courseId);
-            var teacherPayment = await TeacherIncomePerCourseAsync(teacherId, courseId);
-
-            if (course.TeacherIncome > 0)
-            {
-                return (int)(course.TeacherIncome - teacherPayment);
-            }
-
-            return 0;
         }
         #endregion
 
@@ -459,5 +447,103 @@ namespace DigiMoallem.BLL.Services
             _db = null;
         }
         #endregion
+
+        #region CourseSharesCalculator
+        public void CourseSharesCalculator(int teacherId, int courseId, int teacherPercent)
+        {
+            var course = _courseService.GetCourseById(courseId);
+
+            if (course.TotalIncome > 0)
+            {
+                var totalIncomeForCourse = TotalIncomeForCourse(teacherId, courseId);
+
+                // teacher did not pay yet.
+                if (TeacherTotalPayments(teacherId) == 0)
+                {
+                    // teacher's share from the course
+                    var teacherShareForCourse = (totalIncomeForCourse * teacherPercent) / 100;
+                    // institude's share from the course
+                    var instutudeShareForCourse = (totalIncomeForCourse - teacherShareForCourse);
+
+                    // record them in db
+                    course.TotalIncome = totalIncomeForCourse;
+                    course.TeacherPercent = teacherPercent;
+                    course.TotalPayment = teacherShareForCourse;
+                    course.TotalInstitutePayment = instutudeShareForCourse;
+
+                    _courseService.UpdateCourse(course, null, null, null);
+                }
+                else
+                {
+                    var teacherTotalPayments = (TeacherTotalPaymentForCourse(teacherId, courseId));
+                    // new income = allincomeforcourse - (teacherTotalPayment + instituteTotalShare)
+                    var newCourseIncome = (totalIncomeForCourse - (teacherTotalPayments + GetInstitudeShared(totalIncomeForCourse, teacherTotalPayments))) - course.TotalIncome.Value;
+                    var teacherShareForCourse = (newCourseIncome * teacherPercent) / 100;
+                    var instutudeShareForCourse = (newCourseIncome - teacherShareForCourse);
+
+                    course.TotalIncome = newCourseIncome;
+                    course.TeacherPercent = teacherPercent;
+                    course.TotalPayment = teacherShareForCourse;
+                    course.TotalInstitutePayment = instutudeShareForCourse;
+
+                    _courseService.UpdateCourse(course, null, null, null);
+                }
+            }
+        }
+        #endregion
+
+        #region TeacherTotalIncome
+        public int TeacherTotalIncome(int teacherId) => _db.OrderDetails
+            .Include(od => od.Course)
+            .Include(od => od.Order)
+            .Where(od => od.Course.TeacherId == teacherId && od.Order.IsFinally == true)
+            .Select(od => od.Order.TotalPrice).Sum();
+        #endregion
+
+        #region TotalIncomePerCourse
+        public int TotalIncomeForCourse(int teacherId, int courseId) => _db.OrderDetails
+            .Include(od => od.Course)
+            .Include(od => od.Order)
+            .Where(od => od.Course.TeacherId == teacherId && od.Course.CourseId == courseId && od.Order.IsFinally == true)
+            .Select(od => od.Order.TotalPrice).Sum();
+        #endregion
+
+        #region TeacherTotalPaymentForCourse
+        public int TeacherTotalPaymentForCourse(int teacherId, int courseId) => _db.Payments.Where(p => p.TeacherId == teacherId && p.CourseId == courseId).Select(p => p.Amount).Sum();
+        #endregion
+
+        #region RemainingTeacherShareForCourse
+        public int RemainingTeacherShareForCourse(int teacherId, int courseId) 
+        {
+            var teacherIncomeForCourse = TeacherIncomeForCourse(teacherId, courseId);
+            var teacherPaymentForCourse = TeacherTotalPaymentForCourse(teacherId, courseId);
+
+            return teacherIncomeForCourse - teacherPaymentForCourse;
+        }
+        #endregion
+
+        #region TeacherIncomeForCourse
+        public int TeacherIncomeForCourse(int teacherId, int courseId)
+        {
+            var course = _courseService.GetCourseById(courseId);
+
+            if (course.TeacherPercent != null)
+            {
+                return (int)((TotalIncomeForCourse(teacherId, courseId) * course.TeacherPercent) / 100);
+            }
+            else {
+                return 0;
+            }
+        }
+        #endregion
+
+        #region TeacherTotalIncomeForCourse
+        public int TeacherTotalIncomeForCourse(int teacherId, int courseId) => _db.OrderDetails
+            .Include(od => od.Course)
+            .Include(od => od.Order)
+            .Where(od => od.Course.TeacherId == teacherId && od.Course.CourseId == courseId && od.Order.IsFinally == true).Select(od => od.Order.TotalPrice).Sum();
+        #endregion
+
+        private int GetInstitudeShared(int totalIncome, int teacherShare) => totalIncome - teacherShare;
     }
 }

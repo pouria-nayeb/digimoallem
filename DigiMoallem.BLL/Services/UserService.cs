@@ -538,6 +538,7 @@ namespace DigiMoallem.BLL.Services
         public int GetUserBalance(string userName)
         {
             int userId = GetUserIdByUserName(userName);
+            var user = GetUserById(userId);
 
             var desposit = _db.Exchanges
                 .Where(t => t.UserId == userId && t.TransactionTypeId == 1 && t.IsPay == true)
@@ -549,12 +550,16 @@ namespace DigiMoallem.BLL.Services
                 .Select(t => t.Amount)
                 .ToList();
 
+            user.Balance = desposit.Sum() - withdraw.Sum();
+            UpdateUser(user);
+
             return (desposit.Sum() - withdraw.Sum());
         }
 
         public async Task<int> GetUserBalanceAsync(string userName)
         {
             int userId = await GetUserIdByUserNameAsync(userName);
+            var user = await GetUserByIdAsync(userId);
 
             var desposit = await _db.Exchanges
                 .Where(t => t.UserId == userId && t.TransactionTypeId == 1 && t.IsPay == true)
@@ -565,6 +570,9 @@ namespace DigiMoallem.BLL.Services
                 .Where(t => t.UserId == userId && t.TransactionTypeId == 2)
                 .Select(t => t.Amount)
                 .ToListAsync();
+
+            user.Balance = desposit.Sum() - withdraw.Sum();
+            await UpdateUserAsync(user);
 
             return (desposit.Sum() - withdraw.Sum());
         }

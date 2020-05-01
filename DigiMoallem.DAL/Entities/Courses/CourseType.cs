@@ -13,9 +13,9 @@ namespace DigiMoallem.DAL.Entities.Courses
         [MaxLength(200, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]
         public string Title { get; set; }
 
-        #region Relations - Navigation Properties
+        #region Relations and Navigation Properties
 
-        public List<Course> Courses { get; set; }
+        public List<CourseInCourseType> CourseInCourseTypes { get; set; }
 
         #endregion
     }

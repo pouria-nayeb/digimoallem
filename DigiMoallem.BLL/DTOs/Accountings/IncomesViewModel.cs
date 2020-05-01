@@ -2,6 +2,12 @@
 {
     public class IncomesViewModel
     {
+        public int CourseId { get; set; }
+
+        public int TeacherId { get; set; }
+
+        public int? NewCourseIncome { get; set; }
+
         public string CourseTitle { get; set; }
 
         public string TeacherName { get; set; }

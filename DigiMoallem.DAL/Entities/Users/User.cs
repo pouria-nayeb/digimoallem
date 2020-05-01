@@ -50,6 +50,8 @@ namespace DigiMoallem.DAL.Entities.Users
         [MaxLength(200, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]
         public string Password { get; set; }
 
+        public int? Balance { get; set; }
+
         [Display(Name = "کد فعال سازی")]
         [MaxLength(100, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]
         public string ActivationCode { get; set; }

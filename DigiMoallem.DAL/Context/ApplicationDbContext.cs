@@ -5,6 +5,7 @@ using DigiMoallem.DAL.Entities.Orders;
 using DigiMoallem.DAL.Entities.Permissions;
 using DigiMoallem.DAL.Entities.Transactions;
 using DigiMoallem.DAL.Entities.Users;
+using DigiMoallem.DAL.Migrations;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
@@ -47,6 +48,7 @@ namespace DigiMoallem.DAL.Context
         public DbSet<CourseLevel> CourseLevels { get; set; }
         public DbSet<CourseStatus> CourseStatuses { get; set; }
         public DbSet<CourseType> CourseTypes { get; set; }
+        public DbSet<CourseInCourseType> CourseInCoursetypes { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<LikeCourse> LikeCourses { get; set; }
         public DbSet<RateCourse> RateCourses { get; set; }

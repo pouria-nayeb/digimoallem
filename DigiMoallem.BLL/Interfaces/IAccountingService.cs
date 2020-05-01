@@ -22,11 +22,6 @@ namespace DigiMoallem.BLL.Interfaces
         Task<TeacherPaymentViewModel> GetTeacherPaymentByUserNameAsync(int userId, int pageNumber = 1, int pageSize = 32);
         #endregion
 
-        #region GetTeacherCurrentShare
-        TeacherShareViewModel GetTeacherCurrentShare(int userId, int pageNumber = 1, int pageSize = 32);
-        Task<TeacherShareViewModel> GetTeacherCurrentShareAsync(int userId, int pageNumber = 1, int pageSize = 32);
-        #endregion
-
         #region GetPaymentById
         Payment GetPaymentById(int paymentId);
         Task<Payment> GetPaymentByIdAsync(int paymentId);
@@ -52,14 +47,33 @@ namespace DigiMoallem.BLL.Interfaces
         Task<int> PaymentCountsAsync();
         #endregion
 
-        #region TeacherIncomePerCourse
-        int TeacherIncomePerCourse(int teacherId, int courseId);
-        Task<int> TeacherIncomePerCourseAsync(int teacherId, int courseId);
+        #region TeacherTotalPayments
+        int TeacherTotalPayments(int teacherId);
+        Task<int> TeacherTotalPaymentsAsync(int teacherId);
         #endregion
 
-        #region TeacherRemainPayment
-        int TeacherRemainPayment(int teacherId,int courseId);
-        Task<int> TeacherRemainPaymentAsync(int teacherId, int courseId);
+        #region TeacherTotalIncome
+        int TeacherTotalIncome(int teacherId);
+        #endregion
+
+        #region TeacherTotalIncomePerCourse
+        int TotalIncomeForCourse(int teacherId, int courseId);
+        #endregion
+
+        #region CourseSharesCalculator
+        void CourseSharesCalculator(int teacherId, int courseId, int teacherPercent);
+        #endregion
+
+        #region TeacherTotalPaymentForCourse
+        int TeacherTotalPaymentForCourse(int teacherId, int courseId);
+        #endregion
+
+        #region TeacherIncomeForCourse
+        int TeacherIncomeForCourse(int teacherId, int courseId);
+        #endregion
+
+        #region RemainingTeacherShareForCourse
+        int RemainingTeacherShareForCourse(int teacherId, int courseId);
         #endregion
 
         #region Save

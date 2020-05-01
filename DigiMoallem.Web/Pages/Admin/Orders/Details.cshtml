@@ -5,48 +5,48 @@
     ViewData["Title"] = "دوره های خریداری شده";
 }
 
-    <div class="container">
+<div class="container">
 
-        <!-- back to orders -->
-        <a asp-area="" asp-page="All" class="btn btn-outline-info">
-            <i class="fas fa-arrow-right ml-2"></i> بازگشت
-        </a>
+    <!-- back to orders -->
+    <a asp-area="" asp-page="All" class="btn btn-outline-info">
+        <i class="fas fa-arrow-right ml-2"></i> بازگشت
+    </a>
 
-        <h1 class="my-5"> <i class="fa fa-shopping-cart ml-2"></i> @ViewData["Title"]</h1>
+    <h1 class="my-5"> <i class="fa fa-shopping-cart ml-2"></i> @ViewData["Title"]</h1>
 
-        <!-- order table -->
-        <div class="table-responsive">
-            <table class="table table-dark table-striped table-bordered">
-                <tr>
-                    <td>پست الکترونیک</td>
-                    <td>مبلغ</td>
-                </tr>
-                <tr>
-                    <td>@Model.Order.User.Email</td>
-                    <td>@Model.Order.TotalPrice.ThreeDigitSeperator()</td>
-                </tr>
-            </table>
-        </div>
-
-        <h4 class="my-5">جرئیات سفارش</h4>
-
-        <div class="table-responsive">
-            <table class="table table-dark table-striped table-bordered">
-                <tr>
-                    <th>نام درس</th>
-                    <th>قیمت به واحد</th>
-                </tr>
-                @foreach (var orderDetail in Model.Order.OrderDetails)
-                {
-                    <tr>
-                        <td>@orderDetail.Course.Title</td>
-                        <td>@orderDetail.Price.ThreeDigitSeperator()</td>
-                    </tr>
-                }
-            </table>
-        </div>
-
+    <!-- order table -->
+    <div class="table-responsive">
+        <table class="table table-dark table-striped table-bordered">
+            <tr>
+                <td>پست الکترونیک</td>
+                <td>مبلغ</td>
+            </tr>
+            <tr>
+                <td>@Model.Order.User.Email</td>
+                <td>@Model.Order.TotalPrice.ThreeDigitSeperator()</td>
+            </tr>
+        </table>
     </div>
+
+    <h4 class="my-5">جرئیات سفارش</h4>
+
+    <div class="table-responsive">
+        <table class="table table-dark table-striped table-bordered">
+            <tr>
+                <th>نام درس</th>
+                <th>قیمت به واحد</th>
+            </tr>
+            @foreach (var orderDetail in Model.Order.OrderDetails)
+            {
+                <tr>
+                    <td>@orderDetail.Course.Title</td>
+                    <td>@orderDetail.Price.ThreeDigitSeperator()</td>
+                </tr>
+            }
+        </table>
+    </div>
+
+</div>
 
 
 

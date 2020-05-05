@@ -50,6 +50,18 @@ namespace DigiMoallem.DAL.Entities.Users
         [MaxLength(200, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]
         public string Password { get; set; }
 
+        [Display(Name = "شماره کارت")]
+        [MaxLength(200, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]
+        public string CardNumber { get; set; }
+
+        [Display(Name = "شماره شبا")]
+        [MaxLength(200, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]
+        public string Sheba { get; set; }
+
+        [Display(Name = "مقطع آموزشی")]
+        [MaxLength(200, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]
+        public string EducationalLevel { get; set; }
+
         public int? Balance { get; set; }
 
         [Display(Name = "کد فعال سازی")]
@@ -77,6 +89,9 @@ namespace DigiMoallem.DAL.Entities.Users
 
         [Display(Name = "تاریخ ثبت نام")]
         public DateTime RegisterDate { get; set; }
+
+        [Display(Name = "آخرین زمان ورود")]
+        public DateTime? UpdateDate { get; set; }
 
         public bool IsDelete { get; set; }
 

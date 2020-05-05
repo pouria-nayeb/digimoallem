@@ -71,6 +71,27 @@
                                         <td>@Model.ScientificField</td>
                                     </tr>
                                 }
+                                @if (!string.IsNullOrEmpty(Model.EducationalLevel))
+                                {
+                                    <tr>
+                                        <th>مقطع تحصیلی</th>
+                                        <td>@Model.EducationalLevel</td>
+                                    </tr>
+                                }
+                                @if (!string.IsNullOrEmpty(Model.CardNumber))
+                                {
+                                    <tr>
+                                        <th>شماره کارت</th>
+                                        <td>@Model.CardNumber</td>
+                                    </tr>
+                                }
+                                @if (!string.IsNullOrEmpty(Model.Sheba))
+                                {
+                                    <tr>
+                                        <th>شماره شبا</th>
+                                        <td>@Model.Sheba</td>
+                                    </tr>
+                                }
                                 @if (!string.IsNullOrEmpty(Model.Description))
                                 {
                                     <tr>

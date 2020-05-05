@@ -305,7 +305,10 @@ namespace DigiMoallem.BLL.Services
                 Description = user.Description,
                 Skills = user.Skills,
                 Experiences = user.Experiences,
-                ScientificField = user.ScientificField
+                ScientificField = user.ScientificField,
+                CardNumber = user.CardNumber,
+                EducationalLevel = user.EducationalLevel,
+                Sheba = user.Sheba
             };
         }
 
@@ -325,7 +328,10 @@ namespace DigiMoallem.BLL.Services
                 Description = user.Description,
                 Skills = user.Skills,
                 Experiences = user.Experiences,
-                ScientificField = user.ScientificField
+                ScientificField = user.ScientificField,
+                CardNumber = user.CardNumber,
+                EducationalLevel = user.EducationalLevel,
+                Sheba = user.Sheba
             };
         }
         #endregion
@@ -382,7 +388,10 @@ namespace DigiMoallem.BLL.Services
                 Description = user.Description,
                 Skills = user.Skills,
                 Experiences = user.Experiences,
-                ScientificField = user.ScientificField
+                ScientificField = user.ScientificField,                
+                CardNumber = user.CardNumber,
+                EducationalLevel = user.EducationalLevel,
+                Sheba = user.Sheba
             };
         }
         public async Task<EditProfileViewModel> GetDetailsToEditUserProfileAsync(string userName)
@@ -398,7 +407,10 @@ namespace DigiMoallem.BLL.Services
                 Description = user.Description,
                 Skills = user.Skills,
                 Experiences = user.Experiences,
-                ScientificField = user.ScientificField
+                ScientificField = user.ScientificField,
+                CardNumber = user.CardNumber,
+                EducationalLevel =user.EducationalLevel,
+                Sheba = user.Sheba
             };
         }
         #endregion
@@ -454,6 +466,10 @@ namespace DigiMoallem.BLL.Services
                 user.UserAvatar = ImageUpload(user, profile.UserAvatar);
 
                 user.PhoneNumber = profile.PhoneNumber;
+
+                user.EducationalLevel = profile.EducationalLevel;
+                user.CardNumber = profile.CardNumber;
+                user.Sheba = profile.Sheba;
 
                 return await UpdateUserAsync(user);
             }

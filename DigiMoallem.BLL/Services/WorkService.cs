@@ -71,7 +71,10 @@ namespace DigiMoallem.BLL.Services
                     Mobile = workInitVM.Mobile,
                     Gender = workInitVM.Gender,
                     SubmitDate = DateTime.Now,
-                    IsChecked = false
+                    IsChecked = false,
+                    EducationalLevel = workInitVM.EducationalLevel,
+                    CardNumber = workInitVM.CardNumber,
+                    Sheba = workInitVM.Sheba
                 };
 
                 work.AvatarName = UploadAvatarImage(workInitVM.AvatarFile);

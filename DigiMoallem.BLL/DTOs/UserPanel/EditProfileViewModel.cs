@@ -24,10 +24,18 @@ namespace DigiMoallem.BLL.DTOs.UserPanel
         [Display(Name = "مهارت ها")]
         public string Skills { get; set; }
 
-        [Display(Name = "مدرک دانشگاهی")]
+        [Display(Name = "رشته")]
         public string ScientificField { get; set; }
 
-        [Display(Name = "سوابق کاری")]
+        [Display(Name = "مقطع تحصیلی")]
+        public string EducationalLevel { get; set; }
+
+        [Display(Name = "شماره کارت")]
+        public string CardNumber { get; set; }
+
+        [Display(Name = "شماره شبا")]
+        public string Sheba { get; set; }
+
         public string Experiences { get; set; }
 
         public IFormFile UserAvatar { get; set; }

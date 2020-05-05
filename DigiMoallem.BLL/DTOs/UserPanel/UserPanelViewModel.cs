@@ -10,6 +10,9 @@ namespace DigiMoallem.BLL.DTOs.UserPanel
         public string LastName { get; set; }
         public DateTime RegisterDate { get; set; }
         public int Balance { get; set; }
+        public string CardNumber { get; set; }
+        public string Sheba { get; set; }
+        public string EducationalLevel { get; set; }
         public string PhoneNumber { get; set; }
         public string ImageName { get; set; }
         public string Description { get; set; }

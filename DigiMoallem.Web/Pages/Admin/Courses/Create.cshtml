@@ -164,10 +164,10 @@
 
                     <!-- course statuses -->
                     @*<div class="form-group mb-4">
-            <select class="browser-default custom-select" asp-for="Course.CourseStatusId" asp-items="@ViewData["CourseStatuses"] as SelectList">
-                <option value="" disabled="disabled">یکی از وضعیت ها را انتخاب نمایید</option>
-            </select>
-        </div>*@
+                            <select class="browser-default custom-select" asp-for="Course.CourseStatusId" asp-items="@ViewData["CourseStatuses"] as SelectList">
+                                <option value="" disabled="disabled">یکی از وضعیت ها را انتخاب نمایید</option>
+                            </select>
+                        </div>*@
                     <input type="hidden" asp-for="Course.CourseStatusId" value="2" />
 
                     <!-- courseType list  -->
@@ -182,7 +182,7 @@
                                     <label class="form-check-label">
                                         <input type="checkbox" class="form-check-input"
                                                value="@courseType.Value"
-                                               name="courseTypes"/>
+                                               name="courseTypes" />
                                         <span class="mr-4">@courseType.Text</span>
                                     </label>
                                 </div>

@@ -1,4 +1,6 @@
-﻿    <div class="row mx-3">
+﻿@inject ISettingService settingServive
+
+<div class="row mx-3">
     <div class="col-12 col-sm-3">
         <h5 class="border-bottom border-dark pb-3">دسترسی های سریع</h5>
         <ul class="list-unstyled p-0 text-small">
@@ -12,9 +14,11 @@
     <div class="col-12 col-sm-6">
         <h5 class="border-bottom border-dark pb-3">درباره دیجی معلم</h5>
 
-        <p class="text-justify">سازمان علمی و آموزشی «فرادرس» (FaraDars) از قدیمی‌ترین وب‌سایت‌های یادگیری آنلاین است که توانسته طی بیش از ده سال فعالیت خود بالغ بر ۱۰۰۰۰ ساعت آموزش ویدیویی در قالب فراتر از ۲۰۰۰ عنوان علمی، مهارتی و کاربردی را منتشر کند و به بزرگترین پلتفرم آموزشی ایران مبدل شود. </p>
+        <p class="text-justify">@settingServive.GetSettingById(1).Footer</p>
 
-        <img class="mb-2 d-block mx-auto" style="max-width:100px" src="~/images/resources/logo.png" alt="لوگو معلم سئو" />
+        <img class="mb-2 d-block mx-auto" 
+             style="max-width:100px" src="~/images/resources/logo.png" 
+             alt="لوگو معلم سئو" />
 
     </div>
     <div class="col-12 col-sm-3">

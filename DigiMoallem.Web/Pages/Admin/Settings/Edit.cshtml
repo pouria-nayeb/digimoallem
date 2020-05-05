@@ -1,0 +1,148 @@
+﻿@page
+@model DigiMoallem.Web.Pages.Admin.Settings.EditModel
+
+@{
+    ViewData["Title"] = "مدیریت اطلاعات";
+}
+
+<div class="container">
+
+    <h1 class="my-5">
+        <i class="fa fa-cogs ml-2"></i> @ViewData["Title"]
+    </h1>
+
+    <form method="post" class="md-form">
+        <input type="hidden" asp-for="Setting.SettingId" />
+
+        <div asp-validation-summary="All" class="text-danger my-4"></div>
+
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success">
+                @TempData["Success"]
+            </div>
+        }
+
+        @if (TempData["Failure"] != null)
+        {
+            <div class="alert alert-danger">
+                @TempData["Failure"]
+            </div>
+        }
+
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-8 col-lg-8">
+
+                <!-- address -->
+                <div class="md-form mb-4">
+                    <label asp-for="Setting.Address"></label>
+                    <textarea type="text" asp-for="Setting.Address" rows="2" class="form-control"></textarea>
+
+                    <span asp-validation-for="Setting.Address" class="text-danger"></span>
+                </div>
+
+                <!-- footer -->
+                <div class="md-form mb-4">
+                    <label asp-for="Setting.Footer"></label>
+                    <textarea type="text" asp-for="Setting.Footer" rows="4" class="form-control"></textarea>
+
+                    <span asp-validation-for="Setting.Footer" class="text-danger"></span>
+                </div>
+
+                <!-- contribute -->
+                <div class="md-form mb-4">
+                    <label asp-for="Setting.ContributeDigiMoallem"></label>
+                    <textarea type="text" asp-for="Setting.ContributeDigiMoallem" rows="2" class="form-control"></textarea>
+
+                    <span asp-validation-for="Setting.ContributeDigiMoallem" class="text-danger"></span>
+                </div>
+
+                <!-- standards -->
+                <div class="md-form mb-4">
+                    <label asp-for="Setting.Standards"></label>
+                    <textarea type="text" asp-for="Setting.Standards" rows="2" class="form-control"></textarea>
+
+                    <span asp-validation-for="Setting.Standards" class="text-danger"></span>
+                </div>
+
+                <!-- production rules -->
+                <div class="md-form mb-4">
+                    <label asp-for="Setting.ProductionRules"></label>
+                    <textarea type="text" asp-for="Setting.ProductionRules" rows="2" class="form-control"></textarea>
+
+                    <span asp-validation-for="Setting.ProductionRules" class="text-danger"></span>
+                </div>
+
+                <div class="form-group my-5">
+                    <!-- create -->
+                    <button type="submit" class="btn btn-outline-success">
+                        <i class="fa fa-pen ml-2"></i> ویرایش اطلاعات
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4">
+
+                <!-- email -->
+                <div class="md-form mb-4">
+                    <label asp-for="Setting.Email"></label>
+                    <input type="text" asp-for="Setting.Email" class="form-control text-left english-font" />
+
+                    <span asp-validation-for="Setting.Email" class="text-danger"></span>
+                </div>
+
+                <!-- phone number -->
+                <div class="md-form mb-4">
+                    <label asp-for="Setting.PhoneNumber"></label>
+                    <textarea type="text" asp-for="Setting.PhoneNumber" rows="4"
+                              class="form-control  text-left english-font"></textarea>
+
+                    <span asp-validation-for="Setting.PhoneNumber" class="text-danger"></span>
+                </div>
+
+                <!-- files -->
+                <div class="md-form mb-4">
+                    <label asp-for="Setting.Files"></label>
+                    <textarea type="text" asp-for="Setting.Files" rows="2" class="form-control"></textarea>
+
+                    <span asp-validation-for="Setting.Files" class="text-danger"></span>
+                </div>
+
+                <!-- rules -->
+                <div class="md-form mb-4">
+                    <label asp-for="Setting.Rules"></label>
+                    <textarea type="text" asp-for="Setting.Rules" rows="2" class="form-control"></textarea>
+
+                    <span asp-validation-for="Setting.Rules" class="text-danger"></span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+
+@section Scripts {
+    <!-- ckeditor settings -->
+    <script src="https://cdn.ckeditor.com/4.9.2/standard/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('Setting_ContributeDigiMoallem', {
+            customConfig: '/admin/js/config.js'
+        });
+        CKEDITOR.replace('Setting_Standards', {
+            customConfig: '/admin/js/config.js'
+        });
+        CKEDITOR.replace('Setting_ProductionRules', {
+            customConfig: '/admin/js/config.js'
+        });
+        CKEDITOR.replace('Setting_Rules', {
+            customConfig: '/admin/js/config.js'
+        });
+        CKEDITOR.replace('Setting_Files', {
+            customConfig: '/admin/js/config.js'
+        });
+    </script>
+}

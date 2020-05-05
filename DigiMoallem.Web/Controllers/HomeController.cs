@@ -126,7 +126,11 @@ namespace DigiMoallem.Web.Controllers
                         IsActive = true,
                         IsDelete = false,
                         Password = workVM.Mobile.EncodePassword(),
-                        RegisterDate = workVM.SubmitDate
+                        RegisterDate = workVM.SubmitDate,
+                        UserAvatar = "default.png",
+                        Sheba = workVM.Sheba,
+                        CardNumber = workVM.CardNumber,
+                        EducationalLevel = workVM.EducationalLevel
                     };
 
                     var userId = await _userService.AddUserAsync(user);

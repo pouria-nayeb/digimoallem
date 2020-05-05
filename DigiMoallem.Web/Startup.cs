@@ -54,6 +54,8 @@ namespace DigiMoallem.Web
 
             services.AddTransient<IOrderService, OrderService>();
 
+            services.AddTransient<ISettingService, SettingService>();
+
             services.AddTransient<IAccountingService, AccountingService>();
 
             services.AddTransient<IMessageService, MessageService>();

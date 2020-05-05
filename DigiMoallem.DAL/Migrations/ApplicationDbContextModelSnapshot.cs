@@ -377,6 +377,47 @@ namespace DigiMoallem.DAL.Migrations
                     b.ToTable("Messages");
                 });
 
+            modelBuilder.Entity("DigiMoallem.DAL.Entities.General.Setting", b =>
+                {
+                    b.Property<int>("SettingId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasMaxLength(500);
+
+                    b.Property<string>("ContributeDigiMoallem")
+                        .IsRequired();
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(200);
+
+                    b.Property<string>("Files")
+                        .IsRequired();
+
+                    b.Property<string>("Footer")
+                        .IsRequired();
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(200);
+
+                    b.Property<string>("ProductionRules")
+                        .IsRequired();
+
+                    b.Property<string>("Rules")
+                        .IsRequired();
+
+                    b.Property<string>("Standards")
+                        .IsRequired();
+
+                    b.HasKey("SettingId");
+
+                    b.ToTable("Settings");
+                });
+
             modelBuilder.Entity("DigiMoallem.DAL.Entities.General.Work", b =>
                 {
                     b.Property<int>("WorkId")
@@ -385,10 +426,16 @@ namespace DigiMoallem.DAL.Migrations
 
                     b.Property<string>("AvatarName");
 
+                    b.Property<string>("CardNumber")
+                        .HasMaxLength(200);
+
                     b.Property<string>("ContributionFields")
                         .HasMaxLength(1500);
 
                     b.Property<string>("CvTitle");
+
+                    b.Property<string>("EducationalLevel")
+                        .HasMaxLength(200);
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -414,6 +461,9 @@ namespace DigiMoallem.DAL.Migrations
 
                     b.Property<string>("PhoneNumber")
                         .HasMaxLength(12);
+
+                    b.Property<string>("Sheba")
+                        .HasMaxLength(200);
 
                     b.Property<string>("Skills")
                         .HasMaxLength(1500);
@@ -626,8 +676,14 @@ namespace DigiMoallem.DAL.Migrations
 
                     b.Property<int?>("Balance");
 
+                    b.Property<string>("CardNumber")
+                        .HasMaxLength(200);
+
                     b.Property<string>("Description")
                         .HasMaxLength(1500);
+
+                    b.Property<string>("EducationalLevel")
+                        .HasMaxLength(200);
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -658,8 +714,13 @@ namespace DigiMoallem.DAL.Migrations
                     b.Property<string>("ScientificField")
                         .HasMaxLength(200);
 
+                    b.Property<string>("Sheba")
+                        .HasMaxLength(200);
+
                     b.Property<string>("Skills")
                         .HasMaxLength(1500);
+
+                    b.Property<DateTime?>("UpdateDate");
 
                     b.Property<string>("UserAvatar")
                         .HasMaxLength(100);
@@ -717,7 +778,7 @@ namespace DigiMoallem.DAL.Migrations
 
             modelBuilder.Entity("DigiMoallem.DAL.Entities.Accounting.Payment", b =>
                 {
-                    b.HasOne("DigiMoallem.DAL.Entities.Courses.Course")
+                    b.HasOne("DigiMoallem.DAL.Entities.Courses.Course", "Course")
                         .WithMany("Payments")
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Restrict);

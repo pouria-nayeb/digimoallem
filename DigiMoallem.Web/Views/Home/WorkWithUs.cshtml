@@ -25,135 +25,172 @@
                         </div>
                     }
 
-                    <form enctype="multipart/form-data" method="post">
+                <form enctype="multipart/form-data" method="post">
 
-                        @if (ViewData["NotValid"] != null)
-                        {
-                            <!-- user inputs is not valid -->
-                            <div class="alert alert-danger">
-                                @ViewData["NotValid"]
-                            </div>
-                        }
-
-                        <div asp-validation-summary="ModelOnly"></div>
-
-                        <!-- firstName -->
-                        <div class="form-group mb-2">
-                            <label asp-for="FirstName"></label>
-                            <input type="text"
-                                   asp-for="FirstName"
-                                   class="form-control" />
-
-                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                    @if (ViewData["NotValid"] != null)
+                    {
+                        <!-- user inputs is not valid -->
+                        <div class="alert alert-danger">
+                            @ViewData["NotValid"]
                         </div>
+                    }
 
-                        <!-- lastname -->
-                        <div class="form-group mb-2">
-                            <label asp-for="LastName"></label>
-                            <input type="text"
-                                   asp-for="LastName"
-                                   class="form-control" />
+                    <div asp-validation-summary="ModelOnly"></div>
 
-                            <span asp-validation-for="LastName" class="text-danger"></span>
-                        </div>
+                    <!-- firstName -->
+                    <div class="form-group mb-2">
+                        <label asp-for="FirstName"></label>
+                        <input type="text"
+                               asp-for="FirstName"
+                               class="form-control" />
 
-                        <!-- email -->
-                        <div class="form-group mb-2">
-                            <label asp-for="Email"></label>
-                            <input type="text"
-                                   asp-for="Email"
-                                   class="form-control text-direction-ltr text-left english-font" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
 
-                            <span asp-validation-for="Email" class="text-danger"></span>
-                        </div>
+                    <!-- lastname -->
+                    <div class="form-group mb-2">
+                        <label asp-for="LastName"></label>
+                        <input type="text"
+                               asp-for="LastName"
+                               class="form-control" />
 
-                        <div class="row m-0">
-                            <div class="col-12 col-sm-6 p-0">
-                                <!-- phoneNumber -->
-                                <div class="form-group ml-1">
-                                    <label asp-for="PhoneNumber"></label>
-                                    <input type="tel"
-                                           placeholder="اختیاری"
-                                           asp-for="PhoneNumber"
-                                           class="form-control text-direction-ltr text-left english-font" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
 
-                                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-                                </div>
-                            </div>
+                    <!-- email -->
+                    <div class="form-group mb-2">
+                        <label asp-for="Email"></label>
+                        <input type="text"
+                               asp-for="Email"
+                               class="form-control text-direction-ltr text-left english-font" />
 
-                            <div class="col-12 col-sm-6 p-0">
-                                <!-- mobile -->
-                                <div class="form-group mr-1">
-                                    <label asp-for="Mobile"></label>
-                                    <input type="tel"
-                                           asp-for="Mobile"
-                                           class="form-control text-direction-ltr text-left english-font" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
 
-                                    <span asp-validation-for="Mobile" class="text-danger"></span>
-                                </div>
+                    <div class="row m-0">
+                        <div class="col-12 col-sm-6 p-0">
+                            <!-- phoneNumber -->
+                            <div class="form-group ml-1">
+                                <label asp-for="PhoneNumber"></label>
+                                <input type="tel"
+                                       placeholder="اختیاری"
+                                       asp-for="PhoneNumber"
+                                       class="form-control text-direction-ltr text-left english-font" />
+
+                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                             </div>
                         </div>
 
-                        <!-- gender -->
-                        <div class="form-group mt-4">
-                            <div class="custom-control custom-radio">
-                                <label class="d-inline-block ml-5" asp-for="Gender"></label>
-                                <span>
-                                    <input type="radio" asp-for="Gender" id="male" value="true" class="custom-control-input" checked="checked">
-                                    <label class="custom-control-label" for="male" asp-for="Gender">آقا</label>
-                                </span>
-                                <span class="mr-5">
-                                    <input type="radio" asp-for="Gender" id="female" value="false" class="custom-control-input">
-                                    <label class="custom-control-label" for="female" asp-for="Gender">خانم</label>
-                                </span>
+                        <div class="col-12 col-sm-6 p-0">
+                            <!-- mobile -->
+                            <div class="form-group mr-1">
+                                <label asp-for="Mobile"></label>
+                                <input type="tel"
+                                       asp-for="Mobile"
+                                       class="form-control text-direction-ltr text-left english-font" />
+
+                                <span asp-validation-for="Mobile" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- educational level -->
+                    <div class="form-group mb-2">
+                        <label asp-for="EducationalLevel"></label>
+                        <input type="text"
+                               asp-for="EducationalLevel"
+                               class="form-control" />
+
+                        <span asp-validation-for="EducationalLevel" class="text-danger"></span>
+                    </div>
+
+                    <div class="row m-0">
+                        <div class="col-12 col-sm-6 p-0">
+                            <!-- phoneNumber -->
+                            <div class="form-group ml-1">
+                                <label asp-for="Sheba"></label>
+                                <input type="tel"
+                                       placeholder="اختیاری"
+                                       asp-for="Sheba"
+                                       class="form-control text-direction-ltr text-left english-font" />
+
+                                <span asp-validation-for="Sheba" class="text-danger"></span>
                             </div>
                         </div>
 
-                        <hr />
+                        <div class="col-12 col-sm-6 p-0">
+                            <!-- card number -->
+                            <div class="form-group mr-1">
+                                <label asp-for="CardNumber"></label>
+                                <input type="tel"
+                                       asp-for="CardNumber"
+                                       class="form-control text-direction-ltr text-left english-font" />
 
-                        <div class="row m-0">
-                            <!-- avatar file -->
-                            <div class="col-12 col-sm-6 p-0">
-                                <div class="form-group m1-1">
-                                    <label asp-for="AvatarName"></label>
-                                    <div class="input-group w-100">
-                                        <div class="custom-file">
-                                            <input type="file" class="custom-file-input"
-                                                   asp-for="AvatarFile"
-                                                   id="image" />
-                                            <label class="custom-file-label" style="padding-right:5.5rem"
-                                                   asp-for="AvatarFile">تصویر</label>
-                                        </div>
+                                <span asp-validation-for="CardNumber" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- gender -->
+                    <div class="form-group mt-4">
+                        <div class="custom-control custom-radio">
+                            <label class="d-inline-block ml-5" asp-for="Gender"></label>
+                            <span>
+                                <input type="radio" asp-for="Gender" id="male" value="true" class="custom-control-input" checked="checked">
+                                <label class="custom-control-label" for="male" asp-for="Gender">آقا</label>
+                            </span>
+                            <span class="mr-5">
+                                <input type="radio" asp-for="Gender" id="female" value="false" class="custom-control-input">
+                                <label class="custom-control-label" for="female" asp-for="Gender">خانم</label>
+                            </span>
+                        </div>
+                    </div>
+
+                    <hr />
+
+                    <div class="row m-0">
+                        <!-- avatar file -->
+                        <div class="col-12 col-sm-6 p-0">
+                            <div class="form-group m1-1">
+                                <label asp-for="AvatarName"></label>
+                                <div class="input-group w-100">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input"
+                                               asp-for="AvatarFile"
+                                               id="image" />
+                                        <label class="custom-file-label" style="padding-right:5.5rem"
+                                               asp-for="AvatarFile">تصویر</label>
                                     </div>
                                 </div>
                             </div>
+                        </div>
 
-                            <!-- cv file -->
-                            <div class="col-12 col-sm-6 p-0">
-                                <div class="form-group mr-1">
-                                    <label asp-for="CvTitle"></label>
-                                    <div class="input-group w-100">
-                                        <div class="custom-file">
-                                            <input type="file" class="custom-file-input"
-                                                   asp-for="CvFile"
-                                                   id="cv" />
-                                            <label class="custom-file-label" style="padding-right:5.5rem"
-                                                   asp-for="CvFile">رزومه</label>
-                                        </div>
+                        <!-- cv file -->
+                        <div class="col-12 col-sm-6 p-0">
+                            <div class="form-group mr-1">
+                                <label asp-for="CvTitle"></label>
+                                <div class="input-group w-100">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input"
+                                               asp-for="CvFile"
+                                               id="cv" />
+                                        <label class="custom-file-label" style="padding-right:5.5rem"
+                                               asp-for="CvFile">رزومه</label>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="form-group">
-                            <!-- submit -->
-                            <button type="submit"
-                                    class="btn rounded-pill px-5 bg-purple bg-purple-hover text-white my-4">
-                                فرم بعدی
-                            </button>
-                        </div>
+                    <div class="form-group">
+                        <!-- submit -->
+                        <button type="submit"
+                                class="btn rounded-pill px-5 bg-purple bg-purple-hover text-white my-4">
+                            فرم بعدی
+                        </button>
+                    </div>
 
-                    </form>
+                </form>
                 </div>
             </div>
 
@@ -162,7 +199,7 @@
 
             <div>
                 <img src="~/images/resources/video.svg"
-                     alt="بازنشانی رمزعبور"
+                     alt="همکاری با ما"
                      class="img-fluid d-block mx-auto py-5"
                      style="max-height:450px"
                      asp-append-version="true" />

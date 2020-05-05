@@ -40,6 +40,18 @@ namespace DigiMoallem.DAL.Entities.General
         [Display(Name = "تصویر متقاضی")]
         public string AvatarName { get; set; }
 
+        [Display(Name = "شماره کارت")]
+        [MaxLength(200, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]
+        public string CardNumber { get; set; }
+
+        [Display(Name = "شماره شبا")]
+        [MaxLength(200, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]
+        public string Sheba { get; set; }
+
+        [Display(Name = "مقطع آموزشی")]
+        [MaxLength(200, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]
+        public string EducationalLevel { get; set; }
+
         [Display(Name = "بررسی شده")]
         public bool IsChecked { get; set; }
 

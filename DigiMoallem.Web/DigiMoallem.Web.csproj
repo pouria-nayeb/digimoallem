@@ -34,6 +34,8 @@
     <Folder Include="wwwroot\demos\" />
     <Folder Include="wwwroot\coursefiles\" />
     <Folder Include="wwwroot\cvs\" />
+    <Folder Include="wwwroot\file-upload\" />
+    <Folder Include="wwwroot\MyImages\" />
   </ItemGroup>
 
   <ItemGroup>

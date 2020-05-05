@@ -1,4 +1,5 @@
 ﻿@model Contact
+@inject ISettingService settingService
 
 @{
     ViewData["Title"] = "تماس با ما";
@@ -68,7 +69,7 @@
                         </div>
 
                         <div class="alert alert-light">
-                            <strong><i class="fa fa-exclamation-triangle ml-1"></i> توجه: </strong> کارشناسان بعد از بررسی پیام شما در صورت لزوم با شما تماس خواهد گرفت.
+                            <strong><i class="fa fa-exclamation-triangle ml-1"></i> توجه: </strong> دیجی معلّم در اولین فرصت با شما تماس خواهد گرفت.
                         </div>
 
                     </form>
@@ -83,8 +84,7 @@
                     <i class="fa fa-phone ml-2"></i> تلفن های تماس
                 </div>
                 <div class="card-body">
-                    <p class="text-center english-font">09354425459</p>
-                    <p class="text-center english-font text-direction-ltr">021-4425459</p>
+                    @Html.Raw(settingService.GetSettingById(1).PhoneNumber)
                 </div>
             </div>
 
@@ -93,7 +93,7 @@
                     <i class="fa fa-map-signs ml-2"></i> آدرس
                 </div>
                 <div class="card-body text-center">
-                    ظفر، کوچه دفتری شرقی، پلاک 8، مرکز رشد دانشگاه آزاد اسلامی
+                    @settingService.GetSettingById(1).Address
                 </div>
             </div>
 
@@ -102,7 +102,7 @@
                     <i class="fa fa-envelope ml-2"></i> پست الکترونیک
                 </div>
                 <div class="card-body text-center english-font">
-                    Info@@DigiMoallem.ir
+                    @Html.Raw(settingService.GetSettingById(1).Email)
                 </div>
             </div>
 

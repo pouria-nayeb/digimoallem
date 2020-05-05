@@ -1,0 +1,7 @@
+﻿@inject ISettingService settingService
+
+@{
+    ViewData["Title"] = "قوانین و مقررات";
+}
+
+@Html.Raw(settingService.GetSettingById(1).Rules)

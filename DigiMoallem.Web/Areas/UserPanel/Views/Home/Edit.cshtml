@@ -1,4 +1,5 @@
 ﻿@model EditProfileViewModel
+@inject IPermissionService permissionService
 
 @{
     ViewData["Title"] = "ویرایش حساب کاربری";
@@ -20,7 +21,7 @@
                 </div>
                 <div class="card-body">
 
-                    <form method="post">
+                    <form method="post" enctype="multipart/form-data">
 
                         <div asp-validation-summary="ModelOnly"></div>
 
@@ -81,41 +82,80 @@
                             <span class="text-danger" asp-validation-for="PhoneNumber"></span>
                         </div>
 
-                        <!-- scientific field -->
-                        <div class="form-group">
-                            <label asp-for="ScientificField"></label>
-                            <input type="text"
-                                   class="form-control"
-                                   asp-for="ScientificField" />
+                        @if (permissionService.CheckPermission(22, User.Identity.Name))
+                        {
 
-                            <span class="text-danger" asp-validation-for="ScientificField"></span>
-                        </div>
+                            <!-- scientific field -->
+                            <div class="form-group">
+                                <label asp-for="ScientificField"></label>
+                                <input type="text"
+                                       class="form-control"
+                                       asp-for="ScientificField" />
 
-                        <!-- description -->
-                        <div class="form-group">
-                            <label asp-for="Description"></label>
-                            <textarea asp-for="Description" class="form-control" rows="4"></textarea>
-                        </div>
-
-                        <!-- skills -->
-                        <div class="form-group">
-                            <label asp-for="Skills"></label>
-                            <textarea asp-for="Skills" class="form-control" rows="4"></textarea>
-
-                            <div class="alert alert-secondary p-2">
-                                <strong>توجه:</strong> مهارت های خود را با - از یکدیگر جدا کنید.
+                                <span class="text-danger" asp-validation-for="ScientificField"></span>
                             </div>
-                        </div>
 
-                        <!-- experiences -->
-                        <div class="form-group">
-                            <label asp-for="Experiences"></label>
-                            <textarea asp-for="Experiences" class="form-control" rows="4"></textarea>
+                            <div class="row m-0">
+                                <div class="col-12 col-sm-6">
+                                    <!-- cardnumber -->
+                                    <div class="form-group">
+                                        <label asp-for="CardNumber"></label>
+                                        <input type="text"
+                                               class="form-control text-direction-ltr text-left english-font"
+                                               asp-for="CardNumber" />
 
-                            <div class="alert alert-secondary p-2">
-                                <strong>توجه:</strong> سوابق کاری خود را با - از یکدیگر جدا کنید.
+                                        <span class="text-danger" asp-validation-for="CardNumber"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-sm-6">
+                                    <!-- sheba -->
+                                    <div class="form-group">
+                                        <label asp-for="Sheba"></label>
+                                        <input type="text"
+                                               class="form-control text-direction-ltr text-left english-font"
+                                               asp-for="Sheba" />
+
+                                        <span class="text-danger" asp-validation-for="Sheba"></span>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+
+                            <!-- educational level -->
+                            <div class="form-group">
+                                <label asp-for="EducationalLevel"></label>
+                                <input type="text" asp-for="EducationalLevel" class="form-control" />
+
+                                <span asp-validation-for="EducationalLevel"></span>
+                            </div>
+
+                            <!-- description -->
+                            <div class="form-group">
+                                <label asp-for="Description"></label>
+                                <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                            </div>
+
+                            <!-- skills -->
+                            <div class="form-group">
+                                <label asp-for="Skills"></label>
+                                <textarea asp-for="Skills" class="form-control" rows="4"></textarea>
+
+                                <div class="alert alert-secondary p-2">
+                                    <strong>توجه:</strong> مهارت های خود را با - از یکدیگر جدا کنید.
+                                </div>
+                            </div>
+
+                            <!-- experiences -->
+                            <div class="form-group">
+                                <label asp-for="Experiences"></label>
+                                <textarea asp-for="Experiences" class="form-control" rows="4"></textarea>
+
+                                <div class="alert alert-secondary p-2">
+                                    <strong>توجه:</strong> سوابق کاری خود را با - از یکدیگر جدا کنید.
+                                </div>
+                            </div>
+
+                        }
 
                         <div class="form-group">
                             <img id="display-image"
@@ -162,4 +202,5 @@
 
 @section Scripts {
     <script src="~/js/main.js"></script>
+    <partial name="_ValidationScriptsPartial" />
 }

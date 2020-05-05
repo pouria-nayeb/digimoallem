@@ -5,7 +5,6 @@ using DigiMoallem.DAL.Entities.Orders;
 using DigiMoallem.DAL.Entities.Permissions;
 using DigiMoallem.DAL.Entities.Transactions;
 using DigiMoallem.DAL.Entities.Users;
-using DigiMoallem.DAL.Migrations;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
@@ -38,6 +37,8 @@ namespace DigiMoallem.DAL.Context
         public DbSet<Contact> Messages { get; set; }
 
         public DbSet<Work> Works { get; set; }
+
+        public DbSet<Setting> Settings { get; set; }
         #endregion
 
         #region Comments - CommentQAs - Courses - Episodes - Levels - Statuses - Types - Groups - Like - Rate - UserCourse

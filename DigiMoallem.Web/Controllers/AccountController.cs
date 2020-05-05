@@ -125,6 +125,9 @@ namespace DigiMoallem.Web.Controllers
                     // user exist
                     if (user.IsActive)
                     {
+                        user.UpdateDate = DateTime.Now;
+                        _userService.UpdateUser(user);
+
                         // user account is active
                         #region Claims (Data that we want access from the user)
 

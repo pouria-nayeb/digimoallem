@@ -17,18 +17,25 @@
             </div>
         }
 
-        <div class="py-3 clearfix">
-            <!-- add -->
-            <a asp-area=""
-               asp-page="Create"
-               class="btn btn-outline-success float-right">
-                <i class="fa fa-plus ml-2"></i> افزودن کد تخفیف جدید
-            </a>
+    <div class="py-3 clearfix">
+        <!-- add -->
+        <a asp-area=""
+           asp-page="Create"
+           class="btn btn-outline-success float-right">
+            <i class="fa fa-plus ml-2"></i> افزودن کد تخفیف جدید
+        </a>
 
-            <button class="btn btn-primary float-left">
-                <i class="fa fa-list ml-1"></i> @Model.DiscountsCount
-            </button>
-        </div>
+        <!-- discount per course -->
+        <a asp-area=""
+           asp-page="/Admin/DiscountPerCourses/Index"
+           class="btn btn-outline-info float-right mx-2">
+            <i class="fa fa-plus ml-2"></i> کد تخفیف روی درس خاص
+        </a>
+
+        <button class="btn btn-primary float-left english-font mx-2">
+            <i class="fa fa-list ml-2"></i> @Model.DiscountsCount
+        </button>
+    </div>
 
         <!-- users table -->
         <div class="table-responsive">

@@ -16,7 +16,7 @@ namespace DigiMoallem.BLL.DTOs.Admin.Users
         [MaxLength(200, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]
         public string LastName { get; set; }
 
-        [Display(Name = "آخرین مدرک تحصیلی")]
+        [Display(Name = "رشته تحصیلی")]
         [Required(ErrorMessage = "لطفاً {0} را وارد نمایید.")]
         [MaxLength(200, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]
         public string ScientificField { get; set; }
@@ -30,6 +30,16 @@ namespace DigiMoallem.BLL.DTOs.Admin.Users
         [Required(ErrorMessage = "لطفاً {0} را وارد نمایید.")]
         [MaxLength(200, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]
         public string Experiences { get; set; }
+
+        [Display(Name = "شماره کارت")]
+        [MaxLength(20, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]
+        public string CardNumber { get; set; }
+
+        [Display(Name = "شماره شبا")]
+        public string Sheba { get; set; }
+
+        [Display(Name = "مقطع تحصیلی")]
+        public string EducationalLevel { get; set; }
 
         [Display(Name = "نام کاربری")]
         [Required(ErrorMessage = "لطفاً {0} را وارد نمایید.")]

@@ -38,13 +38,13 @@ namespace DigiMoallem.Web.Pages.Admin.Users
                 if (await _userService.IsUserNameExistAsync(userName))
                 {
                     TempData["UserNameExist"] = "این نام کاربری تکراری است.";
-                    return LocalRedirect("/Admin/Users/Create");
+                    return RedirectToPage("Create");
                 }
 
                 if (await _userService.IsEmailExistAsync(CreateUserViewModel.Email.TextTransform()))
                 {
                     TempData["EmailExist"] = "این ایمیل تکراری است.";
-                    return LocalRedirect("/Admin/Users/Create");
+                    return RedirectToPage("Create");
                 }
 
                 // add the user
@@ -54,16 +54,16 @@ namespace DigiMoallem.Web.Pages.Admin.Users
                 {
                     // success
                     TempData["Success"] = "کاربر با موفقیت افزوده شد.";
-                    return LocalRedirect("/Admin/Users");
+                    return RedirectToPage("Index");
                 }
 
                 // failure
-                TempData["OperationFailed"] = "متاسفانه عملیات افزودن کاربر توسط ادمین با مشکل روبرو شد.";
+                ViewData["Failure"] = "متاسفانه عملیات افزودن کاربر توسط ادمین با مشکل روبرو شد.";
                 return Page();
             }
 
-            // user inputs is not valid
-            TempData["WrongInputs"] = "ورودی شما نامعتبر است.";
+            // admin inputs is not valid
+            ViewData["Failure"] = "ورودی شما نامعتبر است.";
             ViewData["Roles"] = await _permissionService.GetRolesAsync();
             return Page();
         }

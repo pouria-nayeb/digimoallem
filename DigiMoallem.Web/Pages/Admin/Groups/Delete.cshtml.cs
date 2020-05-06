@@ -39,13 +39,13 @@ namespace DigiMoallem.Web.Pages.Admin.Groups
                 else
                 {
                     // failure
-                    ViewData["OperationFailed"] = "متاسفانه عملیات حذف دسته بندی توسط ادمین با شکست روبرو شد";
+                    ViewData["Failure"] = "متاسفانه عملیات حذف دسته بندی توسط ادمین با شکست روبرو شد";
                     return Page();
                 }
             }
 
             // user inputs is not valid
-            ViewData["WrongInputs"] = "ورودی شما نامعتبر است.";
+            ViewData["Failure"] = "ورودی شما نامعتبر است.";
             return Page();
         }
     }

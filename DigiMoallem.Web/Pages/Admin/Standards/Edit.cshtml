@@ -1,0 +1,67 @@
+﻿@page "{id:min(1)}"
+@model DigiMoallem.Web.Pages.Admin.Standards.EditModel
+
+@{
+    ViewData["Title"] = "ویرایش استاندارد جدید";
+}
+
+<div class="container">
+
+    <!-- back to standards -->
+    <a asp-area="" asp-page="Index" class="btn btn-outline-info">
+        <i class="fas fa-arrow-right ml-2"></i> بازگشت
+    </a>
+
+    <h1 class="my-5"> <i class="fa fa-pen ml-2"></i> @ViewData["Title"]</h1>
+
+    <form method="post">
+        <!-- id -->
+        <input type="hidden" asp-for="Standard.StandardId" />
+
+        <div asp-validation-summary="ModelOnly" class="text-danger my-4"></div>
+
+        @if (ViewData["Failure"] != null)
+        {
+            <div class="alert alert-danger">
+                @ViewData["Failure"]
+            </div>
+        }
+
+        <!-- title -->
+        <div class="md-form mb-4">
+            <label asp-for="Standard.Title"></label>
+            <input type="text" asp-for="Standard.Title" class="form-control" />
+
+            <span asp-validation-for="Standard.Title" class="text-danger"></span>
+        </div>
+
+        <!-- description -->
+        <div class="form-group mb-4">
+            <label asp-for="Standard.Description"></label>
+            <textarea class="form-control p-3"
+                      asp-for="Standard.Description"
+                      rows="3"></textarea>
+            <span asp-validation-for="Standard.Description"></span>
+        </div>
+
+        <div class="form-group my-5">
+            <!-- edit -->
+            <button type="submit" class="btn btn-outline-success">
+                <i class="fa fa-pen ml-2"></i> ویرایش استاندارد
+            </button>
+        </div>
+
+    </form>
+
+</div>
+
+@section Scripts {
+    <!-- ckeditor settings -->
+    <script src="https://cdn.ckeditor.com/4.9.2/standard/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('Standard_Description', {
+            customConfig: '/admin/js/config.js'
+        });
+    </script>
+}
+

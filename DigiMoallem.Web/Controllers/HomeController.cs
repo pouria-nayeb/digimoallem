@@ -42,7 +42,7 @@ namespace DigiMoallem.Web.Controllers
         {
             var indexVM = new IndexViewModel
             {
-                Groups = await _courseService.GetGroupsAsync(),
+                Groups = await _courseService.GetParentGroups(),
                 LatestCourses = await _courseService.GetLatestCourseAsync()
             };
 

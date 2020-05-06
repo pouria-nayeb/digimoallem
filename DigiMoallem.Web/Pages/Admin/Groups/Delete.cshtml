@@ -1,43 +1,41 @@
 ﻿@page "{id}"
 @model DigiMoallem.Web.Pages.Admin.Groups.DeleteModel
 
-<div class="container">
+    <div class="container">
 
-    <h1 class="m-4">@ViewData["Title"]</h1>
+        <a asp-area=""
+           asp-page="Index"
+           class="btn btn-outline-info">
+            <i class="fa fa-arrow-right ml-1"></i> بازگشت
+        </a>
 
-    <form method="post" class="md-form">
+        <h1 class="m-4">@ViewData["Title"]</h1>
 
-        @if (ViewData["WrongInputs"] != null)
-        {
-            <div class="alert alert-danger">
-                @ViewData["WrongInputs"]
+        <form method="post" class="md-form">
+
+            @if (ViewData["Failure"] != null)
+            {
+                <div class="alert alert-danger">
+                    @ViewData["Failure"]
+                </div>
+            }
+
+            <div class="card">
+                <div class="card-header">@Model.Group.Title</div>
+                <div class="card-body">
+                    <input type="hidden" asp-for="Group.GroupId" />
+                    <input type="hidden" asp-for="Group.ParentId" />
+                    <input type="hidden" asp-for="Group.Title" />
+                    <input type="hidden" asp-for="Group.ImageName" />
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-outline-danger">
+                            <i class="fa fa-trash ml-1"></i> حذف گروه
+                        </button>
+                    </div>
+                </div>
             </div>
-        }
 
-        @if (ViewData["OperationFailed"] != null)
-        {
-            <div class="alert alert-danger">
-                @ViewData["OperationFailed"]
-            </div>
-        }
+        </form>
 
-        <input type="hidden" asp-for="Group.GroupId" />
-        <input type="hidden" asp-for="Group.ParentId" />
-        <input type="hidden" asp-for="Group.Title" />
-
-        <div class="md-form mb-5">
-            <p>@Model.Group.Title</p>
-        </div>
-
-        <div class="form-group my-5">
-            <button type="submit" class="btn btn-danger">حذف گروه</button>
-            <a asp-area=""
-               asp-page="Index"
-               class="btn btn-warning"> 
-            <i class="fas fa-back-arrow"></i> لیست گروه ها
-            </a>
-        </div>
-
-    </form>
-
-</div>
+    </div>

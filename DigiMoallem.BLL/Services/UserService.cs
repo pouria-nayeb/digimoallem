@@ -959,6 +959,9 @@ namespace DigiMoallem.BLL.Services
             newUser.UserName = user.UserName;
             newUser.Description = user.Description;
             newUser.ScientificField = user.ScientificField;
+            newUser.EducationalLevel = user.EducationalLevel;
+            newUser.CardNumber = user.CardNumber;
+            newUser.Sheba = user.Sheba;
 
             newUser.UserAvatar = AddAndUplaodImage(newUser.UserAvatar, user.UserAvatar);
 
@@ -978,6 +981,9 @@ namespace DigiMoallem.BLL.Services
             newUser.UserName = user.UserName;
             newUser.Description = user.Description;
             newUser.ScientificField = user.ScientificField;
+            newUser.EducationalLevel = user.EducationalLevel;
+            newUser.CardNumber = user.CardNumber;
+            newUser.Sheba = user.Sheba;
 
             newUser.UserAvatar = AddAndUplaodImage(newUser.UserAvatar, user.UserAvatar);
 
@@ -1079,6 +1085,9 @@ namespace DigiMoallem.BLL.Services
                 user.LastName = model.LastName;
                 user.ScientificField = model.ScientificField;
                 user.IsActive = true;
+                user.Sheba = model.Sheba;
+                user.CardNumber = model.CardNumber;
+                user.EducationalLevel = model.EducationalLevel;
 
                 if (!string.IsNullOrEmpty(model.Password))
                 {
@@ -1109,6 +1118,9 @@ namespace DigiMoallem.BLL.Services
                 user.Skills = model.Skills;
                 user.Experiences = model.Experiences;
                 user.IsActive = true;
+                user.Sheba = model.Sheba;
+                user.CardNumber = model.CardNumber;
+                user.EducationalLevel = model.EducationalLevel;
 
                 if (!string.IsNullOrEmpty(model.Password))
                 {
@@ -1145,6 +1157,9 @@ namespace DigiMoallem.BLL.Services
                 Description = u.Description,
                 Skills = u.Skills,
                 Experiences = u.Experiences,
+                CardNumber = u.CardNumber,
+                EducationalLevel = u.EducationalLevel,
+                Sheba = u.Sheba,
                 ScientificField = u.ScientificField,         
                 Roles = u.UserInRoles.Select(r => r.RoleId).ToList()
             }).Single();
@@ -1164,6 +1179,9 @@ namespace DigiMoallem.BLL.Services
                 Skills = u.Skills,
                 Experiences = u.Experiences,
                 ScientificField = u.ScientificField,
+                CardNumber = u.CardNumber,
+                EducationalLevel = u.EducationalLevel,
+                Sheba = u.Sheba,
                 Roles = u.UserInRoles.Select(r => r.RoleId).ToList()
             }).SingleAsync();
         }
@@ -1223,20 +1241,19 @@ namespace DigiMoallem.BLL.Services
         /// <param name="fileName"></param>
         public string ImageUpload(User user, IFormFile fileName)
         {
-            string imageName = string.Empty;
             if (fileName != null)
             {
                 string imagePath = string.Empty;
-                if (imageName.TextTransform() != "default.png")
+                if (user.UserAvatar.TextTransform() != "default.png")
                 {
-                    imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Avatars/", imageName);
+                    imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Avatars/", user.UserAvatar);
                     if (File.Exists(imagePath))
                     {
                         File.Delete(imagePath);
                     }
                 }
 
-                imageName = CodeGenerator.GenerateUniqueCode() + Path.GetExtension(fileName.FileName);
+                string imageName = CodeGenerator.GenerateUniqueCode() + Path.GetExtension(fileName.FileName);
                 imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Avatars/" + imageName);
 
                 using (var stream = new FileStream(imagePath, FileMode.Create))

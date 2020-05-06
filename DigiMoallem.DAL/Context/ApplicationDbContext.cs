@@ -26,6 +26,7 @@ namespace DigiMoallem.DAL.Context
         public DbSet<Role> Roles { get; set; }
         public DbSet<UserInRole> UserInRoles { get; set; }
         public DbSet<UserDiscountCode> UserDiscountCodes { get; set; }
+        public DbSet<UserDiscountCodePerCourse> UserDiscountCodePerCourses { get; set; }
         #endregion
 
         #region Permissions - PermissionsInRole
@@ -39,6 +40,8 @@ namespace DigiMoallem.DAL.Context
         public DbSet<Work> Works { get; set; }
 
         public DbSet<Setting> Settings { get; set; }
+
+        public DbSet<Standard> Standards { get; set; }
         #endregion
 
         #region Comments - CommentQAs - Courses - Episodes - Levels - Statuses - Types - Groups - Like - Rate - UserCourse

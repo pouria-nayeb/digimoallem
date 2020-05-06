@@ -21,6 +21,8 @@
     <Compile Remove="Migrations\20200429135314_ModifyCourseTypes.Designer.cs" />
     <Compile Remove="Migrations\20200501131858_addNPToPayment.cs" />
     <Compile Remove="Migrations\20200501131858_addNPToPayment.Designer.cs" />
+    <Compile Remove="Migrations\20200506154752_AddDiscountPerCourseDbSet.cs" />
+    <Compile Remove="Migrations\20200506154752_AddDiscountPerCourseDbSet.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

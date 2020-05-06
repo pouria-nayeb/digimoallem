@@ -38,12 +38,12 @@ namespace DigiMoallem.BLL.Services
         #region GetGroups
         public List<Group> GetGroups()
         {
-            return _db.Groups.AsNoTracking().ToList();
+            return _db.Groups.Include(g => g.Groups).AsNoTracking().ToList();
         }
 
         public async Task<List<Group>> GetGroupsAsync()
         {
-            return await _db.Groups.AsNoTracking().ToListAsync();
+            return await _db.Groups.Include(g => g.Groups).AsNoTracking().ToListAsync();
         }
         #endregion
 
@@ -202,6 +202,8 @@ namespace DigiMoallem.BLL.Services
             try
             {
                 // db success
+                RemoveGroupImage(group);
+
                 _db.Groups.Remove(group);
                 await SaveAsync();
 
@@ -258,6 +260,12 @@ namespace DigiMoallem.BLL.Services
                 return false;
             }
         }
+        #endregion
+
+        #region GetParentGroups
+        public async Task<List<Group>> GetParentGroups() => await _db.Groups
+            .Where(g => g.ParentId == null)
+            .ToListAsync();
         #endregion
 
         #region CoursesCount
@@ -1753,6 +1761,19 @@ namespace DigiMoallem.BLL.Services
             {
                 // TODO: log error
                 return false;
+            }
+        }
+
+        private void RemoveGroupImage(Group group) 
+        {
+            if (!string.IsNullOrEmpty(group.ImageName))
+            {
+                string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/groups", group.ImageName);
+
+                if (File.Exists(path))
+                {
+                    File.Delete(path);
+                }
             }
         }
 

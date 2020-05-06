@@ -19,20 +19,6 @@
 
         <div asp-validation-summary="ModelOnly"></div>
 
-        @if (TempData["WrongInputs"] != null)
-        {
-            <div class="alert alert-danger">
-                @TempData["WrongInputs"]
-            </div>
-        }
-
-        @if (TempData["OperationFailed"] != null)
-        {
-            <div class="alert alert-danger">
-                @TempData["OperationFailed"]
-            </div>
-        }
-
         @if (TempData["UserNameExist"] != null)
         {
             <div class="alert alert-danger">
@@ -44,6 +30,13 @@
         {
             <div class="alert alert-danger">
                 @TempData["EmailExist"]
+            </div>
+        }
+
+        @if (ViewData["Failure"] != null)
+        {
+            <div class="alert alert-danger">
+                @ViewData["Failure"]
             </div>
         }
 
@@ -94,12 +87,28 @@
                     <span asp-validation-for="EditUserViewModel.Email"></span>
                 </div>
 
-                <!-- scientific -->
-                <div class="form-group">
-                    <label asp-for="EditUserViewModel.ScientificField"></label>
-                    <input type="text" class="form-control" asp-for="EditUserViewModel.ScientificField" />
+                <div class="row">
+                    <div class="col-12 col-sm-6">
+                        <!-- card number -->
+                        <div class="form-group">
+                            <label asp-for="EditUserViewModel.CardNumber"></label>
+                            <input type="text" class="form-control text-direction-ltr text-left english-font"
+                                   asp-for="EditUserViewModel.CardNumber" />
 
-                    <span asp-validation-for="EditUserViewModel.ScientificField" class="text-danger"></span>
+                            <span asp-validation-for="EditUserViewModel.CardNumber" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-6">
+                        <!-- sheba -->
+                        <div class="form-group">
+                            <label asp-for="EditUserViewModel.Sheba"></label>
+                            <input type="text" class="form-control text-direction-ltr text-left english-font"
+                                   asp-for="EditUserViewModel.Sheba" />
+
+                            <span asp-validation-for="EditUserViewModel.Sheba" class="text-danger"></span>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- description -->
@@ -108,20 +117,51 @@
                     <textarea class="form-control" asp-for="EditUserViewModel.Description" rows="3"></textarea>
                 </div>
 
+
+                <div class="row">
+                    <div class="col-12 col-sm-6">
+                        <!-- educational level -->
+                        <div class="form-group">
+                            <label asp-for="EditUserViewModel.EducationalLevel"></label>
+                            <input type="text" class="form-control"
+                                   asp-for="EditUserViewModel.EducationalLevel" />
+
+                            <span asp-validation-for="EditUserViewModel.EducationalLevel" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-6">
+                        <!-- scientific field -->
+                        <div class="form-group">
+                            <label asp-for="EditUserViewModel.ScientificField"></label>
+                            <input type="text" class="form-control"
+                                   asp-for="EditUserViewModel.ScientificField" />
+
+                            <span asp-validation-for="EditUserViewModel.ScientificField" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Skills -->
-                <div class="form-group mb-4">
+                <div class="form-group mb-0">
                     <label asp-for="EditUserViewModel.Skills"></label>
                     <textarea class="form-control" asp-for="EditUserViewModel.Skills" rows="3"></textarea>
 
                     <span asp-validation-for="EditUserViewModel.Skills" class="text-danger"></span>
                 </div>
+                <div class="alert alert-secondary p-2 mb-4">
+                    <strong>توجه:</strong> مهارت های استاد را با - از یکدیگر جدا کنید.
+                </div>
 
                 <!-- Experiences -->
-                <div class="form-group mb-4">
+                <div class="form-group mb-0">
                     <label asp-for="EditUserViewModel.Experiences"></label>
                     <textarea class="form-control" asp-for="EditUserViewModel.Experiences" rows="3"></textarea>
 
                     <span asp-validation-for="EditUserViewModel.Experiences" class="text-danger"></span>
+                </div>
+                <div class="alert alert-secondary p-2 mb-4">
+                    <strong>توجه:</strong> تجربیات استاد را با - از یکدیگر جدا کنید.
                 </div>
 
                 <!-- password -->

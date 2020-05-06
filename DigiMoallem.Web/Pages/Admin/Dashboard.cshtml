@@ -1,6 +1,145 @@
 ﻿@page
 @model DigiMoallem.Web.Pages.Admin.DashboardModel
 
+@inject IUserService userService
+@inject ICourseService courseService
+@inject IMessageService messageService
+@inject IWorkService workService
+@inject IOrderService orderService
+
 @{
     ViewData["Title"] = "داشبورد سایت دیجی معلم";
 }
+
+<div class="container">
+
+    <h1 class="my-5">@ViewData["Title"]</h1>
+
+    <div class="my-5">
+
+        <a asp-area="" asp-page="/Admin/Messages/Index" class="btn btn-lg btn-outline-info m-1">
+            <span class="badge badge-info english-font ml-2">@messageService.NewContactsCount()</span> پیام های جدید
+        </a>
+
+        <a asp-area="" asp-page="/Admin/Works/Index" class="btn btn-lg btn-outline-warning m-1">
+            <span class="badge badge-warning english-font ml-2">@workService.NewWorksCount()</span> درخواست مدرسین جدید
+        </a>
+
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-md-3 my-3">
+
+            <!-- users count -->
+            <div class="card">
+                <div class="card-header text-center">
+                    <i class="fa fa-users fa text-center ml-1"></i> تعداد کاربران
+                </div>
+                <div class="card-body">
+                    <h1 class="text-center big-font">@userService.UsersCount()</h1>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-12 col-md-3 my-3">
+
+            <!-- teachers count -->
+            <div class="card">
+                <div class="card-header text-center">
+                    <i class="fa fa-chalkboard-teacher fa text-center ml-1"></i> تعداد مدرسان
+                </div>
+                <div class="card-body">
+                    <h1 class="text-center big-font">@userService.TeachersCount()</h1>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-12 col-md-3 my-3">
+
+            <!-- roles count -->
+            <div class="card">
+                <div class="card-header text-center">
+                    <i class="fa fa-map-pin fa text-center ml-1"></i> تعداد نقش ها
+                </div>
+                <div class="card-body">
+                    <h1 class="text-center big-font">@userService.RolesCount()</h1>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-12 col-md-3 my-3">
+
+            <!-- groups count -->
+            <div class="card">
+                <div class="card-header text-center">
+                    <i class="fa fa-list-ul fa text-center ml-1"></i> تعداد گروه ها
+                </div>
+                <div class="card-body">
+                    <h1 class="text-center big-font">@courseService.GroupsCount()</h1>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-12 col-md-3 my-3">
+
+            <!-- courses count -->
+            <div class="card">
+                <div class="card-header text-center">
+                    <i class="fa fa-book-open fa text-center ml-1"></i> تعداد درس ها
+                </div>
+                <div class="card-body">
+                    <h1 class="text-center big-font">@courseService.CourseCount()</h1>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-12 col-md-3 my-3">
+
+            <!-- messages count -->
+            <div class="card">
+                <div class="card-header text-center">
+                    <i class="fa fa-envelope fa text-center ml-1"></i> تعداد پیام ها
+                </div>
+                <div class="card-body">
+                    <h1 class="text-center big-font">@messageService.ContactsCount()</h1>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-12 col-md-3 my-3">
+
+            <!-- works with us count -->
+            <div class="card">
+                <div class="card-header text-center">
+                    <i class="fa fa-list-alt fa text-center ml-1"></i> تعداد متقاضیان همکاری
+                </div>
+                <div class="card-body">
+                    <h1 class="text-center big-font">@workService.WorksCount()</h1>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-12 col-md-3 my-3">
+
+            <!-- orders count -->
+            <div class="card">
+                <div class="card-header text-center">
+                    <i class="fa fa-shopping-bag fa text-center ml-1"></i> تعداد سفارشات
+                </div>
+                <div class="card-body">
+                    <h1 class="text-center big-font">@orderService.OrdersCount()</h1>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,16 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+using DigiMoallem.BLL.Helpers.Security;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DigiMoallem.Web.Pages.Admin
 {
+    [PermissionChecker(44)]
     public class DashboardModel : PageModel
     {
-        public void OnGet()
-        {
-        }
+        public void OnGet() {}
     }
 }

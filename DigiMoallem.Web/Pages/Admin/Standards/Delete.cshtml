@@ -1,0 +1,49 @@
+﻿@page
+@model DigiMoallem.Web.Pages.Admin.Standards.DeleteModel
+
+@{
+    ViewData["Title"] = "حذف استاندارد";
+}
+
+<div class="container">
+
+    <!-- back -->
+    <a asp-area=""
+       asp-page="Index"
+       class="btn btn-outline-info">
+        <i class="fas fa-arrow-right ml-2"></i> بازگشت
+    </a>
+
+    <h1 class="my-5"> <i class="fa fa-user-minus ml-2"></i> @ViewData["Title"] <q>@Model.Standard.Title</q></h1>
+
+    <form method="post">
+        <!-- hidden -->
+        <input type="hidden" asp-for="@Model.Standard.StandardId" />
+        <input type="hidden" asp-for="@Model.Standard.Title" />
+        <input type="hidden" asp-for="@Model.Standard.Description" />
+
+        <!-- user table -->
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <tr>
+                    <th>شناسه</th>
+                    <td class="english-font">@Model.Standard.StandardId</td>
+                </tr>
+                <tr>
+                    <th>عنوان</th>
+                    <td>@Model.Standard.Title</td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <!-- delete -->
+                        <button class="btn btn-outline-danger">
+                            <i class="fa fa-trash ml-2"></i> حذف اسناندارد
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+    </form>
+
+</div>

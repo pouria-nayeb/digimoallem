@@ -301,6 +301,8 @@ namespace DigiMoallem.BLL.Services
 
         public async Task<int> WorksCountAsync() => await _context.Works.CountAsync();
 
+        public int NewWorksCount() => _context.Works.Where(w => w.IsChecked == false).Count();
+
         public string UploadAvatarImage(IFormFile avatarImage)
         {
             if (avatarImage != null)

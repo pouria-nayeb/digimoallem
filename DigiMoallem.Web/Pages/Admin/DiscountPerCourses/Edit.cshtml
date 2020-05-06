@@ -1,0 +1,128 @@
+﻿@page "{id}"
+@model DigiMoallem.Web.Pages.Admin.DiscountPerCourses.EditModel
+
+@{
+    ViewData["Title"] = "ویرایش کد تخفیف درس";
+}
+
+@section Styles {
+    <link href="~/admin/css/kendo.common.min.css" rel="stylesheet" />
+    <link href="~/admin/css/kendo.default.min.css" rel="stylesheet" />
+}
+
+<div class="container">
+
+    <!-- back to roles -->
+    <a asp-area=""
+       asp-page="Index"
+       class="btn btn-outline-info">
+        <i class="fas fa-arrow-right ml-2"></i> بازگشت
+    </a>
+
+    <h1 class="my-5"> <i class="fa fa-pen ml-2"></i> @ViewData["Title"]</h1>
+
+    <form method="post" class="form-group">
+
+        <input type="hidden" asp-for="Discount.DiscountPerCourseId" />
+
+        <div asp-validation-summary="All" class="text-danger my-4"></div>
+
+        @if (ViewData["Failure"] != null)
+        {
+            <div class="alert alert-danger">
+                @ViewData["Failure"]
+            </div>
+        }
+
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-8 col-lg-8">
+
+                <!-- courses -->
+                <div class="md-form mb-4">
+                    <label asp-for="Discount.CourseId"></label>
+                    <select type="text" asp-for="Discount.CourseId"
+                            asp-items="@Model.CoursesSelectList"
+                            class="form-control">
+                        <option value="">لطفاً یکی از درس ها را انتخاب کنید</option>
+                    </select>
+
+                    <span asp-validation-for="Discount.CourseId" class="text-danger"></span>
+                </div>
+
+                <!-- discount code -->
+                <div class="form-group mb-4">
+                    <label asp-for="Discount.DiscountCode"></label>
+                    <input type="text" asp-for="Discount.DiscountCode" class="form-control text-direction-ltr text-left" />
+
+                    <span asp-validation-for="Discount.DiscountCode" class="text-danger"></span>
+                </div>
+
+                <!-- percent -->
+                <div class="form-group mb-4">
+                    <label asp-for="Discount.DiscountPercent"></label>
+                    <input type="text" asp-for="Discount.DiscountPercent" class="form-control text-direction-ltr text-left" />
+
+                    <span asp-validation-for="Discount.DiscountPercent" class="text-danger"></span>
+
+                </div>
+
+                <!-- count -->
+                <div class="form-group mb-4">
+                    <label asp-for="Discount.UsableCount"></label>
+                    <input type="number" asp-for="Discount.UsableCount" class="form-control form-control text-direction-ltr text-left" />
+                </div>
+
+                <div class="form-group my-5">
+                    <!-- edit -->
+                    <button type="submit" class="btn btn-outline-warning">
+                        <i class="fa fa-pen ml-2"></i> ویرایش کد تخفیف جدید
+                    </button>
+                </div>
+
+            </div>
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4">
+
+                <!-- start date -->
+                <div class="form-group mb-4">
+                    <label class="d-block" for="startDate"> تاریخ شروع: </label>
+                    <input id="startDate" name="startDate" value="@((Model.Discount.StartDate != null) ? Model.Discount.StartDate.Value.ToPersianDate() : "")" class="mx-2 w-75" />
+                </div>
+
+                <!-- end date -->
+                <div class="form-group mb-4">
+                    <label class="d-block" for="endDate"> تاریخ اتمام: </label>
+                    <input id="endDate" name="endDate" value="@((Model.Discount.EndDate != null) ? Model.Discount.EndDate.Value.ToPersianDate() : "")" class="mx-2 w-75" />
+                </div>
+
+            </div>
+        </div>
+
+    </form>
+
+</div>
+
+@section Scripts {
+    <script src="~/admin/js/jquery-1.9.1.min.js"></script>
+    <script src="~/admin/js/kendo.all.min.js"></script>
+    <script>
+
+        $("#Discount_DiscountCode").blur(function () {
+            $.ajax({
+                method: "get",
+                url: "/Admin/DiscountPerCourses/Create/CheckDiscountCode?code=" + $("#Discount_DiscountCode").val()
+            }).done(function (result) {
+                if (result === 'True') {
+                    $("#alert").show("fast");
+                } else {
+                    $("#alert").hide("fast");
+                }
+            });
+        });
+
+        // create DatePicker from input HTML element
+        $("#startDate").kendoDatePicker();
+
+        // create DatePicker from input HTML element
+        $("#endDate").kendoDatePicker();
+    </script>
+}

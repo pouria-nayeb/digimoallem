@@ -33,11 +33,12 @@ namespace DigiMoallem.BLL.DTOs.Works
         public string Mobile { get; set; }
 
         [Display(Name = "مقطع تحصیلی")]
+        [Required(ErrorMessage = "لطفاً {0} را وارد نمایید.")]
         public string EducationalLevel { get; set; }
 
         [Display(Name = "شماره کارت")]
         [Required(ErrorMessage = "لطفاً {0} را وارد نمایید.")]
-        [MaxLength(200, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]
+        [MaxLength(20, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]
         public string CardNumber { get; set; }
 
         [Display(Name = "شماره شبا")]

@@ -1,11 +1,17 @@
-﻿@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300&display=swap');
-
-@font-face {
+﻿@font-face {
     font-family: 'BYekan';
     src: url(../../fonts/BYekan.eot);
     src: url(../../Fonts/BYekan.eot?#iefix) format("embedded-opentype"),url(../../fonts/BYekan.woff) format("woff"),url(../../Fonts//BYekan.ttf) format("truetype"),url(../../Fonts//BYekan.svg) format("svg");
     font-weight: 400;
     font-style: normal;
+}
+
+@font-face {
+    font-family: 'Play';
+    src: url(../../fonts/english/Play-Regular.ttf);
+    src: url(../../fonts/english/Play-Regular.ttf) format("truetype");
+    font-weight: 400;
+    font-style: normal
 }
 
 * {
@@ -23,7 +29,7 @@ direction:ltr;
 }
 
 .english-font {
-    font-family: 'Titillium Web', sans-serif;
+    font-family: 'Play', sans-serif;
 }
 
 .form-control {
@@ -33,4 +39,8 @@ direction:ltr;
 
 main {
     min-height: 78vh;
+}
+
+.big-font {
+    font-size: 5.5rem;
 }

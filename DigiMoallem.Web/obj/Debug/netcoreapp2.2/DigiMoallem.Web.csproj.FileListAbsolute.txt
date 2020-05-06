@@ -131,3 +131,10 @@ C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\obj\Debug\netcoreapp2.2\
 C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\obj\Debug\netcoreapp2.2\Razor\Pages\Admin\Accountings\TeacherStatistics.cshtml.g.cs
 C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\obj\Debug\netcoreapp2.2\Razor\Pages\Admin\Settings\Edit.cshtml.g.cs
 C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\obj\Debug\netcoreapp2.2\Razor\Views\Home\PrivacyPolicy.cshtml.g.cs
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\obj\Debug\netcoreapp2.2\Razor\Pages\Admin\Standards\Index.cshtml.g.cs
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\obj\Debug\netcoreapp2.2\Razor\Pages\Admin\Standards\Create.cshtml.g.cs
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\obj\Debug\netcoreapp2.2\Razor\Pages\Admin\Standards\Delete.cshtml.g.cs
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\obj\Debug\netcoreapp2.2\Razor\Pages\Admin\Standards\Edit.cshtml.g.cs
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\obj\Debug\netcoreapp2.2\Razor\Pages\Admin\DiscountPerCourses\Create.cshtml.g.cs
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\obj\Debug\netcoreapp2.2\Razor\Pages\Admin\DiscountPerCourses\Edit.cshtml.g.cs
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\obj\Debug\netcoreapp2.2\Razor\Pages\Admin\DiscountPerCourses\Index.cshtml.g.cs

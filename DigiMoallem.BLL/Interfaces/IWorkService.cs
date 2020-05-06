@@ -31,6 +31,8 @@ namespace DigiMoallem.BLL.Interfaces
         int WorksCount();
         Task<int> WorksCountAsync();
 
+        int NewWorksCount();
+
         WorkPagingViewModel SearchWorks(string email, int pageNumber, int pageSize);
         Task<WorkPagingViewModel> SearchWorksAsync(string email, int pageNumber, int pageSize);
     }

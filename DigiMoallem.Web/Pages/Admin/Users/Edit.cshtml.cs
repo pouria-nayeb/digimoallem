@@ -29,8 +29,7 @@ namespace DigiMoallem.Web.Pages.Admin.Users
 
         public async Task OnGetAsync(int id)
         {
-            EditUserViewModel = await _userService.GetUserDetailsForEditAsync(id);
-            ViewData["Roles"] = await _permissionService.GetRolesAsync();
+            await SeedUserData(id);
         }
 
         public async Task<IActionResult> OnPostAsync(List<int> SelectedRoles)
@@ -38,8 +37,9 @@ namespace DigiMoallem.Web.Pages.Admin.Users
             if (!ModelState.IsValid)
             {
                 // failure (wrong user input)
-                TempData["WrongInputs"] = "ورودی شما نامعتبر است.";
-                return LocalRedirect($"/Admin/Users/Edit/{EditUserViewModel.UserId}");
+                ViewData["Failure"] = "ورودی شما نامعتبر است.";
+                await SeedUserData(EditUserViewModel.UserId);
+                return Page();
             }
 
             if (await _userService.UpdateUserByAdminAsync(EditUserViewModel))
@@ -56,12 +56,13 @@ namespace DigiMoallem.Web.Pages.Admin.Users
                     SendActivationEmail("_TeacherActivationEmail", "فعالسازی", user);
                 }
 
-                return LocalRedirect("/admin/users");
+                return RedirectToPage("Index");
             }
 
             // failure (edit operation failed)
-            TempData["OperationFailed"] = "متاسفانه عملیات ویرایش کاربر توسط ادمین با مشکل روبرو شد.";
-            return LocalRedirect($"/Admin/Users/Edit/{EditUserViewModel.UserId}");
+            ViewData["Failure"] = "متاسفانه عملیات ویرایش کاربر توسط ادمین با مشکل روبرو شد.";
+            await SeedUserData(EditUserViewModel.UserId);
+            return Page();
         }
         /// <summary>
         /// Send activation code
@@ -71,6 +72,11 @@ namespace DigiMoallem.Web.Pages.Admin.Users
         {
             string body = _viewRender.RenderToString(specificPage, user);
             SendEmailClient.Send(user.Email, title, body);
+        }
+
+        private async Task SeedUserData(int id) {
+            EditUserViewModel = await _userService.GetUserDetailsForEditAsync(id);
+            ViewData["Roles"] = await _permissionService.GetRolesAsync();
         }
     }
 }

@@ -7,14 +7,24 @@
 
 <div class="container">
 
+
+
     <h1 class="my-5">
         <i class="fa fa-cogs ml-2"></i> @ViewData["Title"]
     </h1>
 
+    <div class="my-4">
+
+        <a asp-area="" asp-page="/Admin/Standards/Index" class="btn btn-outline-danger">
+            <i class="fa fa-stamp ml-1"></i> مدیریت استانداردها
+        </a>
+
+    </div>
+
     <form method="post" class="md-form">
         <input type="hidden" asp-for="Setting.SettingId" />
 
-        <div asp-validation-summary="All" class="text-danger my-4"></div>
+        <div asp-validation-summary="ModelOnly" class="text-danger my-4"></div>
 
         @if (TempData["Success"] != null)
         {
@@ -57,14 +67,6 @@
                     <span asp-validation-for="Setting.ContributeDigiMoallem" class="text-danger"></span>
                 </div>
 
-                <!-- standards -->
-                <div class="md-form mb-4">
-                    <label asp-for="Setting.Standards"></label>
-                    <textarea type="text" asp-for="Setting.Standards" rows="2" class="form-control"></textarea>
-
-                    <span asp-validation-for="Setting.Standards" class="text-danger"></span>
-                </div>
-
                 <!-- production rules -->
                 <div class="md-form mb-4">
                     <label asp-for="Setting.ProductionRules"></label>
@@ -96,7 +98,7 @@
                 <div class="md-form mb-4">
                     <label asp-for="Setting.PhoneNumber"></label>
                     <textarea type="text" asp-for="Setting.PhoneNumber" rows="4"
-                              class="form-control  text-left english-font"></textarea>
+                              class="form-control text-direction-ltr text-left english-font"></textarea>
 
                     <span asp-validation-for="Setting.PhoneNumber" class="text-danger"></span>
                 </div>
@@ -130,9 +132,6 @@
     <script src="https://cdn.ckeditor.com/4.9.2/standard/ckeditor.js"></script>
     <script>
         CKEDITOR.replace('Setting_ContributeDigiMoallem', {
-            customConfig: '/admin/js/config.js'
-        });
-        CKEDITOR.replace('Setting_Standards', {
             customConfig: '/admin/js/config.js'
         });
         CKEDITOR.replace('Setting_ProductionRules', {

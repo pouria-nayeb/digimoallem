@@ -37,10 +37,6 @@ namespace DigiMoallem.DAL.Entities.General
         [Required(ErrorMessage = "لطفاً {0} را وارد نمایید.")]
         public string Files { get; set; }
 
-        [Display(Name = "استانداردهای دیجی معلم")]
-        [Required(ErrorMessage = "لطفاً {0} را وارد نمایید.")]
-        public string Standards { get; set; }
-
         [Display(Name = "قوانین تولید")]
         [Required(ErrorMessage = "لطفاً {0} را وارد نمایید.")]
         public string ProductionRules { get; set; }

@@ -33,6 +33,15 @@ namespace DigiMoallem.BLL.DTOs.Admin.Users
         [MaxLength(200, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]
         public string ScientificField { get; set; }
 
+        [Display(Name = "مقطع تحصیلی")]
+        public string EducationalLevel { get; set; }
+
+        [Display(Name = "شماره کارت")]
+        public string CardNumber { get; set; }
+
+        [Display(Name = "شماره شبا")]
+        public string Sheba { get; set; }
+
         [Display(Name = "مهارت ها")]
         [Required(ErrorMessage = "لطفاً {0} را وارد نمایید.")]
         [MaxLength(200, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]

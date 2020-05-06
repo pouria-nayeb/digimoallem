@@ -1,10 +1,12 @@
-﻿using DigiMoallem.BLL.Interfaces;
+﻿using DigiMoallem.BLL.Helpers.Security;
+using DigiMoallem.BLL.Interfaces;
 using DigiMoallem.DAL.Entities.General;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DigiMoallem.Web.Pages.Admin.Settings
 {
+    [PermissionChecker(45)]
     public class EditModel : PageModel
     {
         private readonly ISettingService _settingService;
@@ -28,21 +30,17 @@ namespace DigiMoallem.Web.Pages.Admin.Settings
             {
                 if (_settingService.UpdateSetting(Setting) != null)
                 {
-                    TempData["Success"] = "تنظیمات با موفقیت ویرایش شد.";
-
-
+                    TempData["Success"] = "اطلاعات با موفقیت ویرایش شد.";
                     return RedirectToPage("Edit");
                 }
                 else 
                 {
                     ViewData["Failure"] = "متاسفانه عملیات ویرایش نقش توسط ادمین با مشکل روبرو شد.";
-
                     return Page();
                 }
             }
 
             ViewData["Failure"] = "ورودی شما نامعتبر است.";
-
             return Page();
         }
     }

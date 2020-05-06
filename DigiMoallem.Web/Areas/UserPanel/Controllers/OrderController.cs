@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DigiMoallem.BLL.DTOs.Orders;
 using DigiMoallem.BLL.Interfaces;
+using DigiMoallem.DAL.Entities.Orders;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,12 +15,16 @@ namespace DigiMoallem.Web.Areas.UserPanel.Controllers
     public class OrderController : Controller
     {
         private ICourseService _courseService;
+        private IDiscountPerCourseService _discountPerCourseService;
         private IOrderService _orderService;
 
-        public OrderController(IOrderService orderService, ICourseService courseService)
+        public OrderController(IOrderService orderService, 
+            ICourseService courseService,
+            IDiscountPerCourseService discountPerCourseService)
         {
             _orderService = orderService;
             _courseService = courseService;
+            _discountPerCourseService = discountPerCourseService;
         }
 
         [Route("Factors")]
@@ -75,8 +80,28 @@ namespace DigiMoallem.Web.Areas.UserPanel.Controllers
         [Route("ApplyDiscount")]
         public async Task<IActionResult> ApplyDiscount(int orderId, string code)
         {
+
+            if (string.IsNullOrEmpty(code))
+            {
+                return RedirectToAction("Index", new { id = orderId });
+            }
+
             DiscountType type = await _orderService.UseDiscountAsync(orderId, code);
 
+            if (type ==  DiscountType.Success || type == DiscountType.Expired || type == DiscountType.UsedByUser)
+            {
+                DiscountTypeDescision(type);
+            } else 
+            {
+                DiscountType typePerCourse = _discountPerCourseService.UseDiscount(orderId, code);
+                DiscountTypeDescision(typePerCourse);
+            }
+
+            return Redirect("/Cart/" + orderId + "?code=" + code.ToString());
+        }
+
+        private void DiscountTypeDescision(DiscountType type) 
+        {
             switch (type)
             {
                 case DiscountType.Success:
@@ -98,8 +123,6 @@ namespace DigiMoallem.Web.Areas.UserPanel.Controllers
                     TempData["Failure"] = "درخواست نامعتبر.";
                     break;
             }
-
-            return Redirect("/Cart/" + orderId + "?code=" + code.ToString());
         }
     }
 }

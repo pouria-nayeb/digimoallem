@@ -44,7 +44,7 @@ namespace DigiMoallem.Web.Pages.Admin.Works
 
         public async Task<IActionResult> OnPostAsync(int id)
         {
-            TempData["Success"] = "پیام با موفقیت حذف شد.";
+            TempData["Success"] = "درخواست تدریس با موفقیت حذف شد.";
             await _workService.RemoveWorkAsync(id);
 
             return RedirectToPage("Index");

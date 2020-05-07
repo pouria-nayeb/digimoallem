@@ -65,6 +65,8 @@ namespace DigiMoallem.Web
             services.AddTransient<IStandardService, StandardService>();
 
             services.AddTransient<IDiscountPerCourseService, DiscountPerCourseService>();
+
+            services.AddTransient<IHyperLinkService, HyperLinkService>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

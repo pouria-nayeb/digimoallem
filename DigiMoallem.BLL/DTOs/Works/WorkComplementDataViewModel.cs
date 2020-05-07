@@ -15,6 +15,7 @@ namespace DigiMoallem.BLL.DTOs.Works
         public string Experiences { get; set; }
 
         [Display(Name = "زمینه های همکاری")]
+        [Required(ErrorMessage = "لطفاً {0} را وارد نمایید.")]
         [MaxLength(1500, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]
         public string ContributionFields { get; set; }
     }

@@ -1,0 +1,47 @@
+﻿@page
+@model DigiMoallem.Web.Pages.Admin.HyperLinks.DeleteModel
+@{
+    ViewData["Title"] = "حذف فایل های آپلود شده";
+}
+
+<div class="container">
+
+    <!-- back -->
+    <a asp-area=""
+       asp-page="Index"
+       class="btn btn-outline-info">
+        <i class="fas fa-arrow-right ml-2"></i> بازگشت
+    </a>
+
+    <h1 class="my-5"> <i class="fa fa-trash ml-2"></i> @ViewData["Title"] <q>@Model.UploadLink.Name</q></h1>
+
+    <form method="post">
+        <!-- hidden -->
+        <input type="hidden" asp-for="@Model.UploadLink.UploadLinkId" />
+        <input type="hidden" asp-for="@Model.UploadLink.Name" />
+
+        <!-- hyperlink table -->
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <tr>
+                    <th>شناسه</th>
+                    <td class="english-font">@Model.UploadLink.UploadLinkId</td>
+                </tr>
+                <tr>
+                    <th>عنوان</th>
+                    <td>@Model.UploadLink.Name</td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <!-- delete -->
+                        <button class="btn btn-outline-danger">
+                            <i class="fa fa-trash ml-2"></i> حذف فایل
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+
+</div>
+

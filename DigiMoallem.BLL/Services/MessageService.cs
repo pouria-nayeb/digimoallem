@@ -231,7 +231,7 @@ namespace DigiMoallem.BLL.Services
             return new ContactPagingViewModel
             {
                 Contacts = await messages
-                                .Where(m => m.PhoneNumber.Contains(phoneNumber))
+                .Where(m => m.PhoneNumber.Contains(phoneNumber))
                 .Skip(skip)
                 .Take(take)
                 .OrderByDescending(c => c.SubmitDate)

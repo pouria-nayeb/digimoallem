@@ -1,0 +1,23 @@
+SEO terms:
+
+Search engine (Query) - SEO (Off-Page - On-Page) - SEM - SERP (Organic search results (Free traffic) - Paid results (Paid traffic (PPC - CPC))) - Algorithm - Sandbox, supplemental index - Organic search - Natural links - Domain name - Cloaking (Page cloaking) - Black hat seo - CSE - Webmasters
+
+On-Page SEO:
+
+XML sitemap - URL (URI) - White hat seo (Title - Description - Keywords - Keywords density - Load speed - Rich content - Anchor text - Alt tag - Image name - Image quality - Semantic elements - Website root folders structure) - 301 Redirect (Permanent and Temporary) - On-Page link-building) - Duplicate content - Keyword stuffing - robot.txt - PageRank (Time user spend - Valuable contents - Filling a gap - Page speed - Markup best usage - Compressed css and js (Gulp.js)) - NoFollow links - Link Sculpting (follow/nofollow rel) - Link farm - Deep linking - Canonical tag - Linkbait - JSON-LD
+
+Off-Page:
+
+Link building - Social network compaign(marketing) - Email marketing - Sms marketing - Google analytics (Reporting tools) - Google console - Keyword research - Google trends - Google/Bing ad - Other tools ()
+
+*Guide:
+
+Webmasters: Webmaster is someone who manage the website content and server technical configs.
+
+Cloaking: A website looks different for people and search engine.
+
+Deep linking: Making a hyperlink that point to a specific page or image of a website, instead of homepage, anchor text is so important.
+
+Linkbait: Creating exteraordinary content that attract lots of links.
+
+Keyword stuffing: Some words repeated over and over again but in unnatural way.

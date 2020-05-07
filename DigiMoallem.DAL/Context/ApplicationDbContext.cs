@@ -42,6 +42,8 @@ namespace DigiMoallem.DAL.Context
         public DbSet<Setting> Settings { get; set; }
 
         public DbSet<Standard> Standards { get; set; }
+
+        public DbSet<UploadLink> UploadLinks { get; set; }
         #endregion
 
         #region Comments - CommentQAs - Courses - Episodes - Levels - Statuses - Types - Groups - Like - Rate - UserCourse

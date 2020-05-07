@@ -2,163 +2,194 @@
 @model DigiMoallem.Web.Pages.Admin.Works.IndexModel
 
 @{
-    ViewBag.Title = "درخواست های همکاری";
+    ViewBag.Title = "درخواست های تدریس";
 }
 
-    <section class="container">
+<section class="container">
 
-        <h1 class="text-capitalize display-4 mb-5">
-            <i class="fa fa-list-alt text-danger fa-fw"></i> @ViewBag.Title
-        </h1>
+    <h1 class="text-capitalize display-4 mb-5">
+        <i class="fa fa-list-alt text-danger fa-fw"></i> @ViewBag.Title
+    </h1>
 
-        <form autocomplete="off">
+    <form autocomplete="off">
 
-            <div class="row p-3">
+        <div class="row p-3">
 
-                <!-- email -->
-                <div class="col-12 col-sm-12 col-md-4">
-                    <div class="form-group">
-                        <input type="text" id="email" name="email"
-                               class="form-control english-font text-direction-ltr text-left">
-                        <label for="username">پست الکترونیک</label>
-                    </div>
+            <!-- email -->
+            <div class="col-12 col-sm-12 col-md-4">
+                <div class="form-group">
+                    <input type="text" id="email" name="email"
+                           class="form-control english-font text-direction-ltr text-left">
+                    <label for="username">پست الکترونیک</label>
                 </div>
+            </div>
 
-                <!-- search -->
-                <div class="col-12 col-sm-12 col-md-4">
-                    <button class="btn btn-primary"> <i class="fa fa-search ml-2"></i> جستجو</button>
-                    <a href="/Admin/Works" class="btn btn-secondary"> <i class="fa fa-filter ml-2"></i> حذف فیلترها</a>
-                </div>
+            <!-- search -->
+            <div class="col-12 col-sm-12 col-md-4">
+                <button class="btn btn-primary"> <i class="fa fa-search ml-2"></i> جستجو</button>
+                <a href="/Admin/Works" class="btn btn-secondary"> <i class="fa fa-filter ml-2"></i> حذف فیلترها</a>
+            </div>
 
-                <!-- search -->
-                <div class="col-12 col-sm-12 col-md-4">
-
-                </div>
+            <!-- search -->
+            <div class="col-12 col-sm-12 col-md-4">
 
             </div>
-        </form>
 
-        @if (TempData["Success"] != null)
-        {
-            <div class="alert alert-success">
-                <i class="fa fa-check fa-fw"></i> @TempData["Success"]
-            </div>
-        }
-
-        <div class="clearfix">
-            <button type="button" class="btn btn-primary float-left mb-3">
-                <i class="fa fa-th-list fa-fw"></i> @Model.WorksCount
-            </button>
         </div>
+    </form>
 
-        @if (Model.WorkPagingVM.PageCount > 1)
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">
+            <i class="fa fa-check fa-fw"></i> @TempData["Success"]
+        </div>
+    }
+
+    <div class="clearfix">
+        <button type="button" class="btn btn-primary float-left mb-3">
+            <i class="fa fa-th-list fa-fw"></i> @Model.WorksCount
+        </button>
+    </div>
+
+    @if (Model.WorkPagingVM.Works.Any())
+    {
+        @foreach (Work work in Model.WorkPagingVM.Works)
         {
-            <nav>
-                <ul class="pagination pagination-sm justify-content-center">
-                    @for (int i = 1; i <= Model.WorkPagingVM.PageCount; i++)
-                    {
-                        <li class="page-item @(Model.WorkPagingVM.PageNumber == i ? "active" : "")">
-                            <a class="page-link" href="/Admin/Works?PageNumber=@i">@i</a>
-                        </li>
-                    }
-                </ul>
-            </nav>
-        }
 
-        @if (Model.WorkPagingVM.Works.Any())
-        {
-            @foreach (Work work in Model.WorkPagingVM.Works)
-            {
-
-                <div class="card border-primary mb-3">
-                    <header class="card-header">
-                        تلفن تماس: <span class="text-light english-font">@work.Mobile 
+            <div class="card border-primary mb-3">
+                <header class="card-header clearfix">
+                    تلفن تماس: <span class="text-light english-font d-inline-block mt-3">
+                        @work.Mobile
                         @if (work.PhoneNumber != null)
                         {
-                          <span>- @work.PhoneNumber</span>
+                            <span>- @work.PhoneNumber</span>
                         }
-                        </span>
-                    </header>
+                    </span>
 
-                    <div class="card-body">
-                        <span class="text-light english-font">@work.Email</span>
-
-                        <hr />
-
-                        <h5>مهارت ها</h5>
-                        <p class="card-text text-light">
-                            @if (work.Skills != null)
-                            {
-                                @work.Skills.Replace("-", ", ")
-                            }
-                            else { 
-                            <span class="badge badge-danger">درج نشده</span>
-                            }
-                        </p>
-                        <h5>سوابق کاری</h5>
-                        <p class="card-text text-light">
-                            @if (work.Experiences != null)
-                            {
-                                @work.Experiences.Replace("-", ", ")
-                            }
-                            else
-                            {
-                                <span class="badge badge-danger">درج نشده</span>
-                            }
-                        </p>
-                        <hr />
-
-                        <div class="clearfix">
-
-                            <span class="my-2 float-left">تاریخ درج پیام: 
-                            <span class="english-font">@work.SubmitDate.ToPersianDate()</span>
-                            </span>
-
-                            @if (work.Gender)
-                            {
-                                <span class="float-right">آقا</span>
-                            }
-                            else
-                            {
-                                <span class="float-right">خانم</span>
-                            }
+                    @if (!string.IsNullOrEmpty(work.AvatarName))
+                    {
+                        <div class="my-2 float-left">
+                            <img src="~/images/avatars/@work.AvatarName"
+                                 alt=""
+                                 asp-append-version="true"
+                                 style="max-width:85px;max-height:45px" />
                         </div>
+                    }
+                </header>
+
+                <div class="card-body">
+                    <span class="text-light english-font">@work.Email</span>
+
+                    <hr />
+
+                    <h5>مهارت ها</h5>
+                    <p class="card-text text-light">
+                        @if (work.Skills != null)
+                        {
+                            @work.Skills.Replace("-", ", ")
+                        }
+                        else
+                        {
+                            <span class="badge badge-danger">درج نشده</span>
+                        }
+                    </p>
+                    <h5>سوابق کاری</h5>
+                    <p class="card-text text-light">
+                        @if (work.Experiences != null)
+                        {
+                            @work.Experiences.Replace("-", ", ")
+                        }
+                        else
+                        {
+                            <span class="badge badge-danger">درج نشده</span>
+                        }
+                    </p>
+                    <h5>زمینه های همکاری</h5>
+                    <p class="card-text text-light">
+                        @if (work.ContributionFields != null)
+                        {
+                            @work.ContributionFields.Replace("-", ", ")
+                        }
+                        else
+                        {
+                            <span class="badge badge-danger">درج نشده</span>
+                        }
+                    </p>
+                    <hr />
+
+                    <div class="clearfix">
+
+                        <span class="my-2 float-left">
+                            تاریخ درج پیام:
+                            <span class="english-font">@work.SubmitDate.ToPersianDate()</span>
+                        </span>
+
+                        @if (work.Gender)
+                        {
+                            <span class="float-right">آقا</span>
+                        }
+                        else
+                        {
+                            <span class="float-right">خانم</span>
+                        }
                     </div>
 
-                    <footer class="card-footer clearfix">
-                        <span class="float-left small">
-                            <a asp-page="Edit"
-                               asp-route-id="@work.WorkId"
-                               class="btn btn-sm btn-outline-warning">
-                                <i class="fa fa-pen fa-fw"></i> ویرایش
-                            </a>
+                    @if (!string.IsNullOrEmpty(work.CvTitle))
+                    {
+                        <div class="my-2">
+                            <a href="~/cvs/@work.CvTitle" class="btn btn-sm btn-outline-info"> رزومه @(work.FirstName + " " + work.LastName) </a>
+                        </div>
+                    }
 
-                            <a asp-page="Delete" asp-route-id="@work.WorkId" class="btn btn-sm btn-outline-danger">
-                                <i class="fa fa-trash-alt fa-fw"></i> حذف
-                            </a>
-                        </span>
-                        <span class="float-right mt-1">
-                            @if (work.IsChecked)
-                            {
-                                <span class="badge badge-success text-light">بررسی شده</span>
-                            }
-                            else
-                            {
-                                <span class="badge badge-danger text-capitalize">بررسی نشده</span>
-                            }
-                        </span>
-                    </footer>
                 </div>
-            }
-        }
-        else
-        {
-            <div class="alert alert-primary border border-warning">
-                <p class="mb-0">
-                    <i class="fa fa-exclamation-triangle fa-fw mx-2"></i> درخواست همکاری وجود ندارد.
-                </p>
+
+                <footer class="card-footer clearfix">
+                    <span class="float-left small">
+                        <a asp-page="Edit"
+                           asp-route-id="@work.WorkId"
+                           class="btn btn-sm btn-outline-warning">
+                            <i class="fa fa-pen fa-fw"></i> ویرایش
+                        </a>
+
+                        <a asp-page="Delete" asp-route-id="@work.WorkId" class="btn btn-sm btn-outline-danger">
+                            <i class="fa fa-trash-alt fa-fw"></i> حذف
+                        </a>
+                    </span>
+                    <span class="float-right mt-1">
+                        @if (work.IsChecked)
+                        {
+                            <span class="badge badge-success text-light">بررسی شده</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-danger text-capitalize">بررسی نشده</span>
+                        }
+                    </span>
+                </footer>
             </div>
         }
+    }
+    else
+    {
+        <div class="alert alert-primary border border-warning">
+            <p class="mb-0">
+                <i class="fa fa-exclamation-triangle fa-fw mx-2"></i> درخواست همکاری وجود ندارد.
+            </p>
+        </div>
+    }
 
-    </section>
+    @if (Model.WorkPagingVM.PageCount > 1)
+    {
+        <nav>
+            <ul class="pagination pagination-sm justify-content-center">
+                @for (int i = 1; i <= Model.WorkPagingVM.PageCount; i++)
+                {
+                    <li class="page-item @(Model.WorkPagingVM.PageNumber == i ? "active" : "")">
+                        <a class="page-link" href="/Admin/Works?PageNumber=@i">@i</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    }
 
+</section>

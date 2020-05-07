@@ -1,0 +1,74 @@
+﻿@page
+@model DigiMoallem.Web.Pages.Admin.HyperLinks.IndexModel
+
+@{
+    ViewData["Title"] = "لیست فایل های آپلود شده";
+}
+
+<div class="container">
+
+    <h1 class="my-5"> <i class="fa fa-upload text-warning ml-2"></i> @ViewData["Title"]</h1>
+
+    <!-- create succeeded -->
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Success"]
+        </div>
+    }
+
+    <div class="my-3 clearfix">
+        <!-- add -->
+        <a asp-area=""
+           asp-page="Create"
+           class="btn btn-outline-success float-right">
+            <i class="fa fa-plus ml-2"></i> آپلود فایل جدید
+        </a>
+    </div>
+
+    <!-- hyperlinks table -->
+    <div class="table-responsive">
+        <table class="table table-dark table-striped table-bordered">
+            <tr>
+                <th class="th-sm">
+                    شناسه
+                </th>
+                <th class="th-sm">
+                    لینک فایل
+                </th>
+                <th class="th-sm">
+                    دستورات
+                </th>
+            </tr>
+            @if (Model.HyperLinkVM.UploadLinks.Count == 0)
+            {
+                <tr class="bg-dark text-light">
+                    <td colspan="3" class="py-4">
+                        <i class="fas fa-exclamation-triangle ml-2"></i> لیست لینک ها خالی است.
+                    </td>
+                </tr>
+            }
+            else
+            {
+                @foreach (var hyperLink in Model.HyperLinkVM.UploadLinks)
+                {
+                    <tr>
+                        <td class="english-font">@hyperLink.UploadLinkId</td>
+                        <td>
+                            <a href="@hyperLink.Url" class="btn btn-sm btn-outline-warning">@hyperLink.Name</a>
+                        </td>
+                        <td class="text-center">
+                            <a asp-area=""
+                               asp-page="/Admin/HyperLinks/Delete"
+                               asp-route-id="@hyperLink.UploadLinkId"
+                               class="btn btn-outline-danger btn-sm">
+                                <i class="fa fa-trash ml-2"></i> حذف
+                            </a>
+                        </td>
+                    </tr>
+                }
+            }
+        </table>
+    </div>
+
+</div>

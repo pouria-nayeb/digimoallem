@@ -1,0 +1,79 @@
+﻿@page
+@model DigiMoallem.Web.Pages.Admin.HyperLinks.CreateModel
+
+@{
+    ViewData["Title"] = "آپلود فایل جدید";
+}
+
+<div class="container">
+
+    <!-- back to hyperlinks -->
+    <a asp-area="" asp-page="Index" class="btn btn-outline-info">
+        <i class="fas fa-arrow-right ml-2"></i> بازگشت
+    </a>
+
+    <h1 class="my-5"> <i class="fa fa-plus ml-2"></i> @ViewData["Title"]</h1>
+
+    <form method="post" enctype="multipart/form-data">
+
+        <div asp-validation-summary="ModelOnly"></div>
+
+        @if (ViewData["Failure"] != null)
+        {
+            <div class="alert alert-danger">
+                @ViewData["Failure"]
+            </div>
+        }
+
+        <div class="row">
+
+            <div class="col-12 col-md-8">
+
+                <!-- name -->
+                <div class="form-group">
+                    <label asp-for="UploadLink.Name"></label>
+                    <input type="text" class="form-control"
+                           asp-for="UploadLink.Name" />
+
+                    <span asp-validation-for="UploadLink.Name" class="text-danger"></span>
+                </div>
+
+                <div class="form-group my-5">
+                    <!-- create -->
+                    <button type="submit" class="btn btn-outline-success">
+                        <i class="fas fa-plus ml-2"></i> آپلود فایل
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="col-12 col-md-4">
+
+                <!-- file name section -->
+                <div class="container">
+                    <img id="display-image"
+                         src="~/Images/Avatars/default.png"
+                         class="img-fluid mx-auto my-2 display-block"
+                         alt="default avatar" />
+
+                    <div class="form-group">
+                        <div class="input-group my-4 w-100 max-width-520px">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input"
+                                       asp-for="UploadLink.FileTitle"
+                                       name="Image"
+                                       id="image" />
+                                <label class="custom-file-label" style="padding-right:6rem"
+                                       asp-for="UploadLink.FileTitle">انتخاب فایل</label>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </form>
+</div>

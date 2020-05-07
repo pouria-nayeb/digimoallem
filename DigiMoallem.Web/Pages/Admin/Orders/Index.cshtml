@@ -2,7 +2,7 @@
 @model DigiMoallem.Web.Pages.Admin.Orders.IndexModel
 
 @{
-    ViewData["Title"] = "دوره های خریداری شده";
+    ViewData["Title"] = "لیست دوره های خریداری شده";
 }
 
     <div class="container">
@@ -39,13 +39,13 @@
         <a asp-area=""
            asp-page="Create"
            class="btn btn-outline-success btn-md my-3">
-            <i class="fas fa-plus ml-2"></i> افزودن دوره به کاربر
+            <i class="fas fa-plus ml-2"></i> اختصاص دوره رایگان به کاربر
         </a>
 
         <a asp-area=""
            asp-page="All"
            class="btn btn-outline-info btn-md my-3">
-            <i class="fas fa-shopping-bag ml-2"></i> سفارشات
+            <i class="fas fa-shopping-bag ml-2"></i> لیست کامل سفارشات
         </a>
 
         @if (TempData["Success"] != null)

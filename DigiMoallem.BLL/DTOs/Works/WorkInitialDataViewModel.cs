@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using DigiMoallem.DAL.Attributes;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -50,11 +51,17 @@ namespace DigiMoallem.BLL.DTOs.Works
         [Display(Name = "رزومه")]
         public string CvTitle { get; set; }
 
+        [DataType(DataType.Upload)]
+        [MaxFileSize(1 * 1024 * 1024)]
+        [AllowedExtensions(new string[] { ".jpg", ".png", ".pdf", ".docx", ".doc" })]
         public IFormFile CvFile { get; set; }
 
         [Display(Name = "تصویر متقاضی")]
         public string AvatarName { get; set; }
 
+        [DataType(DataType.Upload)]
+        [MaxFileSize(1 * 1024 * 1024)]
+        [AllowedExtensions(new string[] { ".jpg", ".png" })]
         public IFormFile AvatarFile { get; set; }
 
         [DataType(DataType.DateTime)]

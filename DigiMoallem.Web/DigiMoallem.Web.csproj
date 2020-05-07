@@ -27,16 +27,15 @@
     <Folder Include="Pages\Admin\Users\" />
     <Folder Include="wwwroot\fonts\english\" />
     <Folder Include="wwwroot\images\fullsizes\" />
-    <Folder Include="wwwroot\images\avatars\" />
     <Folder Include="wwwroot\images\courses\" />
     <Folder Include="wwwroot\images\groups\" />
     <Folder Include="wwwroot\images\resources\" />
     <Folder Include="wwwroot\images\thumbnails\" />
     <Folder Include="wwwroot\demos\" />
     <Folder Include="wwwroot\coursefiles\" />
-    <Folder Include="wwwroot\cvs\" />
     <Folder Include="wwwroot\file-upload\" />
     <Folder Include="wwwroot\MyImages\" />
+    <Folder Include="wwwroot\files\" />
   </ItemGroup>
 
   <ItemGroup>

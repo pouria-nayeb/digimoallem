@@ -51,7 +51,7 @@ namespace DigiMoallem.Web.Pages.Admin.Works
                 if (await _workService.UpdateWorkAsync(Work) != null)
                 {
                     // success
-                    TempData["Success"] = "درخواست همکاری با موفقیت به روز شد.";
+                    TempData["Success"] = "درخواست تدریس با موفقیت به روز شد.";
 
                     return RedirectToPage("Index");
                 }

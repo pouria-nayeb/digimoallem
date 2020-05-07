@@ -383,6 +383,10 @@ namespace DigiMoallem.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("AboutUs")
+                        .IsRequired()
+                        .HasMaxLength(4500);
+
                     b.Property<string>("Address")
                         .IsRequired()
                         .HasMaxLength(500);
@@ -403,6 +407,9 @@ namespace DigiMoallem.DAL.Migrations
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasMaxLength(200);
+
+                    b.Property<string>("PolicySymbols")
+                        .HasMaxLength(4500);
 
                     b.Property<string>("ProductionRules")
                         .IsRequired();
@@ -432,6 +439,26 @@ namespace DigiMoallem.DAL.Migrations
                     b.HasKey("StandardId");
 
                     b.ToTable("Standards");
+                });
+
+            modelBuilder.Entity("DigiMoallem.DAL.Entities.General.UploadLink", b =>
+                {
+                    b.Property<int>("UploadLinkId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("FileTitle")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("Url")
+                        .HasMaxLength(200);
+
+                    b.HasKey("UploadLinkId");
+
+                    b.ToTable("UploadLinks");
                 });
 
             modelBuilder.Entity("DigiMoallem.DAL.Entities.General.Work", b =>

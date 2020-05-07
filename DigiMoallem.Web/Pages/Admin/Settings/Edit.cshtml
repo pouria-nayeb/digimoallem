@@ -19,6 +19,10 @@
             <i class="fa fa-stamp ml-1"></i> مدیریت استانداردها
         </a>
 
+        <a asp-area="" asp-page="/Admin/HyperLinks/Index" class="btn btn-outline-warning">
+            <i class="fa fa-upload ml-1"></i> آپلود فایل جدید
+        </a>
+
     </div>
 
     <form method="post" class="md-form">
@@ -75,6 +79,14 @@
                     <span asp-validation-for="Setting.ProductionRules" class="text-danger"></span>
                 </div>
 
+                <!-- about us -->
+                <div class="md-form mb-4">
+                    <label asp-for="Setting.AboutUs"></label>
+                    <textarea type="text" asp-for="Setting.AboutUs" rows="2" class="form-control"></textarea>
+
+                    <span asp-validation-for="Setting.AboutUs" class="text-danger"></span>
+                </div>
+
                 <div class="form-group my-5">
                     <!-- create -->
                     <button type="submit" class="btn btn-outline-success">
@@ -89,7 +101,7 @@
                 <!-- email -->
                 <div class="md-form mb-4">
                     <label asp-for="Setting.Email"></label>
-                    <input type="text" asp-for="Setting.Email" class="form-control text-left english-font" />
+                    <input type="text" asp-for="Setting.Email" class="form-control text-direction-ltr text-left english-font" />
 
                     <span asp-validation-for="Setting.Email" class="text-danger"></span>
                 </div>
@@ -119,6 +131,14 @@
                     <span asp-validation-for="Setting.Rules" class="text-danger"></span>
                 </div>
 
+                <!-- symbols -->
+                <div class="md-form mb-4">
+                    <label asp-for="Setting.PolicySymbols"></label>
+                    <textarea type="text" asp-for="Setting.PolicySymbols" rows="2" class="form-control"></textarea>
+
+                    <span asp-validation-for="Setting.PolicySymbols" class="text-danger"></span>
+                </div>
+
             </div>
 
         </div>
@@ -141,6 +161,12 @@
             customConfig: '/admin/js/config.js'
         });
         CKEDITOR.replace('Setting_Files', {
+            customConfig: '/admin/js/config.js'
+        });
+        CKEDITOR.replace('Setting_AboutUs', {
+            customConfig: '/admin/js/config.js'
+        });
+        CKEDITOR.replace('Setting_PolicySymbols', {
             customConfig: '/admin/js/config.js'
         });
     </script>

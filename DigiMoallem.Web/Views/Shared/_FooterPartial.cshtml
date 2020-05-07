@@ -24,9 +24,7 @@
     <div class="col-12 col-sm-3">
         <h5 class="border-bottom border-dark pb-3">امتیازات و مجوزها</h5>
 
-        <img src="~/images/resources/e-namad.png" alt="" class="img-fluid" />
-        <img src="~/images/resources/nashr.png" alt="" class="img-fluid" />
-        <img src="~/images/resources/samandehi.png" alt="" class="img-fluid" />
+        @Html.Raw(settingServive.GetSettingById(1).PolicySymbols)
 
     </div>
 </div>

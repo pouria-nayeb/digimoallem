@@ -127,7 +127,7 @@ namespace DigiMoallem.Web.Controllers
                         IsDelete = false,
                         Password = workVM.Mobile.EncodePassword(),
                         RegisterDate = workVM.SubmitDate,
-                        UserAvatar = "default.png",
+                        UserAvatar = workVM.AvatarName != null ? work.AvatarName : "default.png",
                         Sheba = workVM.Sheba,
                         CardNumber = workVM.CardNumber,
                         EducationalLevel = workVM.EducationalLevel

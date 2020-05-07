@@ -98,7 +98,7 @@
                     @foreach (var standard in standardService.GetStandards())
                     {
                         <button class="accordion">@standard.Title</button>
-                        <div class="panel">
+                        <div class="panel pt-3">
                             @Html.Raw(standard.Description)
                         </div>
                     }

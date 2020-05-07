@@ -244,7 +244,7 @@ namespace DigiMoallem.BLL.Services
             return new WorkPagingViewModel
             {
                 Works = works
-                .Where(p => p.Email.TextTransform().Contains(email.TextTransform()) || p.PhoneNumber.Contains(email))
+                .Where(p => p.Email.TextTransform().Contains(email.TextTransform()))
                 .OrderByDescending(w => w.SubmitDate)
                 .Skip(skip)
                 .Take(take)
@@ -255,24 +255,22 @@ namespace DigiMoallem.BLL.Services
             };
         }
 
-        public async Task<WorkPagingViewModel> SearchWorksAsync(string email, int pageNumber, int pageSize)
+        public async Task<WorkPagingViewModel> SearchWorksAsync(string email, int pageNumber = 1, int pageSize = 16)
         {
-            IQueryable<Work> works = _context.Works;
-
+            IQueryable<Work> works = _context.Works
+                                .Where(p => p.Email.TextTransform().Contains(email.TextTransform()));
             int take = pageSize;
-            int skip = (pageNumber - 1) * pageSize;
-            int worksCount = await works.CountAsync();
+            int skip = (pageNumber - 1) * take;
+            int worksCount = works.Count();
 
             int pagesCount = (int)Math.Ceiling(decimal.Divide(worksCount, take));
 
             return new WorkPagingViewModel
             {
                 Works = await works
-                .Where(p => p.Email.TextTransform().Contains(email.TextTransform()) || p.PhoneNumber.Contains(email))
                 .OrderByDescending(w => w.SubmitDate)
-                                .Skip(skip)
+                .Skip(skip)
                 .Take(take)
-                .AsNoTracking()
                 .ToListAsync(),
                 PageCount = pagesCount,
                 PageNumber = pageNumber

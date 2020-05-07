@@ -41,6 +41,15 @@ namespace DigiMoallem.DAL.Entities.General
         [Required(ErrorMessage = "لطفاً {0} را وارد نمایید.")]
         public string ProductionRules { get; set; }
 
+        [Display(Name = "درباره ما")]
+        [Required(ErrorMessage = "لطفاً {0} را وارد نمایید.")]
+        [MaxLength(4500, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]
+        public string AboutUs { get; set; }
+
+        [Display(Name = "نمادهای قانونی")]
+        [MaxLength(4500, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]
+        public string PolicySymbols { get; set; }
+
         [Display(Name = "قوانین و مقررات")]
         [Required(ErrorMessage = "لطفاً {0} را وارد نمایید.")]
         public string Rules { get; set; }

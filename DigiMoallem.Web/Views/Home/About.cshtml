@@ -1,4 +1,5 @@
-﻿
+﻿@inject ISettingService settingService
+
 @{
     ViewData["Title"] = "درباره دیجی معلم";
 }
@@ -13,13 +14,7 @@
                 </div>
                 <div class="card-body">
 
-                    <p>
-                        این محصول به منظور فراهم آوردن بستری برای یادگیری برای همه و در هر زمان و مکانی تهیه شد.
-                    </p>
-
-                    <p>
-                        شایان ذکر است این محصول توسط تیمی متشکل از متخصص و فارغ التحصیلان دانشگاهی در مرکز رشد دانشگاه آزاد اسلامی واحد تهران شمال طراحی، تولید و مدیریت میشود.
-                    </p>
+                    @Html.Raw(settingService.GetSettingById(1).AboutUs)
 
                     <div class="clearfix">
                         <img src="~/images/resources/logo.png"

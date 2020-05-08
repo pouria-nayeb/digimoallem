@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewData["Title"] = "فعال سازی حساب کاربری";
+}
+
+<section class="container">
+
+    <div class="card">
+
+        <div class="card-header">
+            @ViewData["Title"]
+        </div>
+
+        <div class="card-body">
+
+            @if (ViewBag.IsActive)
+            {
+                <!-- active user successfully -->
+                <div class="alert alert-success">
+                    حساب کاربری شما با موفقیت فعال شد.
+                </div>
+
+                <a asp-area="" asp-controller="Account" asp-action="Login">ورود به سامانه</a>
+            }
+            else
+            {
+                <!-- user is not exist or is already active -->
+                <div class="alert alert-danger">
+                    حساب کاربری با مشخصات ارسال شده یافت نشد.
+                </div>
+            }
+        </div>
+
+    </div>
+
+</section>

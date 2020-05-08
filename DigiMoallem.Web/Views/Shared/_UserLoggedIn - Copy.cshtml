@@ -8,16 +8,20 @@
             <td style="padding: 16px;">پست الکترونیک</td>
             <td style="padding: 16px;">@Model.Email</td>
         </tr>
+        <tr>
+            <td style="padding: 16px;">تاریخ ورود</td>
+            <td style="padding: 16px;">@Model.UpdateDate.Value.ToPersianDate()</td>
+        </tr>
     </table>
 
-    <p style="text-align: center;">
-        کاربر گرامی اطلاعات شما توسط تیم پشتیبانی دیجی معلم بازنشانی گردید.
+    <p>
+        کاربر گرامی شما آخرین مرتبه در تاریخ @Model.UpdateDate.Value.ToPersianDate() وارد سایت دیجی معلّم شدید در صورتی شخص مورد نظر شما نیستید رمز عبور خود را در اولین فرصت تغییر دهید.
     </p>
 
     <hr />
 
     <p style="text-align: center;">
-        با تشکر از شما استاد گرامی - دیجی معلم.
+        با تشکر از شما کاربر عزیز در سامانه دیجی معلم.
         <a href="https://digimoallem.ir" style="display: block;color:#fff;padding: 8px 0;">
             سایت دیجی معلم
         </a>

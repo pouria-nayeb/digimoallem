@@ -52,12 +52,12 @@ namespace DigiMoallem.Web.Controllers
             {
                 #region recaptcha (authorize human-only)
 
-                if (!await GoogleRecaptchaHelper.IsReCaptchaPassedAsync(Request.Form["g-recaptcha-response"],
-                   _config["GoogleReCaptcha:secret"]))
-                {
-                    ModelState.AddModelError(string.Empty, "احراز هویت شما با موفقیت انجام نشد.");
-                    return View(register);
-                }
+                //if (!await GoogleRecaptchaHelper.IsReCaptchaPassedAsync(Request.Form["g-recaptcha-response"],
+                //   _config["GoogleReCaptcha:secret"]))
+                //{
+                //    ModelState.AddModelError(string.Empty, "احراز هویت شما با موفقیت انجام نشد.");
+                //    return View(register);
+                //}
 
                 #endregion
 
@@ -90,8 +90,10 @@ namespace DigiMoallem.Web.Controllers
 
                 if (await _userService.AddUserAsync(user) > 0)
                 {
+                    #region ActivationEmail
                     // Send activation email
                     SendActivationEmail("_ActivationEmail", "فعالسازی", user);
+                    #endregion
 
                     // db success
                     return View("RegisterSuccess", user);
@@ -173,6 +175,10 @@ namespace DigiMoallem.Web.Controllers
 
                         // Command will login the user
                         await HttpContext.SignInAsync(principal, properties);
+
+                        #region SendEmailWhenUserLoggedIn
+                        // SendActivationEmail("_UserLoggedIn", "ورود کاربر", user);
+                        #endregion
 
                         #endregion
 
@@ -269,6 +275,7 @@ namespace DigiMoallem.Web.Controllers
             }
 
             // user inputs is not valid
+            ViewData["Failure"] = "ورودی شما نامعتبر می باشد.";
             return View(forgetPassword);
         }
 
@@ -342,7 +349,7 @@ namespace DigiMoallem.Web.Controllers
         public void SendActivationEmail(string specificPage, string title, User user)
         {
             string body = _viewRender.RenderToString(specificPage, user);
-            SendEmail.Send(user.Email, title, body);
+            SendEmailClient.Send(user.Email, title, body);
         }
 
         #endregion

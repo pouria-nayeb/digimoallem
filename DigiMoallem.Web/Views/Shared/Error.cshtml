@@ -1,7 +1,42 @@
 ﻿
 @{
-    ViewData["Title"] = "Error";
+    ViewData["Title"] = "بروز خطا";
 }
 
-<h1>Error</h1>
+<div class="container">
 
+    <partial name="_SearchWidgetPartial" />
+
+    <div class="card my-5">
+
+        <div class="card-header">
+            @ViewData["Title"]
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-12 col-sm-4">
+
+                    <img src="~/images/resources/error.svg" alt="بروز خطا" class="img-fluid" />
+
+                </div>
+
+                <div class="col-12 col-sm-8">
+
+                    <h1 class="mt-5">@ViewData["Title"]</h1>
+
+                    @if (ViewBag.ErrorMessage != null)
+                    {
+                        <p class="mt-5">@ViewBag.ErrorMessage</p>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>

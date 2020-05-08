@@ -63,8 +63,13 @@ using Microsoft.Extensions.Configuration;
 
 #line default
 #line hidden
+#line 13 "C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\Views\_ViewImports.cshtml"
+using DigiMoallem.BLL.DTOs.UserPanel;
+
+#line default
+#line hidden
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"b5e1d7fee0197df84949b0e6458f4cb5aec80242", @"/Views/Shared/_CoursePartial.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"ae303af3b1ab63ab81fe330170c9bf6fbfbe3176", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"b3fe694c4a9b53c5ef0debe01dfffe622713273d", @"/Views/_ViewImports.cshtml")]
     public class Views_Shared__CoursePartial : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<DisplayCourseViewModel>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("class", new global::Microsoft.AspNetCore.Html.HtmlString("w-100"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -98,7 +103,7 @@ using Microsoft.Extensions.Configuration;
             WriteLiteral("\r\n<div class=\"col-12 col-sm-6 col-lg-4\">\r\n    <div class=\"card border border-light my-3\">\r\n        ");
             EndContext();
             BeginContext(130, 108, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "b5e1d7fee0197df84949b0e6458f4cb5aec802426219", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "b5e1d7fee0197df84949b0e6458f4cb5aec802426383", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -131,7 +136,7 @@ AddHtmlAttributeValue("", 194, Model.Title, 194, 12, false);
             WriteLiteral("\r\n\r\n        ");
             EndContext();
             BeginContext(250, 198, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b5e1d7fee0197df84949b0e6458f4cb5aec802428344", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b5e1d7fee0197df84949b0e6458f4cb5aec802428508", async() => {
                 BeginContext(408, 14, true);
                 WriteLiteral("\r\n            ");
                 EndContext();

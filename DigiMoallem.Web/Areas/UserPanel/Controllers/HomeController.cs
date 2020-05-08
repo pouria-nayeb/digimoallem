@@ -1,8 +1,11 @@
 ﻿using DigiMoallem.BLL.DTOs.UserPanel;
 using DigiMoallem.BLL.Helpers.Converters;
+using DigiMoallem.BLL.Helpers.EmailServices;
 using DigiMoallem.BLL.Interfaces;
+using DigiMoallem.DAL.Entities.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace DigiMoallem.Web.Areas.UserPanel.Controllers
@@ -13,12 +16,15 @@ namespace DigiMoallem.Web.Areas.UserPanel.Controllers
     {
         private readonly IUserService _userService;
         private readonly IAccountingService _accountingService;
+        private readonly IViewRenderService _viewRender;
 
         public HomeController(IUserService userService,
-            IAccountingService accountingService)
+            IAccountingService accountingService,
+            IViewRenderService viewRender)
         {
             _userService = userService;
             _accountingService = accountingService;
+            _viewRender = viewRender;
         }
 
         /// <summary>
@@ -53,7 +59,8 @@ namespace DigiMoallem.Web.Areas.UserPanel.Controllers
 
                 var user = await _userService.GetUserByUserNameAsync(User.Identity.Name);
 
-                if (await _userService.IsEmailExistAsync(profile.Email.TextTransform()) && user.Email != profile.Email.TextTransform())
+                if (await _userService.IsEmailExistAsync(profile.Email.TextTransform()) && 
+                    user.Email != profile.Email.TextTransform())
                 {
                     // email is not unique
                     ModelState.AddModelError("Email", "ایمیل شما تکراری می باشد.");
@@ -63,6 +70,13 @@ namespace DigiMoallem.Web.Areas.UserPanel.Controllers
                 if (await _userService.UpdateProfileAsync(User.Identity.Name, profile))
                 {
                     // success
+                    profile.UpdateDate = DateTime.Now;
+
+                    // Send activation email
+                    #region UpdateProfileData
+                    // SendActivationEmail("_UserUpdateProfile", "به روزرسانی پروفایل", profile);
+                    #endregion
+
                     TempData["Success"] = "اطلاعات شما در سامانه با موفقیت ویرایش شد.";
                     return LocalRedirect("/UserPanel");
                 }
@@ -137,5 +151,14 @@ namespace DigiMoallem.Web.Areas.UserPanel.Controllers
             return BadRequest();
         }
 
+        /// <summary>
+        /// Send activation code
+        /// </summary>
+        /// <param name="user"></param>
+        public void SendActivationEmail(string specificPage, string title, EditProfileViewModel profile)
+        {
+            string body = _viewRender.RenderToString(specificPage, profile);
+            SendEmailClient.Send(profile.Email, title, body);
+        }
     }
 }

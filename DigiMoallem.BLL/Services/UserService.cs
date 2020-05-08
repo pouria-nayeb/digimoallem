@@ -1243,18 +1243,17 @@ namespace DigiMoallem.BLL.Services
         {
             if (fileName != null)
             {
-                string imagePath = string.Empty;
                 if (user.UserAvatar.TextTransform() != "default.png")
                 {
-                    imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Avatars/", user.UserAvatar);
-                    if (File.Exists(imagePath))
+                    string oldImagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/avatars/", user.UserAvatar);
+                    if (File.Exists(oldImagePath))
                     {
-                        File.Delete(imagePath);
+                        File.Delete(oldImagePath);
                     }
                 }
 
                 string imageName = CodeGenerator.GenerateUniqueCode() + Path.GetExtension(fileName.FileName);
-                imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Avatars/" + imageName);
+                string imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/avatars/" + imageName);
 
                 using (var stream = new FileStream(imagePath, FileMode.Create))
                 {

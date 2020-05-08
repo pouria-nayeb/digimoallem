@@ -1,0 +1,31 @@
+﻿@model User
+
+@{
+    ViewData["Title"] = "ثبت نام موفق";
+}
+
+<section class="container">
+
+    <div class="card">
+
+        <div class="card-header">
+            <i class="fa fa-check ml-2"></i> @ViewData["Title"]
+        </div>
+
+        <div class="card-body">
+
+            <h3 class="mb-3">@Model.UserName</h3>
+
+            <h5 class="my-2">
+                ثبت نام شما با موفقیت انجام شد، ایمیلی حاوی لینک فعال سازی به پست الکترونیکی شما
+                <span class="text-muted"> @Model.Email </span>
+                ارسال شد.
+            </h5>
+
+            <p>جهت ثبت نام وارد ایمیل خود شده و بر روی لینک فعال سازی کلیک کنید.</p>
+
+        </div>
+
+    </div>
+
+</section>

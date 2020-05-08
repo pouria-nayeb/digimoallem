@@ -1,6 +1,7 @@
 ﻿using DigiMoallem.BLL.DTOs.Display;
 using DigiMoallem.BLL.DTOs.Works;
 using DigiMoallem.BLL.Helpers.Converters;
+using DigiMoallem.BLL.Helpers.EmailServices;
 using DigiMoallem.BLL.Helpers.Generators;
 using DigiMoallem.BLL.Helpers.Security;
 using DigiMoallem.BLL.Interfaces;
@@ -21,18 +22,21 @@ namespace DigiMoallem.Web.Controllers
     {
         private readonly IUserService _userService;
         private readonly ICourseService _courseService;
+        private readonly IViewRenderService _viewRender;
         private readonly IMessageService _messageService;
         private readonly IWorkService _workService;
         private readonly IConfiguration _config;
 
         public HomeController(IUserService userService,
             ICourseService courseService,
+            IViewRenderService viewRender,
             IMessageService messageService,
             IWorkService workService, 
             IConfiguration config)
         {
             _userService = userService;
             _courseService = courseService;
+            _viewRender = viewRender;
             _messageService = messageService;
             _workService = workService;
             _config = config;
@@ -207,6 +211,9 @@ namespace DigiMoallem.Web.Controllers
                     user.Skills = workCVM.Skills;
                     user.Experiences = workCVM.Experiences;
 
+                    // Send activation email
+                    SendActivationEmail("_TeacherRegistration", "درخواست همکاری", user);
+
                     return RedirectToAction("WorkWithUs", "Home");
                 }
                 else
@@ -302,5 +309,17 @@ namespace DigiMoallem.Web.Controllers
 
             return Json(new { uploaded = true, url });
         }
+
+        #region Helpers
+        /// <summary>
+        /// Send activation code
+        /// </summary>
+        /// <param name="user"></param>
+        public void SendActivationEmail(string specificPage, string title, User user)
+        {
+            string body = _viewRender.RenderToString(specificPage, user);
+            SendEmailClient.Send(user.Email, title, body);
+        }
+        #endregion
     }
 }

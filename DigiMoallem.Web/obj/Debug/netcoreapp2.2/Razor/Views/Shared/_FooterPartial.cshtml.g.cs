@@ -63,8 +63,13 @@ using Microsoft.Extensions.Configuration;
 
 #line default
 #line hidden
+#line 13 "C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\Views\_ViewImports.cshtml"
+using DigiMoallem.BLL.DTOs.UserPanel;
+
+#line default
+#line hidden
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"dc52dcc02818f57ddb665430e0f0845661707733", @"/Views/Shared/_FooterPartial.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"ae303af3b1ab63ab81fe330170c9bf6fbfbe3176", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"b3fe694c4a9b53c5ef0debe01dfffe622713273d", @"/Views/_ViewImports.cshtml")]
     public class Views_Shared__FooterPartial : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<dynamic>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("class", new global::Microsoft.AspNetCore.Html.HtmlString("text-muted d-inline-block my-1"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -106,7 +111,7 @@ using Microsoft.Extensions.Configuration;
             WriteLiteral("\r\n<div class=\"row mx-3\">\r\n    <div class=\"col-12 col-sm-3\">\r\n        <h5 class=\"border-bottom border-dark pb-3\">دسترسی های سریع</h5>\r\n        <ul class=\"list-unstyled p-0 text-small\">\r\n            <li>");
             EndContext();
             BeginContext(241, 108, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "dc52dcc02818f57ddb665430e0f08456617077338873", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "dc52dcc02818f57ddb665430e0f08456617077339037", async() => {
                 BeginContext(336, 9, true);
                 WriteLiteral("صفحه اصلی");
                 EndContext();
@@ -133,7 +138,7 @@ using Microsoft.Extensions.Configuration;
             WriteLiteral("</li>\r\n            <li>");
             EndContext();
             BeginContext(372, 108, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "dc52dcc02818f57ddb665430e0f084566170773310757", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "dc52dcc02818f57ddb665430e0f084566170773310921", async() => {
                 BeginContext(467, 9, true);
                 WriteLiteral("درباره ما");
                 EndContext();
@@ -160,7 +165,7 @@ using Microsoft.Extensions.Configuration;
             WriteLiteral("</li>\r\n            <li>");
             EndContext();
             BeginContext(503, 111, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "dc52dcc02818f57ddb665430e0f084566170773312642", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "dc52dcc02818f57ddb665430e0f084566170773312806", async() => {
                 BeginContext(600, 10, true);
                 WriteLiteral("تماس با ما");
                 EndContext();
@@ -187,7 +192,7 @@ using Microsoft.Extensions.Configuration;
             WriteLiteral("</li>\r\n            <li>");
             EndContext();
             BeginContext(637, 116, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "dc52dcc02818f57ddb665430e0f084566170773314529", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "dc52dcc02818f57ddb665430e0f084566170773314693", async() => {
                 BeginContext(737, 12, true);
                 WriteLiteral("همکاری با ما");
                 EndContext();
@@ -214,7 +219,7 @@ using Microsoft.Extensions.Configuration;
             WriteLiteral("</li>\r\n            <li>");
             EndContext();
             BeginContext(776, 110, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "dc52dcc02818f57ddb665430e0f084566170773316418", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "dc52dcc02818f57ddb665430e0f084566170773316582", async() => {
                 BeginContext(873, 9, true);
                 WriteLiteral("نقشه سایت");
                 EndContext();
@@ -251,7 +256,7 @@ using Microsoft.Extensions.Configuration;
             WriteLiteral("</p>\r\n\r\n        ");
             EndContext();
             BeginContext(1119, 144, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "dc52dcc02818f57ddb665430e0f084566170773318877", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "dc52dcc02818f57ddb665430e0f084566170773319041", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();

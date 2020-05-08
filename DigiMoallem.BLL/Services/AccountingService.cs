@@ -214,6 +214,7 @@ namespace DigiMoallem.BLL.Services
             {
                 Payments = payments
                 .Where(p => p.TeacherId == userId)
+                .Include(p => p.Course)
                 .Skip(skip)
                 .Take(take)
                 .OrderByDescending(p => p.PaymentId)
@@ -237,6 +238,7 @@ namespace DigiMoallem.BLL.Services
             {
                 Payments = await payments
                 .Where(p => p.TeacherId == userId)
+                .Include(p => p.Course)
                 .Skip(skip)
                 .Take(take)
                 .OrderByDescending(p => p.PaymentId)

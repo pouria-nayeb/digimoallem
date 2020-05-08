@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace DigiMoallem.BLL.DTOs.UserPanel
@@ -23,6 +24,8 @@ namespace DigiMoallem.BLL.DTOs.UserPanel
 
         [Display(Name = "مهارت ها")]
         public string Skills { get; set; }
+
+        public DateTime? UpdateDate { get; set; }
 
         [Display(Name = "رشته")]
         public string ScientificField { get; set; }

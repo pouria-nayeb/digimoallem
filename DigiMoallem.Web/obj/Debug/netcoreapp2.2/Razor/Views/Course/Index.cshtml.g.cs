@@ -58,8 +58,13 @@ using DigiMoallem.DAL.Entities.Users;
 
 #line default
 #line hidden
+#line 12 "C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\Views\_ViewImports.cshtml"
+using Microsoft.Extensions.Configuration;
+
+#line default
+#line hidden
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"87c4b38f49b7a6ba6b5114f4c219539a46f9a000", @"/Views/Course/Index.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"8f46ee54e3ec075b06ba192b910ab63bbfe2ccba", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"ae303af3b1ab63ab81fe330170c9bf6fbfbe3176", @"/Views/_ViewImports.cshtml")]
     public class Views_Course_Index : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<Tuple<List<DigiMoallem.BLL.DTOs.Courses.DisplayCourseViewModel>, int>>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("name", "_CoursePartial", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -110,7 +115,7 @@ using DigiMoallem.DAL.Entities.Users;
             WriteLiteral("\r\n");
             EndContext();
             BeginContext(415, 3818, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "87c4b38f49b7a6ba6b5114f4c219539a46f9a0007105", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "87c4b38f49b7a6ba6b5114f4c219539a46f9a0007273", async() => {
                 BeginContext(505, 54, true);
                 WriteLiteral("\r\n\r\n    <input type=\"hidden\" id=\"pageId\" name=\"pageId\"");
                 EndContext();
@@ -241,7 +246,7 @@ WriteAttributeValue("", 1148,  (!string.IsNullOrEmpty(filter)) ? filter : "" , 1
                 WriteLiteral("                    ");
                 EndContext();
                 BeginContext(3273, 48, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("partial", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "87c4b38f49b7a6ba6b5114f4c219539a46f9a00013111", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("partial", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "87c4b38f49b7a6ba6b5114f4c219539a46f9a00013279", async() => {
                 }
                 );
                 __Microsoft_AspNetCore_Mvc_TagHelpers_PartialTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper>();

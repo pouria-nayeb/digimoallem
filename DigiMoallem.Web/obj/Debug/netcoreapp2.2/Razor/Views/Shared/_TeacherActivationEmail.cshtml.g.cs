@@ -58,8 +58,13 @@ using DigiMoallem.DAL.Entities.Users;
 
 #line default
 #line hidden
+#line 12 "C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\Views\_ViewImports.cshtml"
+using Microsoft.Extensions.Configuration;
+
+#line default
+#line hidden
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"c7cdc689a4e5dd554d3a69945a6ae91c411b9eb6", @"/Views/Shared/_TeacherActivationEmail.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"8f46ee54e3ec075b06ba192b910ab63bbfe2ccba", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"ae303af3b1ab63ab81fe330170c9bf6fbfbe3176", @"/Views/_ViewImports.cshtml")]
     public class Views_Shared__TeacherActivationEmail : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<User>
     {
         #pragma warning disable 1998

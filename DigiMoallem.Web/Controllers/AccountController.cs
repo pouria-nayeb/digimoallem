@@ -8,6 +8,7 @@ using DigiMoallem.DAL.Entities.Users;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -19,11 +20,13 @@ namespace DigiMoallem.Web.Controllers
     {
         private readonly IUserService _userService;
         private readonly IViewRenderService _viewRender;
+        private readonly IConfiguration _config;
 
-        public AccountController(IUserService userService, IViewRenderService viewRender)
+        public AccountController(IUserService userService, IViewRenderService viewRender, IConfiguration config)
         {
             _userService = userService;
             _viewRender = viewRender;
+            _config = config;
         }
 
         /// <summary>
@@ -47,6 +50,17 @@ namespace DigiMoallem.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                #region recaptcha (authorize human-only)
+
+                if (!await GoogleRecaptchaHelper.IsReCaptchaPassedAsync(Request.Form["g-recaptcha-response"],
+                   _config["GoogleReCaptcha:secret"]))
+                {
+                    ModelState.AddModelError(string.Empty, "احراز هویت شما با موفقیت انجام نشد.");
+                    return View(register);
+                }
+
+                #endregion
+
                 // user inputs is valid
                 if (await _userService.IsUserNameExistAsync(register.UserName.TextTransform()))
                 {
@@ -117,6 +131,17 @@ namespace DigiMoallem.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                #region recaptcha (authorize human-only)
+
+                //if (!await GoogleRecaptchaHelper.IsReCaptchaPassedAsync(Request.Form["g-recaptcha-response"],
+                //   _config["GoogleReCaptcha:secret"]))
+                //{
+                //    ModelState.AddModelError(string.Empty, "احراز هویت شما با موفقیت انجام نشد.");
+                //    return View(login);
+                //}
+
+                #endregion
+
                 // user inputs is valid
                 var user = await _userService.LoginUserAsync(login);
 

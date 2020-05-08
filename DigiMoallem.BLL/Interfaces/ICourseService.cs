@@ -149,6 +149,10 @@ namespace DigiMoallem.BLL.Interfaces
         Task<int> TeacherTotalIncomeAsync(int teacherId);
         #endregion
 
+        #region IsFavoriteCourses
+        List<DisplayCourseViewModel> LatestFavoriteCourses();
+        #endregion
+
         // episodes
         #region AddEpisode
         int AddEpisode(CourseEpisode episode, IFormFile episodeFile);

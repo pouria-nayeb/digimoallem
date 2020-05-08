@@ -58,8 +58,13 @@ using DigiMoallem.DAL.Entities.Users;
 
 #line default
 #line hidden
+#line 12 "C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\Views\_ViewImports.cshtml"
+using Microsoft.Extensions.Configuration;
+
+#line default
+#line hidden
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"d51c81993b2cf7d0ff24958a60543160276460c7", @"/Views/Course/DisplayCourse.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"8f46ee54e3ec075b06ba192b910ab63bbfe2ccba", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"ae303af3b1ab63ab81fe330170c9bf6fbfbe3176", @"/Views/_ViewImports.cshtml")]
     public class Views_Course_DisplayCourse : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<Course>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("class", new global::Microsoft.AspNetCore.Html.HtmlString("img-fluid"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -181,7 +186,7 @@ WriteAttributeValue("", 654, Model.Tags.Replace("-",","), 654, 28, false);
             WriteLiteral("</h1>\r\n                </div>\r\n            </div>\r\n        </div>\r\n\r\n        <div class=\"col-12 col-lg-4 my-4\">\r\n            <!-- course image -->\r\n            <div class=\"mb-3\">\r\n                ");
             EndContext();
             BeginContext(1214, 90, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "d51c81993b2cf7d0ff24958a60543160276460c713693", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "d51c81993b2cf7d0ff24958a60543160276460c713861", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -242,7 +247,7 @@ WriteAttributeValue("", 1426, Model.CourseId, 1426, 15, false);
             WriteLiteral("            </div>\r\n\r\n            <!-- about publisher -->\r\n            <div class=\"row m-0 bg-light-blue text-white border border-info\">\r\n                <div class=\"col-4\">\r\n                    ");
             EndContext();
             BeginContext(1808, 80, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "d51c81993b2cf7d0ff24958a60543160276460c717264", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "d51c81993b2cf7d0ff24958a60543160276460c717432", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -274,7 +279,7 @@ WriteAttributeValue("", 1426, Model.CourseId, 1426, 15, false);
                     ");
             EndContext();
             BeginContext(2432, 170, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "d51c81993b2cf7d0ff24958a60543160276460c719157", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "d51c81993b2cf7d0ff24958a60543160276460c719325", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -998,7 +1003,7 @@ WriteAttributeValue("", 14750, Model.CourseId, 14750, 15, false);
             WriteLiteral("                                                        ");
             EndContext();
             BeginContext(15586, 570, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d51c81993b2cf7d0ff24958a60543160276460c752715", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d51c81993b2cf7d0ff24958a60543160276460c752883", async() => {
                 BeginContext(15645, 298, true);
                 WriteLiteral(@"
                                                             <span class=""badge badge-primary badge-pill p-2 text-pure-white
@@ -1129,7 +1134,7 @@ WriteAttributeValue("", 14750, Model.CourseId, 14750, 15, false);
             WriteLiteral("                                            ");
             EndContext();
             BeginContext(18267, 1372, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d51c81993b2cf7d0ff24958a60543160276460c760203", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d51c81993b2cf7d0ff24958a60543160276460c760371", async() => {
                 BeginContext(18731, 163, true);
                 WriteLiteral("\r\n\r\n                                                <!-- courseId -->\r\n                                                <input type=\"hidden\" name=\"comment.CourseId\"");
                 EndContext();
@@ -1199,7 +1204,7 @@ WriteAttributeValue("", 18902, Model.CourseId, 18902, 15, false);
             WriteLiteral("                                                ");
             EndContext();
             BeginContext(20011, 1440, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d51c81993b2cf7d0ff24958a60543160276460c764586", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d51c81993b2cf7d0ff24958a60543160276460c764754", async() => {
                 BeginContext(20499, 171, true);
                 WriteLiteral("\r\n\r\n                                                    <!-- courseId -->\r\n                                                    <input type=\"hidden\" name=\"comment.CourseId\"");
                 EndContext();
@@ -1330,7 +1335,7 @@ WriteAttributeValue("", 20678, Model.CourseId, 20678, 15, false);
             WriteLiteral("                ");
             EndContext();
             BeginContext(23479, 48, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("partial", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "d51c81993b2cf7d0ff24958a60543160276460c772255", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("partial", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "d51c81993b2cf7d0ff24958a60543160276460c772423", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_TagHelpers_PartialTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper>();
@@ -1376,7 +1381,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_PartialTagHelper.Model = course;
                 WriteLiteral("\r\n\r\n    ");
                 EndContext();
                 BeginContext(23620, 44, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("partial", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "d51c81993b2cf7d0ff24958a60543160276460c774670", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("partial", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "d51c81993b2cf7d0ff24958a60543160276460c774838", async() => {
                 }
                 );
                 __Microsoft_AspNetCore_Mvc_TagHelpers_PartialTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper>();
@@ -1395,7 +1400,7 @@ __Microsoft_AspNetCore_Mvc_TagHelpers_PartialTagHelper.Model = course;
                 WriteLiteral("\r\n\r\n    ");
                 EndContext();
                 BeginContext(23672, 84, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("script", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d51c81993b2cf7d0ff24958a60543160276460c776015", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("script", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d51c81993b2cf7d0ff24958a60543160276460c776183", async() => {
                 }
                 );
                 __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();

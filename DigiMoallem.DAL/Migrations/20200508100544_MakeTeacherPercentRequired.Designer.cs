@@ -4,14 +4,16 @@ using DigiMoallem.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DigiMoallem.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200508100544_MakeTeacherPercentRequired")]
+    partial class MakeTeacherPercentRequired
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -135,7 +137,7 @@ namespace DigiMoallem.DAL.Migrations
 
                     b.Property<bool>("IsCheckedByAdmin");
 
-                    b.Property<bool>("IsFavorite");
+                    b.Property<bool?>("IsFavorite");
 
                     b.Property<bool>("IsHidden");
 

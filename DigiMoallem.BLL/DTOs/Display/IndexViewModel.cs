@@ -9,5 +9,7 @@ namespace DigiMoallem.BLL.DTOs.Display
         public List<Group> Groups { get; set; }
 
         public List<DisplayCourseViewModel> LatestCourses { get; set; }
+
+        public List<DisplayCourseViewModel> LatestFavoriteCourses { get; set; }
     }
 }

@@ -55,6 +55,7 @@ namespace DigiMoallem.DAL.Entities.Courses
         public string ImageName { get; set; }
 
         [Display(Name = "قیمت")]
+        [Required(ErrorMessage = "لطفاً {0} را وارد نمایید.")]
         public int Price { get; set; }
 
         [Display(Name = "برچسب ها")]
@@ -74,7 +75,7 @@ namespace DigiMoallem.DAL.Entities.Courses
         public bool IsCheckedByAdmin { get; set; }
 
         [Display(Name = "دوره برگزیده")]
-        public bool? IsFavorite { get; set; }
+        public bool IsFavorite { get; set; }
 
         [Display(Name = "درآمد کل")]
         public int? TotalIncome { get; set; }
@@ -98,8 +99,9 @@ namespace DigiMoallem.DAL.Entities.Courses
         public Group Group { get; set; }
 
         [Display(Name = "درصد استاد")]
+        [Required(ErrorMessage = "لطفاً {0} را وارد نمایید.")]
         [Range(0, 100, ErrorMessage = "درصد استاد باید بین 0 تا 100 باشد.")]
-        public int? TeacherPercent { get; set; }
+        public int TeacherPercent { get; set; }
 
         [ForeignKey("SubGroupId")]
         public Group SubGroup { get; set; }

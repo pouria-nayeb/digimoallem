@@ -41,7 +41,7 @@ namespace DigiMoallem.BLL.Services
 
                 var course = _courseService.GetCourseById(payment.CourseId);
 
-                CourseSharesCalculator(payment.TeacherId, payment.CourseId, course.TeacherPercent.Value);
+                CourseSharesCalculator(payment.TeacherId, payment.CourseId, course.TeacherPercent);
 
                 return true;
             }
@@ -62,7 +62,7 @@ namespace DigiMoallem.BLL.Services
 
                 var course = _courseService.GetCourseById(payment.CourseId);
 
-                CourseSharesCalculator(payment.TeacherId, payment.CourseId, course.TeacherPercent.Value);
+                CourseSharesCalculator(payment.TeacherId, payment.CourseId, course.TeacherPercent);
 
                 return true;
             }

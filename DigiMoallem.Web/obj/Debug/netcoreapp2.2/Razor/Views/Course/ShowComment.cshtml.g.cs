@@ -58,8 +58,13 @@ using DigiMoallem.DAL.Entities.Users;
 
 #line default
 #line hidden
+#line 12 "C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\Views\_ViewImports.cshtml"
+using Microsoft.Extensions.Configuration;
+
+#line default
+#line hidden
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"83dad3713a61c09e30125932aff659fa9ec1250d", @"/Views/Course/ShowComment.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"8f46ee54e3ec075b06ba192b910ab63bbfe2ccba", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"ae303af3b1ab63ab81fe330170c9bf6fbfbe3176", @"/Views/_ViewImports.cshtml")]
     public class Views_Course_ShowComment : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<Tuple<List<Comment>, int>>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("class", new global::Microsoft.AspNetCore.Html.HtmlString("img-fluid user-avatar-comment mx-1 rounded-circle float-right"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -185,7 +190,7 @@ WriteAttributeValue("", 419, i, 419, 2, false);
             WriteLiteral("    <div class=\"m-1 rounded border border-dark\" style=\"padding:16px 4px\">\r\n        <div class=\"row m-0\">\r\n            <div class=\"col-12 border-bottom border-white clearfix pb-2\">\r\n                ");
             EndContext();
             BeginContext(771, 198, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "83dad3713a61c09e30125932aff659fa9ec1250d11422", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "83dad3713a61c09e30125932aff659fa9ec1250d11590", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -296,7 +301,7 @@ AddHtmlAttributeValue("", 851, comment.User.UserName, 851, 22, false);
             WriteLiteral("                        ");
             EndContext();
             BeginContext(2092, 1160, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "83dad3713a61c09e30125932aff659fa9ec1250d17088", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "83dad3713a61c09e30125932aff659fa9ec1250d17256", async() => {
                 BeginContext(2458, 123, true);
                 WriteLiteral("\r\n\r\n                            <!-- courseId -->\r\n                            <input type=\"hidden\" name=\"comment.CourseId\"");
                 EndContext();
@@ -376,7 +381,7 @@ WriteAttributeValue("", 2692, comment.CommentId, 2692, 18, false);
             WriteLiteral("            <div class=\"mr-3 rounded border border-info\" style=\"padding:16px 4px\">\r\n                <div class=\"row m-0\">\r\n                    <div class=\"col-12 border-bottom border-white clearfix pb-2\">\r\n                        ");
             EndContext();
             BeginContext(3757, 220, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "83dad3713a61c09e30125932aff659fa9ec1250d21936", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "83dad3713a61c09e30125932aff659fa9ec1250d22104", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();

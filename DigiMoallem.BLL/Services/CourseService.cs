@@ -332,6 +332,24 @@ namespace DigiMoallem.BLL.Services
         }
         #endregion
 
+        #region IsFavoriteCourses
+        public List<DisplayCourseViewModel> LatestFavoriteCourses() => _db.Courses
+            .Where(c => c.IsFavorite == true)
+            .OrderByDescending(c => c.CourseId)
+            .Take(9)
+            .Select(c => new DisplayCourseViewModel {
+                CourseId = c.CourseId,
+                ImageName = c.ImageName,
+                GroupName = c.Group.Title,
+                Price = c.Price,
+                Title = c.Title,
+                Off = c.Off,
+                PriceAfterOff = c.PriceAfterOff,
+                TotalTime = new TimeSpan(c.CourseEpisodes.Sum(ce => ce.EpisodeLength.Ticks))
+            })
+            .ToList();
+        #endregion
+
         #region TeacherTotalIncome
         public int TeacherTotalIncome(int teacherId) => _db.OrderDetails
                 .Include(od => od.Course)
@@ -512,7 +530,7 @@ namespace DigiMoallem.BLL.Services
                     Title = c.Title,
                     Teacher = c.User.UserName,
                     ImageName = c.ImageName,
-                    TeacherPercent = (c.TeacherPercent == null) ? 0 : c.TeacherPercent.Value,
+                    TeacherPercent = c.TeacherPercent,
                     EpisodesCount = c.CourseEpisodes.Count
                 })
                 .AsNoTracking()
@@ -549,7 +567,7 @@ namespace DigiMoallem.BLL.Services
                     Title = c.Title,
                     Teacher = c.User.UserName,
                     ImageName = c.ImageName,
-                    TeacherPercent = (c.TeacherPercent == null) ? 0 : c.TeacherPercent.Value,
+                    TeacherPercent = c.TeacherPercent,
                     EpisodesCount = c.CourseEpisodes.Count
                 })
                 .AsNoTracking()
@@ -1257,7 +1275,7 @@ namespace DigiMoallem.BLL.Services
             return _db.Courses
                 .Where(c => c.IsHidden == false && c.IsCheckedByAdmin == true)
                 .OrderByDescending(c => c.CourseId)
-                .Take(8)
+                .Take(9)
                 .Select(c => new DisplayCourseViewModel
                 {
                     CourseId = c.CourseId,
@@ -1274,9 +1292,8 @@ namespace DigiMoallem.BLL.Services
         {
             return await _db.Courses
                 .Where(c => c.IsHidden == false && c.IsCheckedByAdmin == true)
-                 .Take(8)
-                                  .OrderByDescending(c => c.CourseId)
-
+                 .OrderByDescending(c => c.CourseId)
+                 .Take(9)
                  .Select(c => new DisplayCourseViewModel
                  {
                      CourseId = c.CourseId,

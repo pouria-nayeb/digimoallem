@@ -78,7 +78,7 @@
                                 <option value="" disabled selected>یکی از اساتید را انتخاب نمایید</option>
                             </select>
 
-                            <span asp-validation-for="Course.TeacherId"></span>
+                            <span asp-validation-for="Course.TeacherId" class="text-danger"></span>
                         </div>
                     }
                     else
@@ -94,34 +94,17 @@
                         <label asp-for="Course.Price"></label>
                         <input type="number" asp-for="Course.Price" class="form-control text-direction-ltr text-left" />
 
-                        <span asp-validation-for="Course.Price"></span>
+                        <span asp-validation-for="Course.Price" class="text-danger"></span>
                     </div>
 
-                    @if (Model.Course.TeacherPercent == null)
-                    {
-                        <!-- teacher percent -->
-                        <div class="form-group mb-4">
-                            <label asp-for="Course.TeacherPercent"></label>
-                            <input type="number" asp-for="Course.TeacherPercent" class="form-control text-direction-ltr text-left" />
-                            <span class="text-light small"> توجه: مبلغ پیشنهادی برای درس ارائه شده. </span>
+                    <!-- teacher percent -->
+                    <div class="form-group mb-4">
+                        <label asp-for="Course.TeacherPercent"></label>
+                        <input type="number" asp-for="Course.TeacherPercent" class="form-control text-direction-ltr text-left" />
+                        <span class="text-light small"> توجه: مبلغ پیشنهادی برای درس ارائه شده. </span>
 
-                            <span asp-validation-for="Course.TeacherPercent"></span>
-                        </div>
-                    }
-                    else
-                    {
-                        @if (_permissionService.CheckPermission(2, User.Identity.Name))
-                        {
-                            <!-- teacher percent (admin-only) -->
-                            <div class="form-group mb-4">
-                                <label asp-for="Course.TeacherPercent"></label>
-                                <input type="number" asp-for="Course.TeacherPercent" class="form-control text-direction-ltr text-left" />
-                                <span class="text-light small"> توجه: مبلغ پیشنهادی برای درس ارائه شده. </span>
-
-                                <span asp-validation-for="Course.TeacherPercent"></span>
-                            </div>
-                        }
-                    }
+                        <span asp-validation-for="Course.TeacherPercent" class="text-danger d-block"></span>
+                    </div>
 
                     <!-- description -->
                     <div class="form-group mb-4">
@@ -183,10 +166,10 @@
 
                     <!-- course statuses -->
                     @*<div class="form-group mb-4">
-            <select class="browser-default custom-select" asp-for="Course.CourseStatusId" asp-items="@ViewData["CourseStatuses"] as SelectList">
-                <option value="" disabled="disabled">یکی از وضعیت ها را انتخاب نمایید</option>
-            </select>
-        </div>*@
+                            <select class="browser-default custom-select" asp-for="Course.CourseStatusId" asp-items="@ViewData["CourseStatuses"] as SelectList">
+                                <option value="" disabled="disabled">یکی از وضعیت ها را انتخاب نمایید</option>
+                            </select>
+                        </div>*@
                     <input type="hidden" asp-for="Course.CourseStatusId" value="2" />
 
                     <!-- courseType list  -->
@@ -223,18 +206,16 @@
                                         <span class="pr-4">مخفی سازی درس</span>
                                     </label>
                                 </div>
-                            }
 
-                            <!-- display comment -->
-                            <div class="form-check my-3">
-                                <label class="form-check-label" asp-for="Course.DisplayComment">
-                                    <input type="checkbox" class="form-check-input" asp-for="Course.DisplayComment" />
-                                    <span class="pr-4">نمایش نظرات</span>
-                                </label>
-                            </div>
+                                <!-- is favorite (admin-only) -->
+                                <div class="form-check">
+                                    <label class="form-check-label" asp-for="Course.IsFavorite">
+                                        <input type="checkbox" class="form-check-input"
+                                               asp-for="Course.IsFavorite" />
+                                        <span class="pr-4">دوره برگزیده شده</span>
+                                    </label>
+                                </div>
 
-                            @if (_permissionService.CheckPermission(2, User.Identity.Name))
-                            {
                                 <!-- authorize by admin (admin-only) -->
                                 <div class="form-check">
                                     <label class="form-check-label" asp-for="Course.IsCheckedByAdmin">
@@ -244,6 +225,14 @@
                                     </label>
                                 </div>
                             }
+
+                            <!-- display comment -->
+                            <div class="form-check my-3">
+                                <label class="form-check-label" asp-for="Course.DisplayComment">
+                                    <input type="checkbox" class="form-check-input" asp-for="Course.DisplayComment" />
+                                    <span class="pr-4">نمایش نظرات</span>
+                                </label>
+                            </div>
                         </div>
                     </div>
 
@@ -294,24 +283,24 @@
 {
     <!-- (fetch subgroup from api) -->
     @*<script>
-        // display nothing in subgroup, till admin select one group
-        $("#Course_SubGroupId").empty();
-
-        $("#Course_GroupId").change(function () {
-
-            // remove all prevoius subgroups
+            // display nothing in subgroup, till admin select one group
             $("#Course_SubGroupId").empty();
 
-            $.getJSON("/Home/GetSubGroups/" + $("#Course_GroupId :selected").val(), function (data) {
+            $("#Course_GroupId").change(function () {
 
-                $.each(data, function () {
-                    $("#Course_SubGroupId").append('<option value=' + this.value + '>' + this.text + '</option>');
+                // remove all prevoius subgroups
+                $("#Course_SubGroupId").empty();
+
+                $.getJSON("/Home/GetSubGroups/" + $("#Course_GroupId :selected").val(), function (data) {
+
+                    $.each(data, function () {
+                        $("#Course_SubGroupId").append('<option value=' + this.value + '>' + this.text + '</option>');
+                    });
+
                 });
 
             });
-
-        });
-    </script>*@
+        </script>*@
 
     <!-- ckeditor settings -->
     <script src="https://cdn.ckeditor.com/4.9.2/standard/ckeditor.js"></script>

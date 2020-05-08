@@ -9,6 +9,7 @@ using DigiMoallem.DAL.Entities.Users;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -22,16 +23,19 @@ namespace DigiMoallem.Web.Controllers
         private readonly ICourseService _courseService;
         private readonly IMessageService _messageService;
         private readonly IWorkService _workService;
+        private readonly IConfiguration _config;
 
         public HomeController(IUserService userService,
             ICourseService courseService,
             IMessageService messageService,
-            IWorkService workService)
+            IWorkService workService, 
+            IConfiguration config)
         {
             _userService = userService;
             _courseService = courseService;
             _messageService = messageService;
             _workService = workService;
+            _config = config;
         }
 
         /// <summary>
@@ -43,7 +47,8 @@ namespace DigiMoallem.Web.Controllers
             var indexVM = new IndexViewModel
             {
                 Groups = await _courseService.GetParentGroups(),
-                LatestCourses = await _courseService.GetLatestCourseAsync()
+                LatestCourses = await _courseService.GetLatestCourseAsync(),
+                LatestFavoriteCourses = _courseService.LatestFavoriteCourses()
             };
 
             return View(indexVM);
@@ -70,6 +75,17 @@ namespace DigiMoallem.Web.Controllers
 
             if (ModelState.IsValid)
             {
+                #region recaptcha (authorize human-only)
+
+                if (!await GoogleRecaptchaHelper.IsReCaptchaPassedAsync(Request.Form["g-recaptcha-response"],
+                   _config["GoogleReCaptcha:secret"]))
+                {
+                    ModelState.AddModelError(string.Empty, "احراز هویت شما با موفقیت انجام نشد.");
+                    return View(message);
+                }
+
+                #endregion
+
                 if ((await _messageService.AddContactAsync(message)) != null)
                 {
                     TempData["Success"] = "پیام شما با موفقیت به دیجی معلم ارسال شد.";

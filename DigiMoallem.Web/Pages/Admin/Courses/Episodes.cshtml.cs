@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DigiMoallem.Web.Pages.Admin.Courses
 {
-    //[PermissionChecker(23)]
+    [PermissionChecker(23)]
     public class EpisodesModel : PageModel
     {
         private ICourseService _courseService;

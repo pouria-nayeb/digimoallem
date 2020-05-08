@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DigiMoallem.Web.Pages.Admin.Courses
 {
-    //[PermissionChecker(25)]
+    [PermissionChecker(25)]
     public class EditEpisodeModel : PageModel
     {
         private ICourseService _courseService;
@@ -23,7 +23,35 @@ namespace DigiMoallem.Web.Pages.Admin.Courses
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            CourseEpisode = await _courseService.GetEpisodeByIdAsync(id);
+            return await SeedCourseEpisodeData(id);
+        }
+
+        public async Task<IActionResult> OnPostAsync(IFormFile fileEpisode)
+        {
+            if (ModelState.IsValid)
+            {
+                // user inputs is valid
+                if (await _courseService.UpdateEpisodeAsync(CourseEpisode, fileEpisode))
+                {
+                    // success
+                    TempData["Success"] = "بخش با موفقیت ویرایش شد.";
+                    return RedirectToPage("Episodes", new { id = CourseEpisode.CourseId });
+                }
+
+                // failure
+                ViewData["Failure"] = "متاسفانه عملیات ویرایش بخش توسط استاد با مشکل روبرو شد.";
+                return await SeedCourseEpisodeData(CourseEpisode.CourseEpisodeId);
+            }
+
+            // user inputs is not valid
+            ViewData["Failure"] = "ورودی شما نامعتبر است.";
+            return await SeedCourseEpisodeData(CourseEpisode.CourseEpisodeId);
+        }
+
+        #region Helpers
+        private async Task<IActionResult> SeedCourseEpisodeData(int episodeCourseId)
+        {
+            CourseEpisode = await _courseService.GetEpisodeByIdAsync(episodeCourseId);
 
             if (CourseEpisode == null)
             {
@@ -32,28 +60,6 @@ namespace DigiMoallem.Web.Pages.Admin.Courses
 
             return Page();
         }
-
-        public async Task<IActionResult> OnPostAsync(IFormFile fileEpisode)
-        {
-            if (ModelState.IsValid)
-            {
-                // user inputs is valid
-
-                if (await _courseService.UpdateEpisodeAsync(CourseEpisode, fileEpisode))
-                {
-                    // success
-                    TempData["Success"] = "بخش با موفقیت ویرایش شد.";
-                    return LocalRedirect($"/Admin/Courses/Episodes/{CourseEpisode.CourseId}");
-                }
-
-                // failure
-                TempData["OperationFailed"] = "متاسفانه عملیات ویرایش بخش توسط استاد با مشکل روبرو شد.";
-                return LocalRedirect($"/Admin/Courses/EditEpisode/{CourseEpisode.CourseEpisodeId}");
-            }
-
-            // user inputs is not valid
-            TempData["WrongInputs"] = "ورودی شما نامعتبر است.";
-            return LocalRedirect($"/Admin/Courses/EditEpisode/{CourseEpisode.CourseEpisodeId}");
-        }
+        #endregion
     }
 }

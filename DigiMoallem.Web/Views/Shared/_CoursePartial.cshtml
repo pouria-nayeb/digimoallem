@@ -17,7 +17,14 @@
             </span>
 
             <span class="badge badge-success m-1 py-2 float-right">
-                 @Model.Price.ToString("#,0 تومان")
+                @if (Model.Off)
+                {
+                    <text>@Model.PriceAfterOff.Value.ToString("#,0 تومان")</text>
+                }
+                else
+                {
+                    <text>@Model.Price.ToString("#,0 تومان")</text>
+                }
             </span>
         </div>
     </div>

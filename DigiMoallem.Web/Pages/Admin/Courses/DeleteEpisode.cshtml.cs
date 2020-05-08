@@ -22,14 +22,7 @@ namespace DigiMoallem.Web.Pages.Admin.Courses
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            CourseEpisode = await _courseService.GetEpisodeByIdAsync(id);
-
-            if (CourseEpisode == null)
-            {
-                return NotFound();
-            }
-
-            return Page();
+            return await SeedCourseEpisodeData(id);
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -38,12 +31,26 @@ namespace DigiMoallem.Web.Pages.Admin.Courses
             {
                 // success
                 TempData["Success"] = "بخش با موفقیت حذف شد.";
-                return LocalRedirect($"/Admin/Courses/Episodes/{CourseEpisode.CourseId}");
+                return RedirectToPage("Episodes", new { id = CourseEpisode.CourseId });
             }
 
             // failure
-            TempData["OperationFailed"] = "متاسفانه عملیات حذف بخش توسط استاد با مشکل روبرو شد.";
-            return LocalRedirect($"/Admin/Courses/DeleteEpisode/{CourseEpisode.CourseEpisodeId}");
+            ViewData["Failure"] = "متاسفانه عملیات حذف بخش توسط استاد با مشکل روبرو شد.";
+            return await SeedCourseEpisodeData(CourseEpisode.CourseEpisodeId);
         }
+
+        #region Helpers
+        private async Task<IActionResult> SeedCourseEpisodeData(int courseEpisodeId)
+        {
+            CourseEpisode = await _courseService.GetEpisodeByIdAsync(courseEpisodeId);
+
+            if (CourseEpisode == null)
+            {
+                return NotFound();
+            }
+
+            return Page();
+        }
+        #endregion
     }
 }

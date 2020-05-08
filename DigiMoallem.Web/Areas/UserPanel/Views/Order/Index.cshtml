@@ -72,7 +72,7 @@
                     @if (!Model.OrderDetails.Any())
                     {
                         <div class="alert alert-warning">
-                            <i class="fa fa-book mx-2"></i> در سبد خرید شما دوره ای موجود نمی باشد.
+                            <i class="fa fa-book mx-2"></i> در سبد خرید شما درسی موجود نمی باشد.
                         </div>
                     }
                     else
@@ -103,7 +103,7 @@
                                                 @orderDetail.Count
                                             </td>
                                             <td>
-                                                @orderDetail.Price.ThreeDigitSeperator()
+                                                    @orderDetail.Price.ThreeDigitSeperator()
                                             </td>
                                             @if (!Model.IsFinally)
                                             {

@@ -37,6 +37,15 @@ namespace DigiMoallem.DAL.Entities.Courses
         [MaxLength(500, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]
         public string Title { get; set; }
 
+        [Display(Name = "قیمت بعد از تخفیف")]
+        public bool Off { get; set; }
+
+        public int? PriceAfterOff { get; set; }
+
+        [Display(Name = "درصد تخفیف درس")]
+        [Range(2, 100, ErrorMessage = "درصد تخفیف باید مقداری بین {0} و {1} باشد.")]
+        public byte? OffPercent { get; set; }
+
         [Display(Name = "شرح دوره")]
         [Required(ErrorMessage = "لطفاً {0} را وارد نمایید.")]
         public string Description { get; set; }

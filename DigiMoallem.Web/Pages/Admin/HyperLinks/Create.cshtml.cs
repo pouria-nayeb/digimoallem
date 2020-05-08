@@ -1,4 +1,5 @@
-﻿using DigiMoallem.BLL.Interfaces;
+﻿using DigiMoallem.BLL.Helpers.Security;
+using DigiMoallem.BLL.Interfaces;
 using DigiMoallem.DAL.Entities.General;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace DigiMoallem.Web.Pages.Admin.HyperLinks
 {
+    [PermissionChecker(47)]
     public class CreateModel : PageModel
     {
         private readonly IHyperLinkService _hyperLinkService;

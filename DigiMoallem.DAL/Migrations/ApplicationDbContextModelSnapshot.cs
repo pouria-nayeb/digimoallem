@@ -139,7 +139,13 @@ namespace DigiMoallem.DAL.Migrations
 
                     b.Property<bool>("IsHidden");
 
+                    b.Property<bool>("Off");
+
+                    b.Property<byte?>("OffPercent");
+
                     b.Property<int>("Price");
+
+                    b.Property<int?>("PriceAfterOff");
 
                     b.Property<int?>("SubGroupId");
 

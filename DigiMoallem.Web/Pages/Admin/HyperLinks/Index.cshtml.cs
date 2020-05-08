@@ -1,9 +1,11 @@
 ﻿using DigiMoallem.BLL.DTOs.HyperLink;
+using DigiMoallem.BLL.Helpers.Security;
 using DigiMoallem.BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DigiMoallem.Web.Pages.Admin.HyperLinks
 {
+    [PermissionChecker(46)]
     public class IndexModel : PageModel
     {
 

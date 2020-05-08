@@ -101,7 +101,16 @@
                                     @if (!IsUserBuyCourse)
                                     {
                                         <!-- is not bought by the user -->
-                                        <text>@Model.Price.ThreeDigitSeperator()</text>
+                                        @if (Model.Off)
+                                        {
+                                            <!-- has off -->
+                                            <text>@Model.PriceAfterOff.Value.ThreeDigitSeperator()</text>
+                                        }
+                                        else
+                                        {
+                                            <!-- not has off -->
+                                            <text>@Model.Price.ThreeDigitSeperator()</text>
+                                        }
                                     }
                                     else
                                     {
@@ -145,11 +154,13 @@
                     <p class="text-center border-bottom border-white py-2">دسته بندی</p>
                     <p class="text-center">@Model.Group.Title</p>
                 </div>
-                <!-- course type -->
-                @*<div class="col-4 py-2">
-                    <p class="text-center border-bottom border-white py-2">نوع آموزش</p>
-                    <p class="text-center">@Model.CourseTypes.Title</p>
-                </div>*@
+
+                <div class="col-4 py-2">
+                    <!-- episodes count -->
+                    <p class="text-center border-bottom border-white py-2">تعداد بخش ها</p>
+                    <p class="text-center"><span class="english-font text-pure-white">@Model.CourseEpisodes.Count()</span></p>
+                </div>
+
                 <!-- total hours -->
                 <div class="col-4 py-2">
                     <p class="text-center border-bottom border-white py-2">مدت آموزش</p>
@@ -195,8 +206,9 @@
             </div>
 
             <div class="row bg-light-blue text-white m-0">
+
+                <!-- price -->
                 <div class="col-4">
-                    <!-- price -->
                     <p class="text-center border-bottom border-white py-2">مبلغ دوره</p>
                     <p class="text-center">
                         @if (Model.Price == 0)
@@ -209,7 +221,16 @@
                             @if (!IsUserBuyCourse)
                             {
                                 <!-- is not bought by the user -->
-                                <text>@Model.Price.ThreeDigitSeperator()</text>
+                                @if (Model.Off)
+                                {
+                                    <!-- has off -->
+                                    <text>@Model.PriceAfterOff.Value.ThreeDigitSeperator()</text>
+                                }
+                                else
+                                {
+                                    <!-- not has off -->
+                                    <text>@Model.Price.ThreeDigitSeperator()</text>
+                                }
                             }
                             else
                             {
@@ -218,16 +239,22 @@
                         }
                     </p>
                 </div>
+
+                <!-- students count -->
                 <div class="col-4">
-                    <!-- students count -->
                     <p class="text-center border-bottom border-white py-2">تعداد دانشجویان</p>
                     <p class="text-center"><span class="english-font text-pure-white">@Model.UserCourses.Count()</span> نفر</p>
                 </div>
+
+                <!-- course type -->
                 <div class="col-4">
-                    <!-- episodes count -->
-                    <p class="text-center border-bottom border-white py-2">تعداد دوره ها</p>
-                    <p class="text-center"><span class="english-font text-pure-white">@Model.CourseEpisodes.Count()</span></p>
+                    <p class="text-center border-bottom border-white py-2">نوع آموزش</p>
+                    @foreach (var courseTypeId in _courseService.GetCourseTypeByCourseId(Model.CourseId))
+                    {
+                        <p class="text-center">@_courseService.GetCourseTypeNameById(courseTypeId)</p>
+                    }
                 </div>
+
             </div>
 
             <div class="card border-secondary my-5">
@@ -270,9 +297,9 @@
                                                     {
                                                         @if (episode.IsFree || IsUserBuyCourse)
                                                         {
-                                                            <a href="/DownloadFile/@episode.CourseEpisodeId">
+                                                            <a href="/DownloadFile/     @episode.CourseEpisodeId">
                                                                 <span class="badge badge-primary badge-pill text-pure-white
-                                                                      p-2 border border-secondary english-font">
+                                                                      p-2 border border-secondary english font">
                                                                     @(i++)
                                                                 </span>
                                                                 @episode.Title
@@ -301,7 +328,7 @@
                                                     }
 
                                                 </div>
-                                                <div class="col-12 clearfix mt-1">
+                                                <div class="col-12 clearfix mt-2">
 
                                                     @if (episode.IsFree)
                                                     {
@@ -321,7 +348,7 @@
                                 }
                                 else
                                 {
-                                    <div class="alert alert-info">
+                                    <div class="alert alert-info mt-4">
                                         دوره ای برای این درس درج نشده است.
                                     </div>
                                 }
@@ -389,7 +416,7 @@
                                             }
                                             else
                                             {
-                                                <div class="alert alert-info">
+                                                <div class="alert alert-info mt-4">
                                                     تنها کاربرانی که دوره را خریده باشند می توانند نظر خود را درج کنند.
                                                 </div>
                                             }

@@ -36,17 +36,10 @@
 
             <div asp-validation-summary="ModelOnly" class="text-danger my-4"></div>
 
-            @if (TempData["WrongInputs"] != null)
+            @if (ViewData["Failure"] != null)
             {
                 <div class="alert alert-danger">
-                    @TempData["WrongInputs"]
-                </div>
-            }
-
-            @if (TempData["OperationFailed"] != null)
-            {
-                <div class="alert alert-danger">
-                    @TempData["OperationFailed"]
+                    @ViewData["Failure"]
                 </div>
             }
 
@@ -74,12 +67,12 @@
 
                     <!-- subgroups -->
                     @*<div class="form-group mb-4">
-                         <select class="form-control" asp-for="Course.SubGroupId" asp-items="@ViewData["SubGroups"] as SelectList"></select>
-                        </div>*@
+                        <select class="form-control" asp-for="Course.SubGroupId" asp-items="@ViewData["SubGroups"] as SelectList"></select>
+                         </div>*@
 
-                    @if (_permissionService.CheckPermission(1, User.Identity.Name))
+                    @if (_permissionService.CheckPermission(2, User.Identity.Name))
                     {
-                        <!-- manage teacher by admin -->
+                        <!-- teachers list (admin-only) -->
                         <div class="form-group mb-4">
                             <select class="form-control" asp-for="Course.TeacherId" asp-items="@ViewData["Teachers"] as SelectList">
                                 <option value="" disabled selected>یکی از اساتید را انتخاب نمایید</option>
@@ -104,6 +97,32 @@
                         <span asp-validation-for="Course.Price"></span>
                     </div>
 
+                    @if (Model.Course.TeacherPercent == null)
+                    {
+                        <!-- teacher percent -->
+                        <div class="form-group mb-4">
+                            <label asp-for="Course.TeacherPercent"></label>
+                            <input type="number" asp-for="Course.TeacherPercent" class="form-control text-direction-ltr text-left" />
+                            <span class="text-light small"> توجه: مبلغ پیشنهادی برای درس ارائه شده. </span>
+
+                            <span asp-validation-for="Course.TeacherPercent"></span>
+                        </div>
+                    }
+                    else
+                    {
+                        @if (_permissionService.CheckPermission(2, User.Identity.Name))
+                        {
+                            <!-- teacher percent (admin-only) -->
+                            <div class="form-group mb-4">
+                                <label asp-for="Course.TeacherPercent"></label>
+                                <input type="number" asp-for="Course.TeacherPercent" class="form-control text-direction-ltr text-left" />
+                                <span class="text-light small"> توجه: مبلغ پیشنهادی برای درس ارائه شده. </span>
+
+                                <span asp-validation-for="Course.TeacherPercent"></span>
+                            </div>
+                        }
+                    }
+
                     <!-- description -->
                     <div class="form-group mb-4">
                         <label asp-for="Course.Description"></label>
@@ -115,9 +134,9 @@
 
                     <!-- tags -->
                     <div class="form-group mb-4">
-                        <input type="text" asp-for="Course.Tags" class="form-control" />
                         <label asp-for="Course.Tags"></label>
-                        <span class="text-dark small"> توجه: برچسب ها را با - از هم جدا کنید. </span>
+                        <input type="text" asp-for="Course.Tags" class="form-control" />
+                        <span class="text-light small"> توجه: برچسب ها را با - از هم جدا کنید. </span>
                     </div>
 
                     <!-- file demo -->
@@ -164,10 +183,10 @@
 
                     <!-- course statuses -->
                     @*<div class="form-group mb-4">
-                            <select class="browser-default custom-select" asp-for="Course.CourseStatusId" asp-items="@ViewData["CourseStatuses"] as SelectList">
-                                <option value="" disabled="disabled">یکی از وضعیت ها را انتخاب نمایید</option>
-                            </select>
-                        </div>*@
+            <select class="browser-default custom-select" asp-for="Course.CourseStatusId" asp-items="@ViewData["CourseStatuses"] as SelectList">
+                <option value="" disabled="disabled">یکی از وضعیت ها را انتخاب نمایید</option>
+            </select>
+        </div>*@
                     <input type="hidden" asp-for="Course.CourseStatusId" value="2" />
 
                     <!-- courseType list  -->
@@ -197,7 +216,7 @@
                         <div class="card-body">
                             @if (_permissionService.CheckPermission(2, User.Identity.Name))
                             {
-                                <!-- is hidden -->
+                                <!-- is hidden (admin-only) -->
                                 <div class="form-check">
                                     <label class="form-check-label" asp-for="Course.IsHidden">
                                         <input type="checkbox" class="form-check-input" asp-for="Course.IsHidden" />
@@ -216,7 +235,7 @@
 
                             @if (_permissionService.CheckPermission(2, User.Identity.Name))
                             {
-                                <!-- check by admin -->
+                                <!-- authorize by admin (admin-only) -->
                                 <div class="form-check">
                                     <label class="form-check-label" asp-for="Course.IsCheckedByAdmin">
                                         <input type="checkbox" class="form-check-input"
@@ -227,6 +246,41 @@
                             }
                         </div>
                     </div>
+
+                    @if (_permissionService.CheckPermission(2, User.Identity.Name))
+                    {
+                        <!-- apply off to course price (admin only) -->
+                        <div class="card">
+
+                            <div class="card-header">
+
+                                اعمال تخفیف
+
+                            </div>
+
+                            <div class="card-body">
+
+                                <!-- has off -->
+                                <div class="form-check">
+                                    <label class="form-check-label" asp-for="Course.Off">
+                                        <input type="checkbox" class="form-check-input" asp-for="Course.Off" />
+                                        <span class="pr-4">دارای تخفیف</span>
+                                    </label>
+                                </div>
+
+                                <!-- off percent -->
+                                <div class="form-group mt-4">
+                                    <label asp-for="Course.OffPercent"></label>
+                                    <input type="number" asp-for="Course.OffPercent"
+                                           class="form-control text-direction-ltr text-left" />
+
+                                    <span asp-validation-for="Course.OffPercent"></span>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    }
 
                 </div>
             </div>
@@ -239,7 +293,7 @@
 @section Scripts
 {
     <!-- (fetch subgroup from api) -->
-    <script>
+    @*<script>
         // display nothing in subgroup, till admin select one group
         $("#Course_SubGroupId").empty();
 
@@ -257,7 +311,7 @@
             });
 
         });
-    </script>
+    </script>*@
 
     <!-- ckeditor settings -->
     <script src="https://cdn.ckeditor.com/4.9.2/standard/ckeditor.js"></script>

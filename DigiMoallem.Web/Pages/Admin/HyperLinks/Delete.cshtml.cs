@@ -1,4 +1,5 @@
-﻿using DigiMoallem.BLL.Interfaces;
+﻿using DigiMoallem.BLL.Helpers.Security;
+using DigiMoallem.BLL.Interfaces;
 using DigiMoallem.DAL.Entities.General;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -6,6 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace DigiMoallem.Web.Pages.Admin.HyperLinks
 {
+    [PermissionChecker(48)]
     public class DeleteModel : PageModel
     {
         private readonly IHyperLinkService _hyperLinkService;

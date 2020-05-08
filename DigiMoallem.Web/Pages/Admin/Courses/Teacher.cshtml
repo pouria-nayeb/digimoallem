@@ -2,9 +2,11 @@
 @model DigiMoallem.Web.Pages.Admin.Courses.TeacherModel
 @inject ICourseService  _courseService
 @inject IPermissionService permissionService
+@inject IUserService userService
 
 @{
     ViewData["Title"] = "لیست دروس";
+    var teacherId = userService.GetUserIdByUserName(User.Identity.Name);
 }
 
 <div class="container">
@@ -23,7 +25,7 @@
         <!-- add -->
         <a asp-area=""
            asp-page="Create"
-           class="btn btn-outline-success btn-sm">
+           class="btn btn-outline-success">
             <i class="fa fa-plus ml-2"></i> افزودن درس جدید
         </a>
     </div>
@@ -61,7 +63,7 @@
                 }
                 else
                 {
-                    @foreach (var course in Model.CourseVM.Courses)
+                    @foreach (var course in Model.CourseVM.Courses.Where(c => c.TeacherId == teacherId))
                     {
                         @if (User.Identity.Name == _courseService.GetCourseById(course.CourseId).User.UserName ||
                             permissionService.CheckPermission(2, User.Identity.Name)) 
@@ -84,7 +86,7 @@
                                     <a asp-area=""
                                        asp-page="/Admin/Courses/Episodes"
                                        asp-route-id="@course.CourseId"
-                                       class="btn btn-primary btn-sm">
+                                       class="btn btn-outline-success btn-sm">
                                         <i class="fa fa-files ml-2"></i> بخش ها
                                     </a>
 

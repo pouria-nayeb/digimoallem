@@ -5,13 +5,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DigiMoallem.Web.Pages.Admin.Courses
 {
-    //[PermissionChecker(25)]
+    [PermissionChecker(25)]
     public class EditModel : PageModel
     {
         private ICourseService _courseService;
@@ -26,7 +25,41 @@ namespace DigiMoallem.Web.Pages.Admin.Courses
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            Course = await _courseService.GetCourseByIdAsync(id);
+            return await SeedCourseInitialDataAsync(id);
+        }
+
+        public async Task<IActionResult> OnPostAsync(IFormFile imgCourseUpload, IFormFile demo, List<int> courseTypes)
+        {
+            if (ModelState.IsValid)
+            {
+                // user inputs is valid
+
+                if (await _courseService.UpdateCourseAsync(Course, imgCourseUpload, demo, courseTypes))
+                {
+                    // success
+                    TempData["Success"] = "درس با موفقیت ویرایش شد.";
+                    return RedirectToPage("Index");
+                }
+
+                // failure
+                ViewData["Failure"] = "متاسفانه عملیات افزودن درس توسط استاد با مشکل روبرو شد.";
+
+                await SeedCourseInitialDataAsync(Course.CourseId);
+                return Page();
+            }
+
+            // user inputs is not valid
+            ViewData["Failure"] = "ورودی شما نامعتبر است.";
+
+            await SeedCourseInitialDataAsync(Course.CourseId);
+            return Page();
+        }
+
+        #region Helpers
+        private async Task<IActionResult> SeedCourseInitialDataAsync(int courseId)
+        {
+
+            Course = await _courseService.GetCourseByIdAsync(courseId);
 
             if (Course == null)
             {
@@ -47,7 +80,7 @@ namespace DigiMoallem.Web.Pages.Admin.Courses
                 "Text",
                 selectedSubgroup);
 
-            ViewData["SelectedCourseTypes"] = _courseService.GetCourseTypeByCourseId(id);
+            ViewData["SelectedCourseTypes"] = _courseService.GetCourseTypeByCourseId(courseId);
 
             List<SelectListItem> teachers = await _courseService
                 .GetTeachersAsync();
@@ -67,28 +100,6 @@ namespace DigiMoallem.Web.Pages.Admin.Courses
 
             return Page();
         }
-
-        public async Task<IActionResult> OnPostAsync(IFormFile imgCourseUpload, IFormFile demo, List<int> courseTypes)
-        {
-            if (ModelState.IsValid)
-            {
-                // user inputs is valid
-
-                if (await _courseService.UpdateCourseAsync(Course, imgCourseUpload, demo, courseTypes))
-                {
-                    // success
-                    TempData["Success"] = "درس با موفقیت ویرایش شد.";
-                    return RedirectToPage("Index");
-                }
-
-                // failure
-                TempData["OperationFailed"] = "متاسفانه عملیات افزودن درس توسط استاد با مشکل روبرو شد.";
-                return Page();
-            }
-
-            // user inputs is not valid
-            TempData["WrongInputs"] = "ورودی شما نامعتبر است.";
-            return Page();
-        }
+        #endregion
     }
 }

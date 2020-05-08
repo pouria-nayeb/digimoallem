@@ -63,6 +63,10 @@ namespace DigiMoallem.BLL.Interfaces
         Task<List<Group>> GetParentGroups();
         #endregion
 
+        #region GetCourseTypeNameById
+        string GetCourseTypeNameById(int courseTypeId);
+        #endregion
+
         // courses
         #region GetCourseLevels
         List<SelectListItem> GetCourseLevels();

@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -82,6 +83,10 @@ namespace DigiMoallem.BLL.Services
                 .Select(cc => cc.CourseTypeId)
                 .ToList();
         }
+
+        #region GetCourseTypeNameById
+        public string GetCourseTypeNameById(int courseTypeId) => _db.CourseTypes.Single(ct => ct.CourseTypeId == courseTypeId).Title;
+        #endregion
 
         /// <summary>
         /// Get subgroups to manage course
@@ -430,13 +435,20 @@ namespace DigiMoallem.BLL.Services
             }
         }
 
-        public async Task<int> AddCourseAsync(Course course, IFormFile imageCourse, IFormFile demoCourse,
+        public async Task<int> AddCourseAsync(Course course, 
+            IFormFile imageCourse, 
+            IFormFile demoCourse,
             List<int> courseTypes)
         {
             try
             {
                 // db success
                 course.CreateDate = DateTime.Now;
+
+                if (course.Off)
+                {
+                    course.PriceAfterOff = (int)(course.Price - ((course.Price * course.OffPercent) / 100));
+                }
 
                 course.ImageName = AddAndUplaodImage(course.ImageName, imageCourse);
 
@@ -724,7 +736,10 @@ namespace DigiMoallem.BLL.Services
                 // db success
                 course.UpdateDate = DateTime.Now;
 
-                course.ImageName = EditAndUplaodImage(course, imageCourse);
+                if (imageCourse != null)
+                {
+                    course.ImageName = EditAndUplaodImage(course, imageCourse);
+                }
 
                 if (demoCourse != null)
                 {
@@ -734,6 +749,11 @@ namespace DigiMoallem.BLL.Services
                 if (courseTypes != null)
                 {
                     EditCourseTypeInCourse(course.CourseId, courseTypes);
+                }
+
+                if (course.Off)
+                {
+                    course.PriceAfterOff = (int)(course.Price - ((course.Price * course.OffPercent) / 100));
                 }
 
                 _db.Courses.Update(course);
@@ -920,7 +940,7 @@ namespace DigiMoallem.BLL.Services
             try
             {
                 // db success
-                courseEpisode.EpisodeFileName = EditAndUplaodTutorial(courseEpisode.EpisodeFileName, episodeFile);
+                courseEpisode.EpisodeFileName = EditAndUplaodTutorial(courseEpisode, episodeFile);
 
                 _db.CourseEpisodes.Update(courseEpisode);
                 Save();
@@ -939,7 +959,7 @@ namespace DigiMoallem.BLL.Services
             try
             {
                 // db success
-                courseEpisode.EpisodeFileName = EditAndUplaodTutorial(courseEpisode.EpisodeFileName, episodeFile);
+                courseEpisode.EpisodeFileName = EditAndUplaodTutorial(courseEpisode, episodeFile);
 
                 _db.CourseEpisodes.Update(courseEpisode);
                 await SaveAsync();
@@ -992,7 +1012,7 @@ namespace DigiMoallem.BLL.Services
                 // db success
                 var episode = await GetEpisodeByIdAsync(episodeId);
 
-                string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/CourseFiles/", episode.EpisodeFileName);
+                string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/coursefiles/", episode.EpisodeFileName);
                 if (File.Exists(filePath))
                 {
                     File.Delete(filePath);
@@ -1101,6 +1121,8 @@ namespace DigiMoallem.BLL.Services
                     GroupName = c.Group.Title,
                     Price = c.Price,
                     Title = c.Title,
+                    Off = c.Off,
+                    PriceAfterOff = c.PriceAfterOff,
                     TotalTime = new TimeSpan(c.CourseEpisodes.Sum(ce => ce.EpisodeLength.Ticks))
                 })
                 .Skip(skip).Take(take)
@@ -1184,6 +1206,8 @@ namespace DigiMoallem.BLL.Services
                     ImageName = c.ImageName,
                     Price = c.Price,
                     Title = c.Title,
+                    Off = c.Off,
+                    PriceAfterOff = c.PriceAfterOff,
                     GroupName = c.Group.Title,
                     TotalTime = new TimeSpan(c.CourseEpisodes.Sum(ce => ce.EpisodeLength.Ticks))
                 }).Skip(skip).Take(take).AsNoTracking().ToListAsync(), pageCount);
@@ -1240,6 +1264,8 @@ namespace DigiMoallem.BLL.Services
                     ImageName = c.ImageName,
                     Price = c.Price,
                     Title = c.Title,
+                    Off = c.Off,
+                    PriceAfterOff = c.PriceAfterOff,
                     TotalTime = new TimeSpan(c.CourseEpisodes.Sum(ce => ce.EpisodeLength.Ticks))
                 }).AsNoTracking().ToList();
         }
@@ -1257,6 +1283,8 @@ namespace DigiMoallem.BLL.Services
                      ImageName = c.ImageName,
                      Price = c.Price,
                      Title = c.Title,
+                     Off = c.Off,
+                     PriceAfterOff = c.PriceAfterOff,
                      TotalTime = new TimeSpan(c.CourseEpisodes.Sum(ce => ce.EpisodeLength.Ticks))
                  }).AsNoTracking().ToListAsync();
         }
@@ -1279,6 +1307,8 @@ namespace DigiMoallem.BLL.Services
                     ImageName = c.ImageName,
                     Price = c.Price,
                     Title = c.Title,
+                    Off = c.Off,
+                    PriceAfterOff = c.PriceAfterOff,
                     TotalTime = new TimeSpan(c.CourseEpisodes.Sum(ce => ce.EpisodeLength.Ticks))
                 }).AsNoTracking().ToList();
         }
@@ -1295,6 +1325,8 @@ namespace DigiMoallem.BLL.Services
                      ImageName = c.ImageName,
                      Price = c.Price,
                      Title = c.Title,
+                     Off = c.Off,
+                     PriceAfterOff = c.PriceAfterOff,
                      TotalTime = new TimeSpan(c.CourseEpisodes.Sum(ce => ce.EpisodeLength.Ticks))
                  }).AsNoTracking().ToListAsync();
         }
@@ -1547,7 +1579,7 @@ namespace DigiMoallem.BLL.Services
             if (ImageFile != null && ImageFile.IsImage())
             {
                 imageName = CodeGenerator.GenerateUniqueCode() + Path.GetExtension(ImageFile.FileName);
-                string imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Courses/" + imageName);
+                string imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/courses/" + imageName);
 
                 using (var stream = new FileStream(imagePath, FileMode.Create))
                 {
@@ -1556,7 +1588,7 @@ namespace DigiMoallem.BLL.Services
 
                 // resize course image
                 ImageResizer imgResizer = new ImageResizer();
-                string thumbPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Thumbnails/" + imageName);
+                string thumbPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/thumbnails/" + imageName);
                 imgResizer.Image_resize(imagePath, thumbPath, 75);
 
                 return imageName;
@@ -1575,9 +1607,9 @@ namespace DigiMoallem.BLL.Services
             if (DemoFile != null)
             {
                 demoName = CodeGenerator.GenerateUniqueCode() + Path.GetExtension(DemoFile.FileName);
-                string imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Demos/" + demoName);
+                string demoPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/demos/" + demoName);
 
-                using (var stream = new FileStream(imagePath, FileMode.Create))
+                using (var stream = new FileStream(demoPath, FileMode.Create))
                 {
                     DemoFile.CopyTo(stream);
                 }
@@ -1613,32 +1645,31 @@ namespace DigiMoallem.BLL.Services
         /// <param name="ImageFile"></param>
         public string EditAndUplaodImage(Course course, IFormFile ImageFile)
         {
+
             if (ImageFile != null && ImageFile.IsImage())
             {
-                string imageName = string.Empty;
-                // user select new image
 
-                if (course.ImageName != "default.png")
+                if (course.ImageName.TextTransform() != "default.png")
                 {
                     // course old image
 
                     // fullsize
-                    string fullSizePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Courses/", imageName);
+                    string fullSizePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/courses/", course.ImageName);
                     if (File.Exists(fullSizePath))
                     {
                         File.Delete(fullSizePath);
                     }
 
                     // thumbnail
-                    string thumbnailPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Thumbnails/", imageName);
+                    string thumbnailPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/thumbnails/", course.ImageName);
                     if (File.Exists(thumbnailPath))
                     {
                         File.Delete(thumbnailPath);
                     }
                 }
 
-                imageName = CodeGenerator.GenerateUniqueCode() + Path.GetExtension(ImageFile.FileName);
-                string imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Courses/" + imageName);
+                string imageName = CodeGenerator.GenerateUniqueCode() + Path.GetExtension(ImageFile.FileName);
+                string imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/courses/" + imageName);
 
                 using (var stream = new FileStream(imagePath, FileMode.Create))
                 {
@@ -1647,7 +1678,7 @@ namespace DigiMoallem.BLL.Services
 
                 // resize course image
                 ImageResizer imgResizer = new ImageResizer();
-                string thumbPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Thumbnails/" + imageName);
+                string thumbPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/thumbnails/" + imageName);
                 imgResizer.Image_resize(imagePath, thumbPath, 75);
 
                 return imageName;
@@ -1663,7 +1694,7 @@ namespace DigiMoallem.BLL.Services
         /// <param name="DemoFile"></param>
         public string EditAndUplaodDemo(Course course, IFormFile DemoFile)
         {
-            string demoName = string.Empty;
+
             if (DemoFile != null)
             {
                 // user select new image
@@ -1671,17 +1702,18 @@ namespace DigiMoallem.BLL.Services
                 if (course.Demo != null)
                 {
                     // course old image
-                    string demoPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images/Demos/", demoName);
-                    if (File.Exists(demoPath))
+                    string oldDemoPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/demos/", course.Demo);
+
+                    if (File.Exists(oldDemoPath))
                     {
-                        File.Delete(demoPath);
+                        File.Delete(oldDemoPath);
                     }
                 }
 
-                demoName = CodeGenerator.GenerateUniqueCode() + Path.GetExtension(DemoFile.FileName);
-                string imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Demos/" + demoName);
+                string demoName = CodeGenerator.GenerateUniqueCode() + Path.GetExtension(DemoFile.FileName);
+                string demoPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/demos/" + demoName);
 
-                using (var stream = new FileStream(imagePath, FileMode.Create))
+                using (var stream = new FileStream(demoPath, FileMode.Create))
                 {
                     DemoFile.CopyTo(stream);
                 }
@@ -1699,20 +1731,18 @@ namespace DigiMoallem.BLL.Services
         /// </summary>
         /// <param name="episodeName"></param>
         /// <param name="episodeFile"></param>
-        public string EditAndUplaodTutorial(string episodeName, IFormFile episodeFile)
+        public string EditAndUplaodTutorial(CourseEpisode courseEpisode, IFormFile episodeFile)
         {
             if (episodeFile != null)
             {
-                // user select new image
-
                 // old episode
-                string oldEpisodePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/CourseFiles/", episodeName);
+                string oldEpisodePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/coursefiles/", courseEpisode.EpisodeFileName);
                 if (File.Exists(oldEpisodePath))
                 {
                     File.Delete(oldEpisodePath);
                 }
 
-                episodeName = CodeGenerator.GenerateUniqueCode() + Path.GetExtension(episodeFile.FileName);
+                string episodeName = CodeGenerator.GenerateUniqueCode() + Path.GetExtension(episodeFile.FileName);
                 string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/CourseFiles/" + episodeName);
 
                 using (var stream = new FileStream(filePath, FileMode.Create))
@@ -1723,7 +1753,7 @@ namespace DigiMoallem.BLL.Services
                 return episodeName;
             }
 
-            return episodeName;
+            return courseEpisode.EpisodeFileName;
         }
 
         public void Dispose()

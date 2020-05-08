@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace DigiMoallem.Web.Pages.Admin.Courses
 {
-    //[PermissionChecker(24)]
+    [PermissionChecker(24)]
     public class CreateModel : PageModel
     {
         private ICourseService _courseService;
@@ -25,6 +25,39 @@ namespace DigiMoallem.Web.Pages.Admin.Courses
         public Course Course { get; set; }
 
         public async Task OnGetAsync()
+        {
+            await FeedInitialCourseDataAsync();
+        }
+
+        public async Task<IActionResult> OnPostAsync(IFormFile imgCourseUpload, IFormFile demo, List<int> courseTypes)
+        {
+            if (ModelState.IsValid)
+            {
+                // user inputs is valid
+
+                if (await _courseService.AddCourseAsync(Course, imgCourseUpload, demo, courseTypes) > 0)
+                {
+                    // success
+                    TempData["Success"] = "درس با موفقیت افزوده شد.";
+                    return RedirectToPage("Index");
+                }
+
+                // failure
+                ViewData["Failure"] = "متاسفانه عملیات افزودن درس توسط استاد با مشکل روبرو شد.";
+
+                await FeedInitialCourseDataAsync();
+                return Page();
+            }
+
+            // user inputs is not valid
+            ViewData["Failure"] = "ورودی شما نامعتبر است.";
+
+            await FeedInitialCourseDataAsync();
+            return Page();
+        }
+
+        #region Helpers
+        public async Task FeedInitialCourseDataAsync()
         {
             List<SelectListItem> groups = await _courseService.GetGroupsToManageCourseAsync();
             ViewData["Groups"] = new SelectList(groups, "Value", "Text");
@@ -49,28 +82,6 @@ namespace DigiMoallem.Web.Pages.Admin.Courses
                 .GetCourseTypesAsync();
             ViewData["CourseTypes"] = new SelectList(courseTypes, "Value", "Text");
         }
-
-        public async Task<IActionResult> OnPostAsync(IFormFile imgCourseUpload, IFormFile demo, List<int> courseTypes)
-        {
-            if (ModelState.IsValid)
-            {
-                // user inputs is valid
-
-                if (await _courseService.AddCourseAsync(Course, imgCourseUpload, demo, courseTypes) > 0)
-                {
-                    // success
-                    TempData["Success"] = "درس با موفقیت افزوده شد.";
-                    return RedirectToPage("Index");
-                }
-
-                // failure
-                TempData["OperationFailed"] = "متاسفانه عملیات افزودن درس توسط استاد با مشکل روبرو شد.";
-                return Page();
-            }
-
-            // user inputs is not valid
-            TempData["WrongInputs"] = "ورودی شما نامعتبر است.";
-            return Page();
-        }
+        #endregion
     }
 }

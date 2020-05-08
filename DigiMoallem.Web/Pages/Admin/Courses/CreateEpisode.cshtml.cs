@@ -23,9 +23,7 @@ namespace DigiMoallem.Web.Pages.Admin.Courses
 
         public void OnGet(int id)
         {
-            CourseEpisode = new CourseEpisode();
-            CourseEpisode.CourseId = id;
-            ViewData["CourseId"] = id;
+            SeedCourseEpisode(id);
         }
 
         public async Task<IActionResult> OnPostAsync(IFormFile fileEpisode)
@@ -37,25 +35,40 @@ namespace DigiMoallem.Web.Pages.Admin.Courses
                 if (_courseService.CheckFileExistance(fileEpisode.FileName))
                 {
                     // file is repititive
-                    TempData["OperationFailed"] = "نام فایل انتخابی تکراری است.";
-                    return LocalRedirect($"/Admin/Courses/CreateEpisode/{CourseEpisode.CourseId}");
+                    ViewData["Failure"] = "نام فایل انتخابی تکراری است.";
+
+                    SeedCourseEpisode(CourseEpisode.CourseId);
+                    return Page();
                 }
 
                 if (await _courseService.AddEpisodeAsync(CourseEpisode, fileEpisode) > 0)
                 {
                     // success
                     TempData["Success"] = "بخش با موفقیت افزوده شد.";
-                    return LocalRedirect($"/Admin/Courses/Episodes/{CourseEpisode.CourseId}");
+                    return RedirectToPage("Episodes", new { id = CourseEpisode.CourseId });
                 }
 
                 // failure
-                TempData["OperationFailed"] = "متاسفانه عملیات افزودن بخش توسط استاد با مشکل روبرو شد.";
-                return LocalRedirect($"/Admin/Courses/CreateEpisode/{CourseEpisode.CourseId}");
+                ViewData["Failure"] = "متاسفانه عملیات افزودن بخش توسط استاد با مشکل روبرو شد.";
+
+                SeedCourseEpisode(CourseEpisode.CourseId);
+                return Page();
             }
 
             // user inputs is not valid
-            TempData["WrongInputs"] = "ورودی شما نامعتبر است.";
-            return LocalRedirect($"/Admin/Courses/CreateEpisode/{CourseEpisode.CourseId}");
+            ViewData["Failure"] = "ورودی شما نامعتبر است.";
+
+            SeedCourseEpisode(CourseEpisode.CourseId);
+            return Page();
         }
+
+        #region Helpers
+        public void SeedCourseEpisode(int id) 
+        {
+            CourseEpisode = new CourseEpisode();
+            CourseEpisode.CourseId = id;
+            ViewData["CourseId"] = id;
+        }
+        #endregion
     }
 }

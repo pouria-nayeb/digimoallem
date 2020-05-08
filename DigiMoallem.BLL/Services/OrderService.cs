@@ -81,12 +81,12 @@ namespace DigiMoallem.BLL.Services
                         UserId = userId,
                         IsFinally = false,
                         CreateDate = DateTime.Now,
-                        TotalPrice = course.Price,
+                        TotalPrice = course.Off ? course.PriceAfterOff.Value : course.Price,
                         OrderDetails = new List<OrderDetail>() {
                         new OrderDetail() {
                             CourseId = courseId,
                             Count = 1,
-                            Price = course.Price
+                            Price = course.Off ? course.PriceAfterOff.Value : course.Price
                         }
                       }
                     };
@@ -111,7 +111,7 @@ namespace DigiMoallem.BLL.Services
                             OrderId = order.OrderId,
                             Count = 1,
                             CourseId = courseId,
-                            Price = course.Price
+                            Price = course.Off ? course.PriceAfterOff.Value : course.Price
                         };
                         _db.OrderDetails.Add(orderDetail);
                         Save();
@@ -148,12 +148,12 @@ namespace DigiMoallem.BLL.Services
                         UserId = userId,
                         IsFinally = false,
                         CreateDate = DateTime.Now,
-                        TotalPrice = course.Price,
+                        TotalPrice = course.Off ? course.PriceAfterOff.Value : course.Price,
                         OrderDetails = new List<OrderDetail>() {
                         new OrderDetail() {
                             CourseId = courseId,
                             Count = 1,
-                            Price = course.Price
+                            Price = course.Off ? course.PriceAfterOff.Value : course.Price
                         }
                       }
                     };
@@ -178,7 +178,7 @@ namespace DigiMoallem.BLL.Services
                             OrderId = order.OrderId,
                             Count = 1,
                             CourseId = courseId,
-                            Price = course.Price
+                            Price = course.Off ? course.PriceAfterOff.Value : course.Price
                         };
                         await _db.OrderDetails.AddAsync(orderDetail);
                         await SaveAsync();

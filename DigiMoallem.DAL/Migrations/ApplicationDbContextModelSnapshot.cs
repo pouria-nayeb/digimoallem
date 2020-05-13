@@ -27,7 +27,8 @@ namespace DigiMoallem.DAL.Migrations
 
                     b.Property<int>("Amount");
 
-                    b.Property<int>("CourseId");
+                    b.Property<string>("Description")
+                        .IsRequired();
 
                     b.Property<DateTime>("PaymentDate");
 
@@ -35,11 +36,34 @@ namespace DigiMoallem.DAL.Migrations
 
                     b.HasKey("PaymentId");
 
+                    b.HasIndex("TeacherId");
+
+                    b.ToTable("Payments");
+                });
+
+            modelBuilder.Entity("DigiMoallem.DAL.Entities.Accounting.Purification", b =>
+                {
+                    b.Property<int>("PurificationId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long>("Amount");
+
+                    b.Property<int>("CourseId");
+
+                    b.Property<bool>("IsChecked");
+
+                    b.Property<DateTime>("SubmitDate");
+
+                    b.Property<int>("TeacherId");
+
+                    b.HasKey("PurificationId");
+
                     b.HasIndex("CourseId");
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("Payments");
+                    b.ToTable("Purifications");
                 });
 
             modelBuilder.Entity("DigiMoallem.DAL.Entities.Courses.Comment", b =>
@@ -846,13 +870,21 @@ namespace DigiMoallem.DAL.Migrations
 
             modelBuilder.Entity("DigiMoallem.DAL.Entities.Accounting.Payment", b =>
                 {
-                    b.HasOne("DigiMoallem.DAL.Entities.Courses.Course", "Course")
+                    b.HasOne("DigiMoallem.DAL.Entities.Users.User", "User")
                         .WithMany("Payments")
+                        .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("DigiMoallem.DAL.Entities.Accounting.Purification", b =>
+                {
+                    b.HasOne("DigiMoallem.DAL.Entities.Courses.Course", "Course")
+                        .WithMany()
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("DigiMoallem.DAL.Entities.Users.User", "User")
-                        .WithMany("Payments")
+                        .WithMany()
                         .HasForeignKey("TeacherId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });

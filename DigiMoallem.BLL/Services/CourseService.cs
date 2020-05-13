@@ -1,5 +1,4 @@
-﻿using DigiMoallem.BLL.DTOs.Accountings;
-using DigiMoallem.BLL.DTOs.Admin.Courses;
+﻿using DigiMoallem.BLL.DTOs.Admin.Courses;
 using DigiMoallem.BLL.DTOs.Courses;
 using DigiMoallem.BLL.DTOs.Orders;
 using DigiMoallem.BLL.Helpers.Converters;
@@ -14,7 +13,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -222,6 +220,37 @@ namespace DigiMoallem.BLL.Services
         }
         #endregion
 
+        #region GetCoursesOfTeacher
+        public CourseViewModel GetCoursesOfTeacher(int teacherId, int pageNumber = 1, int pageSize = 16) 
+        {
+            IQueryable<Course> courses = _db.Courses.Where(c => c.TeacherId == teacherId);
+
+            int take = pageSize;
+            int skip = (pageNumber - 1) * take;
+            int coursesCount = courses.Count();
+
+            int pagesCount = (int)Math.Ceiling(decimal.Divide(coursesCount, take));
+
+            return new CourseViewModel
+            {
+                Courses = courses
+                .Skip(skip)
+                .Take(take)
+                .OrderByDescending(c => c.CourseId)
+                .Select(c => new CourseDetailsViewModel
+                {
+                    CourseId = c.CourseId,
+                    ImageName = c.ImageName,
+                    Title = c.Title,
+                    TeacherId = c.TeacherId,
+                    TeacherPercent = c.TeacherPercent
+                }).ToList(),
+                CurrentPage = pageNumber,
+                PageCount = pagesCount
+            };
+        }
+        #endregion
+
         /// <summary>
         /// Update group
         /// </summary>
@@ -273,10 +302,18 @@ namespace DigiMoallem.BLL.Services
             .ToListAsync();
         #endregion
 
+        #region GetUsersEmail
+        public List<string> GetUsersEmail() => _db.Users.Select(e => e.Email).ToList();
+        #endregion
+
         #region CoursesCount
         public int CoursesCount() => _db.Courses.Count();
 
         public async Task<int> CoursesCountAsync() => await _db.Courses.CountAsync();
+        #endregion
+
+        #region UncheckedCoursesCount
+        public int UncheckedCoursesCount() => _db.Courses.Where(c => c.IsCheckedByAdmin == false).Count();
         #endregion
 
         public List<string> GetCourseTitles() => _db.Courses
@@ -386,6 +423,34 @@ namespace DigiMoallem.BLL.Services
                 Text = cs.Title,
                 Value = cs.CourseTypeId.ToString()
             }).ToListAsync();
+        }
+        #endregion
+
+        #region GetAllUncheckedEpisodes
+        public CourseEpisodesViewModel GetAllUncheckedEpisodes(int pageNumber = 1, int pageSize = 32)
+        {
+            IQueryable<CourseEpisode> courseEpisodes = _db.CourseEpisodes
+                .Where(ep => ep.IsCheckedByAdmin == false);
+
+            // pagination logic
+            int take = 20;
+            int skip = (pageNumber - 1) * take;
+
+            int courseEpisodesCount = courseEpisodes.Count();
+
+            int pagesCount = (int)Math.Ceiling(decimal.Divide(courseEpisodesCount, take));
+
+            return new CourseEpisodesViewModel()
+            {
+                PageNumber = pageNumber,
+                PagesCount = pagesCount,
+                Episodes = courseEpisodes
+                .Skip(skip)
+                .Take(take)
+                .OrderByDescending(u => u.CourseEpisodeId)
+                .AsNoTracking()
+                .ToList()
+            };
         }
         #endregion
 
@@ -576,6 +641,83 @@ namespace DigiMoallem.BLL.Services
         }
         #endregion
 
+        #region GetTeacherCoursesForAdminAsync
+        public CourseViewModel GetTeacherCoursesForAdminAsync(int pageId, int teacherId)
+        {
+            IQueryable<Course> courses = _db.Courses;
+
+            // pagination logic
+            int recordsPerPages = 20;
+            int skip = (pageId - 1) * recordsPerPages;
+
+            int coursesCount = courses.Count();
+
+            int pagesCount = (int)Math.Ceiling(decimal.Divide(coursesCount, recordsPerPages));
+
+            return new CourseViewModel()
+            {
+                CurrentPage = pageId,
+                PageCount = pagesCount,
+                Courses = courses
+                .Include(c => c.User)
+                .Include(c => c.CourseEpisodes)
+                .Where(c => c.TeacherId == teacherId)
+                .Skip(skip)
+                .Take(recordsPerPages)
+                 .OrderByDescending(u => u.CourseId)
+                .Select(c => new CourseDetailsViewModel
+                {
+                    CourseId = c.CourseId,
+                    TeacherId = c.TeacherId,
+                    Title = c.Title,
+                    Teacher = c.User.UserName,
+                    ImageName = c.ImageName,
+                    TeacherPercent = c.TeacherPercent,
+                    EpisodesCount = c.CourseEpisodes.Count
+                })
+                .AsNoTracking()
+                .ToList()
+            };
+        }
+        #endregion
+
+        public CourseViewModel GetUncheckedCoursesForAdmin(int pageId)
+        {
+            IQueryable<Course> courses = _db.Courses.Where(c => c.IsCheckedByAdmin == false);
+
+            // pagination logic
+            int recordsPerPages = 20;
+            int skip = (pageId - 1) * recordsPerPages;
+
+            int coursesCount = courses.Count();
+
+            int pagesCount = (int)Math.Ceiling(decimal.Divide(coursesCount, recordsPerPages));
+
+            return new CourseViewModel()
+            {
+                CurrentPage = pageId,
+                PageCount = pagesCount,
+                Courses = courses
+                .Include(c => c.User)
+                .Include(c => c.CourseEpisodes)
+                .Skip(skip)
+                .Take(recordsPerPages)
+                 .OrderByDescending(u => u.CourseId)
+                .Select(c => new CourseDetailsViewModel
+                {
+                    CourseId = c.CourseId,
+                    TeacherId = c.TeacherId,
+                    Title = c.Title,
+                    Teacher = c.User.UserName,
+                    ImageName = c.ImageName,
+                    TeacherPercent = c.TeacherPercent,
+                    EpisodesCount = c.CourseEpisodes.Count
+                })
+                .AsNoTracking()
+                .ToList()
+            };
+        }
+
         #region AdvanceSearchCourse
         public SearchOrderViewModel AdvanceSearchCourse(DateTime startDate, DateTime endDate, int teacherId, 
             int pageNumber = 1, int pageSize = 16)
@@ -583,6 +725,7 @@ namespace DigiMoallem.BLL.Services
             IQueryable<OrderDetail> orderDetails = _db.OrderDetails
                 .Include(od => od.Course)
                 .Include(od => od.Order)
+                .ThenInclude(o => o.OrderDetails)
                 .Where(c => c.Course.TeacherId == teacherId && c.Order.IsFinally == true);
 
             int take = pageSize;
@@ -686,6 +829,45 @@ namespace DigiMoallem.BLL.Services
                 })
                 .AsNoTracking()
                 .ToListAsync()
+            };
+        }
+        #endregion
+
+        #region SearchCoursesAsync
+        public CourseViewModel SearchUncheckedCourses(string title, int pageId)
+        {
+            IQueryable<Course> courses = _db.Courses.Where(c => c.IsCheckedByAdmin == false);
+
+            // pagination logic
+            int recordsPerPages = 20;
+            int skip = (pageId - 1) * recordsPerPages;
+
+            int coursesCount = courses.Count();
+
+            int pagesCount = (int)Math.Ceiling(decimal.Divide(coursesCount, recordsPerPages));
+
+            return new CourseViewModel()
+            {
+                CurrentPage = pageId,
+                PageCount = pagesCount,
+                Courses = courses
+                .Include(c => c.User)
+                .Include(c => c.CourseEpisodes)
+                .Skip(skip)
+                .Take(recordsPerPages)
+                 .OrderByDescending(u => u.CourseId)
+                 .Where(c => c.Title.Contains(title))
+                .Select(c => new CourseDetailsViewModel
+                {
+                    CourseId = c.CourseId,
+                    TeacherId = c.TeacherId,
+                    Title = c.Title,
+                    Teacher = c.User.UserName,
+                    ImageName = c.ImageName,
+                    EpisodesCount = c.CourseEpisodes.Count
+                })
+                .AsNoTracking()
+                .ToList()
             };
         }
         #endregion
@@ -799,7 +981,7 @@ namespace DigiMoallem.BLL.Services
                 .Include(c => c.CourseId)
                 .Select(c => new SelectListItem
                 {
-                    Text = c.Title,
+                    Text = c.Title + " - " + c.User.UserName,
                     Value = c.CourseId.ToString()
                 }).ToList();
         }
@@ -811,7 +993,7 @@ namespace DigiMoallem.BLL.Services
                 .Include(c => c.CourseId)
                 .Select(c => new SelectListItem
                 {
-                    Text = c.Title,
+                    Text = c.Title + " - " + c.User.UserName,
                     Value = c.CourseId.ToString()
                 }).ToListAsync();
         }
@@ -1435,6 +1617,94 @@ namespace DigiMoallem.BLL.Services
                 .Where(c => c.CourseId == courseId && !c.IsDelete)
                 .AsNoTracking()
                 .ToListAsync(), pagesCount);
+        }
+        #endregion
+
+        #region UncheckedEpisodesCount
+        public int UncheckedEpisodesCount() => _db.CourseEpisodes.Where(ce => ce.IsCheckedByAdmin == false).Count();
+        #endregion
+
+        #region GetAllCommentsToManage
+        public CommentPagingViewModel GetAllCommentsToManage(int pageNumber = 1, int pageSize = 32) 
+        {
+            IQueryable<Comment> comments = _db.Comments;
+
+            int take = pageSize;
+            int skip = (pageNumber - 1) * take;
+            int commentsCount = comments.Count();
+
+            int pagesCount = (int)Math.Ceiling(decimal.Divide(commentsCount, take));
+
+            return new CommentPagingViewModel
+            {
+                Comments = comments
+                .Include(c => c.Course)
+                .Include(c => c.User)
+                .Skip(skip)
+                .Take(take)
+                .OrderByDescending(c => c.ReadByAdmin == false)
+                .ThenByDescending(c => c.IsDelete == false)
+                .ToList(),
+                PageNumber = pageNumber,
+                PagesCount = pagesCount
+            };
+        }
+        #endregion
+
+        #region GetAlCommentsCount
+        public int GetAllCommentsCount() => _db.Comments.Count();
+        #endregion
+
+        #region CommentsCount
+        public int CommentsCount() => _db.Comments.Count();
+        #endregion
+
+        #region UncheckedCommentsCount
+        public int UncheckedCommentsCount() => _db.Comments
+            .Where(c => c.ReadByAdmin == false)
+            .Count();
+        #endregion
+
+        #region GetCommentById
+        public Comment GetCommentById(int commentId) => _db.Comments.Include(c => c.User)
+            .SingleOrDefault(c => c.CommentId == commentId);
+        #endregion
+
+        #region UpdateComment
+        public Comment UpdateComment(Comment comment) 
+        {
+            try
+            {
+                _db.Comments.Update(comment);
+                Save();
+
+                return comment;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        #endregion
+
+        #region RemoveComment
+        public Comment RemoveComment(int commentId)
+        {
+            try
+            {
+                var comment = GetCommentById(commentId);
+
+                comment.IsDelete = true;
+
+                _db.Comments.Update(comment);
+                Save();
+
+                return comment;
+            }
+            catch
+            {
+                return null;
+            }
         }
         #endregion
 

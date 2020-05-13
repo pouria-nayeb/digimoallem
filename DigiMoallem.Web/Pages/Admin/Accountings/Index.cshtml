@@ -1,8 +1,10 @@
 ﻿@page
 @model DigiMoallem.Web.Pages.Admin.Accountings.IndexModel
+@inject IAccountingService accountingService
 
 @{
-    ViewData["Title"] = "لیست واریزی ها";
+    ViewData["Title"] = "لیست بستانکاران";
+    int j = 1;
 }
 
     <div class="container">
@@ -17,111 +19,130 @@
             </div>
         }
 
-    <div class="my-3 clearfix">
-        <!-- add -->
-        <a asp-area=""
-           asp-page="Create"
-           class="btn btn-outline-success float-right">
-            <i class="fa fa-plus ml-1"></i> افزودن واریزی جدید
-        </a>
+        <div class="d-block my-5">
+            <!-- add -->
+            <a asp-area=""
+               asp-page="Create"
+               class="btn btn-outline-success">
+                <i class="fa fa-plus ml-1"></i> ثبت واریزی به استاد
+            </a>
 
-        <!-- search -->
-        <a asp-area=""
-           asp-page="/Admin/Accountings/Search"
-           class="btn btn-outline-info mx-2 float-right">
-            <i class="fa fa-search ml-1"></i> جستجو
-        </a>
+            <!-- search -->
+            <a asp-area=""
+               asp-page="/Admin/Accountings/Search"
+               class="btn btn-outline-info mx-2">
+                <i class="fa fa-search ml-1"></i> جستجو صورت وضعیت
+            </a>
 
-        <!-- percent -->
-        <a asp-area=""
-           asp-page="/Admin/Accountings/Percent"
-           class="btn btn-outline-danger mx-2 float-right">
-            <i class="fa fa-percent ml-1"></i> درصد استاد
-        </a>
+            <!-- transactions -->
+            <a asp-area=""
+               asp-page="/Admin/Accountings/Transactions"
+               class="btn btn-outline-warning mx-2">
+                <i class="fa fa-sync ml-1"></i> لیست تراکنش ها
+            </a>
+        </div>
 
-        <!-- transactions -->
-        <a asp-area=""
-           asp-page="/Admin/Accountings/Transactions"
-           class="btn btn-outline-warning mx-2 float-right">
-            <i class="fa fa-sync ml-1"></i> تراکنش ها
-        </a>
+        <div class="my-3 d-block clearfix">
+            <!-- percent -->
+            <a asp-area=""
+               asp-page="/Admin/Purifications/Index"
+               class="btn btn-primary mx-2">
+                <i class="fa fa-percent ml-1"></i> لیست درخواست تصفیه <span class="badge badge-danger mr-2">@accountingService.UncheckedPurificationsCount()</span>
+            </a>
 
-        <button class="btn btn-primary float-left">
-            <i class="fa fa-list ml-1"></i> @Model.PaymentsCount
-        </button>
-    </div>
+            <button class="btn btn-primary float-left english-font">
+                <i class="fa fa-list ml-1"></i> @Model.TeachersCount
+            </button>
+        </div>
 
-        <!-- users table -->
+        <!-- accounting table -->
         <div class="table-responsive">
             <table class="table table-striped table-bordered">
                 <tr>
                     <th class="th-sm">
-                        شناسه
+                        ردیف
                     </th>
                     <th class="th-sm">
-                        نام مدرس
+                        نام استاد
                     </th>
                     <th class="th-sm">
-                        نام درس
-                    </th>
-                    <th class="th-sm">
-                        میزان واریزی
-                    </th>
-                    <th class="th-sm">
-                        تاریخ
+                        مبلغ بستانکاری (تومان)
                     </th>
                     <th class="th-sm">
                         دستورات
                     </th>
                 </tr>
-                @if (Model.PaymentVM.Payments.Count == 0)
+                @if (Model.UserVM.Users.Count == 0)
                 {
                     <tr class="bg-dark text-light">
-                        <td colspan="6" class="py-4">
-                            <i class="fas fa-exclamation-triangle ml-2"></i> لیست تراکنش ها خالی است.
+                        <td colspan="4" class="py-4">
+                            <i class="fas fa-exclamation-triangle ml-2"></i> لیست اساتید خالی است.
                         </td>
                     </tr>
                 }
                 else
                 {
-                    @foreach (var payemnt in Model.PaymentVM.Payments)
+                    @foreach (var teacher in Model.UserVM.Users)
                     {
-            <tr>
-                <td class="english-font">@payemnt.PaymentId</td>
-                <td>@payemnt.User.UserName</td>
-                <td>@payemnt.Course.Title</td>
-                <td class="english-font">@payemnt.Amount.ThreeDigitSeperator()</td>
-                <td class="english-font">@payemnt.PaymentDate.ToPersianDate()</td>
-                <td class="text-center">
-
-                    <a asp-area=""
-                       asp-page="/Admin/Accountings/Edit"
-                       asp-route-id="@payemnt.PaymentId"
-                       class="btn btn-outline-warning btn-sm">
-                        <i class="fa fa-pen ml-2"></i> ویرایش
-                    </a>
-
-                    <a asp-area=""
-                       asp-page="/Admin/Accountings/Details"
-                       asp-route-id="@payemnt.PaymentId"
-                       class="btn btn-outline-info btn-sm">
-                        <i class="fa fa-info ml-2"></i> جزئیات
-                    </a>
-                </td>
-            </tr>
+                        <tr>
+                            <td class="english-font">@(j++)</td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(teacher.FirstName) && !string.IsNullOrEmpty(teacher.LastName))
+                                {
+                                    @teacher.FirstName @teacher.LastName
+                                }
+                                else {
+                                    <span class="text-danger">نام استاد ثبت نشده</span>
+                                }
+                            </td>
+                            <!-- todo -->
+                            <td>
+                                @{
+                                    var value = accountingService.GetTeacherIncome(teacher.UserId) - accountingService.GetTeacherPayment(teacher.UserId);
+                                    if (value > 0)
+                                    {
+                                        <span>@value.ThreeDigitSeperator() <span class="badge badge-success">بستانکار</span></span>
+                                    }
+                                    else if (value < 0)
+                                    {
+                                        <span>@value.ThreeDigitSeperator() <span class="badge badge-danger">بدهکار</span></span>
+                                    }
+                                    else
+                                    {
+                            <span>0</span>
+                                    }
+                                }
+                            </td>
+                            <td>
+                                <!-- pay to teacher -->
+                                <a asp-area=""
+                                   asp-page="Create"
+                                   asp-route-id="@teacher.UserId"
+                                   class="btn btn-outline-success btn-sm">
+                                    <i class="fa fa-plus ml-1"></i> ثبت پرداخت
+                                </a>
+                                <!-- teacher incomes status -->
+                                <a asp-area=""
+                                   asp-page="TeacherIncomeStatus"
+                                   asp-route-id="@teacher.UserId"
+                                   class="btn btn-outline-info btn-sm">
+                                    <i class="fa fa-info ml-1"></i> صورت وضعیت
+                                </a>
+                            </td>
+                        </tr>
                     }
                 }
             </table>
         </div>
 
-        @if (Model.PaymentVM.PageCount > 1)
+        @if (Model.UserVM.CurrentPage > 1)
         {
             <!-- pagination -->
             <nav aria-label="Page navigation" class="my-3">
                 <ul class="pagination pagination-circle pg-dark justify-content-center">
-                    @for (int i = 1; i <= Model.PaymentVM.PageCount; i++)
+                    @for (int i = 1; i <= Model.UserVM.PageCount; i++)
                     {
-                        <li class="page-item english-font @((Model.PaymentVM.PageNumber == i) ? "active" : "")">
+                        <li class="page-item english-font @((Model.UserVM.CurrentPage == i) ? "active" : "")">
                             <a href="/Admin/Accountings?pageId=@i" class="page-link">@i</a>
                         </li>
                     }

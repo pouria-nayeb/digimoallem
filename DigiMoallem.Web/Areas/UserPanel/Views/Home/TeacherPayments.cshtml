@@ -36,14 +36,12 @@
                         <div class="table-responsive">
                             <table class="table table-bordered table-striped">
                                 <tr>
-                                    <th>نام درس</th>
                                     <th>میزان پرداختی</th>
                                     <th>تاریخ پرداختی</th>
                                 </tr>
                                 @foreach (var payment in Model.Payments)
                                 {
                                     <tr>
-                                        <td>@payment.Course.Title</td>
                                         <td>@payment.Amount.ThreeDigitSeperator()</td>
                                         <td class="english-font">@payment.PaymentDate.ToPersianDate()</td>
                                     </tr>

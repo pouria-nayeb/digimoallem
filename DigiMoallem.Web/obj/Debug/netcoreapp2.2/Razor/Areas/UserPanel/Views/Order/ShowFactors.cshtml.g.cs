@@ -33,8 +33,18 @@ using DigiMoallem.BLL.Interfaces;
 
 #line default
 #line hidden
+#line 7 "C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\Areas\UserPanel\Views\_ViewImports.cshtml"
+using DigiMoallem.BLL.DTOs.Admin.Courses;
+
+#line default
+#line hidden
+#line 8 "C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\Areas\UserPanel\Views\_ViewImports.cshtml"
+using DigiMoallem.DAL.Entities.Courses;
+
+#line default
+#line hidden
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"1cde85b1d1fff404183096201924166c8198e00d", @"/Areas/UserPanel/Views/Order/ShowFactors.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"bace68dcdcaaa9950572cdaafe944e450dabb8d5", @"/Areas/UserPanel/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"1a85b0e6a29d1913285eb1cfc8d59cce96508e14", @"/Areas/UserPanel/Views/_ViewImports.cshtml")]
     public class Areas_UserPanel_Views_Order_ShowFactors : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<IEnumerable<DigiMoallem.DAL.Entities.Orders.Order>>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("name", "_SideBarPartial", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -221,7 +231,7 @@ WriteAttributeValue("", 2755, order.OrderId, 2755, 14, false);
             WriteLiteral("                            </tbody>\r\n\r\n                        </table>\r\n\r\n                    </div>\r\n                </div>\r\n\r\n            </div>\r\n\r\n        </div>\r\n\r\n        <div class=\"col-12 col-md-4\">\r\n\r\n            ");
             EndContext();
             BeginContext(3351, 34, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("partial", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "1cde85b1d1fff404183096201924166c8198e00d11611", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("partial", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "1cde85b1d1fff404183096201924166c8198e00d11975", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_TagHelpers_PartialTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper>();

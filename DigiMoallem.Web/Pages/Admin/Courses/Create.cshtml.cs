@@ -31,23 +31,23 @@ namespace DigiMoallem.Web.Pages.Admin.Courses
 
         public async Task<IActionResult> OnPostAsync(IFormFile imgCourseUpload, IFormFile demo, List<int> courseTypes)
         {
-            //if (ModelState.IsValid)
-            //{
-            //    // user inputs is valid
+            if (ModelState.IsValid)
+            {
+                // user inputs is valid
 
-            //    if (await _courseService.AddCourseAsync(Course, imgCourseUpload, demo, courseTypes) > 0)
-            //    {
-            //        // success
-            //        TempData["Success"] = "درس با موفقیت افزوده شد.";
-            //        return RedirectToPage("Index");
-            //    }
+                if (await _courseService.AddCourseAsync(Course, imgCourseUpload, demo, courseTypes) > 0)
+                {
+                    // success
+                    TempData["Success"] = "درس با موفقیت افزوده شد.";
+                    return RedirectToPage("Index");
+                }
 
-            //    // failure
-            //    ViewData["Failure"] = "متاسفانه عملیات افزودن درس توسط استاد با مشکل روبرو شد.";
+                // failure
+                ViewData["Failure"] = "متاسفانه عملیات افزودن درس توسط استاد با مشکل روبرو شد.";
 
-            //    await FeedInitialCourseDataAsync();
-            //    return Page();
-            //}
+                await FeedInitialCourseDataAsync();
+                return Page();
+            }
 
             // user inputs is not valid
             ViewData["Failure"] = "ورودی شما نامعتبر است.";

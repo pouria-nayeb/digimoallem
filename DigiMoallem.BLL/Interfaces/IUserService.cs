@@ -153,6 +153,10 @@ namespace DigiMoallem.BLL.Interfaces
         Task<UserViewModel> GetDeletedUsersAsync(int pageId = 1, string filterEmail = "", string filterUserName = "");
         #endregion
 
+        #region GetTeachers - Pagination - filterByEmail - filterByUserName
+        UserViewModel GetTeachers(int pageId = 1, string filterEmail = "", string filterUserName = "");
+        #endregion
+
         #region AddUserByAdmin
         int AddUserByAdmin(CreateUserViewModel user);
         Task<int> AddUserByAdminAsync(CreateUserViewModel user);

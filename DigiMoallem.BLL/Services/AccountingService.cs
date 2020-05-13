@@ -1,13 +1,17 @@
 ﻿using DigiMoallem.BLL.DTOs.Accountings;
+using DigiMoallem.BLL.Helpers.Converters;
 using DigiMoallem.BLL.Interfaces;
 using DigiMoallem.DAL.Context;
 using DigiMoallem.DAL.Entities.Accounting;
 using DigiMoallem.DAL.Entities.Courses;
 using DigiMoallem.DAL.Entities.Users;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
+using System.Reflection.PortableExecutable;
 using System.Threading.Tasks;
 
 namespace DigiMoallem.BLL.Services
@@ -17,12 +21,14 @@ namespace DigiMoallem.BLL.Services
         private ApplicationDbContext _db;
         private readonly ICourseService _courseService;
         private readonly IUserService _userService;
+        private readonly ILogger<AccountingService> _logger;
 
-        public AccountingService(ApplicationDbContext db, ICourseService courseService, IUserService userService)
+        public AccountingService(ApplicationDbContext db, ICourseService courseService, IUserService userService, ILogger<AccountingService> logger)
         {
             _db = db;
             _courseService = courseService;
             _userService = userService;
+            _logger = logger;
         }
 
         /// <summary>
@@ -38,10 +44,6 @@ namespace DigiMoallem.BLL.Services
                 // db success
                 _db.Payments.Add(payment);
                 Save();
-
-                var course = _courseService.GetCourseById(payment.CourseId);
-
-                CourseSharesCalculator(payment.TeacherId, payment.CourseId, course.TeacherPercent);
 
                 return true;
             }
@@ -60,10 +62,6 @@ namespace DigiMoallem.BLL.Services
                 await _db.Payments.AddAsync(payment);
                 await SaveAsync();
 
-                var course = _courseService.GetCourseById(payment.CourseId);
-
-                CourseSharesCalculator(payment.TeacherId, payment.CourseId, course.TeacherPercent);
-
                 return true;
             }
             catch
@@ -74,49 +72,58 @@ namespace DigiMoallem.BLL.Services
         }
         #endregion
 
-        #region AddTeacherPercent
-        public bool AddTeacherPercent(TeacherPercentViewModel teacherPercentVM)
+        #region GetTeacherCourse
+        public int TeacherShare(int price, int percent) 
         {
-            try
-            {
-                // db success
-
-                var course = _courseService.GetCourseById(teacherPercentVM.CourseId);
-
-                course.TeacherPercent = teacherPercentVM.Percent;
-
-                _db.Courses.Update(course);
-                Save();
-
-                return true;
-            }
-            catch
-            {
-                // db failure
-                return false;
-            }
+            return ((price * percent) / 100);
         }
+        #endregion
 
-        public async Task<bool> AddTeacherPercentAsync(TeacherPercentViewModel teacherPercentVM)
+        #region InstitudeShare
+        public int InstitudeShare(int price, int percent)
         {
-            try
-            {
-                // db success
+            return price - ((price * percent) / 100);
+        }
+        #endregion
 
-                var course = await _courseService.GetCourseByIdAsync(teacherPercentVM.CourseId);
+        #region GetTotalIncome
+        public int GetTotalIncome(int teacherId, int courseId) 
+        {
+            return _db.OrderDetails
+                    .Include(od => od.Course)
+                    .Include(od => od.Order)
+                    .Where(od => od.Course.TeacherId == teacherId && od.CourseId == courseId && od.Order.IsFinally == true)
+                    .Select(od => od.Price).Sum();
+        }
+        #endregion
 
-                course.TeacherPercent = teacherPercentVM.Percent;
+        #region GetTeacherTotalIncome
+        public int GetTeacherTotalIncome(int teacherId, int courseId)
+        {
+            var course = _courseService.GetCourseById(courseId);
 
-                _db.Courses.Update(course);
-                await SaveAsync();
+            return ((_db.OrderDetails
+                .Include(od => od.Course)
+                .Include(od => od.Order)
+                .Where(od => od.Course.TeacherId == teacherId && od.CourseId == courseId && od.Order.IsFinally == true)
+                .Select(od => od.Price).Sum() * course.TeacherPercent)/100);
+        }
+        #endregion
 
-                return true;
-            }
-            catch
-            {
-                // db failure
-                return false;
-            }
+        #region GetTeacherIncome
+        public int GetTeacherIncome(int teacherId) 
+        {
+            return _db.OrderDetails
+                    .Include(od => od.Course)
+                    .Include(od => od.Order)
+                    .Where(od => od.Course.TeacherId == teacherId && od.Order.IsFinally == true).Sum(od => (od.Price * od.Course.TeacherPercent) / 100);
+        }
+        #endregion
+
+        #region GetTeacherTotalIncome
+        public int GetInstitudeTotalIncome(int teacherId, int courseId)
+        {
+            return GetTotalIncome(teacherId, courseId) - GetTeacherTotalIncome(teacherId, courseId);
         }
         #endregion
 
@@ -166,7 +173,6 @@ namespace DigiMoallem.BLL.Services
                 .Skip(skip)
                 .Take(recordsPerPage)
                 .Include(p => p.User)
-                .Include(p => p.Course)
                 .OrderByDescending(p => p.PaymentId)
                 .AsNoTracking()
                 .ToList()
@@ -191,7 +197,6 @@ namespace DigiMoallem.BLL.Services
                                 .Skip(skip)
                 .Take(recordsPerPage)
                 .Include(p => p.User)
-                .Include(p => p.Course)
                 .OrderByDescending(p => p.PaymentId)
                 .AsNoTracking()
                 .ToListAsync()
@@ -214,7 +219,6 @@ namespace DigiMoallem.BLL.Services
             {
                 Payments = payments
                 .Where(p => p.TeacherId == userId)
-                .Include(p => p.Course)
                 .Skip(skip)
                 .Take(take)
                 .OrderByDescending(p => p.PaymentId)
@@ -238,7 +242,6 @@ namespace DigiMoallem.BLL.Services
             {
                 Payments = await payments
                 .Where(p => p.TeacherId == userId)
-                .Include(p => p.Course)
                 .Skip(skip)
                 .Take(take)
                 .OrderByDescending(p => p.PaymentId)
@@ -288,16 +291,6 @@ namespace DigiMoallem.BLL.Services
                 return false;
             }
         }
-        #endregion
-
-        #region TeacherTotalPayments
-        public int TeacherTotalPayments(int teacherId) => _db.Payments
-            .Where(p => p.TeacherId == teacherId)
-            .Select(p => p.Amount).Sum();
-
-        public async Task<int> TeacherTotalPaymentsAsync(int teacherId) => await _db.Payments
-            .Where(p => p.TeacherId == teacherId)
-            .Select(p => p.Amount).SumAsync();
         #endregion
 
         /// <summary>
@@ -359,72 +352,128 @@ namespace DigiMoallem.BLL.Services
         }
         #endregion
 
-        #region TeacherIncomePerCourse
-        public int TeacherIncomePerCourse(int teacherId)
+        // purification
+        #region GetPurifications
+        public PurificationPagingViewModel GetPurifications(int pageNumber = 1, int pageSize = 32) 
         {
-            return _db.Payments
-                .Include(p => p.User)
-                .Where(p => p.TeacherId == teacherId)
-                .Select(p => p.Amount)
-                .Sum();
-        }
-
-        public async Task<int> TeacherIncomePerCourseAsync(int teacherId)
-        {
-            return await _db.Payments
-                .Include(p => p.User)
-                .Where(p => p.TeacherId == teacherId)
-                .Select(p => p.Amount)
-                .SumAsync();
-        }
-        #endregion
-
-        #region GetTeacherCurrentShare
-        public TeacherShareViewModel GetTeacherCurrentShare(int userId, int pageNumber = 1, int pageSize = 32)
-        {
-            IQueryable<Course> courses = _db.Courses;
+            IQueryable<Purification> purifications = _db.Purifications;
 
             int take = pageSize;
-            int skip = (pageNumber - 1) * take;
-            int paymentsCount = courses.Count();
+            int skip = (pageNumber - 1) * pageSize;
+            int purificationsCount = purifications.Count();
 
-            int pagesCount = (int)Math.Ceiling(decimal.Divide(paymentsCount, take));
+            int pagesCount = (int)Math.Ceiling(decimal.Divide(purificationsCount, take));
 
-            return new TeacherShareViewModel
+            return new PurificationPagingViewModel
             {
-                Courses = courses
-                .Where(p => p.TeacherId == userId)
+                Purifications = purifications
                 .Skip(skip)
                 .Take(take)
-                .OrderByDescending(p => p.CourseId)
+                .Include(p => p.User)
+                .Include(p => p.Course)
+                .OrderByDescending(p => p.PurificationId)
                 .ToList(),
                 PageNumber = pageNumber,
                 PagesCount = pagesCount
             };
         }
+        #endregion
 
-        public async Task<TeacherShareViewModel> GetTeacherCurrentShareAsync(int userId, int pageNumber = 1, int pageSize = 32)
+        #region GetTeacherPayment
+        public int GetTeacherPayment(int teacherId)
         {
-            IQueryable<Course> courses = _db.Courses;
-
-            int take = pageSize;
-            int skip = (pageNumber - 1) * take;
-            int paymentsCount = await courses.CountAsync();
-
-            int pagesCount = (int)Math.Ceiling(decimal.Divide(paymentsCount, take));
-
-            return new TeacherShareViewModel
-            {
-                Courses = await courses
-                .Where(p => p.TeacherId == userId)
-                .Skip(skip)
-                .Take(take)
-                .OrderByDescending(p => p.CourseId)
-                .ToListAsync(),
-                PageNumber = pageNumber,
-                PagesCount = pagesCount
-            };
+            return _db.Payments.Where(p => p.TeacherId == teacherId).Sum(p => p.Amount);
         }
+        #endregion
+
+        #region GetPurificationById
+        public Purification GetPurificationById(int purificationId) => _db.Purifications
+            .Include(p => p.User)
+            .Include(p => p.Course)
+            .SingleOrDefault(p => p.PurificationId == purificationId);
+        #endregion
+
+        #region AddPurification
+        public Purification AddPurification(Purification purification)
+        {
+            try
+            {
+                _db.Purifications.Add(purification);
+                Save();
+
+                return purification;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"{nameof(AccountingService)}\n{ex.StackTrace}\n{ex.Message}");
+
+                return null;
+            }
+        }
+        #endregion
+
+        #region UpdatePurification
+        public Purification UpdatePurification(Purification purification)
+        {
+            try
+            {
+                _db.Purifications.Update(purification);
+                Save();
+
+                return purification;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"{nameof(AccountingService)}\n{ex.StackTrace}\n{ex.Message}");
+
+                return null;
+            }
+        }
+        #endregion
+
+        #region RemovePurification
+        public Purification RemovePurification(int purificationId)
+        {
+            try
+            {
+                var purification = GetPurificationById(purificationId);
+
+                _db.Purifications.Remove(purification);
+                Save();
+
+                return purification;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"{nameof(AccountingService)}\n{ex.StackTrace}\n{ex.Message}");
+
+                return null;
+            }
+        }
+        #endregion
+
+        #region SearchPurification
+        public List<Purification> SearchPurification(string query) 
+        {
+            if (string.IsNullOrEmpty(query))
+            {
+                return _db.Purifications
+                    .Include(p => p.User)
+                    .Include(p => p.Course)
+                    .Where(p => p.User.Email.TextTransform().Contains(query.TextTransform()) || p.Course.Title.TextTransform().Contains(query.TextTransform()))
+                    .ToList();
+            }
+
+            return null;
+        }
+        #endregion
+
+        #region PurificationsCount
+        public int PurificationsCount() => _db.Purifications.Count();
+        #endregion
+
+        #region UncheckedPurificationsCount
+        public int UncheckedPurificationsCount() => _db.Purifications.Where(p => p.IsChecked == false).Count();
         #endregion
 
         #region Save
@@ -449,103 +498,5 @@ namespace DigiMoallem.BLL.Services
             _db = null;
         }
         #endregion
-
-        #region CourseSharesCalculator
-        public void CourseSharesCalculator(int teacherId, int courseId, int teacherPercent)
-        {
-            var course = _courseService.GetCourseById(courseId);
-
-            if (course.TotalIncome > 0)
-            {
-                var totalIncomeForCourse = TotalIncomeForCourse(teacherId, courseId);
-
-                // teacher did not pay yet.
-                if (TeacherTotalPayments(teacherId) == 0)
-                {
-                    // teacher's share from the course
-                    var teacherShareForCourse = (totalIncomeForCourse * teacherPercent) / 100;
-                    // institude's share from the course
-                    var instutudeShareForCourse = (totalIncomeForCourse - teacherShareForCourse);
-
-                    // record them in db
-                    course.TotalIncome = totalIncomeForCourse;
-                    course.TeacherPercent = teacherPercent;
-                    course.TotalPayment = teacherShareForCourse;
-                    course.TotalInstitutePayment = instutudeShareForCourse;
-
-                    _courseService.UpdateCourse(course, null, null, null);
-                }
-                else
-                {
-                    var teacherTotalPayments = (TeacherTotalPaymentForCourse(teacherId, courseId));
-                    // new income = allincomeforcourse - (teacherTotalPayment + instituteTotalShare)
-                    var newCourseIncome = (totalIncomeForCourse - (teacherTotalPayments + GetInstitudeShared(totalIncomeForCourse, teacherTotalPayments))) - course.TotalIncome.Value;
-                    var teacherShareForCourse = (newCourseIncome * teacherPercent) / 100;
-                    var instutudeShareForCourse = (newCourseIncome - teacherShareForCourse);
-
-                    course.TotalIncome = newCourseIncome;
-                    course.TeacherPercent = teacherPercent;
-                    course.TotalPayment = teacherShareForCourse;
-                    course.TotalInstitutePayment = instutudeShareForCourse;
-
-                    _courseService.UpdateCourse(course, null, null, null);
-                }
-            }
-        }
-        #endregion
-
-        #region TeacherTotalIncome
-        public int TeacherTotalIncome(int teacherId) => _db.OrderDetails
-            .Include(od => od.Course)
-            .Include(od => od.Order)
-            .Where(od => od.Course.TeacherId == teacherId && od.Order.IsFinally == true)
-            .Select(od => od.Order.TotalPrice).Sum();
-        #endregion
-
-        #region TotalIncomePerCourse
-        public int TotalIncomeForCourse(int teacherId, int courseId) => _db.OrderDetails
-            .Include(od => od.Course)
-            .Include(od => od.Order)
-            .Where(od => od.Course.TeacherId == teacherId && od.Course.CourseId == courseId && od.Order.IsFinally == true)
-            .Select(od => od.Order.TotalPrice).Sum();
-        #endregion
-
-        #region TeacherTotalPaymentForCourse
-        public int TeacherTotalPaymentForCourse(int teacherId, int courseId) => _db.Payments.Where(p => p.TeacherId == teacherId && p.CourseId == courseId).Select(p => p.Amount).Sum();
-        #endregion
-
-        #region RemainingTeacherShareForCourse
-        public int RemainingTeacherShareForCourse(int teacherId, int courseId) 
-        {
-            var teacherIncomeForCourse = TeacherIncomeForCourse(teacherId, courseId);
-            var teacherPaymentForCourse = TeacherTotalPaymentForCourse(teacherId, courseId);
-
-            return teacherIncomeForCourse - teacherPaymentForCourse;
-        }
-        #endregion
-
-        #region TeacherIncomeForCourse
-        public int TeacherIncomeForCourse(int teacherId, int courseId)
-        {
-            var course = _courseService.GetCourseById(courseId);
-
-            if (course.TeacherPercent != null)
-            {
-                return (int)((TotalIncomeForCourse(teacherId, courseId) * course.TeacherPercent) / 100);
-            }
-            else {
-                return 0;
-            }
-        }
-        #endregion
-
-        #region TeacherTotalIncomeForCourse
-        public int TeacherTotalIncomeForCourse(int teacherId, int courseId) => _db.OrderDetails
-            .Include(od => od.Course)
-            .Include(od => od.Order)
-            .Where(od => od.Course.TeacherId == teacherId && od.Course.CourseId == courseId && od.Order.IsFinally == true).Select(od => od.Order.TotalPrice).Sum();
-        #endregion
-
-        private int GetInstitudeShared(int totalIncome, int teacherShare) => totalIncome - teacherShare;
     }
 }

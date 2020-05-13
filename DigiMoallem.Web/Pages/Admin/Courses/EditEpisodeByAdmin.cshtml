@@ -1,0 +1,136 @@
+﻿@page "{id:min(1)}"
+@model DigiMoallem.Web.Pages.Admin.Courses.EditEpisodeByAdminModel
+@inject ICourseService  _courseService
+@inject IPermissionService permissionService
+
+@{
+    ViewData["Title"] = "ویرایش بخش";
+}
+
+    <div class="container">
+
+        <!-- back to episodes -->
+        <a asp-page="/Admin/Courses/Episodes"
+           asp-route-id="@Model.CourseEpisode.CourseId"
+           class="btn btn-outline-info">
+            <i class="fas fa-arrow-right ml-2"></i> بازگشت
+        </a>
+
+        <h1 class="my-5"> <i class="fa fa-book ml-2"></i> @ViewData["Title"]</h1>
+
+        @if (User.Identity.Name == _courseService.GetCourseById(Model.CourseEpisode.CourseId).User.UserName ||
+                            permissionService.CheckPermission(2, User.Identity.Name))
+        {
+
+            <form method="post" enctype="multipart/form-data">
+
+                <input type="hidden" asp-for="CourseEpisode.CourseId" />
+                <input type="hidden" asp-for="CourseEpisode.CourseEpisodeId" />
+                <input type="hidden" asp-for="CourseEpisode.EpisodeFileName" />
+
+                <div class="container">
+
+                    <div asp-validation-summary="ModelOnly" class="text-danger my-4"></div>
+
+                    @if (TempData["WrongInputs"] != null)
+                    {
+                        <div class="alert alert-danger">
+                            @TempData["WrongInputs"]
+                        </div>
+                    }
+
+                    @if (TempData["OperationFailed"] != null)
+                    {
+                        <div class="alert alert-danger">
+                            @TempData["OperationFailed"]
+                        </div>
+                    }
+
+                    <div class="row">
+                        <div class="col-12 col-sm-12 col-md-8 col-lg-8">
+
+                            <!-- title -->
+                            <div class="form-group mb-4">
+                                <label asp-for="CourseEpisode.Title"></label>
+                                <input type="text" asp-for="CourseEpisode.Title" class="form-control" />
+
+                                <span asp-validation-for="CourseEpisode.Title"></span>
+                            </div>
+
+                            <!-- time -->
+                            <div class="form-group mb-4">
+                                <label asp-for="CourseEpisode.EpisodeLength"></label>
+                                <input type="text" asp-for="CourseEpisode.EpisodeLength"
+                                       class="form-control" />
+
+                                <span asp-validation-for="CourseEpisode.EpisodeLength"></span>
+                            </div>
+
+                            <!-- is free -->
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" asp-for="CourseEpisode.IsFree" />
+                                <label class="custom-control-label"  asp-for="CourseEpisode.IsFree">دوره رایگان
+                                </label>
+                            </div>
+
+                            <div class="form-group my-5">
+                                <!-- edit -->
+                                <button type="submit" class="btn btn-outline-warning">
+                                    <i class="fa fa-pen ml-2"></i> ویرایش بخش
+                                </button>
+                            </div>
+
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-4 col-lg-4" style="margin-top:1.9rem">
+
+                            <!-- file demo -->
+                            <div class="form-group">
+                                <div class="input-group w-100">
+                                    <div class="custom-file">
+                                        <input type="file"
+                                               class="custom-file-input"
+                                               name="fileEpisode"
+                                               id="image" />
+                                        <label class="custom-file-label" style="padding-right:6rem">
+                                            انتخاب فایل
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card">
+                                <div class="card-header">
+                                    بررسی مدیر
+                                </div>
+                                <div class="card-body">
+                                    @if (permissionService.CheckPermission(2, User.Identity.Name))
+                                    {
+                                        <!-- checked -->
+                                        <div class="form-group">
+                                            <div class="custom-control custom-switch">
+                                                <input type="checkbox"
+                                                       class="custom-control-input"
+                                                       asp-for="CourseEpisode.IsCheckedByAdmin" />
+                                                <label class="custom-control-label"
+                                                       asp-for="CourseEpisode.IsCheckedByAdmin"></label>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+
+        }
+
+    <div class="mx-5">
+        <video class="responsive-demo d-block mx-auto w-100" controls="">
+            <source src="/coursefiles/@Model.CourseEpisode.EpisodeFileName" type="video/mp4" />
+        </video>
+    </div>
+
+    </div>

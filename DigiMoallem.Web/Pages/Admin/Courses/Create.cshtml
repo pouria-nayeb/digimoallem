@@ -56,10 +56,12 @@
 
                     <!-- groups -->
                     <div class="form-group mb-4">
-                        <select class="form-control"
+                        <label asp-for="Course.GroupId"></label>
+                        <select class="form-control select-list"
                                 asp-for="Course.GroupId"
+                                style="width: 100%;"
                                 asp-items="@ViewData["Groups"] as SelectList">
-                            <option value="">یکی از گروه ها را انتخاب نمایید</option>
+                            <option value="" disabled selected>یکی از گروه ها را انتخاب نمایید</option>
                         </select>
 
                         <span asp-validation-for="Course.GroupId" class="text-danger"></span>
@@ -67,14 +69,18 @@
 
                     <!-- subgroups -->
                     @*<div class="form-group mb-4">
-                        <select class="form-control" asp-for="Course.SubGroupId" asp-items="@ViewData["SubGroups"] as SelectList"></select>
-                         </div>*@
+        <select class="form-control" asp-for="Course.SubGroupId" asp-items="@ViewData["SubGroups"] as SelectList"></select>
+         </div>*@
 
                     @if (_permissionService.CheckPermission(2, User.Identity.Name))
                     {
                         <!-- teachers list (admin-only) -->
                         <div class="form-group mb-4">
-                            <select class="form-control" asp-for="Course.TeacherId" asp-items="@ViewData["Teachers"] as SelectList">
+                            <label asp-for="Course.TeacherId"></label>
+                            <select class="form-control select-list"
+                                    style="width: 100%;"
+                                    asp-for="Course.TeacherId"
+                                    asp-items="@ViewData["Teachers"] as SelectList">
                                 <option value="" disabled selected>یکی از اساتید را انتخاب نمایید</option>
                             </select>
 
@@ -123,6 +129,7 @@
                     </div>
 
                     <!-- file demo -->
+                    <span class="text-light mb-2 d-block">فیلم دمو دوره</span>
                     <div class="custom-file">
                         <input type="file" class="custom-file-input" name="demo" />
                         <label class="custom-file-label" style="padding-right:6rem">انتخاب فایل</label>
@@ -144,8 +151,9 @@
                          class="img-fluid mx-auto my-2 display-block"
                          alt="تصویر درس" />
 
-                    <div class="form-group">
-                        <div class="input-group my-4 w-100 max-width-520px">
+                    <div class="form-group my-4">
+                        <span class="text-light mb-2 d-block">تصویر دوره</span>
+                        <div class="input-group w-100 max-width-520px">
                             <div class="custom-file">
                                 <input type="file" class="custom-file-input"
                                        asp-for="Course.ImageName"
@@ -159,8 +167,12 @@
 
                     <!-- course levels -->
                     <div class="form-group mb-4">
-                        <select class="browser-default custom-select" asp-for="Course.CourseLevelId" asp-items="@ViewData["CourseLevels"] as SelectList">
-                            <option value="" disabled="disabled">یکی از سطوح را انتخاب نمایید</option>
+                        <label asp-for="Course.CourseLevelId"></label>
+                        <select class="browser-default custom-select select-list" 
+                                style="width: 100%;"
+                                asp-for="Course.CourseLevelId" 
+                                asp-items="@ViewData["CourseLevels"] as SelectList">
+                            <option value="" disabled selected>یکی از سطوح را انتخاب نمایید</option>
                         </select>
                     </div>
 
@@ -208,7 +220,7 @@
                                 </div>
 
                                 <!-- is favorite (admin-only) -->
-                                <div class="form-check">
+                                <div class="form-check my-3">
                                     <label class="form-check-label" asp-for="Course.IsFavorite">
                                         <input type="checkbox" class="form-check-input"
                                                asp-for="Course.IsFavorite" />

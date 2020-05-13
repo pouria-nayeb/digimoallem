@@ -1,5 +1,4 @@
-﻿using DigiMoallem.DAL.Entities.Courses;
-using DigiMoallem.DAL.Entities.Users;
+﻿using DigiMoallem.DAL.Entities.Users;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -11,16 +10,18 @@ namespace DigiMoallem.DAL.Entities.Accounting
         [Key]
         public int PaymentId { get; set; }
 
-        [Display(Name = "استاد")]
+        [Display(Name = "اساتید")]
         [Required(ErrorMessage = "لطفاً {0} را وارد نمایید.")]
         public int TeacherId { get; set; }
-
-        [Display(Name = "عنوان درس")]
-        public int CourseId { get; set; }
 
         [Display(Name = "مبلغ پرداختی")]
         [Required(ErrorMessage = "لطفاً {0} را وارد نمایید.")]
         public int Amount { get; set; }
+
+        [Display(Name = "توضیحات")]
+        [DataType(DataType.MultilineText)]
+        [Required(ErrorMessage = "لطفاً {0} را وارد نمایید.")]
+        public string Description { get; set; }
 
         [Display(Name = "تاریخ واریز وجه")]
         public DateTime PaymentDate { get; set; }
@@ -29,8 +30,6 @@ namespace DigiMoallem.DAL.Entities.Accounting
 
         [ForeignKey("TeacherId")]
         public User User { get; set; }
-
-        public Course Course { get; set; }
 
         #endregion
     }

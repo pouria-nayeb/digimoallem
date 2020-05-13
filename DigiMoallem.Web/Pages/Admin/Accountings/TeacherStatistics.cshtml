@@ -75,7 +75,7 @@
             <th class="th-sm">
                 %@course.TeacherPercent
             </th>
-            <td class="text-success">
+            @*<td class="text-success">
                 @accountService.TeacherTotalPaymentForCourse(course.TeacherId, course.CourseId).ThreeDigitSeperator()
             </td>
             <td>
@@ -87,10 +87,10 @@
                 {
                     <span class="badge badge-danger">درصد استاد مشخص نیست</span>
                 }
-            </td>
+            </td>*@
             <td>
                 @{
-                    var remainingTeacherShare = accountService.RemainingTeacherShareForCourse(course.TeacherId, course.CourseId);
+                    @*var remainingTeacherShare = accountService.RemainingTeacherShareForCourse(course.TeacherId, course.CourseId);
 
                     if (remainingTeacherShare > 0)
                     {
@@ -103,11 +103,11 @@
                     else
                     {
                         <span class="text-success">تصفیه شده</span>
-                    }
+                    }*@
                 }
             </td>
             <td>
-                @accountService.TotalIncomeForCourse(course.TeacherId, course.CourseId).ThreeDigitSeperator()
+                @*@accountService.TotalIncomeForCourse(course.TeacherId, course.CourseId).ThreeDigitSeperator()*@
             </td>
         </tr>
                 }

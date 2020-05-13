@@ -24,9 +24,10 @@
                 <!-- users list -->
                 <div class="form-group">
                     <label for="exampleSelect2">ایمیل کاربر</label>
-                    <select multiple="" class="form-control" 
+                    <select class="form-control select-list" 
                             asp-for="UserCourse.UserId" 
                             asp-items="Model.Users">
+                        <option value="" disabled selected>یکی از کاربران را انتخاب نمایید</option>
                     </select>
 
                     <span asp-validation-for="UserCourse.UserId" class="text-danger"></span>
@@ -42,9 +43,10 @@
             <div class="col-12 col-sm-6">
                 <div class="form-group">
                     <label for="exampleSelect2">نام دوره آموزشی</label>
-                    <select multiple="" class="form-control"
+                    <select class="form-control select-list"
                             asp-for="UserCourse.CourseId"
                             asp-items="Model.Courses">
+                        <option value="" disabled selected>یکی از دوره ها را انتخاب نمایید</option>
                     </select>
 
                     <span asp-validation-for="UserCourse.CourseId" class="text-danger"></span>

@@ -14,7 +14,7 @@
         <i class="fas fa-arrow-right ml-2"></i> بازگشت
     </a>
 
-    <h1 class="my-5"> <i class="fa fa-book ml-2"></i> @ViewData["Title"]</h1>
+    <h1 class="my-5"> <i class="fa fa-wallet ml-2"></i> @ViewData["Title"]</h1>
 
     <form method="post">
 
@@ -31,9 +31,9 @@
 
             <div class="col-12 col-md-6">
                 <!-- user -->
-                <div class="form-group">
+                <div class="form-group mt-4">
                     <label asp-for="Exchange.UserId"></label>
-                    <select class="form-control"
+                    <select class="form-control select-list"
                             asp-for="Exchange.UserId"
                             asp-items="Model.UsersSelectList">
                     </select>
@@ -74,7 +74,7 @@
                 </div>
 
                 <!-- description -->
-                <div class="form-group mb-4">
+                <div class="form-group my-4">
                     <label asp-for="Exchange.Description"></label>
                     <input type="text" asp-for="Exchange.Description" class="form-control" />
 

@@ -13,6 +13,7 @@ namespace DigiMoallem.BLL.DTOs.Accounts
         [Required(ErrorMessage = "لطفاً {0} را وارد نمایید.")]
         [MaxLength(200, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]
         [EmailAddress(ErrorMessage = "ایمیل وارد شده معتبر نمی باشد.")]
+        [RegularExpression(@"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$", ErrorMessage = "لطفاً ایمیل معتبر وارد کنید.")]
         public string Email { get; set; }
 
         [Display(Name = "رمز عبور")]

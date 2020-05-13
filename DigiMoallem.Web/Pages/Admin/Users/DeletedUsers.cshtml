@@ -5,112 +5,115 @@
     ViewData["Title"] = "کاربران حذف شده";
 }
 
-<div class="container">
+    <div class="container">
 
-    <!-- back -->
-    <a href="/Admin/Users" class="btn btn-outline-info">
-        <i class="fas fa-arrow-right ml-2"></i> بازگشت
-    </a>
+        <!-- back -->
+        <a href="/Admin/Users" class="btn btn-outline-info">
+            <i class="fas fa-arrow-right ml-2"></i> بازگشت
+        </a>
 
-    <h1 class="my-5"> <i class="fa fa-users text-danger ml-2"></i> @ViewData["Title"]</h1>
+        <h1 class="my-5 text-danger"> <i class="fa fa-users ml-2"></i> @ViewData["Title"]</h1>
 
-    <form autocomplete="off">
+        <form autocomplete="off">
 
-        <div class="row p-3">
+            <div class="row p-3">
 
-            <!-- userName -->
-            <div class="col-12 col-sm-12 col-md-4">
-                <div class="md-form">
-                    <input type="text" id="username" name="filterUserName" 
-                           class="form-control text-direction-ltr text-left english-font">
-                    <label for="username">نام کاربری</label>
+                <!-- userName -->
+                <div class="col-12 col-sm-12 col-md-4">
+                    <div class="md-form">
+                        <input type="text" id="username" name="filterUserName"
+                               class="form-control text-direction-ltr text-left english-font">
+                        <label for="username">نام کاربری</label>
+                    </div>
                 </div>
-            </div>
 
-            <!-- email -->
-            <div class="col-12 col-sm-12 col-md-4">
-                <div class="md-form">
-                    <input type="text" id="email" name="filterEmail" 
-                           class="form-control text-direction-ltr text-left english-font">
-                    <label for="email">آدرس ایمیل</label>
+                <!-- email -->
+                <div class="col-12 col-sm-12 col-md-4">
+                    <div class="md-form">
+                        <input type="text" id="email" name="filterEmail"
+                               class="form-control text-direction-ltr text-left english-font">
+                        <label for="email">آدرس ایمیل</label>
+                    </div>
                 </div>
+
+                <!-- search -->
+                <div class="col-12 col-sm-12 col-md-4">
+                    <button class="btn btn-primary"> <i class="fa fa-search ml-2"></i> جستجو</button>
+                    <a href="/Admin/Users/DeletedUsers" class="btn btn-secondary"> <i class="fa fa-filter ml-2"></i> حذف فیلترها</a>
+                </div>
+
             </div>
+        </form>
 
-            <!-- search -->
-            <div class="col-12 col-sm-12 col-md-4">
-                <button class="btn btn-primary"> <i class="fa fa-search ml-2"></i> جستجو</button>
-                <a href="/Admin/Users/DeletedUsers" class="btn btn-secondary"> <i class="fa fa-filter ml-2"></i> حذف فیلترها</a>
-            </div>
-
-        </div>
-    </form>
-
-    <!-- users table -->
-    <div class="table-responsive">
-        <table class="table table-striped table-bordered">
-            <tr>
-                <th class="th-sm">
-                    نام کاربری
-                </th>
-                <th class="th-sm">
-                    ایمیل
-                </th>
-                <th class="th-sm">
-                    وضعیت
-                </th>
-                <th class="th-sm">
-                    تاریخ ثبت نام
-                </th>
-                <th class="th-sm">
-                    دستورات
-                </th>
-            </tr>
-            @if (Model.UserViewModel.Users.Count == 0)
-            {
-                <tr class="bg-dark text-light">
-                    <td colspan="5" class="py-4">
-                        <i class="fas fa-exclamation-triangle ml-2"></i> کاربری در لیست حذف شدگان وجود ندارد.
-                    </td>
+        <!-- users table -->
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <tr>
+                    <th class="th-sm">
+                        نام کاربری
+                    </th>
+                    <th class="th-sm">
+                        ایمیل
+                    </th>
+                    <th class="th-sm">
+                        وضعیت
+                    </th>
+                    <th class="th-sm">
+                        تاریخ ثبت نام
+                    </th>
+                    <th class="th-sm">
+                        دستورات
+                    </th>
                 </tr>
-            }
-            else
-            {
-                @foreach (var user in Model.UserViewModel.Users)
+                @if (Model.UserViewModel.Users.Count == 0)
                 {
-                    <tr>
-                        <td class="english-font">@user.UserName</td>
-                        <td class="english-font">@user.Email</td>
-                        <td>
-                            @{
-                                var status = user.IsActive ? "فعال" : "غیر فعال";
-                                <text>@status</text>
-                            }
-                        </td>
-                        <td class="english-font">@user.RegisterDate.ToPersianDate()</td>
-                        <td class="text-center">
-                            <a asp-area=""
-                               asp-page="/Admin/Users/Recover"
-                               asp-route-id="@user.UserId"
-                               class="btn btn-outline-success btn-sm">
-                                <i class="fa fa-check ml-2"></i> بازیابی کاربر
-                            </a>
+                    <tr class="bg-dark text-light">
+                        <td colspan="5" class="py-4">
+                            <i class="fas fa-exclamation-triangle ml-2"></i> کاربری در لیست حذف شدگان وجود ندارد.
                         </td>
                     </tr>
                 }
-            }
-        </table>
+                else
+                {
+                    @foreach (var user in Model.UserViewModel.Users)
+                    {
+                        <tr>
+                            <td class="english-font">@user.UserName</td>
+                            <td class="english-font">@user.Email</td>
+                            <td>
+                                @{
+                                    var status = user.IsActive ? "فعال" : "غیر فعال";
+                                    <text>@status</text>
+                                }
+                            </td>
+                            <td class="english-font">@user.RegisterDate.ToPersianDate()</td>
+                            <td class="text-center">
+                                <a asp-area=""
+                                   asp-page="/Admin/Users/Recover"
+                                   asp-route-id="@user.UserId"
+                                   class="btn btn-outline-success btn-sm">
+                                    <i class="fa fa-check ml-2"></i> بازیابی کاربر
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </table>
+        </div>
+
+        @if (Model.UserViewModel.CurrentPage > 1)
+        {
+            <!-- pagination -->
+            <nav aria-label="Page navigation" class="my-3">
+                <ul class="pagination pagination-circle pg-dark justify-content-center">
+                    @for (int i = 1; i <= Model.UserViewModel.PageCount; i++)
+                    {
+                        <li class="page-item @((Model.UserViewModel.CurrentPage == i) ? "active" : "")">
+                            <a href="/Admin/DeletedUsers?pageId=@i" class="page-link">@i</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        }
+
     </div>
-
-    <!-- pagination -->
-    <nav aria-label="Page navigation" class="my-3">
-        <ul class="pagination pagination-circle pg-dark justify-content-center">
-            @for (int i = 1; i <= Model.UserViewModel.PageCount; i++)
-            {
-                <li class="page-item @((Model.UserViewModel.CurrentPage == i) ? "active" : "")">
-                    <a href="/Admin/DeletedUsers?pageId=@i" class="page-link">@i</a>
-                </li>
-            }
-        </ul>
-    </nav>
-
-</div>

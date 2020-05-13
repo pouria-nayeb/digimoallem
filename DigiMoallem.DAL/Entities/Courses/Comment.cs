@@ -22,8 +22,10 @@ namespace DigiMoallem.DAL.Entities.Courses
 
         public DateTime CreateDate { get; set; }
 
+        [Display(Name = "حذف")]
         public bool IsDelete { get; set; }
 
+        [Display(Name = "بررسی شده")]
         public bool ReadByAdmin { get; set; }
 
         [Display(Name = "پاسخ")]

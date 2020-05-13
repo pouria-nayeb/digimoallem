@@ -19,5 +19,6 @@ namespace DigiMoallem.BLL.DTOs.UserPanel
         public string ScientificField { get; set; }
         public string Skills { get; set; }
         public string Experiences { get; set; }
+        public DateTime UpdateDate { get; set; }
     }
 }

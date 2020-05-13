@@ -1,63 +1,137 @@
-﻿<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-5">
+﻿@inject IPermissionService permissionService
+@inject IMessageService messageService
+@inject IWorkService workService
+@inject ICourseService courseService
+
+<nav class="navbar navbar-expand-xl navbar-dark bg-dark mb-5">
     <a class="navbar-brand" asp-page="/Admin/Dashboard">
         <i class="fa fa-user-graduate ml-1"></i> دیجی معلم
     </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-        <div class="collapse navbar-collapse" id="navbarColor02">
-            <ul class="navbar-nav ml-auto">
+    <div class="collapse navbar-collapse" id="navbarColor02">
+        <ul class="navbar-nav ml-auto">
+            @if (permissionService.CheckPermission(2, User.Identity.Name))
+            {
+                <!-- admin-only -->
                 <li class="nav-item">
-                    <a class="nav-link" asp-page="/Admin/Users/Index">
-                        <i class="fas fa-users text-success ml-2"></i> کاربران
+                    <a class="nav-link text-center" asp-page="/Admin/Users/Index">
+                        <i class="fas fa-users text-success ml-2"></i> <br /> کاربران
                     </a>
                 </li>
+            }
+            @if (permissionService.CheckPermission(2, User.Identity.Name))
+            {
+                <!-- admin-only -->
                 <li class="nav-item">
-                    <a class="nav-link" asp-page="/Admin/Roles/Index">
-                        <i class="fas fa-map-pin text-danger ml-2"></i> نقش ها
+                    <a class="nav-link text-center" asp-page="/Admin/Roles/Index">
+                        <i class="fas fa-map-pin text-danger ml-2"></i> <br /> نقش ها
                     </a>
                 </li>
+            }
+            @if (permissionService.CheckPermission(2, User.Identity.Name))
+            {
+                <!-- admin-only -->
                 <li class="nav-item">
-                    <a class="nav-link" asp-page="/Admin/Groups/Index">
-                        <i class="fas fa-list text-warning ml-2"></i> گروه ها
+                    <a class="nav-link text-center" asp-page="/Admin/Groups/Index">
+                        <i class="fas fa-list text-warning ml-2"></i> <br /> گروه ها
                     </a>
                 </li>
+            }
+            @if (permissionService.CheckPermission(2, User.Identity.Name))
+            {
+                <!-- admin-only -->
                 <li class="nav-item">
-                    <a class="nav-link" asp-page="/Admin/Discounts/Index">
-                        <i class="fas fa-percent text-light ml-2"></i> تخفیف ها
+                    <a class="nav-link text-center" asp-page="/Admin/Discounts/Index">
+                        <i class="fas fa-percent text-light ml-2"></i> <br /> تخفیف ها
                     </a>
                 </li>
+            }
+            @if (permissionService.CheckPermission(2, User.Identity.Name))
+            {
+                <!-- admin-only -->
                 <li class="nav-item">
-                    <a class="nav-link" asp-page="/Admin/Courses/Index">
-                        <i class="fas fa-book-open text-info ml-2"></i> دروس
+                    <a class="nav-link text-center" asp-page="/Admin/Courses/Index">
+                        <i class="fas fa-book-open text-info ml-2"></i> <br /> کل دروس
                     </a>
                 </li>
+            }
+
+            @if (permissionService.CheckPermission(22, User.Identity.Name))
+            {
+                <!-- teacher -->
                 <li class="nav-item">
-                    <a class="nav-link" asp-page="/Admin/Accountings/Index">
-                        <i class="fas fa-calculator text-white ml-2"></i> حسابداری
+                    <a class="nav-link text-center" asp-page="/Admin/Courses/Teacher">
+                        <i class="fas fa-book-open text-info ml-2"></i> <br /> دروس شما
                     </a>
                 </li>
+            }
+
+            @if (permissionService.CheckPermission(2, User.Identity.Name) || permissionService.CheckPermission(28, User.Identity.Name))
+            {
+                <!-- admin - accountant -->
                 <li class="nav-item">
-                    <a class="nav-link" asp-page="/Admin/Messages/Index">
-                        <i class="fas fa-envelope-open text-warning ml-2"></i> پیام ها
+                    <a class="nav-link text-center" asp-page="/Admin/Accountings/Index">
+                        <i class="fas fa-calculator text-white ml-2"></i> <br /> حسابداری
                     </a>
                 </li>
+            }
+            @if (permissionService.CheckPermission(2, User.Identity.Name))
+            {
+                <!-- admin-only -->
                 <li class="nav-item">
-                    <a class="nav-link" asp-page="/Admin/Works/Index">
-                        <i class="fas fa-list-alt text-danger ml-2"></i> درخواست تدریس
+                    <a class="nav-link text-center" asp-page="/Admin/Messages/Index">
+                        <i class="fas fa-envelope-open text-warning ml-2"></i> <br /> پیام ها <span class="badge badge-warning mr-1 english-font">@messageService.NewContactsCount()</span>
                     </a>
                 </li>
+            }
+            @if (permissionService.CheckPermission(2, User.Identity.Name))
+            {
+                <!-- admin-only -->
                 <li class="nav-item">
-                    <a class="nav-link" asp-page="/Admin/Orders/All">
-                        <i class="fas fa-shopping-bag text-info ml-2"></i> سفارشات
+                    <a class="nav-link text-center" asp-page="/Admin/Works/Index">
+                        <i class="fas fa-list-alt text-danger ml-2"></i> <br /> درخواست تدریس <span class="badge badge-danger mr-1 english-font">@workService.NewWorksCount()</span>
                     </a>
                 </li>
+            }
+            @if (permissionService.CheckPermission(2, User.Identity.Name))
+            {
+                <!-- admin-only -->
                 <li class="nav-item">
-                    <a class="nav-link" asp-page="/Admin/Settings/Edit">
-                        <i class="fas fa-cogs ml-2"></i> راهنما
+                    <a class="nav-link text-center" asp-page="/Admin/Orders/All">
+                        <i class="fas fa-shopping-bag text-info ml-2"></i> <br /> سفارشات
                     </a>
                 </li>
-            </ul>
-        </div>
-    </nav>
+            }
+            @if (permissionService.CheckPermission(2, User.Identity.Name))
+            {
+                <!-- admin-only -->
+                <li class="nav-item">
+                    <a class="nav-link text-center" asp-page="/Admin/Settings/Edit">
+                        <i class="fas fa-cogs ml-2"></i> <br /> راهنما
+                    </a>
+                </li>
+            }
+            @if (permissionService.CheckPermission(2, User.Identity.Name))
+            {
+                <!-- admin-only -->
+                <li class="nav-item">
+                    <a class="nav-link text-center" asp-page="/Admin/Courses/Comments">
+                        <i class="fa fa-comment-alt ml-2"></i> <br /> کامنت ها <span class="badge badge-success mx-1 english-font">@courseService.UncheckedCommentsCount()</span>
+                    </a>
+                </li>
+            }
+            @if (permissionService.CheckPermission(2, User.Identity.Name))
+            {
+                <!-- admin-only -->
+                <li class="nav-item">
+                    <a class="nav-link text-center" asp-page="/Admin/Courses/AllEpisodes">
+                        <i class="fas fa-list text-warning ml-2"></i> <br /> بررسی بخش ها <span class="badge badge-warning mr-1 english-font">@courseService.UncheckedEpisodesCount()</span>
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+</nav>

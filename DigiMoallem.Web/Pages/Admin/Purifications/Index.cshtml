@@ -1,0 +1,97 @@
+﻿@page
+@model DigiMoallem.Web.Pages.Admin.Purifications.IndexModel
+
+@{
+    ViewData["Title"] = "لیست درخواست تصفیه اساتید";
+}
+
+<section class="container">
+
+    <h1 class="my-5"><i class="fa fa-money-bill ml-1"></i> @ViewData["Title"]</h1>
+
+    <div class="clearfix my-3">
+        <button class="btn btn-primary float-left english-font">
+            <i class="fa fa-list-ul"></i> @Model.PurificationsCount
+        </button>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Success"]
+        </div>
+    }
+
+    <div class="table-responsive">
+
+        <table class="table table-striped table-bordered">
+            <tr>
+                <th>شناسه</th>
+                <th>نام درس</th>
+                <th>نام استاد</th>
+                <th>وضعیت درخواست</th>
+                <th>تاریخ درخواست</th>
+                <th>عملیات</th>
+            </tr>
+            @if (Model.PurificationVM.Purifications.Any())
+            {
+                @foreach (var purification in Model.PurificationVM.Purifications)
+                {
+                    <tr>
+                        <td class="english-font">@purification.PurificationId</td>
+                        <td>@purification.Course.Title</td>
+                        <td class="english-font">@purification.User.Email</td>
+                        <td class="english-font">
+                            @if (purification.IsChecked)
+                            {
+                                <span class="badge badge-success">بررسی شده</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-danger">بررسی نشده</span>
+                            }
+                        </td>
+                        <td class="english-font">@purification.SubmitDate.ToPersianDate()</td>
+                        <td>
+                            <a asp-page="Edit"
+                               asp-route-id="@purification.PurificationId"
+                               class="btn btn-outline-warning btn-sm mx-1">
+                                <i class="fa fa-pen ml-1"></i> ویرایش
+                            </a>
+                            <a asp-page="Delete"
+                               asp-route-id="@purification.PurificationId"
+                               class="btn btn-outline-danger btn-sm mx-1">
+                                <i class="fa fa-trash ml-1"></i> حذف
+                            </a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6">
+                        درخواست تصفیه وجود ندارد.
+                    </td>
+                </tr>
+            }
+        </table>
+
+    </div>
+
+    @if (Model.PurificationVM.PageNumber > 1)
+    {
+        <!-- pagination -->
+        <nav aria-label="Page navigation" class="my-3">
+            <ul class="pagination pagination-circle pg-dark justify-content-center">
+                @for (int i = 1; i <= Model.PurificationVM.PagesCount; i++)
+                {
+                    <li class="page-item english-font @((Model.PurificationVM.PageNumber == i) ? "active" : "")">
+                        <a href="/Admin/Purifications?pageNumber=@i" class="page-link">@i</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    }
+
+</section>

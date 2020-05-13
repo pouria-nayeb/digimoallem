@@ -1,0 +1,83 @@
+﻿@page
+@model DigiMoallem.Web.Pages.Admin.Courses.CommentsModel
+
+@{
+    ViewData["Title"] = "لیست کامنت های کاربران";
+}
+
+<div class="container-fluid">
+
+    <h1 class="my-5">
+        <i class="fa fa-comment-alt text-info ml-2"></i> @ViewData["Title"]
+    </h1>
+
+    <!-- comments count -->
+    <div class="clearfix my-5">
+        <button class="btn btn-outline-primary float-left english-font">
+            <i class="fa fa-list-ul ml-1"></i> @Model.CommentsCount
+        </button>
+    </div>
+
+    <div class="table-responsive">
+
+        <!-- comments table -->
+        <table class="table table-bordered table-striped">
+            <tr>
+                <th>شناسه</th>
+                <th>پست الکترونیک کاربر</th>
+                <th>نام درس</th>
+                <th>متن پیام</th>
+                <th>وضعیت</th>
+                <th>حذف شده؟</th>
+                <th>تاریخ</th>
+                <th>عملیات</th>
+            </tr>
+            @foreach (var comment in Model.CommentPagingVM.Comments)
+            {
+                <tr>
+                    <td class="english-font">@comment.CommentId</td>
+                    <td class="english-font">@comment.User.Email</td>
+                    <td>@comment.Course.Title</td>
+                    <td>@comment.Body</td>
+                    <td>
+                        @if (comment.ReadByAdmin)
+                        {
+                            <span class="badge badge-success">بررسی شده</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-danger">بررسی نشده</span>
+                        }
+                    </td>
+                    <td>
+                        @if (comment.IsDelete == false)
+                        {
+                            <span class="badge badge-info">حذف نشده</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-danger">حذف شده</span>
+                        }
+                    </td>
+                    <td class="english-font">@comment.CreateDate.ToPersianDate()</td>
+                    <td>
+                        <!-- edit -->
+                        <a asp-page="EditComment"
+                           asp-route-id="@comment.CommentId"
+                           class="btn btn-outline-warning btn-sm">
+                            <i class="fa fa-pen ml-1"></i> ویرایش
+                        </a>
+                        <!-- delete -->
+                        <a asp-page="DeleteComment"
+                           asp-route-id="@comment.CommentId"
+                           class="btn btn-outline-danger btn-sm">
+                            <i class="fa fa-trash-alt ml-1"></i> حذف
+                        </a>
+                    </td>
+                </tr>
+            }
+        </table>
+
+    </div>
+
+</div>

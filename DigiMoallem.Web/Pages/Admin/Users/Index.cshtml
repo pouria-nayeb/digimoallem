@@ -55,6 +55,12 @@
                class="btn btn-outline-success float-right ml-2">
                 <i class="fa fa-plus ml-2"></i> افزودن کاربر جدید
             </a>
+            <!-- teachers -->
+            <a asp-area=""
+               asp-page="/Admin/Users/Teachers"
+               class="btn btn-outline-info float-right ml-2">
+                <i class="fa fa-chalkboard-teacher ml-2"></i> لیست اساتید
+            </a>
             <!-- deleted users -->
             <a asp-area=""
                asp-page="/Admin/Users/DeletedUsers"
@@ -62,7 +68,7 @@
                 <i class="fa fa-users ml-2"></i> کاربران حذف شده
             </a>
 
-            <button class="btn btn-primary float-left">
+            <button class="btn btn-primary float-left english-font">
                 <i class="fa fa-list ml-1"></i> @Model.UsersCount
             </button>
         </div>

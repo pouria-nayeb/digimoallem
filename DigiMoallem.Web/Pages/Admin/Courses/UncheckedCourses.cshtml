@@ -1,0 +1,137 @@
+﻿@page
+@model DigiMoallem.Web.Pages.Admin.Courses.UncheckedCoursesModel
+
+@{
+    ViewData["Title"] = "لیست  دروس بررسی نشده";
+}
+
+<div class="container">
+
+    <h1 class="my-5 text-danger"> <i class="fa fa-user-secret ml-2"></i> @ViewData["Title"]</h1>
+
+    <!-- create succeeded -->
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Success"]
+        </div>
+    }
+
+    <form autocomplete="off">
+
+        <div class="row p-3">
+
+            <!-- title -->
+            <div class="col-12 col-sm-12 col-md-4">
+                <div class="form-group">
+                    <input type="text" id="title" name="title"
+                           class="form-control">
+                    <label for="username">عنوان دوره</label>
+                </div>
+            </div>
+
+            <!-- search -->
+            <div class="col-12 col-sm-12 col-md-4">
+                <button class="btn btn-primary"> <i class="fa fa-search ml-2"></i> جستجو</button>
+                <a href="/Admin/Courses/UncheckedCourses" class="btn btn-secondary"> <i class="fa fa-filter ml-2"></i> حذف فیلترها</a>
+            </div>
+
+            <!-- search -->
+            <div class="col-12 col-sm-12 col-md-4">
+
+            </div>
+
+        </div>
+    </form>
+
+    <div class="my-3 clearfix">
+        <!-- count -->
+        <a href="javascript:void(0)"
+           class="btn btn-primary float-left english-font">
+            <i class="fa fa-list ml-1"></i> @Model.CoursesCount
+        </a>
+    </div>
+
+    <!-- users table -->
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+            <tr>
+                <th class="th-sm">
+                    تصویر دوره
+                </th>
+                <th class="th-sm">
+                    شناسه
+                </th>
+                <th class="th-sm">
+                    عنوان دوره
+                </th>
+                <th class="th-sm">
+                    نام استاد
+                </th>
+                <th class="th-sm">
+                    درصد استاد
+                </th>
+                <th class="th-sm">
+                    تعداد بخش ها
+                </th>
+                <th class="th-sm">
+                    دستورات
+                </th>
+            </tr>
+            @if (Model.CourseVM.Courses.Count == 0)
+            {
+                <tr class="bg-dark text-light">
+                    <td colspan="7" class="py-4">
+                        <i class="fas fa-exclamation-triangle ml-2"></i> لیست دروس خالی است.
+                    </td>
+                </tr>
+            }
+            else
+            {
+                @foreach (var course in Model.CourseVM.Courses)
+                {
+                    <tr>
+                        <td>
+                            <img class="img-thumbnails"
+                                 src="~/Images/Courses/@course.ImageName"
+                                 alt="@course.Title"
+                                 style="width:75px" />
+                        </td>
+                        <td class="english-font">@course.CourseId</td>
+                        <td>@course.Title</td>
+                        <td>@course.Teacher</td>
+                        <td>@course.TeacherPercent</td>
+                        <td class="english-font">@course.EpisodesCount</td>
+                        <td class="text-center">
+
+                            <a asp-area=""
+                               asp-page="/Admin/Courses/EditUncheckedCourse"
+                               asp-route-id="@course.CourseId"
+                               class="btn btn-outline-warning btn-sm">
+                                <i class="fa fa-pen ml-2"></i> ویرایش
+                            </a>
+
+                        </td>
+                    </tr>
+                }
+            }
+        </table>
+    </div>
+
+
+    @if (Model.CourseVM.PageCount > 1)
+    {
+        <!-- pagination -->
+        <nav aria-label="Page navigation" class="my-3">
+            <ul class="pagination pagination-circle pg-dark justify-content-center">
+                @for (int i = 1; i <= Model.CourseVM.PageCount; i++)
+                {
+                    <li class="page-item english-font @((Model.CourseVM.CurrentPage == i) ? "active" : "")">
+                        <a href="/Admin/Courses?pageId=@i" class="page-link">@i</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    }
+
+</div>

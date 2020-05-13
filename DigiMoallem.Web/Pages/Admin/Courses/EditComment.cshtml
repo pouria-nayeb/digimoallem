@@ -1,0 +1,60 @@
+﻿@page "{id:min(1)}"
+@model DigiMoallem.Web.Pages.Admin.Courses.EditCommentModel
+
+@{
+    ViewData["Title"] = $"بررسی کامنت {Model.Comment.User.Email}";
+}
+
+<div class="container">
+
+    <h1 class="my-5">@ViewData["Title"]</h1>
+
+    @if (ViewData["Failure"] != null)
+    {
+        <div class="alert alert-danger">
+            <i class="fa fa-times ml-1"></i> @ViewData["Failure"]
+        </div>
+    }
+
+    <div class="card">
+
+        <div class="card-header">
+            @ViewData["Title"]
+        </div>
+
+        <div class="card-body">
+
+            <form method="post">
+
+                <input type="hidden" asp-for="Comment.CommentId" />
+                <input type="hidden" asp-for="Comment.CreateDate" />
+                <input type="hidden" asp-for="Comment.CourseId" />
+                <input type="hidden" asp-for="Comment.Body" />
+                <input type="hidden" asp-for="Comment.UserId" />
+                <input type="hidden" asp-for="Comment.ParentId" />
+                <input type="hidden" asp-for="Comment.IsDelete" />
+
+                <!-- checked -->
+                <div class="form-group">
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox"
+                               class="custom-control-input"
+                               asp-for="Comment.ReadByAdmin" />
+                        <label class="custom-control-label"
+                               asp-for="Comment.ReadByAdmin"></label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-outline-warning">
+                        <i class="fa fa-pen ml-1"></i> ویرایش کامنت
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

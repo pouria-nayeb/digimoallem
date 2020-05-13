@@ -1,0 +1,71 @@
+﻿@page
+@model DigiMoallem.Web.Pages.Admin.Courses.AllEpisodesModel
+
+@{
+    ViewData["Title"] = "بخش های بررسی نشده";
+}
+
+    <div class="container">
+
+        <h1 class="my-5 text-warning">
+            <i class="fa fa-list ml-2"></i> @ViewData["Title"]
+        </h1>
+
+        <!-- episodes count -->
+        <div class="clearfix my-5">
+            <button class="btn btn-outline-primary float-left english-font">
+                <i class="fa fa-list-ul ml-1"></i> @Model.UncheckedEpisodesCount
+            </button>
+        </div>
+
+        <div class="table-responsive">
+
+                <!-- episodes table -->
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <th>شناسه</th>
+                    <th>عنوان</th>
+                    <th>وضعیت</th>
+                    <th>عملیات</th>
+                </tr>
+                @if (Model.CourseEpisodesVM.Episodes.Any())
+                {
+                    @foreach (var episode in Model.CourseEpisodesVM.Episodes)
+                    {
+                        <tr>
+                            <td class="english-font">@episode.CourseEpisodeId</td>
+                            <td>@episode.Title</td>
+                            <td>
+                                @if (episode.IsCheckedByAdmin)
+                                {
+                                    <span class="badge badge-success">بررسی شده</span>
+                                }
+                                else
+                                {
+                                    <span class="badge badge-danger">بررسی نشده</span>
+                                }
+                            </td>
+                            <td>
+                                <!-- edit -->
+                                <a asp-page="EditEpisodeByAdmin"
+                                   asp-route-id="@episode.CourseEpisodeId"
+                                   class="btn btn-outline-warning btn-sm">
+                                    <i class="fa fa-pen ml-1"></i> ویرایش
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="4">
+                            <i class="fa fa-exclamation-triangle ml-2"></i> بخش بررسی نشده ای وجود ندارد.
+                        </td>
+                    </tr>
+                }
+            </table>
+
+        </div>
+
+    </div>

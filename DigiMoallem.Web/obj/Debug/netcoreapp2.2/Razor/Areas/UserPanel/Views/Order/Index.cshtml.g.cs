@@ -33,8 +33,18 @@ using DigiMoallem.BLL.Interfaces;
 
 #line default
 #line hidden
+#line 7 "C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\Areas\UserPanel\Views\_ViewImports.cshtml"
+using DigiMoallem.BLL.DTOs.Admin.Courses;
+
+#line default
+#line hidden
+#line 8 "C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\Areas\UserPanel\Views\_ViewImports.cshtml"
+using DigiMoallem.DAL.Entities.Courses;
+
+#line default
+#line hidden
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"2bea4c1513181bb375cb1523ec1d437cce3ca32e", @"/Areas/UserPanel/Views/Order/Index.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"bace68dcdcaaa9950572cdaafe944e450dabb8d5", @"/Areas/UserPanel/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"1a85b0e6a29d1913285eb1cfc8d59cce96508e14", @"/Areas/UserPanel/Views/_ViewImports.cshtml")]
     public class Areas_UserPanel_Views_Order_Index : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<DigiMoallem.DAL.Entities.Orders.Order>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("action", new global::Microsoft.AspNetCore.Html.HtmlString("/ApplyDiscount"), global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -373,7 +383,7 @@ WriteAttributeValue("", 4896, orderDetail.CourseId, 4896, 21, false);
             WriteLiteral("                                        <tr>\r\n                                            <td colspan=\"3\" class=\"text-left\">کد تخفیف:</td>\r\n                                            <td>\r\n                                                ");
             EndContext();
             BeginContext(5763, 569, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "2bea4c1513181bb375cb1523ec1d437cce3ca32e19520", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "2bea4c1513181bb375cb1523ec1d437cce3ca32e19884", async() => {
                 BeginContext(5806, 89, true);
                 WriteLiteral("\r\n                                                    <input type=\"hidden\" name=\"orderId\"");
                 EndContext();
@@ -497,7 +507,7 @@ WriteAttributeValue("", 7175, Model.OrderId, 7175, 14, false);
             WriteLiteral("\r\n\r\n                </div>\r\n\r\n            </div>\r\n\r\n        </div>\r\n\r\n        <div class=\"col-12 col-md-4\">\r\n\r\n            ");
             EndContext();
             BeginContext(8014, 34, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("partial", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "2bea4c1513181bb375cb1523ec1d437cce3ca32e26329", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("partial", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "2bea4c1513181bb375cb1523ec1d437cce3ca32e26693", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_TagHelpers_PartialTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.TagHelpers.PartialTagHelper>();

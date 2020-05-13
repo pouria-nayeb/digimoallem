@@ -1,84 +1,88 @@
-﻿@page
+﻿@page "{id:min(1)}"
 @model DigiMoallem.Web.Pages.Admin.Accountings.CreateModel
 
 @{
-    ViewData["Title"] = "افزودن واریزی جدید";
+    var name = (Model.Teacher != null) ? Model.Teacher.Email : "استاد";
+    ViewData["Title"] = $"ثبت پرداختی برای {name}";
 }
 
-    <div class="container">
+<div class="container">
 
-        <!-- back to accountings -->
-        <a asp-area=""
-           asp-page="Index"
-           class="btn btn-outline-info">
-            <i class="fas fa-arrow-right ml-2"></i> بازگشت
-        </a>
+    <!-- back to accountings -->
+    <a asp-area=""
+       asp-page="Index"
+       class="btn btn-outline-info">
+        <i class="fas fa-arrow-right ml-2"></i> بازگشت
+    </a>
 
-        <h1 class="my-5"> <i class="fa fa-book ml-2"></i> @ViewData["Title"]</h1>
+    <h1 class="my-5"> <i class="fa fa-plus ml-2"></i> @ViewData["Title"]</h1>
 
-        <form method="post">
+    <form method="post">
 
-            <div class="container">
+        <div class="container">
 
-                <div asp-validation-summary="ModelOnly" class="text-danger my-4"></div>
+            <div asp-validation-summary="ModelOnly" class="text-danger my-4"></div>
 
-                @if (TempData["WrongInputs"] != null)
-                {
-                    <div class="alert alert-danger">
-                        @TempData["WrongInputs"]
-                    </div>
-                }
-
-                @if (TempData["OperationFailed"] != null)
-                {
-                    <div class="alert alert-danger">
-                        @TempData["OperationFailed"]
-                    </div>
-                }
-
-                <div class="row">
-                    <div class="col-12 col-sm-12 col-md-6">
-
-                        <!-- teachers -->
-                        <div class="form-group mb-4">
-                            <select class="browser-default custom-select" asp-for="Payment.TeacherId" asp-items="@ViewData["Teachers"] as SelectList">
-                                <option value="" disabled selected>یکی از اساتید را انتخاب نمایید</option>
-                            </select>
-
-                            <span asp-validation-for="Payment.TeacherId"></span>
-                        </div>
-
-                        <!-- amount -->
-                        <div class="form-group mb-4">
-                            <label asp-for="Payment.Amount"></label>
-                            <input type="number" asp-for="Payment.Amount" class="form-control text-direction-ltr text-left" />
-
-                            <span asp-validation-for="Payment.Amount"></span>
-                        </div>
-
-                        <div class="form-group my-5">
-                            <!-- create -->
-                            <button type="submit" class="btn btn-outline-success">
-                                <i class="fa fa-plus ml-2"></i> ایجاد تراکنش جدید
-                            </button>
-                        </div>
-
-                    </div>
-                    <div class="col-12 col-sm-12 col-md-6">
-
-                        <!-- courses -->
-                        <div class="form-group mb-4">
-                            <select class="browser-default custom-select" asp-for="Payment.CourseId" asp-items="@ViewData["Courses"] as SelectList">
-                                <option value="" disabled selected>یکی از درس ها را انتخاب نمایید</option>
-                            </select>
-
-                            <span asp-validation-for="Payment.CourseId"></span>
-                        </div>
-
-                    </div>
+            @if (ViewData["Failure"] != null)
+            {
+                <div class="alert alert-danger">
+                    @ViewData["Failure"]
                 </div>
+            }
 
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-8">
+
+                    @if (Model.Teacher != null)
+                    {
+                        <input type="hidden" asp-for="Payment.TeacherId" value="@Model.Teacher.UserId" />
+                    }
+                    else
+                    {
+                    <!-- teachers -->
+                    <div class="form-group mb-4">
+                        <label asp-for="Payment.TeacherId"></label>
+                        <select class="browser-default custom-select select-list" asp-for="Payment.TeacherId" asp-items="@ViewData["Teachers"] as SelectList">
+                            <option value="" disabled selected>یکی از اساتید را انتخاب نمایید</option>
+                        </select>
+
+                        <span asp-validation-for="Payment.TeacherId" class="text-danger"></span>
+                    </div>
+                    }
+
+                    <!-- description -->
+                    <div class="form-group mb-4">
+                        <label asp-for="Payment.Description"></label>
+                        <textarea asp-for="Payment.Description"
+                                  placeholder="شرح پرداختی به استاد..."
+                                  rows="5"
+                                  class="form-control"></textarea>
+
+                        <span asp-validation-for="Payment.Description" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group my-5">
+                        <!-- create -->
+                        <button type="submit" class="btn btn-outline-success">
+                            <i class="fa fa-plus ml-2"></i> ثبت واریزی به استاد
+                        </button>
+                    </div>
+
+                </div>
+                <div class="col-12 col-sm-12 col-md-4">
+
+                    <!-- amount -->
+                    <div class="form-group mb-4">
+                        <label asp-for="Payment.Amount"></label>
+                        <input type="number" asp-for="Payment.Amount" class="form-control text-direction-ltr text-left" />
+
+                        <span asp-validation-for="Payment.Amount" class="text-danger"></span>
+                    </div>
+
+                </div>
             </div>
-        </form>
 
-    </div>
+        </div>
+    </form>
+
+</div>

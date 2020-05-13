@@ -1,4 +1,5 @@
 using DigiMoallem.BLL.DTOs.Accountings;
+using DigiMoallem.BLL.DTOs.Admin.Users;
 using DigiMoallem.BLL.Helpers.Security;
 using DigiMoallem.BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -10,21 +11,23 @@ namespace DigiMoallem.Web.Pages.Admin.Accountings
     public class IndexModel : PageModel
     {
         private IAccountingService _accountingService;
+        private readonly IUserService _userService;
 
-        public IndexModel(IAccountingService accountingService)
+        public IndexModel(IAccountingService accountingService, IUserService userService)
         {
             _accountingService = accountingService;
+            _userService = userService;
         }
 
-        public AccountingViewModel PaymentVM { get; set; }
+        public UserViewModel UserVM { get; set; }
 
-        public int PaymentsCount { get; set; }
+        public int TeachersCount { get; set; }
 
-        public async Task OnGetAsync(int pageId = 1, int pageSize = 20)
+        public void OnGet(int pageId = 1)
         {
-            PaymentVM = await _accountingService.GetPaymentsAsync(pageId, pageSize);
+            UserVM = _userService.GetTeachers(pageId);
 
-            PaymentsCount = await _accountingService.PaymentCountsAsync();
+            TeachersCount = _userService.TeachersCount();
         }
     }
 }

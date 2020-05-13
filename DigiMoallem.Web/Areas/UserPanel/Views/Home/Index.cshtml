@@ -52,7 +52,7 @@
                             </tr>
                             <tr>
                                 <th>تلفن تماس</th>
-                                <td class="english-font">@(Model.PhoneNumber != null ? Model.PhoneNumber.ToString() : "نامشخص")</td>
+                                <td>@(Model.PhoneNumber != null ? Model.PhoneNumber.ToString() : "نامشخص")</td>
                             </tr>
                             <tr>
                                 <th>موجودی حساب کاربری</th>
@@ -60,7 +60,11 @@
                             </tr>
                             <tr>
                                 <th>تاریخ ثبت نام</th>
-                                <td class="english-font">@Model.RegisterDate.ToPersianDate()</td>
+                                <td>@Model.RegisterDate.ToPersianDate()</td>
+                            </tr>
+                            <tr>
+                                <th>آخرین ورود شما</th>
+                                <td>@Model.UpdateDate.ToPersianDate()</td>
                             </tr>
                             @if (permissionService.CheckPermission(22, User.Identity.Name))
                             {

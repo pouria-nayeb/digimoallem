@@ -6,6 +6,7 @@
 @inject IMessageService messageService
 @inject IWorkService workService
 @inject IOrderService orderService
+@inject IPermissionService permissionService
 
 @{
     ViewData["Title"] = "داشبورد سایت دیجی معلم";
@@ -13,19 +14,34 @@
 
 <div class="container">
 
-    <h1 class="my-5">@ViewData["Title"]</h1>
+    <h1 class="my-5"> <i class="fa fa-user-graduate ml-2"></i> @ViewData["Title"] </h1>
 
-    <div class="my-5">
+    @if (permissionService.CheckPermission(2, User.Identity.Name))
+    {
+<div class="my-5">
 
-        <a asp-area="" asp-page="/Admin/Messages/Index" class="btn btn-lg btn-outline-info m-1">
-            <span class="badge badge-info english-font ml-2">@messageService.NewContactsCount()</span> پیام های جدید
-        </a>
+    <a asp-area="" asp-page="/Admin/Messages/Index" class="btn btn-outline-warning m-1">
+        <span class="badge badge-warning english-font ml-2">@messageService.NewContactsCount()</span> پیام های جدید
+    </a>
 
-        <a asp-area="" asp-page="/Admin/Works/Index" class="btn btn-lg btn-outline-warning m-1">
-            <span class="badge badge-warning english-font ml-2">@workService.NewWorksCount()</span> درخواست مدرسین جدید
-        </a>
+    <a asp-area="" asp-page="/Admin/Works/Index" class="btn btn-outline-danger m-1">
+        <span class="badge badge-danger english-font ml-2">@workService.NewWorksCount()</span> درخواست مدرسین جدید
+    </a>
 
-    </div>
+    <a asp-area="" asp-page="/Admin/Courses/Comments" class="btn btn-outline-success m-1">
+        <span class="badge badge-success english-font ml-2">@courseService.UncheckedCoursesCount()</span> کامنت های بررسی نشده
+    </a>
+
+    <a asp-area="" asp-page="/Admin/Courses/UncheckedCourses" class="btn btn-outline-danger m-1">
+        <span class="badge badge-danger english-font ml-2">@courseService.UncheckedCoursesCount()</span> دروس بررسی نشده
+    </a>
+
+    <a asp-area="" asp-page="/Admin/Courses/AllEpisodes" class="btn btn-outline-warning m-1">
+        <span class="badge badge-warning english-font ml-2">@courseService.UncheckedEpisodesCount()</span> بخش های بررسی نشده
+    </a>
+
+</div>
+    }
 
     <div class="row">
         <div class="col-12 col-md-3 my-3">

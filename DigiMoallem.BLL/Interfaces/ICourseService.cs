@@ -153,6 +153,26 @@ namespace DigiMoallem.BLL.Interfaces
         List<DisplayCourseViewModel> LatestFavoriteCourses();
         #endregion
 
+        #region GetUsersEmail
+        List<string> GetUsersEmail();
+        #endregion
+
+        #region GetTeacherCoursesForAdminAsync
+        CourseViewModel GetTeacherCoursesForAdminAsync(int pageId, int teacherId);
+        #endregion
+
+        #region GetUncheckedCoursesForAdmin
+        CourseViewModel GetUncheckedCoursesForAdmin(int pageId);
+        #endregion
+
+        #region GetCoursesOfTeacher
+        CourseViewModel GetCoursesOfTeacher(int teacherId, int pageNumber = 1, int pageSize = 16);
+        #endregion
+
+        #region SearchUncheckedCourses
+        CourseViewModel SearchUncheckedCourses(string title, int pageId);
+        #endregion
+
         // episodes
         #region AddEpisode
         int AddEpisode(CourseEpisode episode, IFormFile episodeFile);
@@ -183,6 +203,14 @@ namespace DigiMoallem.BLL.Interfaces
         Task<bool> RemoveEpisodeAsync(int episodeId);
         #endregion
 
+        #region GetAllUncheckedEpisodes
+        CourseEpisodesViewModel GetAllUncheckedEpisodes(int pageNumber = 1, int pageSize = 32);
+        #endregion
+
+        #region UncheckedEpisodesCount
+        int UncheckedEpisodesCount();
+        #endregion
+
         // Display courses
         #region GetCourses
         Tuple<List<DisplayCourseViewModel>, int> GetCourses(int pageId = 1,
@@ -207,6 +235,10 @@ namespace DigiMoallem.BLL.Interfaces
         Task<Course> GetCourseAsync(int courseId);
         #endregion
 
+        #region UncheckedCoursesCount
+        int UncheckedCoursesCount();
+        #endregion
+
         List<string> GetCourseTitles();
 
         // Comments
@@ -218,6 +250,30 @@ namespace DigiMoallem.BLL.Interfaces
         #region GetComments
         Tuple<List<Comment>, int> GetComments(int courseId, int pageId = 1);
         Task<Tuple<List<Comment>, int>> GetCommentsAsync(int courseId, int pageId = 1);
+        #endregion
+
+        #region GetCommentById
+        Comment GetCommentById(int commentId);
+        #endregion
+
+        #region UpdateComment
+        Comment UpdateComment(Comment comment);
+        #endregion
+
+        #region GetAllCommentsToManage
+        CommentPagingViewModel GetAllCommentsToManage(int pageNumber = 1, int pageSize = 32);
+        #endregion
+
+        #region UncheckedCommentsCount
+        int UncheckedCommentsCount();
+        #endregion
+
+        #region CommentsCount
+        int CommentsCount();
+        #endregion
+
+        #region RemoveComment
+        Comment RemoveComment(int commentId);
         #endregion
 
         // rate course

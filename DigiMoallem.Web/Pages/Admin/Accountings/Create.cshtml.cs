@@ -1,5 +1,6 @@
 ﻿using DigiMoallem.BLL.Interfaces;
 using DigiMoallem.DAL.Entities.Accounting;
+using DigiMoallem.DAL.Entities.Users;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -13,19 +14,23 @@ namespace DigiMoallem.Web.Pages.Admin.Accountings
     {
         private IAccountingService _accountingService;
         private ICourseService _courseService;
+        private readonly IUserService _userService;
 
-        public CreateModel(IAccountingService accountingService, ICourseService courseService)
+        public CreateModel(IAccountingService accountingService, ICourseService courseService, IUserService userService)
         {
             _accountingService = accountingService;
             _courseService = courseService;
+            _userService = userService;
         }
 
         [BindProperty]
         public Payment Payment { get; set; }
 
-        public async Task OnGet()
+        public User Teacher { get; set; }
+
+        public async Task OnGet(int? id)
         {
-            await SeedDataAsync();
+            await SeedDataAsync(id);
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -44,22 +49,28 @@ namespace DigiMoallem.Web.Pages.Admin.Accountings
                 }
 
                 // failure
-                TempData["OperationFailed"] = "متاسفانه عملیات افزودن تراکنش توسط حسابدار با مشکل روبرو شد.";
+                ViewData["Failure"] = "متاسفانه عملیات افزودن تراکنش توسط حسابدار با مشکل روبرو شد.";
 
-                await SeedDataAsync();
+                await SeedDataAsync(Teacher.UserId);
 
                 return Page();
             }
 
             // user inputs is not valid
-            TempData["WrongInputs"] = "ورودی شما نامعتبر است.";
+            ViewData["Failure"] = "ورودی شما نامعتبر است.";
 
-            await SeedDataAsync();
+            await SeedDataAsync(Teacher.UserId);
 
             return Page();
         }
 
-        private async Task SeedDataAsync() {
+        private async Task SeedDataAsync(int? id) {
+
+            if (id.HasValue)
+            {
+                Teacher = _userService.GetUserById(id.Value);
+            }
+
             List<SelectListItem> teachers = await _courseService
         .GetTeachersAsync();
             ViewData["Teachers"] = new SelectList(teachers, "Value", "Text");

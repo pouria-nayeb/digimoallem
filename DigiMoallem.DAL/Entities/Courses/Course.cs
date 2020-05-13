@@ -62,6 +62,7 @@ namespace DigiMoallem.DAL.Entities.Courses
         [MaxLength(350, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]
         public string Tags { get; set; }
 
+        [Display(Name = "دمو دوره")]
         [MaxLength(200, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]
         public string Demo { get; set; }
 
@@ -119,8 +120,6 @@ namespace DigiMoallem.DAL.Entities.Courses
         public List<UserCourse> UserCourses { get; set; }
 
         public List<Comment> Comments { get; set; }
-
-        public List<Payment> Payments { get; set; }
 
         public List<RateCourse> RateCourses { get; set; }
 

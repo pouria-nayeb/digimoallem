@@ -1,0 +1,54 @@
+﻿@page "{id:min(1)}"
+@model DigiMoallem.Web.Pages.Admin.Purifications.DeleteModel
+
+@{
+    ViewData["Title"] = "حذف درخواست تصفیه";
+}
+
+<section class="container">
+
+    @if (ViewData["Failure"] != null)
+    {
+        <div class="alert alert-danger">
+            @ViewData["Failure"]
+        </div>
+    }
+
+    <div class="card">
+
+        <div class="card-header">
+            <i class="fa fa-pen ml-1"></i> @ViewData["Title"]
+        </div>
+
+        <div class="card-body">
+
+            <form method="post">
+                <input type="hidden" asp-for="Purification.PurificationId" />
+                <input type="hidden" asp-for="Purification.TeacherId" />
+                <input type="hidden" asp-for="Purification.CourseId" />
+                <input type="hidden" asp-for="Purification.Amount" />
+                <input type="hidden" asp-for="Purification.IsChecked" />
+                <input type="hidden" asp-for="Purification.SubmitDate" />
+
+                <table class="table table-bordered table-striped my-4">
+                    <tr>
+                        <td>ایمیل استاد</td>
+                        <td class="english-font">@Model.Purification.User.Email</td>
+                    </tr>
+                    <tr>
+                        <td>نام درس</td>
+                        <td>@Model.Purification.Course.Title</td>
+                    </tr>
+                </table>
+
+                <button class="btn btn-outline-danger">
+                    <i class="fa fa-trash ml-1"></i> حذف
+                </button>
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+

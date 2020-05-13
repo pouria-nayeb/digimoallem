@@ -17,3 +17,9 @@ $("#image").change(function (event) {
     }
     readURL(this);
 });
+
+$(document).ready(function () {
+    $('.select-list').select2({
+        width: 'resolve' // need to override the changed default
+    });
+});

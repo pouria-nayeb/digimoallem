@@ -19,6 +19,8 @@ namespace DigiMoallem.DAL.Context
 
         #region Payments
         public DbSet<Payment> Payments { get; set; }
+
+        public DbSet<Purification> Purifications { get; set; }
         #endregion
 
         #region Users - Roles - UserInRoles

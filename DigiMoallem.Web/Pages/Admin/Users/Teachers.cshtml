@@ -1,0 +1,159 @@
+﻿@page
+@model DigiMoallem.Web.Pages.Admin.Users.TeachersModel
+
+@{
+    ViewData["Title"] = "لیست اساتید";
+}
+
+<div class="container">
+
+    <!-- back -->
+    <a href="/Admin/Users" class="btn btn-outline-info">
+        <i class="fas fa-arrow-right ml-2"></i> بازگشت
+    </a>
+
+    <h1 class="my-5 text-info"> <i class="fa fa-chalkboard-teacher ml-2"></i> @ViewData["Title"]</h1>
+
+    <!-- create succeeded -->
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Success"]
+        </div>
+    }
+
+    <form autocomplete="off">
+
+        <div class="row p-3">
+
+            <!-- userName -->
+            <div class="col-12 col-sm-12 col-md-4">
+                <div class="form-group">
+                    <input type="text" id="username" name="filterUserName"
+                           class="form-control english-font text-direction-ltr text-left">
+                    <label for="username">نام کاربری</label>
+                </div>
+            </div>
+
+            <!-- email -->
+            <div class="col-12 col-sm-12 col-md-4">
+                <div class="form-group">
+                    <input type="text" id="email" name="filterEmail"
+                           class="form-control english-font text-direction-ltr text-left">
+                    <label for="email">آدرس ایمیل</label>
+                </div>
+            </div>
+
+            <!-- search -->
+            <div class="col-12 col-sm-12 col-md-4">
+                <button class="btn btn-primary"> <i class="fa fa-search ml-2"></i> جستجو</button>
+                <a href="/Admin/Users/Teachers" class="btn btn-secondary"> <i class="fa fa-filter ml-2"></i> حذف فیلترها</a>
+            </div>
+
+        </div>
+    </form>
+
+    <div class="p-3 clearfix">
+        <!-- add -->
+        <a asp-area=""
+           asp-page="Create"
+           class="btn btn-outline-success float-right ml-2">
+            <i class="fa fa-plus ml-2"></i> افزودن کاربر جدید
+        </a>
+        <!-- teachers -->
+        <a asp-area=""
+           asp-page="/Admin/Users/Teachers"
+           class="btn btn-outline-info float-right ml-2">
+            <i class="fa fa-chalkboard-teacher ml-2"></i> لیست اساتید
+        </a>
+        <!-- deleted users -->
+        <a asp-area=""
+           asp-page="/Admin/Users/DeletedUsers"
+           class="btn btn-outline-danger float-right">
+            <i class="fa fa-users ml-2"></i> کاربران حذف شده
+        </a>
+
+        <button class="btn btn-primary float-left english-font">
+            <i class="fa fa-list ml-1"></i> @Model.UsersCount
+        </button>
+    </div>
+
+    <!-- users table -->
+    <div class="table-responsive">
+        <table class="table table-dark table-striped table-bordered">
+            <tr>
+                <th class="th-sm">
+                    نام کاربری
+                </th>
+                <th class="th-sm">
+                    ایمیل
+                </th>
+                <th class="th-sm">
+                    وضعیت
+                </th>
+                <th class="th-sm">
+                    تاریخ ثبت نام
+                </th>
+                <th class="th-sm">
+                    دستورات
+                </th>
+            </tr>
+            @if (Model.UserViewModel.Users.Count == 0)
+            {
+                <tr class="bg-dark text-light">
+                    <td colspan="5" class="py-4">
+                        <i class="fas fa-exclamation-triangle ml-2"></i> لیست کاربران خالی است.
+                    </td>
+                </tr>
+            }
+            else
+            {
+                @foreach (var user in Model.UserViewModel.Users)
+                {
+                    <tr>
+                        <td class="english-font">@user.UserName</td>
+                        <td class="english-font">@user.Email</td>
+                        <td>
+                            @{
+                                var status = user.IsActive ? "فعال" : "غیر فعال";
+                                <text>@status</text>
+                            }
+                        </td>
+                        <td class="english-font">@user.RegisterDate.ToPersianDate()</td>
+                        <td class="text-center">
+                            <a asp-area=""
+                               asp-page="/Admin/Users/Edit"
+                               asp-route-id="@user.UserId"
+                               class="btn btn-outline-warning btn-sm">
+                                <i class="fa fa-pen ml-2"></i> ویرایش
+                            </a>
+                            <a asp-area=""
+                               asp-page="/Admin/Users/Delete"
+                               asp-route-id="@user.UserId"
+                               class="btn btn-outline-danger btn-sm">
+                                <i class="fa fa-trash ml-2"></i> حذف
+                            </a>
+                        </td>
+                    </tr>
+                }
+            }
+        </table>
+    </div>
+
+    @if (Model.UserViewModel.PageCount > 1)
+    {
+        <!-- pagination -->
+        <nav aria-label="Page navigation" class="my-3">
+            <ul class="pagination pagination-circle pg-dark justify-content-center">
+                @for (int i = 1; i <= Model.UserViewModel.PageCount; i++)
+                {
+                    <li class="page-item english-font @((Model.UserViewModel.CurrentPage == i) ? "active" : "")">
+                        <a href="/Admin/Users?pageId=@i" class="page-link">@i</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    }
+
+</div>
+

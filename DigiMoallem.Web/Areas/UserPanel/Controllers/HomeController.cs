@@ -1,11 +1,14 @@
-﻿using DigiMoallem.BLL.DTOs.UserPanel;
+﻿using DigiMoallem.BLL.DTOs.Admin.Courses;
+using DigiMoallem.BLL.DTOs.UserPanel;
 using DigiMoallem.BLL.Helpers.Converters;
 using DigiMoallem.BLL.Helpers.EmailServices;
 using DigiMoallem.BLL.Interfaces;
+using DigiMoallem.DAL.Entities.Accounting;
 using DigiMoallem.DAL.Entities.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DigiMoallem.Web.Areas.UserPanel.Controllers
@@ -17,14 +20,17 @@ namespace DigiMoallem.Web.Areas.UserPanel.Controllers
         private readonly IUserService _userService;
         private readonly IAccountingService _accountingService;
         private readonly IViewRenderService _viewRender;
+        private readonly ICourseService _courseService;
 
         public HomeController(IUserService userService,
             IAccountingService accountingService,
-            IViewRenderService viewRender)
+            IViewRenderService viewRender,
+            ICourseService courseService)
         {
             _userService = userService;
             _accountingService = accountingService;
             _viewRender = viewRender;
+            _courseService = courseService;
         }
 
         /// <summary>
@@ -136,6 +142,28 @@ namespace DigiMoallem.Web.Areas.UserPanel.Controllers
             return View(changePassword);
         }
 
+        [HttpPost]
+        public IActionResult AccountPurification(Purification purification) 
+        {
+            purification.SubmitDate = DateTime.Now;
+            if (ModelState.IsValid)
+            {
+                if (_accountingService.AddPurification(purification) != null)
+                {
+                    TempData["Success"] = "درخواست شما برای تصفیه این درس با موفقیت ارسال شد.";
+                    return RedirectToAction("Index", "Home", new { area = "UserPanel" });
+                }
+                else 
+                {
+                    TempData["Failure"] = "بروز خطا در پایگاه داده، لطفاً مراقب را به مدیریت سایت گزارش دهید.";
+                    return RedirectToAction("Index", "Home", new { area = "UserPanel" });
+                }
+            }
+
+            TempData["Failure"] = "ورودی نامعتبر";
+            return RedirectToAction("Index", "Home", new { area = "UserPanel" });
+        }
+
         [Route("Payments/{id}")]
         public async Task<IActionResult> TeacherPayments(int id, int pageNumber = 1, int pageSize = 32) 
         {
@@ -149,6 +177,21 @@ namespace DigiMoallem.Web.Areas.UserPanel.Controllers
             }
 
             return BadRequest();
+        }
+
+        [Route("TeacherCourses/{id}")]
+        public IActionResult TeacherCourses(int id,int pageNumber = 1, int pageSize = 16)
+        {
+            CourseViewModel courses = _courseService.GetCoursesOfTeacher(id, pageNumber, pageSize);
+
+            return View(courses);
+        }
+
+        [Route("TeacherShare/{id}")]
+        public IActionResult TeacherShare(int id) 
+        {
+            var course = _courseService.GetCourseById(id);
+            return View(course);
         }
 
         /// <summary>

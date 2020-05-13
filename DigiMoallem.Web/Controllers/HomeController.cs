@@ -1,10 +1,12 @@
-﻿using DigiMoallem.BLL.DTOs.Display;
+﻿using DigiMoallem.BLL.DTOs.Courses;
+using DigiMoallem.BLL.DTOs.Display;
 using DigiMoallem.BLL.DTOs.Works;
 using DigiMoallem.BLL.Helpers.Converters;
 using DigiMoallem.BLL.Helpers.EmailServices;
 using DigiMoallem.BLL.Helpers.Generators;
 using DigiMoallem.BLL.Helpers.Security;
 using DigiMoallem.BLL.Interfaces;
+using DigiMoallem.DAL.Entities.Courses;
 using DigiMoallem.DAL.Entities.General;
 using DigiMoallem.DAL.Entities.Users;
 using Microsoft.AspNetCore.Http;
@@ -275,6 +277,14 @@ namespace DigiMoallem.Web.Controllers
             return View();
         }
 
+        public void SendEmailToUsers(List<string> emails) 
+        {
+            foreach (string email in emails)
+            {
+                SendAdvertisingEmail("_EmailAdvertising", "آخرین درس ها در دیجی معلم", _courseService.GetLatestCourse(), email);
+            }
+        }
+
         /// <summary>
         /// Get all subgroups of courses for ajax call
         /// </summary>
@@ -319,6 +329,19 @@ namespace DigiMoallem.Web.Controllers
         {
             string body = _viewRender.RenderToString(specificPage, user);
             SendEmailClient.Send(user.Email, title, body);
+        }
+
+        /// <summary>
+        /// Send activation code
+        /// </summary>
+        /// <param name="user"></param>
+        public void SendAdvertisingEmail(string specificPage, 
+            string title, 
+            List<DisplayCourseViewModel> latestCourses, 
+            string email)
+        {
+            string body = _viewRender.RenderToString(specificPage, latestCourses);
+            SendEmailClient.Send(email, title, body);
         }
         #endregion
     }

@@ -308,7 +308,8 @@ namespace DigiMoallem.BLL.Services
                 ScientificField = user.ScientificField,
                 CardNumber = user.CardNumber,
                 EducationalLevel = user.EducationalLevel,
-                Sheba = user.Sheba
+                Sheba = user.Sheba,
+                UpdateDate = user.UpdateDate.Value
             };
         }
 
@@ -331,7 +332,8 @@ namespace DigiMoallem.BLL.Services
                 ScientificField = user.ScientificField,
                 CardNumber = user.CardNumber,
                 EducationalLevel = user.EducationalLevel,
-                Sheba = user.Sheba
+                Sheba = user.Sheba,
+                UpdateDate = user.UpdateDate.Value
             };
         }
         #endregion
@@ -811,7 +813,7 @@ namespace DigiMoallem.BLL.Services
             }
 
             // pagination logic
-            int recordsPerPages = 20;
+            int recordsPerPages = 32;
             int skip = (pageId - 1) * recordsPerPages;
 
             int usersCount = users.Count();
@@ -846,7 +848,7 @@ namespace DigiMoallem.BLL.Services
             }
 
             // pagination logic
-            int recordsPerPage = 20;
+            int recordsPerPage = 32;
             int skip = (pageId - 1) * recordsPerPage;
 
             int usersCount = users.Count();
@@ -939,6 +941,47 @@ namespace DigiMoallem.BLL.Services
 
             return userVM;
         }
+        #endregion
+
+        #region GetTeachers
+
+        public UserViewModel GetTeachers(int pageId, string filterEmail = "", string filterUserName = "")
+        {
+            IQueryable<User> users = _db.Users
+                .Where(u => u.UserInRoles.Any(ur => ur.RoleId == 2 && u.IsDelete == false));
+
+            if (!string.IsNullOrEmpty(filterEmail))
+            {
+                users = users.Where(u => u.Email.Contains(filterEmail.TextTransform()));
+            }
+
+            if (!string.IsNullOrEmpty(filterUserName))
+            {
+                users = users.Where(u => u.UserName.Contains(filterUserName.TextTransform()));
+            }
+
+            // pagination logic
+            int recordsPerPages = 32;
+            int skip = (pageId - 1) * recordsPerPages;
+
+            int usersCount = users.Count();
+
+            int pagesCount = (int)Math.Ceiling(decimal.Divide(usersCount, recordsPerPages));
+
+            var userVM = new UserViewModel()
+            {
+                CurrentPage = pageId,
+                PageCount = pagesCount,
+                Users = users.OrderByDescending(u => u.RegisterDate)
+                .Skip(skip)
+                .Take(recordsPerPages)
+                .AsNoTracking()
+                .ToList()
+            };
+
+            return userVM;
+        }
+
         #endregion
 
         /// <summary>

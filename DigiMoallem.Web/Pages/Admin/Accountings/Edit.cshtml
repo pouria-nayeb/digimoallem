@@ -43,17 +43,18 @@
 
                         <!-- teachers -->
                         <div class="md-form mb-4">
-                            <select class="browser-default custom-select" asp-for="Payment.TeacherId" asp-items="@ViewData["Teachers"] as SelectList"></select>
+                            <label asp-for="Payment.TeacherId"></label>
+                            <select class="browser-default custom-select select-list" asp-for="Payment.TeacherId" asp-items="@ViewData["Teachers"] as SelectList"></select>
 
                             <span asp-validation-for="Payment.TeacherId"></span>
                         </div>
 
-                        <!-- amount -->
+                        <!-- description -->
                         <div class="md-form mb-4">
-                            <label asp-for="Payment.Amount"></label>
-                            <input type="text" asp-for="Payment.Amount" class="form-control text-direction-ltr" />
+                            <label asp-for="Payment.Description"></label>
+                            <input type="text" asp-for="Payment.Description" class="form-control text-direction-ltr" />
 
-                            <span asp-validation-for="Payment.Amount" class="text-danger"></span>
+                            <span asp-validation-for="Payment.Description" class="text-danger"></span>
                         </div>
 
                         <div class="form-group my-5">
@@ -66,11 +67,12 @@
                     </div>
                     <div class="col-12 col-sm-12 col-md-6">
 
-                        <!-- courses -->
+                        <!-- amount -->
                         <div class="md-form mb-4">
-                            <select class="browser-default custom-select" asp-for="Payment.CourseId" asp-items="@ViewData["Courses"] as SelectList"></select>
+                            <label asp-for="Payment.Amount"></label>
+                            <input type="text" asp-for="Payment.Amount" class="form-control text-direction-ltr" />
 
-                            <span asp-validation-for="Payment.CourseId"></span>
+                            <span asp-validation-for="Payment.Amount" class="text-danger"></span>
                         </div>
 
                     </div>

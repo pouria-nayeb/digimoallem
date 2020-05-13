@@ -8,6 +8,7 @@
 @section Styles {
     <link href="~/admin/css/kendo.common.min.css" rel="stylesheet" />
     <link href="~/admin/css/kendo.default.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/admin/css/select2.min.css" />
     <style>
         #alert {
             display: none;
@@ -30,20 +31,6 @@
 
         <div asp-validation-summary="ModelOnly" class="text-danger my-4"></div>
 
-        @if (TempData["WrongInputs"] != null)
-        {
-            <div class="alert alert-danger">
-                @TempData["WrongInputs"]
-            </div>
-        }
-
-        @if (TempData["OperationFailed"] != null)
-        {
-            <div class="alert alert-danger">
-                @TempData["OperationFailed"]
-            </div>
-        }
-
         <div class="alert alert-danger" id="alert">کد وارد شده تکراری می باشد.</div>
 
         <div class="row">
@@ -52,18 +39,18 @@
                 <!-- teachers -->
                 <div class="form-group mb-4">
                     <label for="teacherId">مدرس ها:</label>
-                    <select class="browser-default custom-select"
+                    <select class="browser-default custom-select select-list"
                             id="teacherId"
                             name="teacherId"
                             asp-items="@ViewData["Teachers"] as SelectList">
-                        <option value="">یکی از اساتید را انتخاب نمایید</option>
+                        <option value="" disabled selected>یکی از اساتید را انتخاب نمایید</option>
                     </select>
                 </div>
 
                 <div class="form-group my-5">
                     <!-- create -->
                     <button type="submit" class="btn btn-outline-success">
-                        <i class="fa fa-plus ml-2"></i> جستجو
+                        <i class="fa fa-search ml-2"></i> جستجو
                     </button>
                 </div>
 
@@ -91,7 +78,7 @@
 
     <div class="clearfix my-4">
         <button class="btn btn-primary float-left">
-            کل درآمد استاد: @Model.searchOrderVM.TotalPayment.ThreeDigitSeperator()
+            کل درآمد دوره: @Model.searchOrderVM.TotalPayment.ThreeDigitSeperator()
         </button>
     </div>
 
@@ -115,8 +102,8 @@
     }
     else
     {
-        <div class="alert alert-warning">
-            سفارشی موجود نیست.
+        <div class="alert alert-primary border border-warning">
+            <i class="fa fa-exclamation-triangle ml-2"></i> سفارشی از این استاد در تاریخ مورد نظر ثبت نشده.
         </div>
     }
 
@@ -149,5 +136,6 @@
         // create DatePicker from input HTML element
         $("#endDate").kendoDatePicker();
     </script>
+    <script src="~/admin/js/select2.min.js" asp-append-version="true"></script>
 }
 

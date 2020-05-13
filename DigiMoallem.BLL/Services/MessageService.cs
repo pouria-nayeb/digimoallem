@@ -82,8 +82,10 @@ namespace DigiMoallem.BLL.Services
 
             return new ContactPagingViewModel
             {
-                Contacts = Messages.Skip(skip).Take(take)
-                .OrderByDescending(c => c.ContactId)
+                Contacts = Messages
+                .Skip(skip)
+                .Take(take)
+                .OrderByDescending(c => c.IsChecked == false)
                 .AsNoTracking()
                 .ToList(),
                 PageNumber = pageNumber,
@@ -103,8 +105,10 @@ namespace DigiMoallem.BLL.Services
 
             return new ContactPagingViewModel
             {
-                Contacts = await Messages.Skip(skip).Take(take)
-                .OrderByDescending(c => c.ContactId)
+                Contacts = await Messages
+                .Skip(skip)
+                .Take(take)
+                .OrderByDescending(c => c.IsChecked == false)
                 .AsNoTracking()
                 .ToListAsync(),
                 PageNumber = pageNumber,

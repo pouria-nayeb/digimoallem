@@ -22,13 +22,28 @@
         <a asp-area=""
            asp-page="Charge"
            class="btn btn-outline-success float-right">
-            <i class="fa fa-plus ml-1"></i> شارژ حساب کاربر
+            <i class="fa fa-plus ml-1"></i> شارژ حساب کاربر توسط ادمین
         </a>
 
-        <button class="btn btn-primary float-left">
+        <button class="btn btn-primary float-left english-font">
             <i class="fa fa-list ml-1"></i> @Model.TransactionsCount
         </button>
     </div>
+
+    @if (Model.TransactionPagingVM.PageCount > 1)
+    {
+        <!-- pagination -->
+        <nav aria-label="Page navigation" class="my-3">
+            <ul class="pagination pagination-circle pg-dark justify-content-center">
+                @for (int i = 1; i <= Model.TransactionPagingVM.PageCount; i++)
+                {
+                    <li class="page-item english-font @((Model.TransactionPagingVM.PageNumber == i) ? "active" : "")">
+                        <a href="/Admin/Accountings/Transactions?pageNumber=@i" class="page-link">@i</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    }
 
     <!-- transactions table -->
     <div class="table-responsive">
@@ -59,7 +74,7 @@
             @if (Model.TransactionPagingVM.Exchanges.Count == 0)
             {
                 <tr class="bg-dark text-light">
-                    <td colspan="6" class="py-4">
+                    <td colspan="7" class="py-4">
                         <i class="fas fa-exclamation-triangle ml-2"></i> لیست تراکنش ها خالی است.
                     </td>
                 </tr>
@@ -69,7 +84,7 @@
                 @foreach (var transaction in Model.TransactionPagingVM.Exchanges)
                 {
                     <tr>
-                        <td class="english-font">@transaction.TransactionTypeId</td>
+                        <td class="english-font">@transaction.ExchangeId</td>
                         <td class="english-font">@transaction.User.Email</td>
                         <td>@transaction.Description</td>
                         <td>
@@ -115,4 +130,3 @@
     }
 
 </div>
-

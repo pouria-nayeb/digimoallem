@@ -1,6 +1,7 @@
 ﻿using DigiMoallem.BLL.DTOs.Accountings;
 using DigiMoallem.DAL.Entities.Accounting;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DigiMoallem.BLL.Interfaces
@@ -10,11 +11,6 @@ namespace DigiMoallem.BLL.Interfaces
         #region AddPayment
         bool AddPayment(Payment payemt);
         Task<bool> AddPaymentAsync(Payment payemt);
-        #endregion
-
-        #region AddTeacherPercent
-        bool AddTeacherPercent(TeacherPercentViewModel teacherPercentVM);
-        Task<bool> AddTeacherPercentAsync(TeacherPercentViewModel teacherPercentVM);
         #endregion
 
         #region GetTeacherPaymentsByUsername
@@ -47,33 +43,65 @@ namespace DigiMoallem.BLL.Interfaces
         Task<int> PaymentCountsAsync();
         #endregion
 
-        #region TeacherTotalPayments
-        int TeacherTotalPayments(int teacherId);
-        Task<int> TeacherTotalPaymentsAsync(int teacherId);
+        #region GetTeacherCourse
+        int TeacherShare(int price, int percent);
         #endregion
 
-        #region TeacherTotalIncome
-        int TeacherTotalIncome(int teacherId);
+        #region InstitudeShare
+        int InstitudeShare(int price, int percent);
         #endregion
 
-        #region TeacherTotalIncomePerCourse
-        int TotalIncomeForCourse(int teacherId, int courseId);
+        #region GetTeacherPayment
+        int GetTeacherPayment(int teacherId);
         #endregion
 
-        #region CourseSharesCalculator
-        void CourseSharesCalculator(int teacherId, int courseId, int teacherPercent);
+        #region GetTotalIncome
+        int GetTotalIncome(int teacherId, int courseId);
         #endregion
 
-        #region TeacherTotalPaymentForCourse
-        int TeacherTotalPaymentForCourse(int teacherId, int courseId);
+        #region GetTeacherIncome
+        int GetTeacherIncome(int teacherId);
         #endregion
 
-        #region TeacherIncomeForCourse
-        int TeacherIncomeForCourse(int teacherId, int courseId);
+        #region GetTeacherTotalIncome
+        int GetTeacherTotalIncome(int teacherId, int courseId);
         #endregion
 
-        #region RemainingTeacherShareForCourse
-        int RemainingTeacherShareForCourse(int teacherId, int courseId);
+        #region GetTeacherTotalIncome
+        int GetInstitudeTotalIncome(int teacherId, int courseId);
+        #endregion
+
+        // purification
+        #region GetPurifications
+        PurificationPagingViewModel GetPurifications(int pageNumber = 1, int pageSize = 32);
+        #endregion
+
+        #region GetPurificationById
+        Purification GetPurificationById(int purificationId);
+        #endregion
+
+        #region AddPurification
+        Purification AddPurification(Purification purification);
+        #endregion
+
+        #region UpdatePurification
+        Purification UpdatePurification(Purification purification);
+        #endregion
+
+        #region RemovePurification
+        Purification RemovePurification(int purificationId);
+        #endregion
+
+        #region SearchPurification
+        List<Purification> SearchPurification(string query);
+        #endregion
+
+        #region PurificationsCount
+        int PurificationsCount();
+        #endregion
+
+        #region UncheckedPurificationsCount
+        int UncheckedPurificationsCount();
         #endregion
 
         #region Save

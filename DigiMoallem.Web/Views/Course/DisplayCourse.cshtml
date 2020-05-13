@@ -297,7 +297,7 @@
                                                     {
                                                         @if (episode.IsFree || IsUserBuyCourse)
                                                         {
-                                                            <a href="/DownloadFile/     @episode.CourseEpisodeId">
+                                                            <a href="/DownloadFile/@episode.CourseEpisodeId">
                                                                 <span class="badge badge-primary badge-pill text-pure-white
                                                                       p-2 border border-secondary english font">
                                                                     @(i++)
@@ -461,7 +461,6 @@
             @foreach (var course in relatedCourses.Where(c => c.CourseId != Model.CourseId))
             {
                 <partial name="_CoursePartial" model="course" />
-            }
             }
         </div>
 

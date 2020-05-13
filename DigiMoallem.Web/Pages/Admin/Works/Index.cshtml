@@ -46,7 +46,7 @@
     }
 
     <div class="clearfix">
-        <button type="button" class="btn btn-primary float-left mb-3">
+        <button type="button" class="btn btn-primary float-left mb-3 english-font">
             <i class="fa fa-th-list fa-fw"></i> @Model.WorksCount
         </button>
     </div>
@@ -78,7 +78,8 @@
                 </header>
 
                 <div class="card-body">
-                    <span class="text-light english-font">@work.Email</span>
+                    <a href="/Admin/Users/Index?filterUserName=&filterEmail=@work.Email" 
+                       class="text-light english-font">@work.Email</a>
 
                     <hr />
 
@@ -148,7 +149,7 @@
                         <a asp-page="Edit"
                            asp-route-id="@work.WorkId"
                            class="btn btn-sm btn-outline-warning">
-                            <i class="fa fa-pen fa-fw"></i> ویرایش
+                            <i class="fa fa-pen fa-fw"></i> درج بررسی
                         </a>
 
                         <a asp-page="Delete" asp-route-id="@work.WorkId" class="btn btn-sm btn-outline-danger">

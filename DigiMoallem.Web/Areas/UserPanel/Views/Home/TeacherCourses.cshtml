@@ -1,0 +1,114 @@
+﻿@model CourseViewModel
+@inject IUserService userService
+@inject IPermissionService permissionService
+
+@{
+    ViewData["Title"] = "لیست درسهای استاد";
+    var userId = userService.GetUserIdByUserName(User.Identity.Name);
+}
+
+<div class="loader d-flex justify-content-center align-items-center" style="display: block;">
+    <i class="fa fa-circle-notch fa-3x text-white fa-spin"></i>
+</div>
+
+<div class="container my-4" style="display:none;">
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Success"]
+        </div>
+    }
+
+    <div class="row">
+
+        <div class="col-12 col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fa fa-chalkboard-teacher ml-1"></i> @ViewData["Title"]
+                    </div>
+                    <div class="card-body">
+
+                        @if (Model.Courses.Any())
+                        {
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped">
+                                    <tr>
+                                        <th>شناسه درس</th>
+                                        <th>تصویر درس</th>
+                                        <th>عنوان درس</th>
+                                        <th>سهم استاد</th>
+                                        <th>جزئیات</th>
+                                    </tr>
+                                    @foreach (var course in Model.Courses)
+                                    {
+                                        @if (course.TeacherId == userId ||
+                                        permissionService.CheckPermission(2, User.Identity.Name))
+                                        {
+                                            <tr>
+                                                <td>@course.CourseId</td>
+                                                <td>
+                                                    <img src="~/images/courses/@course.ImageName"
+                                                         alt="@course.Title"
+                                                         class="img-fluid" style="max-width:75px" />
+                                                </td>
+                                                <td>
+                                                    @course.Title
+                                                </td>
+                                                <td>@course.TeacherPercent درصد</td>
+                                                <td>
+                                                    <a asp-area="UserPanel"
+                                                       asp-controller="Home"
+                                                       asp-action="TeacherShare"
+                                                       asp-route-id="@course.CourseId"
+                                                       class="btn btn-outline-success btn-sm">جزئیات</a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    </table>
+                            </div>
+
+                            @if (Model.CurrentPage > 1)
+                            {
+                                <div class="my-4">
+                                    <!-- pagination -->
+                                    <ul class="pagination pagination-sm justify-content-center">
+                                        @for (int i = 1; i <= Model.PageCount; i++)
+                                        {
+                                            <li class="page-item english-font @((Model.CurrentPage == i) ? "active" : "")">
+                                                <a class="page-link" href="/TeacherCourses/@userId?pageNumber=@i">@i</a>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="alert alert-warning">
+                                <i class="fa fa-exclamation-triangle ml-1"></i> درسی یافت نشد.
+                            </div>
+                        }
+
+                    </div>
+                </div>
+
+            </div>
+
+        <div class="col-12 col-md-4">
+
+            <partial name="_SidebarPartial" />
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    <script src="~/js/main.js"></script>
+}
+
+
+

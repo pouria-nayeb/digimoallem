@@ -1,0 +1,48 @@
+﻿@page "{id:min(1)}"
+@model DigiMoallem.Web.Pages.Admin.Purifications.EditModel
+
+@{
+    ViewData["Title"] = "بررسی تصفیه حساب";
+}
+
+<section class="container">
+
+    @if (ViewData["Failure"] != null)
+    {
+        <div class="alert alert-danger">
+            @ViewData["Failure"]
+        </div>
+    }
+
+    <div class="card">
+
+        <div class="card-header">
+            <i class="fa fa-pen ml-1"></i> @ViewData["Title"]
+        </div>
+
+        <div class="card-body">
+
+            <form method="post">
+                <input type="hidden" asp-for="Purification.PurificationId" />
+                <input type="hidden" asp-for="Purification.TeacherId" />
+                <input type="hidden" asp-for="Purification.CourseId" />
+                <input type="hidden" asp-for="Purification.Amount" />
+                <input type="hidden" asp-for="Purification.SubmitDate" />
+
+                <div class="form-group my-5">
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" asp-for="Purification.IsChecked" />
+                        <label class="custom-control-label" asp-for="Purification.IsChecked"></label>
+                    </div>
+                </div>
+
+                <button class="btn btn-outline-warning">
+                    <i class="fa fa-pen ml-1"></i> ویرایش
+                </button>
+            </form>
+
+        </div>
+
+    </div>
+
+</section>

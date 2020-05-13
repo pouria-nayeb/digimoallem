@@ -31,10 +31,10 @@
     <h1 class="my-5"> <i class="fa fa-book ml-2"></i> @ViewData["Title"]</h1>
 
     @if (User.Identity.Name == _courseService.GetCourseById(Model.Course.CourseId).User.UserName ||
-                      _permissionService.CheckPermission(2, User.Identity.Name))
+                    _permissionService.CheckPermission(2, User.Identity.Name))
     {
 
-        <form method="post" enctype="multipart/form-data" class="md-form">
+        <form method="post" enctype="multipart/form-data">
 
             <input type="hidden" asp-for="Course.CourseId" />
             <input type="hidden" asp-for="Course.CreateDate" />
@@ -66,7 +66,9 @@
                         <!-- groups -->
                         <div class="md-form mb-4">
                             <label asp-for="Course.GroupId"></label>
-                            <select class="browser-default custom-select" asp-for="Course.GroupId" asp-items="@ViewData["Groups"] as SelectList">
+                            <select class="browser-default custom-select select-list"
+                                    asp-for="Course.GroupId"
+                                    asp-items="@ViewData["Groups"] as SelectList">
                                 <option value="" disabled selected>یکی از گروه ها را انتخاب نمایید</option>
                             </select>
 
@@ -75,8 +77,8 @@
 
                         <!-- subgroups -->
                         @*<div class="md-form mb-4">
-                                 <select class="browser-default custom-select" asp-for="Course.SubGroupId" asp-items="@ViewData["SubGroups"] as SelectList"></select>
-                            </div>*@
+             <select class="browser-default custom-select" asp-for="Course.SubGroupId" asp-items="@ViewData["SubGroups"] as SelectList"></select>
+        </div>*@
 
 
                         @if (_permissionService.CheckPermission(2, User.Identity.Name))
@@ -84,7 +86,9 @@
                             <!-- teacher manage by admin -->
                             <div class="md-form mb-4">
                                 <label asp-for="Course.TeacherId"></label>
-                                <select class="browser-default custom-select" asp-for="Course.TeacherId" asp-items="@ViewData["Teachers"] as SelectList">
+                                <select class="browser-default custom-select select-list"
+                                        asp-for="Course.TeacherId"
+                                        asp-items="@ViewData["Teachers"] as SelectList">
                                     <option value="" disabled selected>یکی از اساتید را انتخاب نمایید</option>
                                 </select>
                             </div>
@@ -95,24 +99,37 @@
                             <input type="hidden" asp-for="Course.TeacherId" />
                         }
 
-                        <!-- price -->
-                        <div class="md-form mb-4">
-                            <label asp-for="Course.Price"></label>
-                            <input type="text" asp-for="Course.Price" class="form-control text-direction-ltr text-left english-font" />
+                        @if (_permissionService.CheckPermission(2, User.Identity.Name))
+                        {
+                            <!-- price -->
+                            <div class="md-form mb-4">
+                                <label asp-for="Course.Price"></label>
+                                <input type="text" asp-for="Course.Price" class="form-control text-direction-ltr text-left english-font" />
 
-                            <span asp-validation-for="Course.Price" class="text-danger"></span>
-                        </div>
+                                <span asp-validation-for="Course.Price" class="text-danger"></span>
+                            </div>
+                        }
+                        else
+                        {
+                            <input type="hidden" asp-for="Course.Price" />
+                        }
 
                         @if (_permissionService.CheckPermission(2, User.Identity.Name))
                         {
                             <!-- teacher percent (admin-only) -->
                             <div class="form-group mb-4">
                                 <label asp-for="Course.TeacherPercent"></label>
-                                <input type="number" asp-for="Course.TeacherPercent" class="form-control text-direction-ltr text-left" />
+                                <input type="number"
+                                       asp-for="Course.TeacherPercent"
+                                       class="form-control text-direction-ltr text-left" />
                                 <span class="text-warning small"> توجه: مبلغ پیشنهادی برای درس توسط ادمین بررسی شود. </span>
 
                                 <span asp-validation-for="Course.TeacherPercent"></span>
                             </div>
+                        }
+                        else
+                        {
+                            <input type="hidden" asp-for="Course.TeacherPercent" />
                         }
 
                         <!-- description -->
@@ -122,12 +139,13 @@
 
                         <!-- tags -->
                         <div class="md-form mb-4">
-                            <input type="text" asp-for="Course.Tags" class="form-control" />
                             <label asp-for="Course.Tags"></label>
-                            <span class="text-dark small"> توجه: برچسب ها را با - از هم جدا کنید. </span>
+                            <input type="text" asp-for="Course.Tags" class="form-control" />
+                            <span class="text-light small"> توجه: برچسب ها را با - از هم جدا کنید. </span>
                         </div>
 
                         <!-- file demo -->
+                        <span class="text-light mb-2 d-block">فیلم دمو دوره</span>
                         <div class="custom-file">
                             <input type="file" class="custom-file-input"
                                    asp-for="Course.Demo"
@@ -152,9 +170,11 @@
                              class="img-fluid mx-auto my-2 display-block"
                              alt="default course" />
 
-                        <div class="form-group">
-                            <div class="input-group my-4 w-100 max-width-520px">
+                        <div class="form-group my-4">
+                            <span class="text-light mb-2 d-block">تصویر دوره</span>
+                            <div class="input-group w-100 max-width-520px">
                                 <div class="custom-file">
+                                    <label asp-for="Course.ImageName"></label>
                                     <input type="file" class="custom-file-input"
                                            asp-for="Course.ImageName"
                                            id="image"
@@ -167,7 +187,10 @@
 
                         <!-- course levels -->
                         <div class="md-form mb-4">
-                            <select class="browser-default custom-select" asp-for="Course.CourseLevelId" asp-items="@ViewData["CourseLevels"] as SelectList">
+                            <label asp-for="Course.CourseLevelId"></label>
+                            <select class="browser-default custom-select select-list"
+                                    asp-for="Course.CourseLevelId"
+                                    asp-items="@ViewData["CourseLevels"] as SelectList">
                                 <option value="" disabled selected>یکی از سطوح را انتخاب نمایید</option>
                             </select>
                         </div>

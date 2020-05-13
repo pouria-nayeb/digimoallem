@@ -166,7 +166,7 @@ namespace DigiMoallem.BLL.Services
                 Works = works
                 .Skip(skip)
                 .Take(take)
-                .OrderByDescending(w => w.WorkId)
+                .OrderByDescending(w => w.IsChecked == false)
                 .AsNoTracking()
                 .ToList(),
                 PageCount = pagesCount,
@@ -187,9 +187,9 @@ namespace DigiMoallem.BLL.Services
             return new WorkPagingViewModel
             {
                 Works = await works
-                                .Skip(skip)
+                .Skip(skip)
                 .Take(take)
-                                .OrderByDescending(w => w.WorkId)
+                .OrderByDescending(w => w.IsChecked == false)
                 .AsNoTracking()
                 .ToListAsync(),
                 PageCount = pagesCount,

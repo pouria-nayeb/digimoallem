@@ -1,0 +1,150 @@
+﻿@model DigiMoallem.BLL.DTOs.Orders.SearchOrderViewModel
+@inject ICourseService courseService
+
+@{
+    ViewData["Title"] = "جستجو درآمد استاد و درس";
+    List<int> creditors = new List<int>();
+    int courseId = (int)ViewData["CourseId"];
+}
+
+@section Styles {
+    <link href="~/admin/css/kendo.common.min.css" rel="stylesheet" />
+    <link href="~/admin/css/kendo.default.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/admin/css/select2.min.css" />
+    <style>
+        #alert {
+            display: none;
+        }
+    </style>
+}
+
+<div class="container">
+
+    <h1 class="my-5"> <i class="fa fa-search ml-2"></i> بررسی درآمد درس @courseService.GetCourseById(courseId).Title</h1>
+
+    <form method="get">
+
+        <div asp-validation-summary="ModelOnly" class="text-danger my-4"></div>
+
+        <div class="alert alert-danger" id="alert">کد وارد شده تکراری می باشد.</div>
+
+        <div class="card">
+
+            <div class="card-header">
+                <i class="fa fa-search ml-1"></i> جستجو بر اساس استاد و درس
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-12 col-md-5">
+
+                        <input type="hidden" name="id" value="@courseId" />
+
+                        <!-- start date -->
+                        <div class="form-group mb-4">
+                            <label class="d-block" for="startDate"> تاریخ شروع: </label>
+                            <input id="startDate" name="startDate" class="mx-2 border border-dark w-75" />
+                        </div>
+
+                    </div>
+
+                    <div class="col-12 col-md-5">
+
+                        <!-- end date -->
+                        <div class="form-group mb-4">
+                            <label class="d-block" for="endDate"> تاریخ اتمام: </label>
+                            <input id="endDate" name="endDate" class="mx-2 border border-dark w-75" />
+                        </div>
+
+                    </div>
+
+                    <div class="col-12 col-md-2">
+
+                        <div class="form-group my-4">
+                            <!-- search -->
+                            <button type="submit" class="btn btn-dark mt-2">
+                                <i class="fa fa-search ml-2"></i> جستجو
+                            </button>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </form>
+
+    <hr />
+
+    <div class="clearfix my-4">
+        <button class="btn btn-primary float-left">
+            کل درآمد دوره: @Model.TotalPayment.ThreeDigitSeperator()
+        </button>
+    </div>
+
+    @if (Model.OrderDetails.Any())
+    {
+        <div class="card my-4">
+
+            <div class="card-header">
+                <i class="fa fa-list-ul ml-2"></i> لیست درآمد درس
+            </div>
+
+            <div class="card-body">
+
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <tr>
+                            <th>نام درس</th>
+                            <th>قیمت درس</th>
+                        </tr>
+                        @foreach (var orderDetail in Model.OrderDetails)
+                        {
+                            <tr>
+                                <td>@orderDetail.Course.Title</td>
+                                <td>
+                                    @(((orderDetail.Price * orderDetail.TeacherPercent.Value) / 100).ThreeDigitSeperator())
+                                </td>
+                            </tr>
+                            <tr class="d-none">
+                                @{creditors.Add(((orderDetail.Price * orderDetail.TeacherPercent.Value) / 100));}
+                            </tr>
+                        }
+                        <tr class="table-success">
+                            <td class="text-left">مجموع سهم استاد:</td>
+                            <td>@creditors.Sum().ThreeDigitSeperator()</td>
+                        </tr>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-primary border border-warning">
+            <i class="fa fa-exclamation-triangle ml-2"></i> سفارشی از این استاد در تاریخ مورد نظر ثبت نشده.
+        </div>
+    }
+
+</div>
+
+
+
+@section Scripts {
+    <script src="~/admin/js/jquery-1.9.1.min.js"></script>
+    <script src="~/admin/js/kendo.all.min.js"></script>
+    <script>
+        // create DatePicker from input HTML element
+        $("#startDate").kendoDatePicker();
+
+        // create DatePicker from input HTML element
+        $("#endDate").kendoDatePicker();
+    </script>
+    <script src="~/admin/js/select2.min.js" asp-append-version="true"></script>
+}

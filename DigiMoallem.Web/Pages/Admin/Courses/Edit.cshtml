@@ -28,32 +28,40 @@
         </a>
     }
 
-    <h1 class="my-5"> <i class="fa fa-book ml-2"></i> @ViewData["Title"]</h1>
+    <h1 class="my-5"> <i class="fa fa-pen ml-2"></i> @ViewData["Title"]</h1>
 
     @if (User.Identity.Name == _courseService.GetCourseById(Model.Course.CourseId).User.UserName ||
                     _permissionService.CheckPermission(2, User.Identity.Name))
     {
 
-        <form method="post" enctype="multipart/form-data">
+<form method="post" enctype="multipart/form-data">
 
-            <input type="hidden" asp-for="Course.CourseId" />
-            <input type="hidden" asp-for="Course.CreateDate" />
-            <input type="hidden" asp-for="Course.ImageName" />
-            <input type="hidden" asp-for="Course.Demo" />
+    <input type="hidden" asp-for="Course.CourseId" />
+    <input type="hidden" asp-for="Course.CreateDate" />
+    <input type="hidden" asp-for="Course.ImageName" />
+    <input type="hidden" asp-for="Course.Demo" />
 
-            <div class="container">
+    <div class="container">
 
-                <div asp-validation-summary="All" class="text-danger my-4"></div>
+        <div asp-validation-summary="All" class="text-danger my-4"></div>
 
-                @if (ViewData["Failure"] != null)
-                {
-                    <div class="alert alert-danger">
-                        @ViewData["Failure"]
+        @if (ViewData["Failure"] != null)
+        {
+            <div class="alert alert-danger">
+                @ViewData["Failure"]
+            </div>
+        }
+
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-8 col-lg-8">
+
+                <div class="card">
+
+                    <div class="card-header">
+                        <i class="fa fa-pen ml-2"></i> ویرایش اطلاعات درس
                     </div>
-                }
 
-                <div class="row">
-                    <div class="col-12 col-sm-12 col-md-8 col-lg-8">
+                    <div class="card-body">
 
                         <!-- title -->
                         <div class="md-form mb-4">
@@ -77,8 +85,8 @@
 
                         <!-- subgroups -->
                         @*<div class="md-form mb-4">
-             <select class="browser-default custom-select" asp-for="Course.SubGroupId" asp-items="@ViewData["SubGroups"] as SelectList"></select>
-        </div>*@
+                                 <select class="browser-default custom-select" asp-for="Course.SubGroupId" asp-items="@ViewData["SubGroups"] as SelectList"></select>
+                            </div>*@
 
 
                         @if (_permissionService.CheckPermission(2, User.Identity.Name))
@@ -102,12 +110,13 @@
                         @if (_permissionService.CheckPermission(2, User.Identity.Name))
                         {
                             <!-- price -->
-                            <div class="md-form mb-4">
-                                <label asp-for="Course.Price"></label>
-                                <input type="text" asp-for="Course.Price" class="form-control text-direction-ltr text-left english-font" />
+                    <div class="md-form mb-4">
+                        <label asp-for="Course.Price"></label>
+                        <input type="text" asp-for="Course.Price" class="form-control text-direction-ltr text-left english-font" />
+                        <span class="text-warning small"> توجه: مبلغ پیشنهادی برای درس توسط ادمین بررسی شود. </span>
 
-                                <span asp-validation-for="Course.Price" class="text-danger"></span>
-                            </div>
+                        <span asp-validation-for="Course.Price" class="text-danger"></span>
+                    </div>
                         }
                         else
                         {
@@ -122,7 +131,7 @@
                                 <input type="number"
                                        asp-for="Course.TeacherPercent"
                                        class="form-control text-direction-ltr text-left" />
-                                <span class="text-warning small"> توجه: مبلغ پیشنهادی برای درس توسط ادمین بررسی شود. </span>
+                                <span class="text-warning small"> توجه: درصد پیشنهادی برای درس توسط ادمین بررسی شود. </span>
 
                                 <span asp-validation-for="Course.TeacherPercent"></span>
                             </div>
@@ -154,36 +163,53 @@
                                    style="padding-right:6rem">انتخاب فایل</label>
                         </div>
 
-                        <div class="form-group my-5">
-                            <!-- create -->
-                            <button type="submit" class="btn btn-outline-warning">
-                                <i class="fa fa-pen ml-2"></i> ویرایش درس جدید
-                            </button>
-                        </div>
-
                     </div>
-                    <div class="col-12 col-sm-12 col-md-4 col-lg-4">
 
-                        <!-- course image -->
-                        <img id="display-image"
-                             src="~/Images/Courses/@Model.Course.ImageName"
-                             class="img-fluid mx-auto my-2 display-block"
-                             alt="default course" />
+                </div>
 
-                        <div class="form-group my-4">
-                            <span class="text-light mb-2 d-block">تصویر دوره</span>
-                            <div class="input-group w-100 max-width-520px">
-                                <div class="custom-file">
-                                    <label asp-for="Course.ImageName"></label>
-                                    <input type="file" class="custom-file-input"
-                                           asp-for="Course.ImageName"
-                                           id="image"
-                                           name="imgCourseUpload" />
-                                    <label class="custom-file-label" style="padding-right:6rem"
-                                           asp-for="Course.ImageName">انتخاب فایل</label>
-                                </div>
-                            </div>
-                        </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4">
+
+               <div class="card">
+
+                   <div class="card-header">
+                       <i class="fa fa-image ml-1"></i> ویرایش تصویر دوره
+                   </div>
+
+                   <div class="card-body">
+
+                       <!-- course image -->
+                       <img id="display-image"
+                            src="~/Images/Courses/@Model.Course.ImageName"
+                            class="img-fluid mx-auto my-2 display-block"
+                            alt="default course" />
+
+                       <div class="form-group my-4">
+                           <span class="text-light mb-2 d-block">تصویر دوره</span>
+                           <div class="input-group w-100 max-width-520px">
+                               <div class="custom-file">
+                                   <label asp-for="Course.ImageName"></label>
+                                   <input type="file" class="custom-file-input"
+                                          asp-for="Course.ImageName"
+                                          id="image"
+                                          name="imgCourseUpload" />
+                                   <label class="custom-file-label" style="padding-right:6rem"
+                                          asp-for="Course.ImageName">انتخاب فایل</label>
+                               </div>
+                           </div>
+                       </div>
+
+                   </div>
+
+               </div>
+
+                <div class="card my-3">
+
+                    <div class="card-header">
+                        سطوح دوره
+                    </div>
+
+                    <div class="card-body">
 
                         <!-- course levels -->
                         <div class="md-form mb-4">
@@ -195,119 +221,131 @@
                             </select>
                         </div>
 
-                        <!-- course statuses -->
-                        @*<div class="md-form mb-4">
-                                <select class="browser-default custom-select" asp-for="Course.CourseStatusId" asp-items="@ViewData["CourseStatuses"] as SelectList">
-                                  <option value="" disabled selected>یکی از وضعیت ها را انتخاب نمایید</option>
-                                </select>
-                            </div>*@
-                        <input type="hidden" asp-for="Course.CourseStatusId" />
+                    </div>
 
-                        <!-- courseType list  -->
-                        <div class="card">
-                            <div class="card-header">
-                                نوع دوره
-                            </div>
-                            <div class="card-body">
-                                @foreach (var courseType in ViewData["CourseTypes"] as SelectList)
-                                {
-                                    <div class="form-check my-2">
-                                        <label class="form-check-label">
-                                            <input type="checkbox" class="form-check-input"
-                                                   value="@courseType.Value"
-                                                   name="courseTypes"
-                                                   @((Model.Course.CourseInCourseTypes.Any(cc => cc.CourseTypeId == Int32.Parse(courseType.Value))) ? "checked" : "") />
-                                            <span class="mr-4">@courseType.Text</span>
-                                        </label>
-                                    </div>
-                                }
-                            </div>
-                        </div>
+                </div>
 
-                        <div class="card my-3">
-                            <div class="card-header">
-                                تنظیمات دوره
-                            </div>
-                            <div class="card-body">
-                                @if (_permissionService.CheckPermission(2, User.Identity.Name))
-                                {
-                                    <!-- is hidden (admin-only) -->
-                                    <div class="form-check">
-                                        <label class="form-check-label" asp-for="Course.IsHidden">
-                                            <input type="checkbox" class="form-check-input" asp-for="Course.IsHidden" />
-                                            <span class="pr-4">مخفی سازی درس</span>
-                                        </label>
-                                    </div>
+                <!-- course statuses -->
+                @*<div class="md-form mb-4">
+                        <select class="browser-default custom-select" asp-for="Course.CourseStatusId" asp-items="@ViewData["CourseStatuses"] as SelectList">
+                          <option value="" disabled selected>یکی از وضعیت ها را انتخاب نمایید</option>
+                        </select>
+                    </div>*@
+                <input type="hidden" asp-for="Course.CourseStatusId" />
 
-                                    <!-- is favorite (admin-only) -->
-                                    <div class="form-check my-3">
-                                        <label class="form-check-label" asp-for="Course.IsFavorite">
-                                            <input type="checkbox" class="form-check-input"
-                                                   asp-for="Course.IsFavorite" />
-                                            <span class="pr-4">دوره برگزیده شده</span>
-                                        </label>
-                                    </div>
-
-                                    <!-- check by admin (admin-only) -->
-                                    <div class="form-check">
-                                        <label class="form-check-label" asp-for="Course.IsCheckedByAdmin">
-                                            <input type="checkbox" class="form-check-input"
-                                                   asp-for="Course.IsCheckedByAdmin" />
-                                            <span class="pr-4">مورد تایید ادمین</span>
-                                        </label>
-                                    </div>
-                                }
-
-                                <!-- display comment -->
-                                <div class="form-check my-3">
-                                    <label class="form-check-label" asp-for="Course.DisplayComment">
-                                        <input type="checkbox" class="form-check-input" asp-for="Course.DisplayComment" />
-                                        <span class="pr-4">نمایش نظرات</span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        @if (_permissionService.CheckPermission(2, User.Identity.Name))
+                <!-- courseType list  -->
+                <div class="card">
+                    <div class="card-header">
+                        نوع دوره
+                    </div>
+                    <div class="card-body">
+                        @foreach (var courseType in ViewData["CourseTypes"] as SelectList)
                         {
-                            <!-- apply off to course price (admin-only) -->
-                            <div class="card">
-
-                                <div class="card-header">
-
-                                    اعمال تخفیف
-
-                                </div>
-
-                                <div class="card-body">
-
-                                    <!-- has off -->
-                                    <div class="form-check">
-                                        <label class="form-check-label" asp-for="Course.Off">
-                                            <input type="checkbox" class="form-check-input" asp-for="Course.Off" />
-                                            <span class="pr-4">دارای تخفیف</span>
-                                        </label>
-                                    </div>
-
-                                    <!-- off percent -->
-                                    <div class="form-group mt-4">
-                                        <label asp-for="Course.OffPercent"></label>
-                                        <input type="number" asp-for="Course.OffPercent"
-                                               class="form-control text-direction-ltr text-left" />
-
-                                        <span asp-validation-for="Course.OffPercent"></span>
-                                    </div>
-
-                                </div>
-
+                            <div class="form-check my-2">
+                                <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input"
+                                           value="@courseType.Value"
+                                           name="courseTypes"
+                                           @((Model.Course.CourseInCourseTypes.Any(cc => cc.CourseTypeId == Int32.Parse(courseType.Value))) ? "checked" : "") />
+                                    <span class="mr-4">@courseType.Text</span>
+                                </label>
                             </div>
                         }
-
                     </div>
                 </div>
 
+                <div class="card my-3">
+                    <div class="card-header">
+                        تنظیمات دوره
+                    </div>
+                    <div class="card-body">
+                        @if (_permissionService.CheckPermission(2, User.Identity.Name))
+                        {
+                            <!-- is hidden (admin-only) -->
+                            <div class="form-check">
+                                <label class="form-check-label" asp-for="Course.IsHidden">
+                                    <input type="checkbox" class="form-check-input" asp-for="Course.IsHidden" />
+                                    <span class="pr-4">مخفی سازی درس</span>
+                                </label>
+                            </div>
+
+                            <!-- is favorite (admin-only) -->
+                            <div class="form-check my-3">
+                                <label class="form-check-label" asp-for="Course.IsFavorite">
+                                    <input type="checkbox" class="form-check-input"
+                                           asp-for="Course.IsFavorite" />
+                                    <span class="pr-4">دوره برگزیده شده</span>
+                                </label>
+                            </div>
+
+                            <!-- check by admin (admin-only) -->
+                            <div class="form-check">
+                                <label class="form-check-label" asp-for="Course.IsCheckedByAdmin">
+                                    <input type="checkbox" class="form-check-input"
+                                           asp-for="Course.IsCheckedByAdmin" />
+                                    <span class="pr-4">مورد تایید ادمین</span>
+                                </label>
+                            </div>
+                        }
+
+                        <!-- display comment -->
+                        <div class="form-check my-3">
+                            <label class="form-check-label" asp-for="Course.DisplayComment">
+                                <input type="checkbox" class="form-check-input" asp-for="Course.DisplayComment" />
+                                <span class="pr-4">نمایش نظرات</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                @if (_permissionService.CheckPermission(2, User.Identity.Name))
+                {
+                    <!-- apply off to course price (admin-only) -->
+                    <div class="card">
+
+                        <div class="card-header">
+
+                            اعمال تخفیف
+
+                        </div>
+
+                        <div class="card-body">
+
+                            <!-- has off -->
+                            <div class="form-check">
+                                <label class="form-check-label" asp-for="Course.Off">
+                                    <input type="checkbox" class="form-check-input" asp-for="Course.Off" />
+                                    <span class="pr-4">دارای تخفیف</span>
+                                </label>
+                            </div>
+
+                            <!-- off percent -->
+                            <div class="form-group mt-4">
+                                <label asp-for="Course.OffPercent"></label>
+                                <input type="number" asp-for="Course.OffPercent"
+                                       class="form-control text-direction-ltr text-left" />
+
+                                <span asp-validation-for="Course.OffPercent"></span>
+                            </div>
+
+                        </div>
+
+                    </div>
+                }
+
             </div>
-        </form>
+        </div>
+
+    </div>
+
+    <div class="form-group my-5">
+        <!-- create -->
+        <button type="submit" class="btn btn-outline-warning">
+            <i class="fa fa-pen ml-2"></i> ویرایش درس جدید
+        </button>
+    </div>
+
+</form>
 
     }
 

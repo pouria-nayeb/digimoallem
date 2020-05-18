@@ -4,9 +4,11 @@ using DigiMoallem.BLL.Interfaces;
 using DigiMoallem.DAL.Context;
 using DigiMoallem.DAL.Entities.Accounting;
 using DigiMoallem.DAL.Entities.Courses;
+using DigiMoallem.DAL.Entities.Orders;
 using DigiMoallem.DAL.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Remotion.Linq.Parsing.Structure.IntermediateModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -100,13 +102,14 @@ namespace DigiMoallem.BLL.Services
         #region GetTeacherTotalIncome
         public int GetTeacherTotalIncome(int teacherId, int courseId)
         {
-            var course = _courseService.GetCourseById(courseId);
 
-            return ((_db.OrderDetails
+            var teacherCourseOrderDetailsPrices = _db.OrderDetails
                 .Include(od => od.Course)
                 .Include(od => od.Order)
                 .Where(od => od.Course.TeacherId == teacherId && od.CourseId == courseId && od.Order.IsFinally == true)
-                .Select(od => od.Price).Sum() * course.TeacherPercent)/100);
+                .Select(od => od.Price);
+
+            return teacherCourseOrderDetailsPrices.Sum();
         }
         #endregion
 
@@ -116,15 +119,24 @@ namespace DigiMoallem.BLL.Services
             return _db.OrderDetails
                     .Include(od => od.Course)
                     .Include(od => od.Order)
-                    .Where(od => od.Course.TeacherId == teacherId && od.Order.IsFinally == true).Sum(od => (od.Price * od.Course.TeacherPercent) / 100);
+                    .Where(od => od.Course.TeacherId == teacherId && od.Order.IsFinally == true).Sum(od => (od.Price * od.TeacherPercent.Value) / 100);
         }
         #endregion
 
+        //#region JoinOrderDetailsAndPayments
+        //public IQueryable<OrderDetail> JoinOrderDetailsAndPayments() 
+        //{
+        //return (from orderDetail in _db.OrderDetails.Include(od => od.Course)
+        //        join payment in _db.Payments on orderDetail.Course.TeacherId equals payment.TeacherId
+        //        select orderDetail);
+        //}
+        //#endregion
+
         #region GetTeacherTotalIncome
-        public int GetInstitudeTotalIncome(int teacherId, int courseId)
-        {
-            return GetTotalIncome(teacherId, courseId) - GetTeacherTotalIncome(teacherId, courseId);
-        }
+        //public int GetInstitudeTotalIncome(int teacherId, int courseId)
+        //{
+        //    return GetTotalIncome(teacherId, courseId) - GetTeacherTotalIncome(teacherId, courseId);
+        //}
         #endregion
 
         /// <summary>

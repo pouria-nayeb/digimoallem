@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection.PortableExecutable;
 using System.Threading.Tasks;
 
 namespace DigiMoallem.BLL.Services
@@ -221,7 +222,7 @@ namespace DigiMoallem.BLL.Services
         #endregion
 
         #region GetCoursesOfTeacher
-        public CourseViewModel GetCoursesOfTeacher(int teacherId, int pageNumber = 1, int pageSize = 16) 
+        public CourseViewModel GetCoursesOfTeacher(int teacherId, int pageNumber = 1, int pageSize = 16)
         {
             IQueryable<Course> courses = _db.Courses.Where(c => c.TeacherId == teacherId);
 
@@ -374,7 +375,8 @@ namespace DigiMoallem.BLL.Services
             .Where(c => c.IsFavorite == true)
             .OrderByDescending(c => c.CourseId)
             .Take(9)
-            .Select(c => new DisplayCourseViewModel {
+            .Select(c => new DisplayCourseViewModel
+            {
                 CourseId = c.CourseId,
                 ImageName = c.ImageName,
                 GroupName = c.Group.Title,
@@ -518,8 +520,8 @@ namespace DigiMoallem.BLL.Services
             }
         }
 
-        public async Task<int> AddCourseAsync(Course course, 
-            IFormFile imageCourse, 
+        public async Task<int> AddCourseAsync(Course course,
+            IFormFile imageCourse,
             IFormFile demoCourse,
             List<int> courseTypes)
         {
@@ -719,8 +721,7 @@ namespace DigiMoallem.BLL.Services
         }
 
         #region AdvanceSearchCourse
-        public SearchOrderViewModel AdvanceSearchCourse(DateTime startDate, DateTime endDate, int teacherId, 
-            int pageNumber = 1, int pageSize = 16)
+        public SearchOrderViewModel AdvanceSearchCourse(DateTime startDate, DateTime endDate, int teacherId, int pageNumber = 1, int pageSize = 16)
         {
             IQueryable<OrderDetail> orderDetails = _db.OrderDetails
                 .Include(od => od.Course)
@@ -735,7 +736,7 @@ namespace DigiMoallem.BLL.Services
 
             if (startDate != null)
             {
-                orderDetails = orderDetails.Where(o => o.Order.CreateDate >= startDate);
+                orderDetails = orderDetails.Where(od => od.Order.CreateDate >= startDate);
             }
 
             if (endDate != null)
@@ -745,7 +746,7 @@ namespace DigiMoallem.BLL.Services
 
             return new SearchOrderViewModel
             {
-             OrderDetails = orderDetails
+                OrderDetails = orderDetails
             .Skip(skip)
             .Take(take)
             .OrderByDescending(od => od.OrderDetailId).ToList(),
@@ -755,6 +756,232 @@ namespace DigiMoallem.BLL.Services
             };
         }
 
+        #endregion
+
+        #region MyRegion
+
+        public SearchOrderViewModel AdvanceSearchCourseAndTeacher(DateTime startDate, DateTime endDate, int teacherId, int courseId, int pageNumber = 1, int pageSize = 16)
+        {
+            IQueryable<OrderDetail> orderDetails = _db.OrderDetails
+                .Include(od => od.Course)
+                .Include(od => od.Order)
+                .ThenInclude(o => o.OrderDetails)
+                .Where(c => c.Course.TeacherId == teacherId && c.CourseId == courseId && c.Order.IsFinally == true);
+
+            int take = pageSize;
+            int skip = (pageNumber - 1) * take;
+            int orderDetailsCount = orderDetails.Count();
+            int pagesCount = (int)Math.Ceiling(decimal.Divide(orderDetailsCount, take));
+
+            if (startDate != null)
+            {
+                orderDetails = orderDetails.Where(od => od.Order.CreateDate >= startDate);
+            }
+
+            if (endDate != null)
+            {
+                orderDetails = orderDetails.Where(o => o.Order.CreateDate <= endDate);
+            }
+
+            return new SearchOrderViewModel
+            {
+                OrderDetails = orderDetails
+            .Skip(skip)
+            .Take(take)
+            .OrderByDescending(od => od.OrderDetailId).ToList(),
+                PageNumber = pageNumber,
+                PagesCount = pagesCount,
+                TotalPayment = orderDetails.Select(od => od.Order.TotalPrice).Sum()
+            };
+        }
+
+        #endregion
+
+        #region JoinPaymentsAndOrderDetails
+        public OrderDetailPaymentPagingViewModel SearchOrderDetailPayments(DateTime startDate, DateTime endDate, int teacherId, int pageNumber = 1, int pageSize = 32)
+        {
+            var orderDetailPayments = (from orderDetail in _db.OrderDetails
+                                       select new OrderDetailPaymentViewModel()
+                                       {
+                                           Title = orderDetail.Course.Title,
+                                           Price = orderDetail.Price,
+                                           Payment = 0,
+                                           CreateDate = orderDetail.Order.CreateDate,
+                                           TeacherPercent = orderDetail.TeacherPercent.Value,
+                                           IsPayment = false,
+                                           TeacherId = orderDetail.Course.TeacherId,
+                                           OrderFinally = orderDetail.Order.IsFinally
+                                       }).Union(from payment in _db.Payments
+                                                select new OrderDetailPaymentViewModel()
+                                                {
+                                                    Title = payment.Description,
+                                                    Price = 0,
+                                                    Payment = payment.Amount,
+                                                    CreateDate = payment.PaymentDate,
+                                                    TeacherPercent = 0,
+                                                    IsPayment = true,
+                                                    TeacherId = payment.TeacherId,
+                                                    OrderFinally = true
+                                                })
+                                       .Where(od => od.TeacherId == teacherId && od.OrderFinally == true);
+
+            int take = pageSize;
+            int skip = (pageNumber - 1) * take;
+            int orderDetailsCount = orderDetailPayments.Count();
+            int pagesCount = (int)Math.Ceiling(decimal.Divide(orderDetailsCount, take));
+
+            if (startDate != null)
+            {
+                orderDetailPayments = orderDetailPayments.Where(od => od.CreateDate >= startDate);
+            }
+
+            if (endDate != null)
+            {
+                orderDetailPayments = orderDetailPayments.Where(o => o.CreateDate <= endDate);
+            }
+
+            return new OrderDetailPaymentPagingViewModel
+            {
+                OrderDetailPayments = orderDetailPayments
+            .Skip(skip)
+            .Take(take)
+            .OrderBy(od => od.CreateDate).ToList(),
+                PageNumber = pageNumber,
+                PagesCount = pagesCount,
+                TotalOrderDetailsPayments = _db.OrderDetails
+                .Include(od => od.Course)
+                .Include(od => od.Order)
+                .Where(od => od.Course.TeacherId == teacherId && od.Order.IsFinally == true)
+                .Select(od => od.Order.TotalPrice)
+                .Sum()
+            };
+        }
+        #endregion
+
+        #region SearchCashDesk
+        public OrderDetailPaymentPagingViewModel SearchCashDesk(DateTime startDate, DateTime endDate, int pageNumber = 1, int pageSize = 32)
+        {
+            var orderDetailPayments = (from orderDetail in _db.OrderDetails
+                                       select new OrderDetailPaymentViewModel()
+                                       {
+                                           Title = orderDetail.Course.Title,
+                                           Price = orderDetail.Price,
+                                           Payment = 0,
+                                           CreateDate = orderDetail.Order.CreateDate,
+                                           TeacherPercent = orderDetail.TeacherPercent.Value,
+                                           IsPayment = false,
+                                           TeacherId = orderDetail.Course.TeacherId,
+                                           OrderFinally = orderDetail.Order.IsFinally
+                                       })
+                                       .Union(from payment in _db.Payments
+                                              select new OrderDetailPaymentViewModel()
+                                              {
+                                                  Title = payment.Description,
+                                                  Price = 0,
+                                                  Payment = payment.Amount,
+                                                  CreateDate = payment.PaymentDate,
+                                                  TeacherPercent = 0,
+                                                  IsPayment = true,
+                                                  TeacherId = 23,
+                                                  OrderFinally = false
+                                              })
+                                       .Where(od => od.OrderFinally == true);
+
+            int take = pageSize;
+            int skip = (pageNumber - 1) * take;
+            int orderDetailsCount = orderDetailPayments.Count();
+            int pagesCount = (int)Math.Ceiling(decimal.Divide(orderDetailsCount, take));
+
+            if (startDate != null)
+            {
+                orderDetailPayments = orderDetailPayments.Where(od => od.CreateDate >= startDate);
+            }
+
+            if (endDate != null)
+            {
+                orderDetailPayments = orderDetailPayments.Where(o => o.CreateDate <= endDate);
+            }
+
+            return new OrderDetailPaymentPagingViewModel
+            {
+                OrderDetailPayments = orderDetailPayments
+            .Skip(skip)
+            .Take(take)
+            .OrderBy(od => od.CreateDate).ToList(),
+                PageNumber = pageNumber,
+                PagesCount = pagesCount,
+                TotalOrderDetailsPayments = _db.OrderDetails
+                .Include(od => od.Course)
+                .Include(od => od.Order)
+                .Where(od => od.Order.IsFinally == true)
+                .Select(od => od.Order.TotalPrice)
+                .Sum()
+            };
+        }
+        #endregion
+
+        #region SearchBox
+        public OrderDetailPaymentPagingViewModel SearchBox(DateTime startDate,
+            DateTime endDate, 
+            int pageNumber = 1, 
+            int pageSize = 32)
+        {
+            var orderDetailPayments = (from orderDetail in _db.OrderDetails
+                                       select new OrderDetailPaymentViewModel()
+                                       {
+                                           Title = orderDetail.Course.Title,
+                                           Price = orderDetail.Price,
+                                           Payment = 0,
+                                           CreateDate = orderDetail.Order.CreateDate,
+                                           TeacherPercent = orderDetail.TeacherPercent.Value,
+                                           IsPayment = false,
+                                           TeacherId = orderDetail.Course.TeacherId,
+                                           OrderFinally = orderDetail.Order.IsFinally
+                                       }).Union(from payment in _db.Payments
+                                                select new OrderDetailPaymentViewModel()
+                                                {
+                                                    Title = payment.Description,
+                                                    Price = 0,
+                                                    Payment = payment.Amount,
+                                                    CreateDate = payment.PaymentDate,
+                                                    TeacherPercent = 0,
+                                                    IsPayment = true,
+                                                    TeacherId = payment.TeacherId,
+                                                    OrderFinally = true
+                                                })
+                                       .Where(od => od.OrderFinally == true);
+
+            int take = pageSize;
+            int skip = (pageNumber - 1) * take;
+            int orderDetailsCount = orderDetailPayments.Count();
+            int pagesCount = (int)Math.Ceiling(decimal.Divide(orderDetailsCount, take));
+
+            if (startDate != null)
+            {
+                orderDetailPayments = orderDetailPayments.Where(od => od.CreateDate >= startDate);
+            }
+
+            if (endDate != null)
+            {
+                orderDetailPayments = orderDetailPayments.Where(o => o.CreateDate <= endDate);
+            }
+
+            return new OrderDetailPaymentPagingViewModel
+            {
+                OrderDetailPayments = orderDetailPayments
+            .Skip(skip)
+            .Take(take)
+            .OrderBy(od => od.CreateDate).ToList(),
+                PageNumber = pageNumber,
+                PagesCount = pagesCount,
+                TotalOrderDetailsPayments = _db.OrderDetails
+                .Include(od => od.Course)
+                .Include(od => od.Order)
+                .Where(od => od.Order.IsFinally == true)
+                .Select(od => od.Order.TotalPrice)
+                .Sum()
+            };
+        }
         #endregion
 
         #region SearchCourse
@@ -1625,7 +1852,7 @@ namespace DigiMoallem.BLL.Services
         #endregion
 
         #region GetAllCommentsToManage
-        public CommentPagingViewModel GetAllCommentsToManage(int pageNumber = 1, int pageSize = 32) 
+        public CommentPagingViewModel GetAllCommentsToManage(int pageNumber = 1, int pageSize = 32)
         {
             IQueryable<Comment> comments = _db.Comments;
 
@@ -1671,7 +1898,7 @@ namespace DigiMoallem.BLL.Services
         #endregion
 
         #region UpdateComment
-        public Comment UpdateComment(Comment comment) 
+        public Comment UpdateComment(Comment comment)
         {
             try
             {
@@ -2081,7 +2308,7 @@ namespace DigiMoallem.BLL.Services
             }
         }
 
-        private void RemoveGroupImage(Group group) 
+        private void RemoveGroupImage(Group group)
         {
             if (!string.IsNullOrEmpty(group.ImageName))
             {

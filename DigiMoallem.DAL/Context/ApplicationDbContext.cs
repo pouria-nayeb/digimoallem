@@ -1,4 +1,5 @@
 ﻿using DigiMoallem.DAL.Entities.Accounting;
+using DigiMoallem.DAL.Entities.Blog;
 using DigiMoallem.DAL.Entities.Courses;
 using DigiMoallem.DAL.Entities.General;
 using DigiMoallem.DAL.Entities.Orders;
@@ -46,6 +47,18 @@ namespace DigiMoallem.DAL.Context
         public DbSet<Standard> Standards { get; set; }
 
         public DbSet<UploadLink> UploadLinks { get; set; }
+
+        public DbSet<Advertise> Advertises { get; set; }
+
+        public DbSet<Carousel> Carousels { get; set; }
+        #endregion
+
+        #region Categories - Articles - ArticleComment
+        public DbSet<Category> Categories { get; set; }
+
+        public DbSet<Article> Articles { get; set; }
+
+        public DbSet<ArticleComment> ArticleComments { get; set; }
         #endregion
 
         #region Comments - CommentQAs - Courses - Episodes - Levels - Statuses - Types - Groups - Like - Rate - UserCourse

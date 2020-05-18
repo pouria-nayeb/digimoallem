@@ -1,4 +1,5 @@
-﻿using DigiMoallem.BLL.Interfaces;
+﻿using DigiMoallem.BLL.Helpers.Security;
+using DigiMoallem.BLL.Interfaces;
 using DigiMoallem.DAL.Entities.Accounting;
 using DigiMoallem.DAL.Entities.Users;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace DigiMoallem.Web.Pages.Admin.Accountings
 {
+    [PermissionChecker(28)]
     public class CreateModel : PageModel
     {
         private IAccountingService _accountingService;

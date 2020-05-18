@@ -1,7 +1,9 @@
 ﻿using DigiMoallem.BLL.DTOs.Accountings;
 using DigiMoallem.DAL.Entities.Accounting;
+using DigiMoallem.DAL.Entities.Orders;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DigiMoallem.BLL.Interfaces
@@ -67,8 +69,12 @@ namespace DigiMoallem.BLL.Interfaces
         int GetTeacherTotalIncome(int teacherId, int courseId);
         #endregion
 
+        //#region JoinOrderDetailsAndPayments
+        //IQueryable<OrderDetail> JoinOrderDetailsAndPayments();
+        //#endregion
+
         #region GetTeacherTotalIncome
-        int GetInstitudeTotalIncome(int teacherId, int courseId);
+        //int GetInstitudeTotalIncome(int teacherId, int courseId);
         #endregion
 
         // purification

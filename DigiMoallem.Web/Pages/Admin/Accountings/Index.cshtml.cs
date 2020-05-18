@@ -23,9 +23,9 @@ namespace DigiMoallem.Web.Pages.Admin.Accountings
 
         public int TeachersCount { get; set; }
 
-        public void OnGet(int pageId = 1)
+        public void OnGet(string filterEmail, int pageId = 1)
         {
-            UserVM = _userService.GetTeachers(pageId);
+            UserVM = _userService.GetTeachers(pageId, filterEmail);
 
             TeachersCount = _userService.TeachersCount();
         }

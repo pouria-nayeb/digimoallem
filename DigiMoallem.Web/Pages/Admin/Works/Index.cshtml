@@ -78,8 +78,15 @@
                 </header>
 
                 <div class="card-body">
-                    <a href="/Admin/Users/Index?filterUserName=&filterEmail=@work.Email" 
-                       class="text-light english-font">@work.Email</a>
+                    
+                    <div class="clearfix">
+                        <a href="/Admin/Users/Index?filterUserName=&filterEmail=@work.Email"
+                           class="text-light english-font float-right">@work.Email</a>
+
+                        <span class="float-left">
+                            @work.FirstName @work.LastName
+                        </span>
+                    </div>
 
                     <hr />
 

@@ -7,8 +7,10 @@ using DigiMoallem.DAL.Entities.Accounting;
 using DigiMoallem.DAL.Entities.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading.Tasks;
 
 namespace DigiMoallem.Web.Areas.UserPanel.Controllers
@@ -150,7 +152,7 @@ namespace DigiMoallem.Web.Areas.UserPanel.Controllers
             {
                 if (_accountingService.AddPurification(purification) != null)
                 {
-                    TempData["Success"] = "درخواست شما برای تصفیه این درس با موفقیت ارسال شد.";
+                    TempData["Success"] = "درخواست شما برای تصفیه با موفقیت ارسال شد.";
                     return RedirectToAction("Index", "Home", new { area = "UserPanel" });
                 }
                 else 
@@ -188,10 +190,49 @@ namespace DigiMoallem.Web.Areas.UserPanel.Controllers
         }
 
         [Route("TeacherShare/{id}")]
-        public IActionResult TeacherShare(int id) 
+        public IActionResult TeacherShare(int id, string startDate, string endDate) 
         {
-            var course = _courseService.GetCourseById(id);
-            return View(course);
+            int teacherId = _userService.GetUserIdByUserName(User.Identity.Name);
+
+            ViewData["CourseId"] = id;
+
+            DateTime gorgianStartDate;
+            if (!string.IsNullOrEmpty(startDate))
+            {
+                // feed start date
+                string[] startDateArray = startDate.Split("/");
+                gorgianStartDate = new DateTime(
+                    int.Parse(startDateArray[0]),
+                    int.Parse(startDateArray[1]),
+                    int.Parse(startDateArray[2]),
+                    new PersianCalendar()
+                );
+            }
+            else
+            {
+                gorgianStartDate = DateTime.Now.AddDays(-29);
+            }
+
+            DateTime gorgianEndDate;
+            if (!string.IsNullOrEmpty(endDate))
+            {
+                // feed end date
+                string[] endDateArray = endDate.Split("/");
+                gorgianEndDate = new DateTime(
+                    int.Parse(endDateArray[0]),
+                    int.Parse(endDateArray[1]),
+                    int.Parse(endDateArray[2]),
+                    new PersianCalendar()
+                );
+            }
+            else
+            {
+                gorgianEndDate = DateTime.Now.AddDays(2);
+            }
+
+            var searchOrderVM = _courseService.AdvanceSearchCourseAndTeacher(gorgianStartDate, gorgianEndDate, teacherId, id, 1, 2000);
+
+            return View(searchOrderVM);
         }
 
         /// <summary>

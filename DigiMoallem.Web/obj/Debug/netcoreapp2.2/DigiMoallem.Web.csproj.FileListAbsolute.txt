@@ -162,3 +162,9 @@ C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\obj\Debug\netcoreapp2.2\
 C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\obj\Debug\netcoreapp2.2\Razor\Pages\Admin\Courses\DeleteComment.cshtml.g.cs
 C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\obj\Debug\netcoreapp2.2\Razor\Pages\Admin\Courses\AllEpisodes.cshtml.g.cs
 C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\obj\Debug\netcoreapp2.2\Razor\Pages\Admin\Courses\EditEpisodeByAdmin.cshtml.g.cs
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_SendCode.cshtml.g.cs
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\obj\Debug\netcoreapp2.2\Razor\Views\Account\LoginUserWithRandomToken.cshtml.g.cs
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\obj\Debug\netcoreapp2.2\Razor\Pages\Admin\Accountings\TeacherIncomesStatus.cshtml.g.cs
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\obj\Debug\netcoreapp2.2\Razor\Pages\Admin\Accountings\Box.cshtml.g.cs
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\obj\Debug\netcoreapp2.2\Razor\Pages\Admin\Accountings\SearchTeacherAndCourse.cshtml.g.cs
+C:\Users\Nayeb\source\repos\DigiMoallem\DigiMoallem.Web\obj\Debug\netcoreapp2.2\Razor\Areas\UserPanel\Views\Home\TeacherShare.cshtml.g.cs

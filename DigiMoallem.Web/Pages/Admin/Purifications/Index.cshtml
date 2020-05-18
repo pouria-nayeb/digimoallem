@@ -27,7 +27,6 @@
         <table class="table table-striped table-bordered">
             <tr>
                 <th>شناسه</th>
-                <th>نام درس</th>
                 <th>نام استاد</th>
                 <th>وضعیت درخواست</th>
                 <th>تاریخ درخواست</th>
@@ -39,8 +38,12 @@
                 {
                     <tr>
                         <td class="english-font">@purification.PurificationId</td>
-                        <td>@purification.Course.Title</td>
-                        <td class="english-font">@purification.User.Email</td>
+                        <td class="english-font">
+                            <a href="/Admin/Accountings?filterEmail=@purification.User.Email"
+                               class="btn btn-link py-1">
+                                @purification.User.Email
+                            </a>
+                            </td>
                         <td class="english-font">
                             @if (purification.IsChecked)
                             {

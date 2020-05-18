@@ -16,7 +16,7 @@
     </a>
 
     <h1 class="my-5">
-        <i class="fa fa-user-plus ml-2"></i> @ViewData["Title"] <q>@Model.Role.Title</q>
+        <i class="fa fa-pen ml-2"></i> @ViewData["Title"] <q>@Model.Role.Title</q>
     </h1>
 
     <form method="post" class="md-form">
@@ -42,19 +42,33 @@
         <div class="row">
             <div class="col-12 col-sm-12 col-md-8 col-lg-8">
 
-                <!-- title -->
-                <div class="md-form mb-4">
-                    <label asp-for="Role.Title"></label>
-                    <input type="text" asp-for="Role.Title" class="form-control">
+                <div class="card">
 
-                    <span asp-validation-for="Role.Title" class="text-danger"></span>
-                </div>
+                    <div class="card-header">
 
-                <div class="form-group my-5">
-                    <!-- create -->
-                    <button type="submit" class="btn btn-outline-success">
-                        <i class="fa fa-pen ml-2"></i> ویرایش نقش
-                    </button>
+                        <i class="fa fa-pen ml-1"></i> @ViewData["Title"]
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <!-- title -->
+                        <div class="md-form mb-4">
+                            <label asp-for="Role.Title"></label>
+                            <input type="text" asp-for="Role.Title" class="form-control">
+
+                            <span asp-validation-for="Role.Title" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group my-5">
+                            <!-- create -->
+                            <button type="submit" class="btn btn-outline-warning">
+                                <i class="fa fa-pen ml-2"></i> ویرایش نقش
+                            </button>
+                        </div>
+
+                    </div>
+
                 </div>
 
                 </div>
@@ -62,7 +76,7 @@
                 <div class="col-12 col-sm-12 col-md-4 col-lg-4">
                     <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
                         <div class="card-header">
-                            دسترسی
+                            <i class="fa fa-hands ml-1"></i> دسترسی
                         </div>
                         <div class="card-body">
 

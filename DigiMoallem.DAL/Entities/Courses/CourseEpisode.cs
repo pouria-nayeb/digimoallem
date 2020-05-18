@@ -25,6 +25,10 @@ namespace DigiMoallem.DAL.Entities.Courses
         [MaxLength(350, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]
         public string EpisodeFileName { get; set; }
 
+        [Display(Name = "توضیحات بخش")]
+        [MaxLength(500, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]
+        public string Description { get; set; }
+
         [Display(Name = "رایگان")]
         public bool IsFree { get; set; }
 

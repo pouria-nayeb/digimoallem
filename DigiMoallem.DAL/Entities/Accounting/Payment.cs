@@ -26,10 +26,15 @@ namespace DigiMoallem.DAL.Entities.Accounting
         [Display(Name = "تاریخ واریز وجه")]
         public DateTime PaymentDate { get; set; }
 
+        [Display(Name = "نام صندوق")]
+        public int? BoxId { get; set; }
+
         #region Relations - Navigation Properties
 
         [ForeignKey("TeacherId")]
         public User User { get; set; }
+
+        public Box Box { get; set; }
 
         #endregion
     }

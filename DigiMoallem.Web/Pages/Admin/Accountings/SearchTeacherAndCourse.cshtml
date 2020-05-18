@@ -1,0 +1,176 @@
+﻿@page
+@model DigiMoallem.Web.Pages.Admin.Accountings.SearchTeacherAndCourseModel
+
+@{
+    ViewData["Title"] = "جستجو درآمد استاد و درس";
+    List<int> sum = new List<int>();
+}
+
+@section Styles {
+    <link href="~/admin/css/kendo.common.min.css" rel="stylesheet" />
+    <link href="~/admin/css/kendo.default.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/admin/css/select2.min.css" />
+    <style>
+        #alert {
+            display: none;
+        }
+    </style>
+}
+
+<div class="container">
+
+    <!-- back to accounting -->
+    <a asp-area=""
+       asp-page="Index"
+       class="btn btn-outline-info">
+        <i class="fas fa-arrow-right ml-2"></i> بازگشت
+    </a>
+
+    <h1 class="my-5"> <i class="fa fa-search ml-2"></i> @ViewData["Title"]</h1>
+
+    <form method="get">
+
+        <div asp-validation-summary="ModelOnly" class="text-danger my-4"></div>
+
+        <div class="alert alert-danger" id="alert">کد وارد شده تکراری می باشد.</div>
+
+        <div class="card">
+
+            <div class="card-header">
+                <i class="fa fa-search ml-1"></i> جستجو بر اساس استاد و درس
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-8 col-lg-8">
+
+                        <!-- teachers -->
+                        <div class="form-group mb-4">
+                            <label for="teacherId">مدرس ها:</label>
+                            <select class="browser-default custom-select select-list"
+                                    id="teacherId"
+                                    name="teacherId"
+                                    asp-items="@ViewData["Teachers"] as SelectList">
+                                <option value="" disabled selected>یکی از اساتید را انتخاب نمایید</option>
+                            </select>
+                        </div>
+
+                        <!-- courses -->
+                        <div class="form-group mb-4">
+                            <label for="teacherId">مدرس ها:</label>
+                            <select class="browser-default custom-select select-list"
+                                    id="courseId"
+                                    name="courseId"
+                                    asp-items="@ViewData["Courses"] as SelectList">
+                                <option value="" disabled selected>یکی از درس ها را انتخاب نمایید</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-4 col-lg-4">
+
+                        <!-- start date -->
+                        <div class="form-group mb-4">
+                            <label class="d-block" for="startDate"> تاریخ شروع: </label>
+                            <input id="startDate" name="startDate" class="mx-2 w-75" />
+                        </div>
+
+                        <!-- end date -->
+                        <div class="form-group mb-4">
+                            <label class="d-block" for="endDate"> تاریخ اتمام: </label>
+                            <input id="endDate" name="endDate" class="mx-2 w-75" />
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="form-group my-5">
+                    <!-- search -->
+                    <button type="submit" class="btn btn-outline-success">
+                        <i class="fa fa-search ml-2"></i> جستجو
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </form>
+
+    <hr />
+
+    <div class="clearfix my-4">
+        <button class="btn btn-primary float-left">
+            کل درآمد دوره: @Model.searchOrderVM.TotalPayment.ThreeDigitSeperator()
+        </button>
+    </div>
+
+    @if (Model.searchOrderVM.OrderDetails.Any())
+    {
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <th>نام درس</th>
+                    <th>قیمت درس</th>
+                </tr>
+                @foreach (var orderDetail in Model.searchOrderVM.OrderDetails)
+                {
+                    <tr>
+                        <td>@orderDetail.Course.Title</td>
+                        <td>
+                            @(((orderDetail.Price * orderDetail.TeacherPercent.Value)/100).ThreeDigitSeperator())
+                        </td>
+                    </tr>
+                    <tr class="d-none">
+                        @{sum.Add(((orderDetail.Price * orderDetail.TeacherPercent.Value) / 100));}
+                    </tr>
+                }
+                <tr class="table-success">
+                    <td class="text-left">مجموع درآمد استاد: </td>
+                    <td>
+                        @sum.Sum().ThreeDigitSeperator()
+                    </td>
+                </tr>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-primary border border-warning">
+            <i class="fa fa-exclamation-triangle ml-2"></i> سفارشی از این استاد در تاریخ مورد نظر ثبت نشده.
+        </div>
+    }
+
+    @if (Model.searchOrderVM.PagesCount > 1)
+    {
+        <!-- pagination -->
+        <nav aria-label="Page navigation" class="my-3">
+            <ul class="pagination pagination-circle pg-dark justify-content-center">
+                @for (int i = 1; i <= Model.searchOrderVM.PagesCount; i++)
+                {
+                    <li class="page-item english-font @((Model.searchOrderVM.PageNumber == i) ? "active" : "")">
+                        <a href="/Admin/Accountings/Search?pageNumber=@i" class="page-link">@i</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    }
+
+</div>
+
+
+
+@section Scripts {
+    <script src="~/admin/js/jquery-1.9.1.min.js"></script>
+    <script src="~/admin/js/kendo.all.min.js"></script>
+    <script>
+        // create DatePicker from input HTML element
+        $("#startDate").kendoDatePicker();
+
+        // create DatePicker from input HTML element
+        $("#endDate").kendoDatePicker();
+    </script>
+    <script src="~/admin/js/select2.min.js" asp-append-version="true"></script>
+}

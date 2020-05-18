@@ -1,4 +1,5 @@
 ﻿using DigiMoallem.BLL.DTOs.Orders;
+using DigiMoallem.BLL.Helpers.Security;
 using DigiMoallem.BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace DigiMoallem.Web.Pages.Admin.Accountings
 {
+    [PermissionChecker(28)]
     public class SearchModel : PageModel
     {
         private readonly ICourseService _courseService;
@@ -21,7 +23,11 @@ namespace DigiMoallem.Web.Pages.Admin.Accountings
 
         public SearchOrderViewModel searchOrderVM { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(string startDate, string endDate, int teacherId, int pageNumber = 1, int pageSize = 16)
+        public async Task<IActionResult> OnGetAsync(string startDate, 
+            string endDate, 
+            int teacherId,
+            int pageNumber = 1, 
+            int pageSize = 2000)
         {
             DateTime gorgianStartDate;
             if (!string.IsNullOrEmpty(startDate))
@@ -61,8 +67,7 @@ namespace DigiMoallem.Web.Pages.Admin.Accountings
             .GetTeachersAsync();
             ViewData["Teachers"] = new SelectList(teachers, "Value", "Text");
 
-            searchOrderVM = _courseService.AdvanceSearchCourse(gorgianStartDate, gorgianEndDate, teacherId, 
-                pageNumber, pageSize);
+            searchOrderVM = _courseService.AdvanceSearchCourse(gorgianStartDate, gorgianEndDate, teacherId, pageNumber, pageSize);
 
             return Page();
         }

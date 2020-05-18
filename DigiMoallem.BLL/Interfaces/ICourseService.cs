@@ -67,6 +67,14 @@ namespace DigiMoallem.BLL.Interfaces
         string GetCourseTypeNameById(int courseTypeId);
         #endregion
 
+        #region AdvanceSearchCourseAndTeacher
+        SearchOrderViewModel AdvanceSearchCourseAndTeacher(DateTime startDate, DateTime endDate, int teacherId, int courseId, int pageNumber = 1, int pageSize = 16);
+        #endregion
+
+        #region SearchCashDesk
+        OrderDetailPaymentPagingViewModel SearchCashDesk(DateTime startDate, DateTime endDate, int pageNumber = 1, int pageSize = 32);
+        #endregion
+
         // courses
         #region GetCourseLevels
         List<SelectListItem> GetCourseLevels();
@@ -171,6 +179,17 @@ namespace DigiMoallem.BLL.Interfaces
 
         #region SearchUncheckedCourses
         CourseViewModel SearchUncheckedCourses(string title, int pageId);
+        #endregion
+
+        #region SearchOrderDetailPayments
+        OrderDetailPaymentPagingViewModel SearchOrderDetailPayments(DateTime startDate, DateTime endDate, int teacherId, int pageNumber = 1, int pageSize = 32);
+        #endregion
+
+        #region SearchBox
+        OrderDetailPaymentPagingViewModel SearchBox(DateTime startDate,
+            DateTime endDate,
+            int pageNumber = 1,
+            int pageSize = 32);
         #endregion
 
         // episodes

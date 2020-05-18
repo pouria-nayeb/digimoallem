@@ -70,6 +70,18 @@ namespace DigiMoallem.BLL.Interfaces
         Task<bool> UpdateUserAsync(User user);
         #endregion
 
+        #region GetAllUsers
+        List<User> GetAllUsers();
+        #endregion
+
+        #region GetUserByPhoneNumber
+        User GetUserByPhoneNumber(string phoneNumber);
+        #endregion
+
+        #region GetUserByToken
+        User GetUserByToken(string phoneNumber, string token);
+        #endregion
+
         #region UserSelectList
         List<SelectListItem> GetUserSelectList();
         Task<List<SelectListItem>> GetUserSelectListAsync();

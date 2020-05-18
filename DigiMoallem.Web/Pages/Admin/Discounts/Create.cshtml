@@ -49,54 +49,78 @@
         <div class="row">
             <div class="col-12 col-sm-12 col-md-8 col-lg-8">
 
-                <!-- discount code -->
-                <div class="md-form mb-4">
-                    <label asp-for="Discount.DiscountCode"></label>
-                    <input type="text" asp-for="Discount.DiscountCode" 
-                           class="form-control text-direction-ltr text-left" />
+                <div class="card">
 
-                    <span asp-validation-for="Discount.DiscountCode" class="text-danger"></span>
-                </div>
+                    <div class="card-header">
+                        <i class="fa fa-percent ml-1"></i> افزودن کد درصد تخفیف
+                    </div>
 
-                <!-- percent -->
-                <div class="md-form mb-4">
-                    <label asp-for="Discount.DiscountPercent"></label>
-                    <input type="text" asp-for="Discount.DiscountPercent" class="form-control text-direction-ltr text-left" />
+                    <div class="card-body">
 
-                    <span asp-validation-for="Discount.DiscountPercent" class="text-danger"></span>
-                </div>
+                        <!-- discount code -->
+                        <div class="md-form mb-4">
+                            <label asp-for="Discount.DiscountCode"></label>
+                            <input type="text" asp-for="Discount.DiscountCode"
+                                   class="form-control text-direction-ltr text-left" />
 
-                <!-- count -->
-                <div class="md-form mb-4">
-                    <label asp-for="Discount.UsableCount"></label>
-                    <input type="number" asp-for="Discount.UsableCount" class="form-control">
+                            <span asp-validation-for="Discount.DiscountCode" class="text-danger"></span>
+                        </div>
 
-                    <span asp-validation-for="Discount.UsableCount"></span>
-                </div>
+                        <!-- percent -->
+                        <div class="md-form mb-4">
+                            <label asp-for="Discount.DiscountPercent"></label>
+                            <input type="text" asp-for="Discount.DiscountPercent" class="form-control text-direction-ltr text-left" />
 
-                <div class="form-group my-5">
-                    <!-- create -->
-                    <button type="submit" class="btn btn-outline-success">
-                        <i class="fa fa-plus ml-2"></i> ایجاد کد تخفیف جدید
-                    </button>
+                            <span asp-validation-for="Discount.DiscountPercent" class="text-danger"></span>
+                        </div>
+
+                        <!-- count -->
+                        <div class="md-form mb-4">
+                            <label asp-for="Discount.UsableCount"></label>
+                            <input type="number" asp-for="Discount.UsableCount" class="form-control">
+
+                            <span asp-validation-for="Discount.UsableCount"></span>
+                        </div>
+
+                    </div>
+
                 </div>
 
             </div>
             <div class="col-12 col-sm-12 col-md-4 col-lg-4">
 
-                <!-- start date -->
-                <div class="form-group mb-4">
-                    <label class="d-block" for="startDate"> تاریخ شروع: </label>
-                    <input id="startDate" name="startDate" class="mx-2 w-75" />
-                </div>
+                <div class="card">
 
-                <!-- end date -->
-                <div class="form-group mb-4">
-                    <label class="d-block" for="endDate"> تاریخ اتمام: </label>
-                    <input id="endDate" name="endDate" class="mx-2 w-75" />
+                    <div class="card-header">
+                        <i class="fa fa-calendar ml-1"></i> ثبت تاریخ شروع و انقضا
+                    </div>
+
+                    <div class="card-body">
+
+                        <!-- start date -->
+                        <div class="form-group mb-4">
+                            <label class="d-block" for="startDate"> تاریخ شروع: </label>
+                            <input id="startDate" name="startDate" class="mx-2 w-75" />
+                        </div>
+
+                        <!-- end date -->
+                        <div class="form-group mb-4">
+                            <label class="d-block" for="endDate"> تاریخ انقضا: </label>
+                            <input id="endDate" name="endDate" class="mx-2 w-75" />
+                        </div>
+
+                    </div>
+
                 </div>
 
             </div>
+        </div>
+
+        <div class="form-group my-5">
+            <!-- create -->
+            <button type="submit" class="btn btn-outline-success">
+                <i class="fa fa-plus ml-2"></i> ایجاد کد تخفیف جدید
+            </button>
         </div>
 
     </form>

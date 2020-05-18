@@ -37,64 +37,88 @@
         <div class="row">
             <div class="col-12 col-sm-12 col-md-8 col-lg-8">
 
-                <!-- courses -->
-                <div class="md-form mb-4">
-                    <label asp-for="Discount.CourseId"></label>
-                    <select type="text" asp-for="Discount.CourseId"
-                            asp-items="@Model.CoursesSelectList"
-                            class="form-control">
-                        <option value="">لطفاً یکی از درس ها را انتخاب کنید</option>
-                    </select>
+                <div class="card">
 
-                    <span asp-validation-for="Discount.CourseId" class="text-danger"></span>
-                </div>
+                    <div class="card-header">
+                        <i class="fa fa-percent ml-1"></i> ویرایش اطلاعات کد تخغیف
+                    </div>
 
-                <!-- discount code -->
-                <div class="form-group mb-4">
-                    <label asp-for="Discount.DiscountCode"></label>
-                    <input type="text" asp-for="Discount.DiscountCode" class="form-control text-direction-ltr text-left" />
+                    <div class="card-body">
 
-                    <span asp-validation-for="Discount.DiscountCode" class="text-danger"></span>
-                </div>
+                        <!-- courses -->
+                        <div class="md-form mb-4">
+                            <label asp-for="Discount.CourseId"></label>
+                            <select type="text" asp-for="Discount.CourseId"
+                                    asp-items="@Model.CoursesSelectList"
+                                    class="form-control">
+                                <option value="">لطفاً یکی از درس ها را انتخاب کنید</option>
+                            </select>
 
-                <!-- percent -->
-                <div class="form-group mb-4">
-                    <label asp-for="Discount.DiscountPercent"></label>
-                    <input type="text" asp-for="Discount.DiscountPercent" class="form-control text-direction-ltr text-left" />
+                            <span asp-validation-for="Discount.CourseId" class="text-danger"></span>
+                        </div>
 
-                    <span asp-validation-for="Discount.DiscountPercent" class="text-danger"></span>
+                        <!-- discount code -->
+                        <div class="form-group mb-4">
+                            <label asp-for="Discount.DiscountCode"></label>
+                            <input type="text" asp-for="Discount.DiscountCode" class="form-control text-direction-ltr text-left" />
 
-                </div>
+                            <span asp-validation-for="Discount.DiscountCode" class="text-danger"></span>
+                        </div>
 
-                <!-- count -->
-                <div class="form-group mb-4">
-                    <label asp-for="Discount.UsableCount"></label>
-                    <input type="number" asp-for="Discount.UsableCount" class="form-control form-control text-direction-ltr text-left" />
-                </div>
+                        <!-- percent -->
+                        <div class="form-group mb-4">
+                            <label asp-for="Discount.DiscountPercent"></label>
+                            <input type="text" asp-for="Discount.DiscountPercent" class="form-control text-direction-ltr text-left" />
 
-                <div class="form-group my-5">
-                    <!-- edit -->
-                    <button type="submit" class="btn btn-outline-warning">
-                        <i class="fa fa-pen ml-2"></i> ویرایش کد تخفیف جدید
-                    </button>
+                            <span asp-validation-for="Discount.DiscountPercent" class="text-danger"></span>
+
+                        </div>
+
+                        <!-- count -->
+                        <div class="form-group mb-4">
+                            <label asp-for="Discount.UsableCount"></label>
+                            <input type="number" asp-for="Discount.UsableCount" class="form-control form-control text-direction-ltr text-left" />
+                        </div>
+
+                    </div>
+
                 </div>
 
             </div>
             <div class="col-12 col-sm-12 col-md-4 col-lg-4">
 
-                <!-- start date -->
-                <div class="form-group mb-4">
-                    <label class="d-block" for="startDate"> تاریخ شروع: </label>
-                    <input id="startDate" name="startDate" value="@((Model.Discount.StartDate != null) ? Model.Discount.StartDate.Value.ToPersianDate() : "")" class="mx-2 w-75" />
-                </div>
+                <div class="card">
 
-                <!-- end date -->
-                <div class="form-group mb-4">
-                    <label class="d-block" for="endDate"> تاریخ اتمام: </label>
-                    <input id="endDate" name="endDate" value="@((Model.Discount.EndDate != null) ? Model.Discount.EndDate.Value.ToPersianDate() : "")" class="mx-2 w-75" />
+                    <div class="card-header">
+                        <i class="fa fa-calendar ml-1"></i> اصلاح تاریخ شروع و انقضا
+                    </div>
+
+                    <div class="card-body">
+
+                        <!-- start date -->
+                        <div class="form-group mb-4">
+                            <label class="d-block" for="startDate"> تاریخ شروع: </label>
+                            <input id="startDate" name="startDate" value="@((Model.Discount.StartDate != null) ? Model.Discount.StartDate.Value.ToPersianDate() : "")" class="mx-2 w-75" />
+                        </div>
+
+                        <!-- end date -->
+                        <div class="form-group mb-4">
+                            <label class="d-block" for="endDate"> تاریخ اتمام: </label>
+                            <input id="endDate" name="endDate" value="@((Model.Discount.EndDate != null) ? Model.Discount.EndDate.Value.ToPersianDate() : "")" class="mx-2 w-75" />
+                        </div>
+
+                    </div>
+
                 </div>
 
             </div>
+        </div>
+
+        <div class="form-group my-5">
+            <!-- edit -->
+            <button type="submit" class="btn btn-outline-warning">
+                <i class="fa fa-pen ml-2"></i> ویرایش کد تخفیف جدید
+            </button>
         </div>
 
     </form>

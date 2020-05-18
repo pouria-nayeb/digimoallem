@@ -45,179 +45,199 @@
 
             <div class="col-md-8 col-sm-12">
 
-                <!-- username -->
-                <div class="form-group">
-                    <label asp-for="CreateUserViewModel.UserName"></label>
-                    <input type="text" class="form-control text-direction-ltr text-left english-font"
-                           asp-for="CreateUserViewModel.UserName" />
+                <div class="card">
 
-                    <span asp-validation-for="CreateUserViewModel.UserName" class="text-danger"></span>
-                </div>
-
-                <div class="row">
-                    <div class="col-12 col-sm-6">
-                        <!-- firstName -->
-                        <div class="form-group">
-                            <label asp-for="CreateUserViewModel.FirstName"></label>
-                            <input type="text" class="form-control"
-                                   asp-for="CreateUserViewModel.FirstName" />
-
-                            <span asp-validation-for="CreateUserViewModel.FirstName" class="text-danger"></span>
-                        </div>
+                    <div class="card-header">
+                        <i class="fa fa-user-shield ml-1"></i> اطلاعات کاربر در سامانه
                     </div>
 
-                    <div class="col-12 col-sm-6">
-                        <!-- lastName -->
+                    <div class="card-body">
+
+                        <!-- username -->
                         <div class="form-group">
-                            <label asp-for="CreateUserViewModel.LastName"></label>
-                            <input type="text" class="form-control"
-                                   asp-for="CreateUserViewModel.LastName" />
-
-                            <span asp-validation-for="CreateUserViewModel.LastName" class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- email -->
-                <div class="form-group">
-                    <label asp-for="CreateUserViewModel.Email"></label>
-                    <input type="text" class="form-control text-direction-ltr text-left english-font"
-                           asp-for="CreateUserViewModel.Email"
-                           placeholder="example@@something.com" />
-
-                    <span asp-validation-for="CreateUserViewModel.Email" class="text-danger"></span>
-                </div>
-
-                <div class="row">
-                    <div class="col-12 col-sm-6">
-                        <!-- card number -->
-                        <div class="form-group">
-                            <label asp-for="CreateUserViewModel.CardNumber"></label>
+                            <label asp-for="CreateUserViewModel.UserName"></label>
                             <input type="text" class="form-control text-direction-ltr text-left english-font"
-                                   asp-for="CreateUserViewModel.CardNumber" />
+                                   asp-for="CreateUserViewModel.UserName" />
 
-                            <span asp-validation-for="CreateUserViewModel.CardNumber" class="text-danger"></span>
+                            <span asp-validation-for="CreateUserViewModel.UserName" class="text-danger"></span>
                         </div>
-                    </div>
 
-                    <div class="col-12 col-sm-6">
-                        <!-- sheba -->
+                        <div class="row">
+                            <div class="col-12 col-sm-6">
+                                <!-- firstName -->
+                                <div class="form-group">
+                                    <label asp-for="CreateUserViewModel.FirstName"></label>
+                                    <input type="text" class="form-control"
+                                           asp-for="CreateUserViewModel.FirstName" />
+
+                                    <span asp-validation-for="CreateUserViewModel.FirstName" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-6">
+                                <!-- lastName -->
+                                <div class="form-group">
+                                    <label asp-for="CreateUserViewModel.LastName"></label>
+                                    <input type="text" class="form-control"
+                                           asp-for="CreateUserViewModel.LastName" />
+
+                                    <span asp-validation-for="CreateUserViewModel.LastName" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- email -->
                         <div class="form-group">
-                            <label asp-for="CreateUserViewModel.Sheba"></label>
+                            <label asp-for="CreateUserViewModel.Email"></label>
                             <input type="text" class="form-control text-direction-ltr text-left english-font"
-                                   asp-for="CreateUserViewModel.Sheba" />
+                                   asp-for="CreateUserViewModel.Email"
+                                   placeholder="example@@something.com" />
 
-                            <span asp-validation-for="CreateUserViewModel.Sheba" class="text-danger"></span>
+                            <span asp-validation-for="CreateUserViewModel.Email" class="text-danger"></span>
                         </div>
-                    </div>
-                </div>
 
-                <!-- description -->
-                <div class="form-group mb-4">
-                    <label asp-for="CreateUserViewModel.Description"></label>
-                    <textarea class="form-control" asp-for="CreateUserViewModel.Description" rows="3"></textarea>
-                </div>
+                        <div class="row">
+                            <div class="col-12 col-sm-6">
+                                <!-- card number -->
+                                <div class="form-group">
+                                    <label asp-for="CreateUserViewModel.CardNumber"></label>
+                                    <input type="text" class="form-control text-direction-ltr text-left english-font"
+                                           asp-for="CreateUserViewModel.CardNumber" />
 
-                <div class="row">
-                    <div class="col-12 col-sm-6">
-                        <!-- educational level -->
+                                    <span asp-validation-for="CreateUserViewModel.CardNumber" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-6">
+                                <!-- sheba -->
+                                <div class="form-group">
+                                    <label asp-for="CreateUserViewModel.Sheba"></label>
+                                    <input type="text" class="form-control text-direction-ltr text-left english-font"
+                                           asp-for="CreateUserViewModel.Sheba" />
+
+                                    <span asp-validation-for="CreateUserViewModel.Sheba" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- description -->
+                        <div class="form-group mb-4">
+                            <label asp-for="CreateUserViewModel.Description"></label>
+                            <textarea class="form-control" asp-for="CreateUserViewModel.Description" rows="3"></textarea>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12 col-sm-6">
+                                <!-- educational level -->
+                                <div class="form-group">
+                                    <label asp-for="CreateUserViewModel.EducationalLevel"></label>
+                                    <input type="text" class="form-control"
+                                           asp-for="CreateUserViewModel.EducationalLevel" />
+
+                                    <span asp-validation-for="CreateUserViewModel.EducationalLevel" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-sm-6">
+                                <!-- scientific field -->
+                                <div class="form-group">
+                                    <label asp-for="CreateUserViewModel.ScientificField"></label>
+                                    <input type="text" class="form-control"
+                                           asp-for="CreateUserViewModel.ScientificField" />
+
+                                    <span asp-validation-for="CreateUserViewModel.ScientificField" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- skills -->
+                        <div class="form-group mb-0">
+                            <label asp-for="CreateUserViewModel.Skills"></label>
+                            <textarea class="form-control" asp-for="CreateUserViewModel.Skills" rows="3"></textarea>
+
+                            <span asp-validation-for="CreateUserViewModel.Skills" class="text-danger"></span>
+                        </div>
+                        <div class="alert alert-secondary p-2 mb-4">
+                            <strong>توجه:</strong> مهارت های استاد را با - از یکدیگر جدا کنید.
+                        </div>
+
+                        <!-- experiences -->
+                        <div class="form-group mb-0">
+                            <label asp-for="CreateUserViewModel.Experiences"></label>
+                            <textarea class="form-control" asp-for="CreateUserViewModel.Experiences" rows="3"></textarea>
+
+                            <span asp-validation-for="CreateUserViewModel.Experiences" class="text-danger"></span>
+                        </div>
+                        <div class="alert alert-secondary p-2 mb-4">
+                            <strong>توجه:</strong> تجربیات استاد را با - از یکدیگر جدا کنید.
+                        </div>
+
+                        <!-- password -->
+                        <div class="form-group mb-4">
+                            <label asp-for="CreateUserViewModel.Password"></label>
+                            <input type="text" class="form-control text-direction-ltr text-left" asp-for="CreateUserViewModel.Password" />
+                        </div>
+
+                        <!-- role list  -->
                         <div class="form-group">
-                            <label asp-for="CreateUserViewModel.EducationalLevel"></label>
-                            <input type="text" class="form-control"
-                                   asp-for="CreateUserViewModel.EducationalLevel" />
-
-                            <span asp-validation-for="CreateUserViewModel.EducationalLevel" class="text-danger"></span>
+                            @foreach (var role in Roles)
+                            {
+                                <div class="form-check my-1">
+                                    <label class="form-check-label">
+                                        <input type="checkbox"
+                                               class="form-check-input"
+                                               value="@role.RoleId"
+                                               name="SelectedRoles" />
+                                        <span class="d-inline-block mr-4"> @role.Title</span>
+                                    </label>
+                                </div>
+                            }
                         </div>
+
                     </div>
 
-                    <div class="col-12 col-sm-6">
-                        <!-- scientific field -->
-                        <div class="form-group">
-                            <label asp-for="CreateUserViewModel.ScientificField"></label>
-                            <input type="text" class="form-control"
-                                   asp-for="CreateUserViewModel.ScientificField" />
-
-                            <span asp-validation-for="CreateUserViewModel.ScientificField" class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- skills -->
-                <div class="form-group mb-0">
-                    <label asp-for="CreateUserViewModel.Skills"></label>
-                    <textarea class="form-control" asp-for="CreateUserViewModel.Skills" rows="3"></textarea>
-
-                    <span asp-validation-for="CreateUserViewModel.Skills" class="text-danger"></span>
-                </div>
-                <div class="alert alert-secondary p-2 mb-4">
-                    <strong>توجه:</strong> مهارت های استاد را با - از یکدیگر جدا کنید.
-                </div>
-
-                <!-- experiences -->
-                <div class="form-group mb-0">
-                    <label asp-for="CreateUserViewModel.Experiences"></label>
-                    <textarea class="form-control" asp-for="CreateUserViewModel.Experiences" rows="3"></textarea>
-
-                    <span asp-validation-for="CreateUserViewModel.Experiences" class="text-danger"></span>
-                </div>
-                <div class="alert alert-secondary p-2 mb-4">
-                    <strong>توجه:</strong> تجربیات استاد را با - از یکدیگر جدا کنید.
-                </div>
-
-                <!-- password -->
-                <div class="form-group mb-4">
-                    <label asp-for="CreateUserViewModel.Password"></label>
-                    <input type="text" class="form-control text-direction-ltr text-left" asp-for="CreateUserViewModel.Password" />
-                </div>
-
-                <!-- role list  -->
-                <div class="form-group">
-                    @foreach (var role in Roles)
-                    {
-                        <div class="form-check my-1">
-                            <label class="form-check-label">
-                                <input type="checkbox"
-                                       class="form-check-input"
-                                       value="@role.RoleId"
-                                       name="SelectedRoles" />
-                                <span class="d-inline-block mr-4"> @role.Title</span>
-                            </label>
-                        </div>
-                    }
-                </div>
-
-
-                <div class="form-group my-5">
-                    <!-- create -->
-                    <button type="submit" class="btn btn-outline-success">
-                        <i class="fas fa-plus ml-2"></i> ایجاد کاربر جدید
-                    </button>
                 </div>
 
             </div>
             <div class="col-md-4 col-sm-12">
 
                 <!-- avatar section -->
-                <div class="container">
-                    <img id="display-image"
-                         src="~/Images/Avatars/default.png"
-                         class="img-fluid mx-auto my-2 display-block"
-                         alt="default avatar" />
+                <div class="card">
 
-                    <div class="form-group">
-                        <div class="input-group my-4 w-100 max-width-520px">
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input"
-                                       asp-for="CreateUserViewModel.UserAvatar"
-                                       id="image" />
-                                <label class="custom-file-label" style="padding-right:6rem"
-                                       asp-for="CreateUserViewModel.UserAvatar">انتخاب فایل</label>
+                    <div class="card-header">
+                        <i class="fa fa-image ml-1"></i> تصویر پروفایل کاربر
+                    </div>
+
+                    <div class="card-body">
+
+                        <img id="display-image"
+                             src="~/Images/Avatars/default.png"
+                             class="img-fluid mx-auto my-2 display-block"
+                             alt="default avatar" />
+
+                        <div class="form-group">
+                            <div class="input-group my-4 w-100 max-width-520px">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input"
+                                           asp-for="CreateUserViewModel.UserAvatar"
+                                           id="image" />
+                                    <label class="custom-file-label" style="padding-right:6rem"
+                                           asp-for="CreateUserViewModel.UserAvatar">انتخاب فایل</label>
+                                </div>
                             </div>
                         </div>
+
                     </div>
 
                 </div>
 
+            </div>
+
+            <div class="form-group my-5">
+                <!-- create -->
+                <button type="submit" class="btn btn-outline-success">
+                    <i class="fas fa-plus ml-2"></i> ایجاد کاربر جدید
+                </button>
             </div>
 
         </div>

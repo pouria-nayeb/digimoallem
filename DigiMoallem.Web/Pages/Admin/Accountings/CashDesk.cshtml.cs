@@ -1,4 +1,5 @@
-﻿using DigiMoallem.BLL.DTOs.Orders;
+﻿using DigiMoallem.BLL.DTOs.Courses;
+using DigiMoallem.BLL.Helpers.Security;
 using DigiMoallem.BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -7,6 +8,7 @@ using System.Globalization;
 
 namespace DigiMoallem.Web.Pages.Admin.Accountings
 {
+    [PermissionChecker(28)]
     public class CashDeskModel : PageModel
     {
         private readonly ICourseService _courseService;
@@ -16,7 +18,7 @@ namespace DigiMoallem.Web.Pages.Admin.Accountings
             _courseService = courseService;
         }
 
-        public SearchOrderViewModel searchOrderVM { get; set; }
+        public OrderDetailPaymentPagingViewModel searchOrderVM { get; set; }
 
         [ViewData]
         public int Id { get; set; }
@@ -63,7 +65,7 @@ namespace DigiMoallem.Web.Pages.Admin.Accountings
 
             Id = id;
 
-            searchOrderVM = _courseService.AdvanceSearchCourse(gorgianStartDate, gorgianEndDate, id,
+            searchOrderVM = _courseService.SearchCashDesk(gorgianStartDate, gorgianEndDate,
                 pageNumber, pageSize);
 
             return Page();

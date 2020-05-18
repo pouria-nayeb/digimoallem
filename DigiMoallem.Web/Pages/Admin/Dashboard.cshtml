@@ -7,9 +7,14 @@
 @inject IWorkService workService
 @inject IOrderService orderService
 @inject IPermissionService permissionService
+@inject IAccountingService accountingService
 
 @{
     ViewData["Title"] = "داشبورد سایت دیجی معلم";
+}
+
+@section Metatags {
+    <meta http-equiv="refresh" content="120" />
 }
 
 <div class="container">
@@ -38,6 +43,12 @@
 
     <a asp-area="" asp-page="/Admin/Courses/AllEpisodes" class="btn btn-outline-warning m-1">
         <span class="badge badge-warning english-font ml-2">@courseService.UncheckedEpisodesCount()</span> بخش های بررسی نشده
+    </a>
+
+    <a asp-area=""
+       asp-page="/Admin/Purifications/Index"
+       class="btn btn-outline-light m-2">
+        <i class="fa fa-percent ml-1"></i> لیست درخواست تصفیه <span class="badge badge-danger mr-2">@accountingService.UncheckedPurificationsCount()</span>
     </a>
 
 </div>

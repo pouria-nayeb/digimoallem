@@ -13,7 +13,7 @@
         <i class="fas fa-arrow-right ml-2"></i> بازگشت
     </a>
 
-    <h1 class="my-5"> <i class="fa fa-user-plus ml-2"></i> @ViewData["Title"]</h1>
+    <h1 class="my-5"> <i class="fa fa-plus ml-2"></i> @ViewData["Title"]</h1>
 
     <form method="post" class="md-form">
 
@@ -33,80 +33,94 @@
             </div>
         }
 
-    <div class="row">
-        <div class="col-12 col-sm-12 col-md-8 col-lg-8">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-8 col-lg-8">
 
-            <!-- title -->
-            <div class="md-form mb-4">
-                <label asp-for="Role.Title"></label>
-                <input type="text" asp-for="Role.Title" class="form-control" />
+                <div class="card">
 
-                <span asp-validation-for="Role.Title" class="text-danger"></span>
-            </div>
+                    <div class="card-header">
+                        <i class="fa fa-user-ninja ml-1"></i> اطلاعات نقش
+                    </div>
 
-            <div class="form-group my-5">
-                <!-- create -->
-                <button type="submit" class="btn btn-outline-success">
-                    <i class="fa fa-plus ml-2"></i> ایجاد نقش جدید
-                </button>
-            </div>
+                    <div class="card-body">
 
-        </div>
-        <div class="col-12 col-sm-12 col-md-4 col-lg-4">
-            <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
-                <div class="card-header">
-                    دسترسی
-                </div>
-                <div class="card-body">
-                    @foreach (var permission in permissions.Where(p => p.ParentId == null))
-                    {
-                        <div class="form-check py-2">
-                            <label class="class=" form-check-label"" for="@permission.PermissionId">
+                        <!-- title -->
+                        <div class="md-form mb-4">
+                            <label asp-for="Role.Title"></label>
+                            <input type="text" asp-for="Role.Title" class="form-control" />
 
-                                <input type="checkbox" class="form-check-input" name="selectedPermission" value="@permission.PermissionId" id="@permission.PermissionId" />
-                                <span class="mr-4">@permission.Title</span>
-                            </label>
+                            <span asp-validation-for="Role.Title" class="text-danger"></span>
                         </div>
 
-                        @if (permissions.Any(p => p.ParentId == permission.ParentId))
+                        <div class="form-group my-5">
+                            <!-- create -->
+                            <button type="submit" class="btn btn-outline-success">
+                                <i class="fa fa-plus ml-2"></i> ایجاد نقش جدید
+                            </button>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="col-12 col-sm-12 col-md-4 col-lg-4">
+                <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
+                    <div class="card-header">
+                        <i class="fa fa-hands ml-1"></i> دسترسی ها
+                    </div>
+                    <div class="card-body">
+                        @foreach (var permission in permissions.Where(p => p.ParentId == null))
                         {
+                            <div class="form-check py-2">
+                                <label class="class=" form-check-label"" for="@permission.PermissionId">
 
-                            @foreach (var sub in permissions.Where(p => p.ParentId == permission.PermissionId))
+                                    <input type="checkbox" class="form-check-input" name="selectedPermission" value="@permission.PermissionId" id="@permission.PermissionId" />
+                                    <span class="mr-4">@permission.Title</span>
+                                </label>
+                            </div>
+
+                            @if (permissions.Any(p => p.ParentId == permission.ParentId))
                             {
-                                <div class="form-check mr-3 py-2">
-                                    <label class="form-check-label"
-                                           for="@sub.PermissionId">
 
-                                        <input type="checkbox"
-                                               class="form-check-input"
-                                               name="selectedPermission"
-                                               value="@sub.PermissionId"
-                                               id="@sub.PermissionId" />
-
-                                        <span class="mr-4">@sub.Title</span>
-
-                                    </label>
-                                </div>
-
-                                @if (permissions.Any(p => p.ParentId == sub.ParentId))
+                                @foreach (var sub in permissions.Where(p => p.ParentId == permission.PermissionId))
                                 {
+                                    <div class="form-check mr-3 py-2">
+                                        <label class="form-check-label"
+                                               for="@sub.PermissionId">
 
-                                    @foreach (var doubleSub in permissions.Where(p => p.ParentId == sub.PermissionId))
+                                            <input type="checkbox"
+                                                   class="form-check-input"
+                                                   name="selectedPermission"
+                                                   value="@sub.PermissionId"
+                                                   id="@sub.PermissionId" />
+
+                                            <span class="mr-4">@sub.Title</span>
+
+                                        </label>
+                                    </div>
+
+                                    @if (permissions.Any(p => p.ParentId == sub.ParentId))
                                     {
-                                        <div class="form-check mr-5 py-2">
-                                            <label class="form-check-label"
-                                                   for="@doubleSub.PermissionId">
 
-                                                <input type="checkbox"
-                                                       class="form-check-input"
-                                                       name="selectedPermission"
-                                                       value="@doubleSub.PermissionId"
-                                                       id="@doubleSub.PermissionId" />
+                                        @foreach (var doubleSub in permissions.Where(p => p.ParentId == sub.PermissionId))
+                                        {
+                                            <div class="form-check mr-5 py-2">
+                                                <label class="form-check-label"
+                                                       for="@doubleSub.PermissionId">
 
-                                                <span class="mr-4">@doubleSub.Title</span>
+                                                    <input type="checkbox"
+                                                           class="form-check-input"
+                                                           name="selectedPermission"
+                                                           value="@doubleSub.PermissionId"
+                                                           id="@doubleSub.PermissionId" />
 
-                                            </label>
-                                        </div>
+                                                    <span class="mr-4">@doubleSub.Title</span>
+
+                                                </label>
+                                            </div>
+
+                                        }
 
                                     }
 
@@ -115,13 +129,11 @@
                             }
 
                         }
-
-                    }
+                    </div>
                 </div>
-            </div>
 
+            </div>
         </div>
-    </div>
 
     </form>
 

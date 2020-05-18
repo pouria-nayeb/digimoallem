@@ -28,7 +28,7 @@
         </a>
     }
 
-    <h1 class="my-5"> <i class="fa fa-book ml-2"></i> @ViewData["Title"]</h1>
+    <h1 class="my-5"> <i class="fa fa-plus ml-2"></i> @ViewData["Title"]</h1>
 
     <form method="post" enctype="multipart/form-data" autocomplete="off" class="form-group">
 
@@ -46,142 +46,171 @@
             <div class="row">
                 <div class="col-12 col-sm-12 col-md-8 col-lg-8">
 
-                    <!-- title -->
-                    <div class="form-group mb-4">
-                        <label asp-for="Course.Title"></label>
-                        <input type="text" asp-for="Course.Title" class="form-control" />
+                    <div class="card">
 
-                        <span asp-validation-for="Course.Title" class="text-danger"></span>
-                    </div>
-
-                    <!-- groups -->
-                    <div class="form-group mb-4">
-                        <label asp-for="Course.GroupId"></label>
-                        <select class="form-control select-list"
-                                asp-for="Course.GroupId"
-                                style="width: 100%;"
-                                asp-items="@ViewData["Groups"] as SelectList">
-                            <option value="" disabled selected>یکی از گروه ها را انتخاب نمایید</option>
-                        </select>
-
-                        <span asp-validation-for="Course.GroupId" class="text-danger"></span>
-                    </div>
-
-                    <!-- subgroups -->
-                    @*<div class="form-group mb-4">
-        <select class="form-control" asp-for="Course.SubGroupId" asp-items="@ViewData["SubGroups"] as SelectList"></select>
-         </div>*@
-
-                    @if (_permissionService.CheckPermission(2, User.Identity.Name))
-                    {
-                        <!-- teachers list (admin-only) -->
-                        <div class="form-group mb-4">
-                            <label asp-for="Course.TeacherId"></label>
-                            <select class="form-control select-list"
-                                    style="width: 100%;"
-                                    asp-for="Course.TeacherId"
-                                    asp-items="@ViewData["Teachers"] as SelectList">
-                                <option value="" disabled selected>یکی از اساتید را انتخاب نمایید</option>
-                            </select>
-
-                            <span asp-validation-for="Course.TeacherId" class="text-danger"></span>
+                        <div class="card-header">
+                            <i class="fa fa-plus ml-1"></i> افزودن اطلاعات درس
                         </div>
-                    }
-                    else
-                    {
-                        <!-- teacher selected -->
-                        <input type="hidden"
-                               asp-for="Course.TeacherId"
-                               value="@userService.GetUserIdByUserName(User.Identity.Name)" />
-                    }
 
-                    <!-- price -->
-                    <div class="form-group mb-4">
-                        <label asp-for="Course.Price"></label>
-                        <input type="number" asp-for="Course.Price" class="form-control text-direction-ltr text-left" />
+                        <div class="card-body">
 
-                        <span asp-validation-for="Course.Price" class="text-danger"></span>
-                    </div>
+                            <!-- title -->
+                            <div class="form-group mb-4">
+                                <label asp-for="Course.Title"></label>
+                                <input type="text" asp-for="Course.Title" class="form-control" />
 
-                    <!-- teacher percent -->
-                    <div class="form-group mb-4">
-                        <label asp-for="Course.TeacherPercent"></label>
-                        <input type="number" asp-for="Course.TeacherPercent" class="form-control text-direction-ltr text-left" />
-                        <span class="text-light small"> توجه: مبلغ پیشنهادی برای درس ارائه شده. </span>
+                                <span asp-validation-for="Course.Title" class="text-danger"></span>
+                            </div>
 
-                        <span asp-validation-for="Course.TeacherPercent" class="text-danger d-block"></span>
-                    </div>
+                            <!-- groups -->
+                            <div class="form-group mb-4">
+                                <label asp-for="Course.GroupId"></label>
+                                <select class="form-control select-list"
+                                        asp-for="Course.GroupId"
+                                        style="width: 100%;"
+                                        asp-items="@ViewData["Groups"] as SelectList">
+                                    <option value="" disabled selected>یکی از گروه ها را انتخاب نمایید</option>
+                                </select>
 
-                    <!-- description -->
-                    <div class="form-group mb-4">
-                        <label asp-for="Course.Description"></label>
-                        <textarea class="form-control p-3"
-                                  asp-for="Course.Description"
-                                  rows="3"></textarea>
-                        <span asp-validation-for="Course.Description"></span>
-                    </div>
+                                <span asp-validation-for="Course.GroupId" class="text-danger"></span>
+                            </div>
 
-                    <!-- tags -->
-                    <div class="form-group mb-4">
-                        <label asp-for="Course.Tags"></label>
-                        <input type="text" asp-for="Course.Tags" class="form-control" />
-                        <span class="text-light small"> توجه: برچسب ها را با - از هم جدا کنید. </span>
-                    </div>
+                            <!-- subgroups -->
+                            @*<div class="form-group mb-4">
+                            <select class="form-control" asp-for="Course.SubGroupId" asp-items="@ViewData["SubGroups"] as SelectList"></select>
+                             </div>*@
 
-                    <!-- file demo -->
-                    <span class="text-light mb-2 d-block">فیلم دمو دوره</span>
-                    <div class="custom-file">
-                        <input type="file" class="custom-file-input" name="demo" />
-                        <label class="custom-file-label" style="padding-right:6rem">انتخاب فایل</label>
-                    </div>
+                            @if (_permissionService.CheckPermission(2, User.Identity.Name))
+                            {
+                                <!-- teachers list (admin-only) -->
+                                <div class="form-group mb-4">
+                                    <label asp-for="Course.TeacherId"></label>
+                                    <select class="form-control select-list"
+                                            style="width: 100%;"
+                                            asp-for="Course.TeacherId"
+                                            asp-items="@ViewData["Teachers"] as SelectList">
+                                        <option value="" disabled selected>یکی از اساتید را انتخاب نمایید</option>
+                                    </select>
 
-                    <div class="form-group my-5">
-                        <!-- create -->
-                        <button type="submit" class="btn btn-outline-success">
-                            <i class="fa fa-plus ml-2"></i> ایجاد درس جدید
-                        </button>
+                                    <span asp-validation-for="Course.TeacherId" class="text-danger"></span>
+                                </div>
+                            }
+                            else
+                            {
+                                <!-- teacher selected -->
+                                <input type="hidden"
+                                       asp-for="Course.TeacherId"
+                                       value="@userService.GetUserIdByUserName(User.Identity.Name)" />
+                            }
+
+                            <!-- price -->
+                            <div class="form-group mb-4">
+                                <label asp-for="Course.Price"></label>
+                                <input type="number" asp-for="Course.Price" class="form-control text-direction-ltr text-left" />
+
+                                <span asp-validation-for="Course.Price" class="text-danger"></span>
+                            </div>
+
+                            <!-- teacher percent -->
+                            <div class="form-group mb-4">
+                                <label asp-for="Course.TeacherPercent"></label>
+                                <input type="number" asp-for="Course.TeacherPercent" class="form-control text-direction-ltr text-left" />
+                                <span class="text-light small"> توجه: مبلغ پیشنهادی برای درس ارائه شده. </span>
+
+                                <span asp-validation-for="Course.TeacherPercent" class="text-danger d-block"></span>
+                            </div>
+
+                            <!-- description -->
+                            <div class="form-group mb-4">
+                                <label asp-for="Course.Description"></label>
+                                <textarea class="form-control p-3"
+                                          asp-for="Course.Description"
+                                          rows="3"></textarea>
+                                <span asp-validation-for="Course.Description"></span>
+                            </div>
+
+                            <!-- tags -->
+                            <div class="form-group mb-4">
+                                <label asp-for="Course.Tags"></label>
+                                <input type="text" asp-for="Course.Tags" class="form-control" />
+                                <span class="text-light small"> توجه: برچسب ها را با - از هم جدا کنید. </span>
+                            </div>
+
+                            <!-- file demo -->
+                            <span class="text-light mb-2 d-block">فیلم دمو دوره</span>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" name="demo" />
+                                <label class="custom-file-label" style="padding-right:6rem">انتخاب فایل</label>
+                            </div>
+
+                        </div>
+
                     </div>
 
                 </div>
                 <div class="col-12 col-sm-12 col-md-4 col-lg-4">
 
-                    <!-- course image -->
-                    <img id="display-image"
-                         src="~/Images/courses/default.png"
-                         class="img-fluid mx-auto my-2 display-block"
-                         alt="تصویر درس" />
+                    <div class="card">
 
-                    <div class="form-group my-4">
-                        <span class="text-light mb-2 d-block">تصویر دوره</span>
-                        <div class="input-group w-100 max-width-520px">
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input"
-                                       asp-for="Course.ImageName"
-                                       id="image"
-                                       name="imgCourseUpload" />
-                                <label class="custom-file-label" style="padding-right:6rem"
-                                       asp-for="Course.ImageName">انتخاب فایل</label>
-                            </div>
+                        <div class="card-header">
+                            <i class="fa fa-image ml-1"></i> تصویر دوره
                         </div>
+
+                        <div class="card-body">
+
+                            <!-- course image -->
+                            <img id="display-image"
+                                 src="~/Images/courses/default.png"
+                                 class="img-fluid mx-auto my-2 display-block"
+                                 alt="تصویر درس" />
+
+                            <div class="form-group my-4">
+                                <span class="text-light mb-2 d-block">تصویر دوره</span>
+                                <div class="input-group w-100 max-width-520px">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input"
+                                               asp-for="Course.ImageName"
+                                               id="image"
+                                               name="imgCourseUpload" />
+                                        <label class="custom-file-label" style="padding-right:6rem"
+                                               asp-for="Course.ImageName">انتخاب فایل</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
                     </div>
 
-                    <!-- course levels -->
-                    <div class="form-group mb-4">
-                        <label asp-for="Course.CourseLevelId"></label>
-                        <select class="browser-default custom-select select-list" 
-                                style="width: 100%;"
-                                asp-for="Course.CourseLevelId" 
-                                asp-items="@ViewData["CourseLevels"] as SelectList">
-                            <option value="" disabled selected>یکی از سطوح را انتخاب نمایید</option>
-                        </select>
+                    <div class="card my-3">
+
+                        <div class="card-header">
+                            سطوج دوره
+                        </div>
+
+                        <div class="card-body">
+
+                            <!-- course levels -->
+                            <div class="form-group mb-4">
+                                <label asp-for="Course.CourseLevelId"></label>
+                                <select class="browser-default custom-select select-list"
+                                        style="width: 100%;"
+                                        asp-for="Course.CourseLevelId"
+                                        asp-items="@ViewData["CourseLevels"] as SelectList">
+                                    <option value="" disabled selected>یکی از سطوح را انتخاب نمایید</option>
+                                </select>
+                            </div>
+
+                        </div>
+
                     </div>
 
                     <!-- course statuses -->
                     @*<div class="form-group mb-4">
-                            <select class="browser-default custom-select" asp-for="Course.CourseStatusId" asp-items="@ViewData["CourseStatuses"] as SelectList">
-                                <option value="" disabled="disabled">یکی از وضعیت ها را انتخاب نمایید</option>
-                            </select>
-                        </div>*@
+                        <select class="browser-default custom-select" asp-for="Course.CourseStatusId" asp-items="@ViewData["CourseStatuses"] as SelectList">
+                            <option value="" disabled="disabled">یکی از وضعیت ها را انتخاب نمایید</option>
+                        </select>
+                    </div>*@
                     <input type="hidden" asp-for="Course.CourseStatusId" value="2" />
 
                     <!-- courseType list  -->
@@ -287,6 +316,14 @@
             </div>
 
         </div>
+
+        <div class="form-group my-5">
+            <!-- create -->
+            <button type="submit" class="btn btn-outline-success">
+                <i class="fa fa-plus ml-2"></i> ایجاد درس جدید
+            </button>
+        </div>
+
     </form>
 
 </div>

@@ -5,89 +5,128 @@
     ViewData["Title"] = "افزودن بخش";
 }
 
-    <div class="container">
+<div class="container">
 
-        <!-- back to roles -->
-        <a asp-area=""
-           asp-page="/Admin/Courses/Episodes"
-           asp-route-id="@ViewData["CourseId"].ToString()"
-           class="btn btn-outline-info">
-            <i class="fas fa-arrow-right ml-2"></i> بازگشت
-        </a>
+    <!-- back to roles -->
+    <a asp-area=""
+       asp-page="/Admin/Courses/Episodes"
+       asp-route-id="@ViewData["CourseId"].ToString()"
+       class="btn btn-outline-info">
+        <i class="fas fa-arrow-right ml-2"></i> بازگشت
+    </a>
 
-        <h1 class="my-5"> <i class="fa fa-book ml-2"></i> @ViewData["Title"]</h1>
+    <h1 class="my-5"> <i class="fa fa-plus ml-2"></i> @ViewData["Title"]</h1>
 
-        <form method="post" enctype="multipart/form-data" class="md-form">
+    <form method="post" enctype="multipart/form-data" class="md-form">
 
-            <input type="hidden" asp-for="CourseEpisode.CourseId" />
+        <input type="hidden" asp-for="CourseEpisode.CourseId" />
 
-            <div class="container">
+        <div class="container">
 
-                <div asp-validation-summary="ModelOnly" class="text-danger my-4"></div>
+            <div asp-validation-summary="ModelOnly" class="text-danger my-4"></div>
 
-                @if (ViewData["Failure"] != null)
-                {
-                    <div class="alert alert-danger">
-                        @ViewData["Failure"]
+            @if (ViewData["Failure"] != null)
+            {
+                <div class="alert alert-danger">
+                    @ViewData["Failure"]
+                </div>
+            }
+
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-8 col-lg-8">
+
+                    <div class="card">
+
+                        <div class="card-header">
+                            <i class="fa fa-plus ml-1"></i> افزودن اطلاعات بخش
+                        </div>
+
+                        <div class="card-body">
+
+                            <!-- title -->
+                            <div class="md-form mb-4">
+                                <label asp-for="CourseEpisode.Title"></label>
+                                <input type="text" asp-for="CourseEpisode.Title" class="form-control" />
+
+                                <span asp-validation-for="CourseEpisode.Title" class="text-danger"></span>
+                            </div>
+
+                            <!-- description -->
+                            <div class="md-form mb-4">
+                                <label asp-for="CourseEpisode.Description"></label>
+                                <textarea type="text" 
+                                          rows="4"
+                                          asp-for="CourseEpisode.Description" 
+                                          class="form-control"></textarea>
+
+                                <span asp-validation-for="CourseEpisode.Description" class="text-danger"></span>
+                            </div>
+
+                            <!-- time -->
+                            <div class="md-form mb-4">
+                                <label asp-for="CourseEpisode.EpisodeLength"></label>
+                                <input type="text" asp-for="CourseEpisode.EpisodeLength" class="form-control" />
+
+                                <span asp-validation-for="CourseEpisode.EpisodeLength" class="text-danger"></span>
+                            </div>
+
+                        </div>
+
                     </div>
-                }
 
-                <div class="row">
-                    <div class="col-12 col-sm-12 col-md-8 col-lg-8">
+                </div>
+                <div class="col-12 col-sm-12 col-md-4 col-lg-4">
 
-                        <!-- title -->
-                        <div class="md-form mb-4">
-                            <label asp-for="CourseEpisode.Title"></label>
-                            <input type="text" asp-for="CourseEpisode.Title" class="form-control" />
+                    <div class="card">
 
-                            <span asp-validation-for="CourseEpisode.Title" class="text-danger"></span>
+                        <div class="card-header">
+                            <i class="fa fa-video ml-1"></i> ویدیو بخش
                         </div>
 
-                        <!-- time -->
-                        <div class="md-form mb-4">
-                            <label asp-for="CourseEpisode.EpisodeLength"></label>
-                            <input type="text" asp-for="CourseEpisode.EpisodeLength" class="form-control" />
+                        <div class="card-body">
 
-                            <span asp-validation-for="CourseEpisode.EpisodeLength" class="text-danger"></span>
-                        </div>
-
-                        <!-- is free -->
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" asp-for="CourseEpisode.IsFree" />
-                            <label class="custom-control-label" asp-for="CourseEpisode.IsFree">
-                                دوره رایگان
-                            </label>
-                        </div>
-
-                        <div class="form-group my-5">
-                            <!-- create -->
-                            <button type="submit" class="btn btn-outline-success">
-                                <i class="fa fa-plus ml-2"></i> ایجاد بخش جدید
-                            </button>
-                        </div>
-
-                    </div>
-                    <div class="col-12 col-sm-12 col-md-4 col-lg-4" style="margin-top:1.9rem">
-
-                        <!-- file demo -->
-                        <div class="form-group">
-                            <div class="input-group w-100">
-                                <div class="custom-file">
-                                    <input type="file"
-                                           class="custom-file-input"
-                                           name="fileEpisode"
-                                           id="image" required />
-                                    <label class="custom-file-label" style="padding-right:6rem">
-                                        انتخاب فایل
-                                    </label>
+                            <!-- file demo -->
+                            <div class="form-group">
+                                <label>بخش دوره</label>
+                                <div class="input-group w-100">
+                                    <div class="custom-file">
+                                        <input type="file"
+                                               class="custom-file-input"
+                                               name="fileEpisode"
+                                               id="image" required />
+                                        <label class="custom-file-label" style="padding-right:6rem">
+                                            انتخاب فایل
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
+
+                            <hr />
+
+                            <!-- is free -->
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" asp-for="CourseEpisode.IsFree" />
+                                <label class="custom-control-label" asp-for="CourseEpisode.IsFree">
+                                    دوره رایگان
+                                </label>
+                            </div>
+
                         </div>
 
                     </div>
+
                 </div>
-
             </div>
-        </form>
 
-    </div>
+        </div>
+
+        <div class="form-group my-5">
+            <!-- create -->
+            <button type="submit" class="btn btn-outline-success">
+                <i class="fa fa-plus ml-2"></i> ایجاد بخش جدید
+            </button>
+        </div>
+
+    </form>
+
+</div>

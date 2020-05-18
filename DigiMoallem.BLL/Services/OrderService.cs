@@ -86,7 +86,8 @@ namespace DigiMoallem.BLL.Services
                         new OrderDetail() {
                             CourseId = courseId,
                             Count = 1,
-                            Price = course.Off ? course.PriceAfterOff.Value : course.Price
+                            Price = course.Off ? course.PriceAfterOff.Value : course.Price,
+                            TeacherPercent = course.TeacherPercent
                         }
                       }
                     };
@@ -111,7 +112,8 @@ namespace DigiMoallem.BLL.Services
                             OrderId = order.OrderId,
                             Count = 1,
                             CourseId = courseId,
-                            Price = course.Off ? course.PriceAfterOff.Value : course.Price
+                            Price = course.Off ? course.PriceAfterOff.Value : course.Price,
+                            TeacherPercent = course.TeacherPercent
                         };
                         _db.OrderDetails.Add(orderDetail);
                         Save();
@@ -153,7 +155,8 @@ namespace DigiMoallem.BLL.Services
                         new OrderDetail() {
                             CourseId = courseId,
                             Count = 1,
-                            Price = course.Off ? course.PriceAfterOff.Value : course.Price
+                            Price = course.Off ? course.PriceAfterOff.Value : course.Price,
+                            TeacherPercent = course.TeacherPercent
                         }
                       }
                     };
@@ -178,7 +181,8 @@ namespace DigiMoallem.BLL.Services
                             OrderId = order.OrderId,
                             Count = 1,
                             CourseId = courseId,
-                            Price = course.Off ? course.PriceAfterOff.Value : course.Price
+                            Price = course.Off ? course.PriceAfterOff.Value : course.Price,
+                            TeacherPercent = course.TeacherPercent
                         };
                         await _db.OrderDetails.AddAsync(orderDetail);
                         await SaveAsync();

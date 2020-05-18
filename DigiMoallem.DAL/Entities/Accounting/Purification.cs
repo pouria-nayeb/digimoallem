@@ -15,13 +15,6 @@ namespace DigiMoallem.DAL.Entities.Accounting
         [Required(ErrorMessage = "لطفاً {0} را وارد نمایید.")]
         public int TeacherId { get; set; }
 
-        [Display(Name = "نام دوره")]
-        [Required(ErrorMessage = "لطفاً {0} را وارد نمایید.")]
-        public int CourseId { get; set; }
-
-        [Display(Name = "مبلغ")]
-        public long Amount { get; set; }
-
         [Display(Name = "بررسی تصفیه حساب")]
         public bool IsChecked { get; set; }
 

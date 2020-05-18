@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using DigiMoallem.BLL.Helpers.Security;
 using DigiMoallem.BLL.Interfaces;
 using DigiMoallem.DAL.Entities.Transactions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
+using System.Threading.Tasks;
 
 namespace DigiMoallem.Web.Pages.Admin.Accountings
 {
+    [PermissionChecker(28)]
     public class EditChargeModel : PageModel
     {
         private readonly IUserService _userService;

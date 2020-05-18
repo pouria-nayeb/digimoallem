@@ -20,6 +20,9 @@ namespace DigiMoallem.DAL.Entities.Orders
         [Required]
         public int Price { get; set; }
 
+        [Range(0, 100)]
+        public int? TeacherPercent { get; set; }
+
         #region Relations - Navigation Properties
 
         public Order Order { get; set; }

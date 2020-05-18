@@ -1,4 +1,5 @@
-﻿using DigiMoallem.BLL.Interfaces;
+﻿using DigiMoallem.BLL.Helpers.Security;
+using DigiMoallem.BLL.Interfaces;
 using DigiMoallem.DAL.Entities.Transactions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace DigiMoallem.Web.Pages.Admin.Accountings
 {
+    [PermissionChecker(28)]
     public class ChargeModel : PageModel
     {
         private readonly IUserService _userService;

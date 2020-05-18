@@ -24,6 +24,47 @@
     <meta name="keywords" content="@Model.Tags.Replace("-",",")" />
 }
 
+@section Styles {
+    <style>
+        .w3-accordion {
+            background-color: #eee;
+            color: #444;
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            text-align: right;
+            outline: none;
+            font-size: 15px;
+            transition: 0.4s;
+        }
+
+            .w3-active, .w3-accordion:hover {
+                background-color: #ccc;
+            }
+
+            .w3-accordion:after {
+                content: '\002B';
+                color: #777;
+                font-weight: bold;
+                float: left;
+                margin-left: 5px;
+            }
+
+        .w3-active:after {
+            content: "\2212";
+        }
+
+        .w3-panel {
+            padding: 0 18px;
+            background-color: white;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+        }
+    </style>
+}
+
 <div class="container">
 
     <!-- title -->
@@ -288,63 +329,181 @@
                                 <!-- episode -->
                                 @if (Model.CourseEpisodes.Any())
                                 {
-                                    @foreach (var episode in Model.CourseEpisodes)
+                                    @foreach (var episode in Model.CourseEpisodes
+                                        .Where(ce => ce.IsCheckedByAdmin == true))
                                     {
-                                        <div class="margin-16 rounded border border-secondary padding-16">
-                                            <div class="row m-0">
-                                                <div class="col-12 border-bottom border-secondary pb-2">
-                                                    @if (User.Identity.IsAuthenticated)
-                                                    {
-                                                        @if (episode.IsFree || IsUserBuyCourse)
+                                        <div class="margin-16">
+
+                                            @if (User.Identity.IsAuthenticated)
+                                            {
+                                                @if (episode.IsFree)
+                                                {
+                                                    <!-- free episode -->
+                                                    <button class="w3-accordion">
+                                                        <span class="text-dark">@(i++)</span> - @episode.Title
+                                                    </button>
+
+                                                    <div class="w3-panel">
+
+                                                        <!-- video -->
+                                                        <video class="responsive-demo d-block py-2 mx-auto w-100"
+                                                               controls>
+                                                            <source src="/coursefiles/@episode.EpisodeFileName"
+                                                                    type="video/mp4" />
+                                                        </video>
+
+                                                        @if (!string.IsNullOrEmpty(episode.Description))
                                                         {
-                                                            <a href="/DownloadFile/@episode.CourseEpisodeId">
-                                                                <span class="badge badge-primary badge-pill text-pure-white
-                                                                      p-2 border border-secondary english font">
-                                                                    @(i++)
-                                                                </span>
-                                                                @episode.Title
-                                                            </a>
+                                                            <!-- description -->
+                                                            <hr />
+                                                            <p class="my-2 text-justify">
+                                                                @episode.Description
+                                                            </p>
                                                         }
-                                                        else
-                                                        {
-                                                            <a href="/OrderCourse/@Model.CourseId">
-                                                                <span class="badge badge-primary badge-pill p-2 text-pure-white
-                                                                      border border-secondary english-font">
-                                                                    @(i++)
-                                                                </span>
-                                                                @episode.Title
-                                                            </a>
-                                                        }
-                                                    }
-                                                    else
-                                                    {
-                                                        <a asp-area="" asp-controller="Account" asp-action="Login">
-                                                            <span class="badge badge-primary badge-pill p-2 text-pure-white
-                                                                  border border-secondary english-font ">
-                                                                @(i++)
+
+                                                        <hr />
+
+                                                        <div class="clearfix">
+
+                                                            <!-- course status -->
+                                                            <span class="badge badge-success badge-pill  p-1 float-right">
+                                                                رایگان
                                                             </span>
+
+                                                            <!-- episode length -->
+                                                            <span class="badge badge-primary badge-pill  p-1 float-left">
+                                                                @episode.EpisodeLength
+                                                            </span>
+
+                                                        </div>
+                                                    </div>
+                                                }
+                                                else if (IsUserBuyCourse)
+                                                {
+                                                    <!-- bought episode -->
+                                                    <button class="w3-accordion">
+                                                        <span class="text-dark">@(i++)</span> - @episode.Title
+                                                    </button>
+
+                                                    <div class="w3-panel mt-2">
+
+                                                        <!-- get file -->
+                                                        <i class="fa fa-download ml-1"></i> لینک دریافت:
+                                                        <a href="/DownloadFile/@episode.CourseEpisodeId"
+                                                           class="btn btn-outline-secondary">
                                                             @episode.Title
                                                         </a>
-                                                    }
 
-                                                </div>
-                                                <div class="col-12 clearfix mt-2">
+                                                        @if (!string.IsNullOrEmpty(episode.Description))
+                                                        {
+                                                            <!-- description -->
+                                                            <hr />
+                                                            <p class="my-2 text-justify">
+                                                                @episode.Description
+                                                            </p>
+                                                        }
 
-                                                    @if (episode.IsFree)
+                                                        <hr />
+                                                        <div class="clearfix">
+
+                                                            <!-- episode status -->
+                                                            <span class="badge badge-info badge-pill float-right">
+                                                                خریداری شده
+                                                            </span>
+
+                                                            <!-- episode length -->
+                                                            <span class="badge badge-primary badge-pill float-left">
+                                                                @episode.EpisodeLength
+                                                            </span>
+
+                                                        </div>
+
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <!-- not bought episode -->
+                                                    <button class="w3-accordion">
+                                                        <span class="text-dark">@(i++)</span> - @episode.Title
+                                                    </button>
+
+                                                    <div class="w3-panel mt-2">
+
+                                                        <!-- order course -->
+                                                        <i class="fa fa-shopping-cart"></i> لینک سفارش :
+                                                        <a href="/OrderCourse/@Model.CourseId"
+                                                           class="btn btn-outline-secondary">
+                                                            @episode.Title
+                                                        </a>
+
+                                                        @if (!string.IsNullOrEmpty(episode.Description))
+                                                        {
+                                                            <!-- description -->
+                                                            <hr />
+                                                            <p class="my-2 text-justify">
+                                                                @episode.Description
+                                                            </p>
+                                                        }
+
+                                                        <hr />
+                                                        <div class="clearfix">
+
+                                                            <!-- episode status -->
+                                                            <span class="badge badge-dark badge-pill float-right">
+                                                                خریدنی
+                                                            </span>
+
+                                                            <!-- episode length -->
+                                                            <span class="badge badge-primary badge-pill float-left">
+                                                                @episode.EpisodeLength
+                                                            </span>
+
+                                                        </div>
+                                                    </div>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <!-- not authenticated user -->
+                                                <button class="w3-accordion">
+                                                    <span class="text-dark">@(i++)</span> - @episode.Title
+                                                </button>
+
+                                                <div class="w3-panel mt-2">
+
+                                                    <!-- login -->
+                                                    <i class="fa fa-user ml-1"></i> لینک ورود :
+                                                    <a asp-area="" asp-controller="Account" asp-action="Login"
+                                                       class="btn btn-outline-secondary">
+                                                        ورود به سایت
+                                                    </a>
+
+                                                    @if (!string.IsNullOrEmpty(episode.Description))
                                                     {
-                                                        <span class="badge badge-success float-right">رایگان</span>
+                                                        <!-- description -->
+                                                        <hr />
+                                                        <p class="my-2 text-justify">
+                                                            @episode.Description
+                                                        </p>
                                                     }
-                                                    else
-                                                    {
-                                                        <span class="badge badge-warning float-right">نقدی</span>
-                                                    }
+                                                    <hr />
+                                                    <div class="clearfix">
 
-                                                    <span class="badge badge-primary float-left
-                                                          english-font text-pure-white">@episode.EpisodeLength</span>
+                                                        <!-- episode status -->
+                                                        <span class="badge badge-dark badge-pill float-right">
+                                                            خریدنی
+                                                        </span>
+
+                                                        <!-- episode length -->
+                                                        <span class="badge badge-primary badge-pill float-left">
+                                                            @episode.EpisodeLength
+                                                        </span>
+
                                                     </div>
                                                 </div>
-                                            </div>
-                                        }
+                                            }
+                                        </div>
+                                    }
                                 }
                                 else
                                 {
@@ -488,6 +647,20 @@
 
         $("#listComment").load("/Course/ShowComment/" + @Model.CourseId + "?pageId=" + pageId);
 
-    }
+        }
+        var acc = document.getElementsByClassName("w3-accordion");
+        var i;
+
+        for (i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function () {
+                this.classList.toggle("w3-active");
+                var panel = this.nextElementSibling;
+                if (panel.style.maxHeight) {
+                    panel.style.maxHeight = null;
+                } else {
+                    panel.style.maxHeight = panel.scrollHeight + "px";
+                }
+            });
+        }
     </script>
 }

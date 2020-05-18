@@ -3,6 +3,7 @@
 
 @{
     ViewData["Title"] = "جستجو درآمد استاد";
+    List<int> sum = new List<int>();
 }
 
 @section Styles {
@@ -33,43 +34,54 @@
 
         <div class="alert alert-danger" id="alert">کد وارد شده تکراری می باشد.</div>
 
-        <div class="row">
-            <div class="col-12 col-sm-12 col-md-8 col-lg-8">
+        <div class="card">
 
-                <!-- teachers -->
-                <div class="form-group mb-4">
-                    <label for="teacherId">مدرس ها:</label>
-                    <select class="browser-default custom-select select-list"
-                            id="teacherId"
-                            name="teacherId"
-                            asp-items="@ViewData["Teachers"] as SelectList">
-                        <option value="" disabled selected>یکی از اساتید را انتخاب نمایید</option>
-                    </select>
+            <div class="card-header">
+                <i class="fa fa-search ml-1"></i> @ViewData["Title"]
+            </div>
+
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-8 col-lg-8">
+
+                        <!-- teachers -->
+                        <div class="form-group mb-4">
+                            <label for="teacherId">مدرس ها:</label>
+                            <select class="browser-default custom-select select-list"
+                                    id="teacherId"
+                                    name="teacherId"
+                                    asp-items="@ViewData["Teachers"] as SelectList">
+                                <option value="" disabled selected>یکی از اساتید را انتخاب نمایید</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-4 col-lg-4">
+
+                        <!-- start date -->
+                        <div class="form-group mb-4">
+                            <label class="d-block" for="startDate"> تاریخ شروع: </label>
+                            <input id="startDate" name="startDate" class="mx-2 w-75" />
+                        </div>
+
+                        <!-- end date -->
+                        <div class="form-group mb-4">
+                            <label class="d-block" for="endDate"> تاریخ اتمام: </label>
+                            <input id="endDate" name="endDate" class="mx-2 w-75" />
+                        </div>
+
+                    </div>
                 </div>
 
                 <div class="form-group my-5">
-                    <!-- create -->
+                    <!-- search -->
                     <button type="submit" class="btn btn-outline-success">
                         <i class="fa fa-search ml-2"></i> جستجو
                     </button>
                 </div>
 
             </div>
-            <div class="col-12 col-sm-12 col-md-4 col-lg-4">
 
-                <!-- start date -->
-                <div class="form-group mb-4">
-                    <label class="d-block" for="startDate"> تاریخ شروع: </label>
-                    <input id="startDate" name="startDate" class="mx-2 w-75" />
-                </div>
-
-                <!-- end date -->
-                <div class="form-group mb-4">
-                    <label class="d-block" for="endDate"> تاریخ اتمام: </label>
-                    <input id="endDate" name="endDate" class="mx-2 w-75" />
-                </div>
-
-            </div>
         </div>
 
     </form>
@@ -78,7 +90,7 @@
 
     <div class="clearfix my-4">
         <button class="btn btn-primary float-left">
-            کل درآمد دوره: @Model.searchOrderVM.TotalPayment.ThreeDigitSeperator()
+            مجموع درآمد دوره: @Model.searchOrderVM.TotalPayment.ThreeDigitSeperator()
         </button>
     </div>
 
@@ -94,9 +106,18 @@
                 {
                     <tr>
                         <td>@orderDetail.Course.Title</td>
-                        <td>@orderDetail.Course.Price.ThreeDigitSeperator()</td>
+                        <td>@orderDetail.Price.ThreeDigitSeperator()</td>
+                    </tr>
+                    <tr class="d-none">
+                        @{sum.Add(((orderDetail.Price * orderDetail.TeacherPercent.Value) / 100));}
                     </tr>
                 }
+                <tr class="table-success">
+                    <td class="text-left">مجموع درآمد استاد: </td>
+                    <td>
+                        @sum.Sum().ThreeDigitSeperator()
+                    </td>
+                </tr>
             </table>
         </div>
     }
@@ -115,7 +136,7 @@
                 @for (int i = 1; i <= Model.searchOrderVM.PagesCount; i++)
                 {
                     <li class="page-item english-font @((Model.searchOrderVM.PageNumber == i) ? "active" : "")">
-                        <a href="/Admin/Accountings/Search?pageId=@i" class="page-link">@i</a>
+                        <a href="/Admin/Accountings/Search?pageNumber=@i" class="page-link">@i</a>
                     </li>
                 }
             </ul>
@@ -138,4 +159,3 @@
     </script>
     <script src="~/admin/js/select2.min.js" asp-append-version="true"></script>
 }
-

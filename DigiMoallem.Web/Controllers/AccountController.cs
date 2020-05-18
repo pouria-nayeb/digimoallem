@@ -8,9 +8,12 @@ using DigiMoallem.DAL.Entities.Users;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -129,7 +132,7 @@ namespace DigiMoallem.Web.Controllers
         /// <param name="ReturnUrl"></param>
         [Route("Login")]
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel login, string ReturnUrl = null)
+        public async Task<IActionResult> Login(LoginOptionsViewModel login, string ReturnUrl = null)
         {
             if (ModelState.IsValid)
             {
@@ -145,7 +148,7 @@ namespace DigiMoallem.Web.Controllers
                 #endregion
 
                 // user inputs is valid
-                var user = await _userService.LoginUserAsync(login);
+                var user = await _userService.LoginUserAsync(login.LoginVM);
 
                 if (user != null)
                 {
@@ -170,7 +173,7 @@ namespace DigiMoallem.Web.Controllers
 
                         var properties = new AuthenticationProperties
                         {
-                            IsPersistent = login.RememberMe
+                            IsPersistent = login.LoginVM.RememberMe
                         };
 
                         // Command will login the user
@@ -203,11 +206,11 @@ namespace DigiMoallem.Web.Controllers
                     }
                 }
 
-                var existUser = await _userService.GetUserByEmailAsync(login.Email);
+                var existUser = await _userService.GetUserByEmailAsync(login.LoginVM.Email);
 
                 if (existUser != null)
                 {
-                    if (existUser.Email == login.Email)
+                    if (existUser.Email == login.LoginVM.Email)
                     {
                         ModelState.AddModelError("Password", "رمز عبور وارد شده صحیح نمی باشد.");
                         return View(login);
@@ -222,6 +225,132 @@ namespace DigiMoallem.Web.Controllers
             // user inputs is not valid
             ViewData["NotValid"] = "کاربر گرامی، لطفاً اطلاعات معتبر وارد نمایید.";
             return View(login);
+        }
+
+        [HttpPost]
+        public IActionResult LoginWithPhoneNumber(LoginOptionsViewModel login)
+        {
+            if (ModelState.IsValid)
+            {
+                #region recaptcha (authorize human-only)
+
+                //if (!await GoogleRecaptchaHelper.IsReCaptchaPassedAsync(Request.Form["g-recaptcha-response"],
+                //   _config["GoogleReCaptcha:secret"]))
+                //{
+                //    ModelState.AddModelError(string.Empty, "احراز هویت شما با موفقیت انجام نشد.");
+                //    return View(register);
+                //}
+
+                #endregion
+
+                // success
+                var phoneNumber = login.LoginWithPhoneVM.PhoneNumber;
+
+                if (_userService.GetAllUsers().Any(u => u.PhoneNumber == phoneNumber))
+                {
+                    // if found user with phonenumber
+                    var user = _userService.GetUserByPhoneNumber(phoneNumber);
+
+                    if (user != null)
+                    {
+                        // user exist
+                        if (user.IsActive)
+                        {
+                            user.UpdateDate = DateTime.Now;
+                            user.Token = new Random().Next(1000, 10000).ToString();
+                            _userService.UpdateUser(user);
+
+                            // TODO: send message with generated token
+                            SendActiveEmail("_SendCode", "دریافت کد", user.Token);
+
+                            TempData["PhoneNumber"] = phoneNumber;
+                            TempData["Message"] = "کد ورود برای شما ارسال شد.";
+                            return RedirectToAction("LoginUserWithRandomToken", "Account");
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("PhoneNumber", "حساب کاربری خود را با پیام ارسالی فعال کنید.");
+
+                            // TODO: send message to active account
+
+                            return View("Login", login);
+                        }
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("PhoneNumber", "کاربری با شماره مورد نظر یافت نشد.");
+                        return View("Login", login);
+                    }
+                }
+                else 
+                {
+                    ModelState.AddModelError("PhoneNumber", "شماره تلفن وارد شده در سایت ثبت نشده است.");
+                    return View("Login", login);
+                }
+            }
+
+            // failure
+            ModelState.AddModelError("PhoneNumber", "ورودی نامعتبر.");
+            return View("Login", login);
+        }
+
+        [HttpGet]
+        public IActionResult LoginUserWithRandomToken() 
+        {
+            TempData.Keep();
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> LoginUserWithRandomToken(LoginRandomTokenViewModel login, 
+            string ReturnUrl = null) 
+        {
+            if (ModelState.IsValid)
+            {
+                string token = login.Token.Trim();
+                if (_userService.GetAllUsers().Any(u => u.Token == token))
+                {
+                    string phoneNumber = TempData["PhoneNumber"] as string;
+                    var user = _userService.GetUserByToken(phoneNumber, token);
+
+                    user.UpdateDate = DateTime.Now;
+                    _userService.UpdateUser(user);
+
+                    #region Claims (Data that we want access from the user)
+
+                    var claims = new List<Claim>() {
+                            new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
+                            new Claim(ClaimTypes.Name, user.UserName),
+                            new Claim(ClaimTypes.Email, user.Email)
+                        };
+
+                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                    var principal = new ClaimsPrincipal(identity);
+
+                    var properties = new AuthenticationProperties
+                    {
+                        IsPersistent = login.RememberMe
+                    };
+
+                    #endregion
+
+                    // login the user
+                    await HttpContext.SignInAsync(principal, properties);
+
+                    return RedirectToAction("Index", "Home");
+                }
+                else 
+                {
+                    // token not exist
+                    ModelState.AddModelError("Token", "کد وارد شده معتبر نمی باشد.");
+                    return View();
+                }
+            }
+
+            // invalid user inputs
+            ModelState.AddModelError("Token", "کد وارد شده صحیح نمی باشد.");
+            return View();
         }
 
         /// <summary>
@@ -350,6 +479,12 @@ namespace DigiMoallem.Web.Controllers
         {
             string body = _viewRender.RenderToString(specificPage, user);
             SendEmailClient.Send(user.Email, title, body);
+        }
+
+        public void SendActiveEmail(string specificPage, string title, string userToken)
+        {
+            string body = _viewRender.RenderToString(specificPage, userToken);
+            SendEmailClient.Send("pouria-nayeb@outlook.com", title, body);
         }
 
         #endregion

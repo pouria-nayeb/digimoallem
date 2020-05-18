@@ -1,0 +1,182 @@
+﻿@page
+@model DigiMoallem.Web.Pages.Admin.Accountings.BoxModel
+
+@inject IAccountingService accountingService
+
+@{
+    ViewData["Title"] = "صندوق";
+    var j = 1;
+    List<int> withdraws = new List<int>();
+    List<int> deposits = new List<int>();
+}
+
+@section Styles {
+    <link href="~/admin/css/kendo.common.min.css" rel="stylesheet" />
+    <link href="~/admin/css/kendo.default.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/admin/css/select2.min.css" />
+    <style>
+        #alert {
+            display: none;
+        }
+    </style>
+}
+
+<div class="container">
+
+    <!-- back to accounting -->
+    <a asp-area=""
+       asp-page="Index"
+       class="btn btn-outline-info">
+        <i class="fas fa-arrow-right ml-2"></i> بازگشت
+    </a>
+
+    <h1 class="my-5"> <i class="fa fa-search ml-2"></i> @ViewData["Title"]</h1>
+
+    <form method="get">
+
+        <div asp-validation-summary="ModelOnly" class="text-danger my-4"></div>
+
+        <div class="alert alert-danger" id="alert">کد وارد شده تکراری می باشد.</div>
+
+        <div class="row">
+            <div class="col-12 col-md-5 mt-4">
+
+                <input type="hidden" value="@ViewData["Id"]" name="id" />
+
+                <!-- start date -->
+                <div class="form-group mb-4">
+                    <label class="d-block" for="startDate"> تاریخ شروع: </label>
+                    <input id="startDate" name="startDate" class="mx-2 w-75" />
+                </div>
+
+            </div>
+            <div class="col-12 col-md-5 mt-4">
+
+                <!-- end date -->
+                <div class="form-group mb-4">
+                    <label class="d-block" for="endDate"> تاریخ اتمام: </label>
+                    <input id="endDate" name="endDate" class="mx-2 w-75" />
+                </div>
+
+            </div>
+
+            <div class="col-12 col-md-2">
+                <div class="form-group my-5">
+                    <!-- create -->
+                    <button type="submit" class="btn btn-outline-success">
+                        <i class="fa fa-search ml-2"></i> جستجو
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </form>
+
+    <hr />
+
+    <div class="clearfix my-4">
+        <button class="btn btn-outline-secondary float-left">
+            کل درآمد: @Model.searchOrderVM.TotalOrderDetailsPayments.ThreeDigitSeperator()
+        </button>
+    </div>
+
+    @if (Model.searchOrderVM.OrderDetailPayments.Any())
+    {
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <th>ردیف</th>
+                    <th>شرح</th>
+                    <th>تاریخ</th>
+                    <th>بدهکار(تومان)</th>
+                    <th>بستانکار(تومان)</th>
+                    <th>مانده کل(تومان)</th>
+                </tr>
+                @foreach (var detail in Model.searchOrderVM.OrderDetailPayments)
+                {
+                    @if (detail.IsPayment)
+                    {
+                        <tr class="table-dark">
+                            <td class="english-font">@(j++)</td>
+                            <td>@detail.Title</td>
+                            <td class="english-font">@detail.CreateDate.ToPersianDate()</td>
+                            <td>
+                                @detail.Payment.ThreeDigitSeperator()
+                            </td>
+                            <td>
+                                @(((detail.Price).ToString("#,0")))
+                            </td>
+                            <td>
+                                @{
+                                    withdraws.Add(detail.Price);
+                                    deposits.Add(detail.Payment);
+                                }
+
+                                @((withdraws.Sum() - deposits.Sum()).ToString("#,0"))
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr class="table-success">
+                            <td class="english-font">@(j++)</td>
+                            <td>@detail.Title / @detail.TeacherPercent درصد / @detail.Price.ThreeDigitSeperator()</td>
+                            <td class="english-font">@detail.CreateDate.ToPersianDate()</td>
+                            <td>
+                                @detail.Payment.ToString("#,0")
+                            </td>
+                            <td>
+                                @(((detail.Price).ToString("#,0")))
+                            </td>
+                            <td>
+                                @{
+                                    withdraws.Add((detail.Price));
+                                    deposits.Add(detail.Payment);
+                                }
+
+                                @((withdraws.Sum() - deposits.Sum()).ToString("#,0"))
+                            </td>
+                        </tr>
+                    }
+                }
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-primary border border-warning">
+            <i class="fa fa-exclamation-triangle ml-2"></i> سفارشی از این استاد در تاریخ مورد نظر ثبت نشده.
+        </div>
+    }
+
+    @if (Model.searchOrderVM.PagesCount > 1)
+    {
+        <!-- pagination -->
+        <nav aria-label="Page navigation" class="my-3">
+            <ul class="pagination pagination-circle pg-dark justify-content-center">
+                @for (int i = 1; i <= Model.searchOrderVM.PagesCount; i++)
+                {
+                    <li class="page-item english-font @((Model.searchOrderVM.PageNumber == i) ? "active" : "")">
+                        <a href="/Admin/Accountings/Search?pageId=@i" class="page-link">@i</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    }
+
+</div>
+
+
+
+@section Scripts {
+    <script src="~/admin/js/jquery-1.9.1.min.js"></script>
+    <script src="~/admin/js/kendo.all.min.js"></script>
+    <script>
+        // create DatePicker from input HTML element
+        $("#startDate").kendoDatePicker();
+
+        // create DatePicker from input HTML element
+        $("#endDate").kendoDatePicker();
+    </script>
+    <script src="~/admin/js/select2.min.js" asp-append-version="true"></script>
+}

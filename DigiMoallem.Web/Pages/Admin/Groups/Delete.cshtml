@@ -1,6 +1,10 @@
 ﻿@page "{id}"
 @model DigiMoallem.Web.Pages.Admin.Groups.DeleteModel
 
+@{
+    ViewData["Title"] = "حذف گروه";
+ }
+
     <div class="container">
 
         <a asp-area=""
@@ -9,7 +13,9 @@
             <i class="fa fa-arrow-right ml-1"></i> بازگشت
         </a>
 
-        <h1 class="m-4">@ViewData["Title"]</h1>
+        <h1 class="my-5">
+            <i class="fa fa-trash-alt ml-1"></i> حذف <q>@Model.Group.Title</q>
+        </h1>
 
         <form method="post" class="md-form">
 
@@ -21,7 +27,9 @@
             }
 
             <div class="card">
-                <div class="card-header">@Model.Group.Title</div>
+                <div class="card-header">
+                    <i class="fa fa-trash-alt ml-1"></i> حذف گروه @Model.Group.Title
+                </div>
                 <div class="card-body">
                     <input type="hidden" asp-for="Group.GroupId" />
                     <input type="hidden" asp-for="Group.ParentId" />
@@ -30,7 +38,7 @@
 
                     <div class="form-group">
                         <button type="submit" class="btn btn-outline-danger">
-                            <i class="fa fa-trash ml-1"></i> حذف گروه
+                            <i class="fa fa-trash-alt ml-1"></i> حذف گروه
                         </button>
                     </div>
                 </div>

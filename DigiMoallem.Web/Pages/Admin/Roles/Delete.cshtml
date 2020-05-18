@@ -15,7 +15,7 @@
         <i class="fas fa-arrow-right ml-2"></i> بازگشت
     </a>
 
-    <h1 class="my-5"> <i class="fa fa-user-minus ml-2"></i> @ViewData["Title"] <q>@Model.Role.Title</q></h1>
+    <h1 class="my-5"> <i class="fa fa-minus ml-2"></i> @ViewData["Title"] <q>@Model.Role.Title</q></h1>
 
     <form method="post">
         <!-- hidden -->
@@ -42,15 +42,12 @@
                         }
                     </td>
                 </tr>
-                <tr>
-                    <td colspan="2">
-                        <!-- delete -->
-                        <button class="btn btn-outline-danger">
-                            <i class="fa fa-trash ml-2"></i> حذف نقش
-                        </button>
-                    </td>
-                </tr>
             </table>
+
+            <!-- delete -->
+            <button class="btn btn-outline-danger">
+                <i class="fa fa-trash-alt ml-2"></i> حذف نقش
+            </button>
         </div>
     </form>
 

@@ -29,6 +29,14 @@
                     </div>
                     <div class="card-body">
 
+                        <div class="my-3">
+
+                            <a class="btn btn-outline-info rounded-pill">
+                                <i class="fa fa-eye ml-1"></i> مشاهده درآمد
+                            </a>
+
+                        </div>
+
                         @if (Model.Courses.Any())
                         {
                             <div class="table-responsive">
@@ -43,7 +51,7 @@
                                     @foreach (var course in Model.Courses)
                                     {
                                         @if (course.TeacherId == userId ||
-                                        permissionService.CheckPermission(2, User.Identity.Name))
+                                      permissionService.CheckPermission(2, User.Identity.Name))
                                         {
                                             <tr>
                                                 <td>@course.CourseId</td>
@@ -66,7 +74,7 @@
                                             </tr>
                                         }
                                     }
-                                    </table>
+                                </table>
                             </div>
 
                             @if (Model.CurrentPage > 1)
@@ -91,7 +99,22 @@
                             </div>
                         }
 
+                        <div class="my-3 clearfix">
+                            <form asp-area="UserPanel"
+                                  asp-controller="Home"
+                                  asp-action="AccountPurification"
+                                  method="post">
+                                <input type="hidden" value="@userId" name="Purification.TeacherId" />
+
+                                <button class="btn btn-outline-primary rounded-pill">
+                                    ارسال درخواست تصفیه حساب
+                                </button>
+                            </form>
+                        </div>
+
                     </div>
+
+
                 </div>
 
             </div>

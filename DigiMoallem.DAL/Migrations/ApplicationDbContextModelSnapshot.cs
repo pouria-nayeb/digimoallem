@@ -19,6 +19,23 @@ namespace DigiMoallem.DAL.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("DigiMoallem.DAL.Entities.Accounting.Box", b =>
+                {
+                    b.Property<int>("BoxId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200);
+
+                    b.HasKey("BoxId");
+
+                    b.ToTable("Box");
+                });
+
             modelBuilder.Entity("DigiMoallem.DAL.Entities.Accounting.Payment", b =>
                 {
                     b.Property<int>("PaymentId")
@@ -26,6 +43,8 @@ namespace DigiMoallem.DAL.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("Amount");
+
+                    b.Property<int?>("BoxId");
 
                     b.Property<string>("Description")
                         .IsRequired();
@@ -35,6 +54,8 @@ namespace DigiMoallem.DAL.Migrations
                     b.Property<int>("TeacherId");
 
                     b.HasKey("PaymentId");
+
+                    b.HasIndex("BoxId");
 
                     b.HasIndex("TeacherId");
 
@@ -47,9 +68,7 @@ namespace DigiMoallem.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long>("Amount");
-
-                    b.Property<int>("CourseId");
+                    b.Property<int?>("CourseId");
 
                     b.Property<bool>("IsChecked");
 
@@ -64,6 +83,107 @@ namespace DigiMoallem.DAL.Migrations
                     b.HasIndex("TeacherId");
 
                     b.ToTable("Purifications");
+                });
+
+            modelBuilder.Entity("DigiMoallem.DAL.Entities.Blog.Article", b =>
+                {
+                    b.Property<int>("CourseId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AuthorId");
+
+                    b.Property<string>("Body")
+                        .IsRequired();
+
+                    b.Property<int>("CategoryId");
+
+                    b.Property<bool>("DisplayComment");
+
+                    b.Property<string>("ImageName")
+                        .HasMaxLength(200);
+
+                    b.Property<bool>("IsCheckedByAdmin");
+
+                    b.Property<bool>("IsFavorite");
+
+                    b.Property<bool>("IsHidden");
+
+                    b.Property<int?>("SubCategoryId");
+
+                    b.Property<string>("Tags")
+                        .HasMaxLength(350);
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(500);
+
+                    b.HasKey("CourseId");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("SubCategoryId");
+
+                    b.ToTable("Articles");
+                });
+
+            modelBuilder.Entity("DigiMoallem.DAL.Entities.Blog.ArticleComment", b =>
+                {
+                    b.Property<int>("ArticleCommentId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ArticleId");
+
+                    b.Property<string>("Body")
+                        .IsRequired()
+                        .HasMaxLength(750);
+
+                    b.Property<DateTime>("CreateDate");
+
+                    b.Property<bool>("IsDelete");
+
+                    b.Property<int?>("ParentId");
+
+                    b.Property<bool>("ReadByAdmin");
+
+                    b.Property<int>("UserId");
+
+                    b.HasKey("ArticleCommentId");
+
+                    b.HasIndex("ArticleId");
+
+                    b.HasIndex("ParentId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ArticleComments");
+                });
+
+            modelBuilder.Entity("DigiMoallem.DAL.Entities.Blog.Category", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ImageName")
+                        .HasMaxLength(200);
+
+                    b.Property<bool>("IsDelete");
+
+                    b.Property<int?>("ParentId");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200);
+
+                    b.HasKey("CategoryId");
+
+                    b.HasIndex("ParentId");
+
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("DigiMoallem.DAL.Entities.Courses.Comment", b =>
@@ -214,6 +334,9 @@ namespace DigiMoallem.DAL.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("CourseId");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500);
 
                     b.Property<string>("EpisodeFileName")
                         .HasMaxLength(350);
@@ -382,6 +505,55 @@ namespace DigiMoallem.DAL.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserCourses");
+                });
+
+            modelBuilder.Entity("DigiMoallem.DAL.Entities.General.Advertise", b =>
+                {
+                    b.Property<int>("AdvertiseId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(500);
+
+                    b.Property<string>("ImageName")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200);
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasMaxLength(200);
+
+                    b.HasKey("AdvertiseId");
+
+                    b.ToTable("Advertises");
+                });
+
+            modelBuilder.Entity("DigiMoallem.DAL.Entities.General.Carousel", b =>
+                {
+                    b.Property<int>("CarouselId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Alt")
+                        .IsRequired()
+                        .HasMaxLength(200);
+
+                    b.Property<string>("ImageName")
+                        .IsRequired()
+                        .HasMaxLength(75);
+
+                    b.Property<int>("ImageNumber");
+
+                    b.Property<string>("Url")
+                        .HasMaxLength(120);
+
+                    b.HasKey("CarouselId");
+
+                    b.ToTable("Carousels");
                 });
 
             modelBuilder.Entity("DigiMoallem.DAL.Entities.General.Contact", b =>
@@ -604,6 +776,8 @@ namespace DigiMoallem.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("BoxId");
+
                     b.Property<DateTime>("CreateDate");
 
                     b.Property<bool>("IsFinally");
@@ -613,6 +787,8 @@ namespace DigiMoallem.DAL.Migrations
                     b.Property<int>("UserId");
 
                     b.HasKey("OrderId");
+
+                    b.HasIndex("BoxId");
 
                     b.HasIndex("UserId");
 
@@ -632,6 +808,8 @@ namespace DigiMoallem.DAL.Migrations
                     b.Property<int>("OrderId");
 
                     b.Property<int>("Price");
+
+                    b.Property<int?>("TeacherPercent");
 
                     b.HasKey("OrderDetailId");
 
@@ -793,6 +971,9 @@ namespace DigiMoallem.DAL.Migrations
                     b.Property<string>("Skills")
                         .HasMaxLength(1500);
 
+                    b.Property<string>("Token")
+                        .HasMaxLength(12);
+
                     b.Property<DateTime?>("UpdateDate");
 
                     b.Property<string>("UserAvatar")
@@ -870,6 +1051,10 @@ namespace DigiMoallem.DAL.Migrations
 
             modelBuilder.Entity("DigiMoallem.DAL.Entities.Accounting.Payment", b =>
                 {
+                    b.HasOne("DigiMoallem.DAL.Entities.Accounting.Box", "Box")
+                        .WithMany("Payments")
+                        .HasForeignKey("BoxId");
+
                     b.HasOne("DigiMoallem.DAL.Entities.Users.User", "User")
                         .WithMany("Payments")
                         .HasForeignKey("TeacherId")
@@ -880,13 +1065,53 @@ namespace DigiMoallem.DAL.Migrations
                 {
                     b.HasOne("DigiMoallem.DAL.Entities.Courses.Course", "Course")
                         .WithMany()
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("CourseId");
 
                     b.HasOne("DigiMoallem.DAL.Entities.Users.User", "User")
                         .WithMany()
                         .HasForeignKey("TeacherId")
                         .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("DigiMoallem.DAL.Entities.Blog.Article", b =>
+                {
+                    b.HasOne("DigiMoallem.DAL.Entities.Users.User", "User")
+                        .WithMany()
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("DigiMoallem.DAL.Entities.Blog.Category", "Category")
+                        .WithMany("Articles")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("DigiMoallem.DAL.Entities.Blog.Category", "SubCategory")
+                        .WithMany("SubArticles")
+                        .HasForeignKey("SubCategoryId");
+                });
+
+            modelBuilder.Entity("DigiMoallem.DAL.Entities.Blog.ArticleComment", b =>
+                {
+                    b.HasOne("DigiMoallem.DAL.Entities.Blog.Article", "Article")
+                        .WithMany("ArticleComments")
+                        .HasForeignKey("ArticleId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("DigiMoallem.DAL.Entities.Blog.ArticleComment")
+                        .WithMany("ArticleComments")
+                        .HasForeignKey("ParentId");
+
+                    b.HasOne("DigiMoallem.DAL.Entities.Users.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("DigiMoallem.DAL.Entities.Blog.Category", b =>
+                {
+                    b.HasOne("DigiMoallem.DAL.Entities.Blog.Category")
+                        .WithMany("Categories")
+                        .HasForeignKey("ParentId");
                 });
 
             modelBuilder.Entity("DigiMoallem.DAL.Entities.Courses.Comment", b =>
@@ -1027,6 +1252,10 @@ namespace DigiMoallem.DAL.Migrations
 
             modelBuilder.Entity("DigiMoallem.DAL.Entities.Orders.Order", b =>
                 {
+                    b.HasOne("DigiMoallem.DAL.Entities.Accounting.Box", "Box")
+                        .WithMany("Orders")
+                        .HasForeignKey("BoxId");
+
                     b.HasOne("DigiMoallem.DAL.Entities.Users.User", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserId")

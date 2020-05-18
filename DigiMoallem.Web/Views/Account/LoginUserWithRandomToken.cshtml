@@ -1,0 +1,102 @@
+﻿@model LoginRandomTokenViewModel
+@inject IConfiguration _config
+
+@{
+    ViewData["Title"] = "ورود با کد یکبار مصرف";
+}
+
+@section Styles {
+    <script src='https://www.google.com/recaptcha/api.js?hl=fa'></script>
+}
+
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-12 col-md-6">
+
+            <div class="card">
+
+                <div class="card-header">
+                    <i class="fa fa-key ml-2"></i> @ViewData["Title"]
+                </div>
+
+                <div class="card-body">
+
+                    <form asp-area=""
+                          asp-controller="Account"
+                          asp-action="LoginUserWithRandomToken"
+                          method="post">
+
+                        @if (TempData["Message"] != null)
+                        {
+                            <!-- user inputs is not valid -->
+                        <div class="alert alert-success">
+                            <i class="fa fa-check ml-1"></i> @TempData["Message"]
+                        </div>
+                        }
+
+                        <div asp-validation-summary="All" class="text-danger"></div>
+
+                        <!-- token -->
+                        <div class="form-group mb-2">
+                            <label asp-for="Token"></label>
+                            <input type="text"
+                                   asp-for="Token"
+                                   class="form-control text-direction-ltr text-left english-font" />
+
+                            <span asp-validation-for="Token" class="text-danger"></span>
+                        </div>
+
+                        <!-- remember me -->
+                        <div class="form-check mt-4">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" asp-for="RememberMe" />
+                                <span class="mr-4">مرا به خاطر بسپار</span>
+                            </label>
+                        </div>
+
+                        <div class="g-recaptcha mt-3" data-sitekey="@_config["GoogleReCaptcha:key"]"></div>
+
+                        <div class="form-group">
+                            <!-- submit -->
+                            <button type="submit"
+                                    class="btn rounded-pill px-5 bg-purple bg-purple-hover text-white my-4">
+                                ارسال کد
+                            </button>
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-12 col-md-6 py-4">
+
+            <div>
+                <img src="~/images/resources/sign-in.svg"
+                     alt="لاگین در دیجی معلم"
+                     class="img-fluid d-block mx-auto py-5" style="max-height:550px"
+                     asp-append-version="true" />
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/main.js"></script>
+    <script>
+        window.onload = function () {
+            var $recaptcha = document.querySelector('#g-recaptcha-response');
+            if ($recaptcha) {
+                $recaptcha.setAttribute("required", "required");
+            };
+    </script>
+}

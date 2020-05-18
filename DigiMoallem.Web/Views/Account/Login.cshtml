@@ -1,4 +1,4 @@
-﻿@model LoginViewModel
+﻿@model LoginOptionsViewModel
 @inject IConfiguration _config
 
 @{
@@ -23,72 +23,132 @@
                 </div>
                 <div class="card-body">
 
-                    <form asp-area="" asp-controller="Account" asp-action="Login" method="post">
-
-                        @if (ViewData["NotValid"] != null)
-                        {
-                            <!-- user inputs is not valid -->
-                            <div class="alert alert-danger">
-                                @ViewData["NotValid"]
-                            </div>
-                        }
-
-                        <div asp-validation-summary="All" class="text-danger"></div>
-
-                        <!-- email -->
-                        <div class="form-group mb-2">
-                            <label asp-for="Email"></label>
-                            <input type="text"
-                                   asp-for="Email"
-                                   class="form-control text-direction-ltr text-left english-font" />
-
-                            <span asp-validation-for="Email" class="text-danger"></span>
-                        </div>
-
-                        <!-- password -->
-                        <div class="form-group mb-2">
-                            <label asp-for="Password"></label>
-                            <input type="password"
-                                   asp-for="Password"
-                                   class="form-control text-direction-ltr text-left" />
-
-                            <span asp-validation-for="Password" class="text-danger"></span>
-                        </div>
-
-                        <!-- remember me -->
-                        <div class="form-check mt-4">
-                            <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input" asp-for="RememberMe" />
-                                <span class="mr-4">مرا به خاطر بسپار</span>
-                            </label>
-                        </div>
-
-                        <div class="g-recaptcha mt-3" data-sitekey="@_config["GoogleReCaptcha:key"]"></div>
-
-                        <div class="form-group">
-                            <!-- submit -->
-                            <button type="submit"
-                                    class="btn rounded-pill px-5 bg-purple bg-purple-hover text-white my-4">
-                                ورود به سامانه
-                            </button>
-                        </div>
-
-                        <div class="my-1">
-                            حساب کاربری ندارید؟
-                            <a asp-controller="Account" asp-action="Register"
-                               class="btn btn-link mx-1">
-                                ثبت نام در دیجی معلم
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#home">
+                                ورود با پست الکترونیک
                             </a>
-                        </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#profile">
+                                ورود با تلفن همراه
+                            </a>
+                        </li>
+                    </ul>
+                    <div id="myTabContent" class="tab-content">
+                        <div class="tab-pane fade active show" id="home">
 
-                        <div class="my-2">
-                            رمز خود را فراموش کرده اید؟
-                            <a asp-controller="Account"
-                               asp-action="ForgetPassword"
-                               class="btn btn-link mx-1"> فراموشی رمز عبور </a>
-                        </div>
+                            <form asp-area="" asp-controller="Account" asp-action="Login" method="post">
 
-                    </form>
+                                @if (ViewData["NotValid"] != null)
+                                {
+                                    <!-- user inputs is not valid -->
+                                    <div class="alert alert-danger">
+                                        @ViewData["NotValid"]
+                                    </div>
+                                }
+
+                                <div asp-validation-summary="All" class="text-danger"></div>
+
+                                <!-- email -->
+                                <div class="form-group mb-2">
+                                    <label asp-for="LoginVM.Email"></label>
+                                    <input type="text"
+                                           asp-for="LoginVM.Email"
+                                           class="form-control text-direction-ltr text-left english-font" />
+
+                                    <span asp-validation-for="LoginVM.Email" class="text-danger"></span>
+                                </div>
+
+                                <!-- password -->
+                                <div class="form-group mb-2">
+                                    <label asp-for="LoginVM.Password"></label>
+                                    <input type="password"
+                                           asp-for="LoginVM.Password"
+                                           class="form-control text-direction-ltr text-left" />
+
+                                    <span asp-validation-for="LoginVM.Password" class="text-danger"></span>
+                                </div>
+
+                                <!-- remember me -->
+                                <div class="form-check mt-4">
+                                    <label class="form-check-label">
+                                        <input type="checkbox" class="form-check-input" asp-for="LoginVM.RememberMe" />
+                                        <span class="mr-4">مرا به خاطر بسپار</span>
+                                    </label>
+                                </div>
+
+                                <div class="g-recaptcha mt-3" data-sitekey="@_config["GoogleReCaptcha:key"]"></div>
+
+                                <div class="form-group">
+                                    <!-- submit -->
+                                    <button type="submit"
+                                            class="btn rounded-pill px-5 bg-purple bg-purple-hover text-white my-4">
+                                        ورود به سایت
+                                    </button>
+                                </div>
+
+                                <div class="my-1">
+                                    حساب کاربری ندارید؟
+                                    <a asp-controller="Account" asp-action="Register"
+                                       class="btn btn-link mx-1">
+                                        ثبت نام در دیجی معلم
+                                    </a>
+                                </div>
+
+                                <div class="my-2">
+                                    رمز خود را فراموش کرده اید؟
+                                    <a asp-controller="Account"
+                                       asp-action="ForgetPassword"
+                                       class="btn btn-link mx-1"> فراموشی رمز عبور </a>
+                                </div>
+
+                            </form>
+
+                        </div>
+                        <div class="tab-pane fade" id="profile">
+
+                            <form asp-area="" 
+                                  asp-controller="Account" 
+                                  asp-action="LoginWithPhoneNumber" 
+                                  method="post"
+                                  class="my-3">
+
+                                @if (ViewData["NotValid"] != null)
+                                {
+                                    <!-- user inputs is not valid -->
+                                    <div class="alert alert-danger">
+                                        @ViewData["NotValid"]
+                                    </div>
+                                }
+
+                                <div asp-validation-summary="All" class="text-danger"></div>
+
+                                <!-- phoneNumber -->
+                                <div class="form-group mb-2">
+                                    <label asp-for="LoginWithPhoneVM.PhoneNumber"></label>
+                                    <input type="text"
+                                           asp-for="LoginWithPhoneVM.PhoneNumber"
+                                           class="form-control text-direction-ltr text-left english-font" />
+
+                                    <span asp-validation-for="LoginWithPhoneVM.PhoneNumber" class="text-danger"></span>
+                                </div>
+
+                                <div class="g-recaptcha mt-3" data-sitekey="@_config["GoogleReCaptcha:key"]"></div>
+
+                                <div class="form-group">
+                                    <!-- submit -->
+                                    <button type="submit"
+                                            class="btn rounded-pill px-5 bg-purple bg-purple-hover text-white my-4">
+                                        ارسال کد
+                                    </button>
+                                </div>
+
+                            </form>
+
+                        </div>
+                    </div>
+
                 </div>
             </div>
 

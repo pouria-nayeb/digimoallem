@@ -30,7 +30,7 @@ namespace DigiMoallem.BLL.DTOs.Works
 
         [Display(Name = "تلفن همراه")]
         [Required(ErrorMessage = "لطفاً {0} را وارد نمایید.")]
-        [MaxLength(12, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]
+        [RegularExpression(@"(0|\+98)?([ ]|,|-|[()]){0,2}9[1|2|3|4]([ ]|,|-|[()]){0,2}(?:[0-9]([ ]|,|-|[()]){0,2}){8}", ErrorMessage = "شماره تلفن معتبر وارد نمایید.")] 
         public string Mobile { get; set; }
 
         [Display(Name = "مقطع تحصیلی")]

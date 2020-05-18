@@ -1,4 +1,5 @@
-﻿using DigiMoallem.DAL.Entities.Users;
+﻿using DigiMoallem.DAL.Entities.Accounting;
+using DigiMoallem.DAL.Entities.Users;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -18,6 +19,9 @@ namespace DigiMoallem.DAL.Entities.Orders
 
         public bool IsFinally { get; set; }
 
+        [Display(Name = "صندوق")]
+        public int? BoxId { get; set; }
+
         [Required]
         public DateTime CreateDate { get; set; }
 
@@ -26,6 +30,8 @@ namespace DigiMoallem.DAL.Entities.Orders
         public virtual User User { get; set; }
 
         public List<OrderDetail> OrderDetails { get; set; }
+
+        public Box Box { get; set; }
 
         #endregion
     }

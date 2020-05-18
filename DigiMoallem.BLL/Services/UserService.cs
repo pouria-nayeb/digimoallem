@@ -201,6 +201,20 @@ namespace DigiMoallem.BLL.Services
         }
         #endregion
 
+        #region GetUserByPhoneNumber
+        public User GetUserByPhoneNumber(string phoneNumber) => _db.Users
+            .FirstOrDefault(u => u.PhoneNumber == phoneNumber.Trim());
+        #endregion
+
+        #region GetUserByToken
+        public User GetUserByToken(string phoneNumber, string token) => _db.Users
+            .FirstOrDefault(u => u.PhoneNumber == phoneNumber.Trim() && u.Token == token);
+        #endregion
+
+        #region GetAllUsers
+        public List<User> GetAllUsers() => _db.Users.ToList();
+        #endregion
+
         /// <summary>
         /// Get user id by userName
         /// </summary>

@@ -46,6 +46,7 @@ namespace DigiMoallem.BLL.DTOs.UserPanel
         public string ImageName { get; set; }
 
         [Display(Name = "تلفن همراه")]
+        [RegularExpression(@"(0|\+98)?([ ]|,|-|[()]){0,2}9[1|2|3|4]([ ]|,|-|[()]){0,2}(?:[0-9]([ ]|,|-|[()]){0,2}){8}", ErrorMessage = "لطفاً شماره تلفن معتبر وارد نمایید.")]
         public string PhoneNumber { get; set; }
     }
 }

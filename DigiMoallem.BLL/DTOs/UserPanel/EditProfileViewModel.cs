@@ -27,6 +27,10 @@ namespace DigiMoallem.BLL.DTOs.UserPanel
 
         public DateTime? UpdateDate { get; set; }
 
+        [Display(Name = "گروه های علاقه مندی")]
+        [Required(ErrorMessage = "لطفاً حداقل یک {0} را انتخاب نمایید.")]
+        public int GroupId { get; set; }
+
         [Display(Name = "رشته")]
         public string ScientificField { get; set; }
 

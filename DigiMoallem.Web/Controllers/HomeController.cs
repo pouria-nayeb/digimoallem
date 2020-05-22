@@ -6,7 +6,6 @@ using DigiMoallem.BLL.Helpers.EmailServices;
 using DigiMoallem.BLL.Helpers.Generators;
 using DigiMoallem.BLL.Helpers.Security;
 using DigiMoallem.BLL.Interfaces;
-using DigiMoallem.DAL.Entities.Courses;
 using DigiMoallem.DAL.Entities.General;
 using DigiMoallem.DAL.Entities.Users;
 using Microsoft.AspNetCore.Http;
@@ -129,6 +128,13 @@ namespace DigiMoallem.Web.Controllers
             {
                 // email is not unique
                 ModelState.AddModelError("Email", "ایمیل شما تکراری می باشد.");
+                return View(workVM);
+            }
+
+            if (await _userService.IsPhoneNumberExistAsync(workVM.PhoneNumber))
+            {
+                // mobile is not unique
+                ModelState.AddModelError("Mobile", "تلفن همراه وارد شده تکراری است.");
                 return View(workVM);
             }
 

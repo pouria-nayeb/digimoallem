@@ -1,8 +1,11 @@
 ﻿@model EditProfileViewModel
 @inject IPermissionService permissionService
+@inject IUserService userService
+@inject ICourseService courseService
 
 @{
     ViewData["Title"] = "ویرایش حساب کاربری";
+    var userId = userService.GetUserIdByUserName(User.Identity.Name);
 }
 
 <div class="loader d-flex justify-content-center align-items-center" style="display: block;">
@@ -82,6 +85,38 @@
                             <span class="text-danger" asp-validation-for="PhoneNumber"></span>
                         </div>
 
+                        <!-- groups -->
+                        <div class="form-group mb-4">
+                            <label class="d-block" asp-for="GroupId"></label>
+
+                            @if (courseService.GetGroupsToManageCourse().Any())
+                            {
+
+                                @foreach (var group in courseService.GetGroupsToManageCourse())
+                                {
+                                    <div class="form-check d-inline-block mr-1 py-2">
+                                        <label class="form-check-label"
+                                               for="@group.Value">
+
+                                            <input type="checkbox"
+                                                   class="form-check-input"
+                                                   name="groupIds"
+                                                   value="@group.Value"
+                                                   id="@group.Value"
+                                                   @((userService.GetUserGroups(userId) .Any(ug => ug == int.Parse(group.Value))) ? "checked" : "") />
+
+                                            <span class="mr-4">@group.Text</span>
+
+                                        </label>
+                                    </div>
+
+                                }
+
+                            }
+
+                            <span asp-validation-for="GroupId" class="text-danger"></span>
+                        </div>
+
                         @if (permissionService.CheckPermission(22, User.Identity.Name))
                         {
 
@@ -93,6 +128,14 @@
                                        asp-for="ScientificField" />
 
                                 <span class="text-danger" asp-validation-for="ScientificField"></span>
+                            </div>
+
+                            <!-- educational level -->
+                            <div class="form-group">
+                                <label asp-for="EducationalLevel"></label>
+                                <input type="text" asp-for="EducationalLevel" class="form-control" />
+
+                                <span asp-validation-for="EducationalLevel"></span>
                             </div>
 
                             <div class="row m-0">
@@ -119,14 +162,6 @@
                                         <span class="text-danger" asp-validation-for="Sheba"></span>
                                     </div>
                                 </div>
-                            </div>
-
-                            <!-- educational level -->
-                            <div class="form-group">
-                                <label asp-for="EducationalLevel"></label>
-                                <input type="text" asp-for="EducationalLevel" class="form-control" />
-
-                                <span asp-validation-for="EducationalLevel"></span>
                             </div>
 
                             <!-- description -->

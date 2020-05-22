@@ -2,9 +2,14 @@
 @model DigiMoallem.Web.Pages.Admin.Accountings.BoxModel
 
 @inject IAccountingService accountingService
+@inject IUserService UserService
 
 @{
     ViewData["Title"] = "صندوق";
+
+    string startDate = HttpContext.Request.Query["startDate"];
+    string endDate = HttpContext.Request.Query["endDate"];
+
     var j = 1;
     List<int> withdraws = new List<int>();
     List<int> deposits = new List<int>();
@@ -46,7 +51,7 @@
                 <!-- start date -->
                 <div class="form-group mb-4">
                     <label class="d-block" for="startDate"> تاریخ شروع: </label>
-                    <input id="startDate" name="startDate" class="mx-2 w-75" />
+                    <input id="startDate" name="startDate" value="@(!string.IsNullOrEmpty(startDate)? startDate : "")" class="mx-2 w-75" />
                 </div>
 
             </div>
@@ -55,7 +60,7 @@
                 <!-- end date -->
                 <div class="form-group mb-4">
                     <label class="d-block" for="endDate"> تاریخ اتمام: </label>
-                    <input id="endDate" name="endDate" class="mx-2 w-75" />
+                    <input id="endDate" name="endDate" value="@(!string.IsNullOrEmpty(endDate)? endDate : "")" class="mx-2 w-75" />
                 </div>
 
             </div>
@@ -94,17 +99,20 @@
                 </tr>
                 @foreach (var detail in Model.searchOrderVM.OrderDetailPayments)
                 {
+                    <text>
+                       @{var teacher = UserService.GetUserById(detail.TeacherId);}
+                    </text>
                     @if (detail.IsPayment)
                     {
-                        <tr class="table-dark">
+                        <tr>
                             <td class="english-font">@(j++)</td>
-                            <td>@detail.Title</td>
+                            <td>واریز به @($"{teacher.FirstName} {teacher.LastName}") <span class="text-muted">@detail.Title</span> </td>
                             <td class="english-font">@detail.CreateDate.ToPersianDate()</td>
                             <td>
-                                @detail.Payment.ThreeDigitSeperator()
+                                @detail.Payment.ToString("#,0")
                             </td>
                             <td>
-                                @(((detail.Price).ToString("#,0")))
+                                0
                             </td>
                             <td>
                                 @{
@@ -118,19 +126,44 @@
                     }
                     else
                     {
-                        <tr class="table-success">
+                       <!-- teacher share -->
+                        <tr>
                             <td class="english-font">@(j++)</td>
-                            <td>@detail.Title / @detail.TeacherPercent درصد / @detail.Price.ThreeDigitSeperator()</td>
+                            <td>
+                                درس <span class="text-muted">@detail.Title</span> با <span class="text-muted">@detail.TeacherPercent%</span> استاد <span class="text-muted">@($"{UserService.GetUserById(detail.TeacherId).FirstName} {UserService.GetUserById(detail.TeacherId).LastName}")</span>
+                            </td>
                             <td class="english-font">@detail.CreateDate.ToPersianDate()</td>
                             <td>
-                                @detail.Payment.ToString("#,0")
+                                0
                             </td>
                             <td>
-                                @(((detail.Price).ToString("#,0")))
+                                @(((accountingService.TeacherShare(detail.Price, detail.TeacherPercent)).ToString("#,0")))
                             </td>
                             <td>
                                 @{
-                                    withdraws.Add((detail.Price));
+                                    withdraws.Add(((accountingService.TeacherShare(detail.Price, detail.TeacherPercent))));
+                                    deposits.Add(detail.Payment);
+                                }
+
+                                @((withdraws.Sum() - deposits.Sum()).ToString("#,0"))
+                            </td>
+                        </tr>
+
+                        <!-- digimoallem share -->
+                        <tr>
+                            <td class="english-font">@(j++)</td>
+                            <td>سهم دیجی معلم از <span class="text-muted">@detail.Title</span> با <span class="text-muted">@detail.TeacherPercent%</span> استاد <span class="text-muted">@($"{UserService.GetUserById(detail.TeacherId).FirstName} {UserService.GetUserById(detail.TeacherId).LastName}")</span></td>
+                            <td class="english-font">@detail.CreateDate.ToPersianDate()</td>
+                            <td>
+                                0
+                            </td>
+                            <td>
+                                @((((detail.Price - accountingService.TeacherShare(detail.Price, detail.TeacherPercent))).ToString("#,0")))
+                            </td>
+                            <td>
+                                @{
+                                    withdraws.Add(((accountingService.TeacherShare(detail.Price, detail.TeacherPercent))));
+                                    withdraws.Add(((detail.Price - accountingService.TeacherShare(detail.Price, detail.TeacherPercent))));
                                     deposits.Add(detail.Payment);
                                 }
 
@@ -170,7 +203,7 @@
 
 @section Scripts {
     <script src="~/admin/js/jquery-1.9.1.min.js"></script>
-    <script src="~/admin/js/kendo.all.min.js"></script>
+    <script src="~/admin/js/kendo.all.min.js" asp-append-version="true"></script>
     <script>
         // create DatePicker from input HTML element
         $("#startDate").kendoDatePicker();

@@ -1,8 +1,11 @@
 ﻿@model UserPanelViewModel
 @inject IPermissionService permissionService
+@inject IUserService userService
+@inject ICourseService courseService
 
 @{
     ViewData["Title"] = "پروفایل کاربری";
+    var userId = userService.GetUserIdByUserName(User.Identity.Name);
 }
 
 <div class="loader d-flex justify-content-center align-items-center" style="display: block;">
@@ -69,6 +72,26 @@
                             <tr>
                                 <th>تاریخ ثبت نام</th>
                                 <td>@Model.RegisterDate.ToPersianDate()</td>
+                            </tr>
+                            <tr>
+                                <th>گروه های علاقه مندی</th>
+                                <td>
+                                    @if (userService.GetUserGroups(userId).Any())
+                                    {
+
+                                        @foreach (var groupId in userService.GetUserGroups(userId))
+                                        {
+                                            <button class="btn btn-outline-info btn-sm">
+                                                @courseService.GetGroupById(groupId).Title
+                                            </button>
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        <text>گروهی در لیست علایق شما وجود ندارد.</text>
+                                    }
+                                </td>
                             </tr>
                             <tr>
                                 <th>آخرین ورود شما</th>

@@ -7,6 +7,7 @@ using DigiMoallem.BLL.Helpers.Generators;
 using DigiMoallem.BLL.Helpers.Security;
 using DigiMoallem.BLL.Interfaces;
 using DigiMoallem.DAL.Context;
+using DigiMoallem.DAL.Entities.Courses;
 using DigiMoallem.DAL.Entities.Transactions;
 using DigiMoallem.DAL.Entities.Users;
 using Microsoft.AspNetCore.Http;
@@ -56,6 +57,21 @@ namespace DigiMoallem.BLL.Services
         public async Task<bool> IsEmailExistAsync(string email)
         {
             return await _db.Users.AnyAsync(u => u.Email == email);
+        }
+        #endregion
+
+        /// <summary>
+        /// Check uniqueness of phone number
+        /// </summary>
+        /// <param name="email"></param>
+        #region CheckPhoneNumberExistance
+        public bool IsPhoneNumberExist(string phoneNumber)
+        {
+            return _db.Users.Any(u => u.PhoneNumber == phoneNumber);
+        }
+        public async Task<bool> IsPhoneNumberExistAsync(string phoneNumber)
+        {
+            return await _db.Users.AnyAsync(u => u.PhoneNumber == phoneNumber);
         }
         #endregion
 
@@ -153,6 +169,45 @@ namespace DigiMoallem.BLL.Services
         }
         #endregion
 
+        #region AddGroupsToUser
+        public void AddGroupsToUser(int userId, List<int> groupsIds)
+        {
+            foreach (var groupId in groupsIds)
+            {
+                _db.UserGroups.Add(new UserGroup
+                {
+                    GroupId = groupId,
+                    UserId = userId
+                });
+
+                Save();
+            }
+        }
+        #endregion
+
+        #region UpdateGroupsOfUser
+        public void UpdateGroupsOfUser(int userId, List<int> groupsIds)
+        {
+            _db.UserGroups.Where(pr => pr.UserId == userId)
+                    .ToList().ForEach(pr => _db.UserGroups.Remove(pr));
+
+            AddGroupsToUser(userId, groupsIds);
+        }
+        #endregion
+
+        #region GetUserGroups
+        public List<int> GetUserGroups(int userId) => _db.UserGroups
+            .Where(ug => ug.UserId == userId)
+            .Select(ug => ug.GroupId)
+            .ToList();
+        #endregion
+
+        #region GetAllUserGroups
+        public List<int> GetAllUserGroups() => _db.UserGroups
+            .Select(ug => ug.GroupId)
+            .ToList();
+        #endregion
+
         /// <summary>
         /// Active user account with a disposible token
         /// </summary>
@@ -168,7 +223,9 @@ namespace DigiMoallem.BLL.Services
 
             user.IsActive = true;
             user.ActivationCode = CodeGenerator.GenerateUniqueCode();
+
             Save();
+
             return true;
         }
         public async Task<bool> ActiveAccountAsync(string activeCode)
@@ -181,7 +238,9 @@ namespace DigiMoallem.BLL.Services
 
             user.IsActive = true;
             user.ActivationCode = CodeGenerator.GenerateUniqueCode();
+
             await SaveAsync();
+
             return true;
         }
         #endregion
@@ -803,8 +862,6 @@ namespace DigiMoallem.BLL.Services
         }
         #endregion
 
-
-
         /// <summary>
         /// Get all users to manage
         /// </summary>
@@ -959,19 +1016,19 @@ namespace DigiMoallem.BLL.Services
 
         #region GetTeachers
 
-        public UserViewModel GetTeachers(int pageId, string filterEmail = "", string filterUserName = "")
+        public UserViewModel GetTeachers(int pageId, string filterPhoneNumber = "", string filterName = "")
         {
             IQueryable<User> users = _db.Users
                 .Where(u => u.UserInRoles.Any(ur => ur.RoleId == 2 && u.IsDelete == false));
 
-            if (!string.IsNullOrEmpty(filterEmail))
+            if (!string.IsNullOrEmpty(filterPhoneNumber))
             {
-                users = users.Where(u => u.Email.Contains(filterEmail.TextTransform()));
+                users = users.Where(u => u.PhoneNumber.Contains(filterPhoneNumber));
             }
 
-            if (!string.IsNullOrEmpty(filterUserName))
+            if (!string.IsNullOrEmpty(filterName))
             {
-                users = users.Where(u => u.UserName.Contains(filterUserName.TextTransform()));
+                users = users.Where(u => (u.FirstName + " " + u.LastName).Contains(filterName));
             }
 
             // pagination logic

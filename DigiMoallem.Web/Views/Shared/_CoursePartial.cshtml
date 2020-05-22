@@ -1,7 +1,7 @@
 ﻿@model DisplayCourseViewModel
 
 <div class="col-12 col-sm-6 col-lg-4">
-    <div class="card border border-light my-3">
+    <div class="card position-relative border border-light my-3">
         <img src="~/images/courses/@Model.ImageName"
              alt="@Model.Title"
              class="w-100" />
@@ -10,6 +10,13 @@
            class="d-block text-center text-purple my-3 min-height-60px">
             @Model.Title
         </a>
+
+        @if (Model.Off)
+        {
+            <span class="off-ribbon position-absolute p-2">
+                %@Model.OffPercentage
+            </span>
+        }
 
         <div class="card-footer p-0 clearfix">
             <span class="badge badge-info bg-purple m-1 py-2 float-left">

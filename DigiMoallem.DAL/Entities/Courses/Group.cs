@@ -35,6 +35,8 @@ namespace DigiMoallem.DAL.Entities.Courses
         [InverseProperty("SubGroup")]
         public List<Course> SubCourses { get; set; }
 
+        public List<UserGroup> UserGroups { get; set; }
+
         #endregion
     }
 }

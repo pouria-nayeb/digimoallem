@@ -68,6 +68,10 @@ namespace DigiMoallem.DAL.Entities.Users
 
         public int? Balance { get; set; }
 
+        [Display(Name = "کد ملی")]
+        [MaxLength(50, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]
+        public string NationalId { get; set; }
+
         [Display(Name = "کد فعال سازی")]
         [MaxLength(100, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]
         public string ActivationCode { get; set; }
@@ -120,6 +124,8 @@ namespace DigiMoallem.DAL.Entities.Users
         public List<RateCourse> RateCourses { get; set; }
 
         public List<LikeCourse> LikeCourses { get; set; }
+
+        public List<UserGroup> UserGroups { get; set; }
 
         #endregion
     }

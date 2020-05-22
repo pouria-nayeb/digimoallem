@@ -1,9 +1,17 @@
 ﻿@page
 @model DigiMoallem.Web.Pages.Admin.Accountings.SearchTeacherAndCourseModel
 
+@inject IAccountingService accountingService
+@inject IUserService userService
+
 @{
-    ViewData["Title"] = "جستجو درآمد استاد و درس";
-    List<int> sum = new List<int>();
+    ViewData["Title"] = "جستجو صورت وضعیت استاد";
+
+    string startDate = HttpContext.Request.Query["startDate"];
+    string endDate = HttpContext.Request.Query["endDate"];
+
+    var j = 1;
+    List<int> withdraws = new List<int>();
 }
 
 @section Styles {
@@ -26,7 +34,7 @@
         <i class="fas fa-arrow-right ml-2"></i> بازگشت
     </a>
 
-    <h1 class="my-5"> <i class="fa fa-search ml-2"></i> @ViewData["Title"]</h1>
+    <h1 class="my-5"> <i class="fa fa-search ml-1"></i> @ViewData["Title"]</h1>
 
     <form method="get">
 
@@ -37,13 +45,14 @@
         <div class="card">
 
             <div class="card-header">
-                <i class="fa fa-search ml-1"></i> جستجو بر اساس استاد و درس
+                <i class="fa fa-search ml-2"></i> @ViewData["Title"]
             </div>
 
             <div class="card-body">
 
                 <div class="row">
-                    <div class="col-12 col-sm-12 col-md-8 col-lg-8">
+
+                    <div class="col-12 col-md-6">
 
                         <!-- teachers -->
                         <div class="form-group mb-4">
@@ -68,29 +77,33 @@
                         </div>
 
                     </div>
-                    <div class="col-12 col-sm-12 col-md-4 col-lg-4">
+
+                    <div class="col-12 col-md-6">
+
+                        <input type="hidden" value="@ViewData["Id"]" name="id" />
 
                         <!-- start date -->
                         <div class="form-group mb-4">
                             <label class="d-block" for="startDate"> تاریخ شروع: </label>
-                            <input id="startDate" name="startDate" class="mx-2 w-75" />
+                            <input id="startDate" name="startDate" value="@(!string.IsNullOrEmpty(startDate)? startDate : "")" class="mx-2 w-75" />
                         </div>
 
                         <!-- end date -->
                         <div class="form-group mb-4">
                             <label class="d-block" for="endDate"> تاریخ اتمام: </label>
-                            <input id="endDate" name="endDate" class="mx-2 w-75" />
+                            <input id="endDate" name="endDate" value="@(!string.IsNullOrEmpty(endDate)? endDate : "")" class="mx-2 w-75" />
                         </div>
 
                     </div>
-                </div>
 
-
-                <div class="form-group my-5">
-                    <!-- search -->
-                    <button type="submit" class="btn btn-outline-success">
-                        <i class="fa fa-search ml-2"></i> جستجو
-                    </button>
+                    <div class="col-12 col-md-2">
+                        <div class="form-group my-5">
+                            <!-- create -->
+                            <button type="submit" class="btn btn-outline-success">
+                                <i class="fa fa-search ml-2"></i> جستجو
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
             </div>
@@ -101,38 +114,48 @@
 
     <hr />
 
-    <div class="clearfix my-4">
-        <button class="btn btn-primary float-left">
-            کل درآمد دوره: @Model.searchOrderVM.TotalPayment.ThreeDigitSeperator()
-        </button>
-    </div>
-
     @if (Model.searchOrderVM.OrderDetails.Any())
     {
         <div class="table-responsive">
             <table class="table table-bordered table-striped">
                 <tr>
-                    <th>نام درس</th>
-                    <th>قیمت درس</th>
+                    <th>ردیف</th>
+                    <th>شرح</th>
+                    <th>تاریخ</th>
+                    <th>بدهکار (تومان)</th>
+                    <th>بستانکار (تومان)</th>
+                    <th>مانده کل (تومان)</th>
                 </tr>
-                @foreach (var orderDetail in Model.searchOrderVM.OrderDetails)
+                @foreach (var detail in Model.searchOrderVM.OrderDetails)
                 {
-                    <tr>
-                        <td>@orderDetail.Course.Title</td>
+                    <tr class="d-none">
                         <td>
-                            @(((orderDetail.Price * orderDetail.TeacherPercent.Value)/100).ThreeDigitSeperator())
+                            @{
+                                var teacher = userService.GetUserById(detail.Course.TeacherId);
+                            }
                         </td>
                     </tr>
-                    <tr class="d-none">
-                        @{sum.Add(((orderDetail.Price * orderDetail.TeacherPercent.Value) / 100));}
+                    <tr>
+                        <td class="english-font">@(j++)</td>
+                        <td>
+                            درس <span class="text-muted">@detail.Course.Title</span> با <span class="text-muted">@detail.TeacherPercent%</span> استاد <span class="text-muted">@($"{userService.GetUserById(detail.Course.TeacherId).FirstName} {userService.GetUserById(detail.Course.TeacherId).LastName}")</span>
+                        </td>
+                        <td class="english-font">@detail.Order.CreateDate.ToPersianDate()</td>
+                        <td>
+                            0
+                        </td>
+                        <td>
+                            @(((accountingService.TeacherShare(detail.Price, detail.TeacherPercent.Value)).ToString("#,0")))
+                        </td>
+                        <td>
+                            @{
+                                withdraws.Add(((detail.Price * detail.TeacherPercent.Value) / 100));
+                            }
+
+                            @((withdraws.Sum()).ToString("#,0"))
+                        </td>
                     </tr>
                 }
-                <tr class="table-success">
-                    <td class="text-left">مجموع درآمد استاد: </td>
-                    <td>
-                        @sum.Sum().ThreeDigitSeperator()
-                    </td>
-                </tr>
             </table>
         </div>
     }
@@ -151,7 +174,7 @@
                 @for (int i = 1; i <= Model.searchOrderVM.PagesCount; i++)
                 {
                     <li class="page-item english-font @((Model.searchOrderVM.PageNumber == i) ? "active" : "")">
-                        <a href="/Admin/Accountings/Search?pageNumber=@i" class="page-link">@i</a>
+                        <a href="/Admin/Accountings/Search?pageId=@i" class="page-link">@i</a>
                     </li>
                 }
             </ul>
@@ -173,4 +196,34 @@
         $("#endDate").kendoDatePicker();
     </script>
     <script src="~/admin/js/select2.min.js" asp-append-version="true"></script>
+    <script>
+        @{
+            if (!string.IsNullOrEmpty(HttpContext.Request.Query["teacherId"]))
+            {
+                int teacherId = int.Parse(HttpContext.Request.Query["teacherId"]);
+                <text>
+                let teacherList = $("#teacherId").children("option");
+    for (let index in teacherList) {
+        if (teacherList[index].value == @teacherId) {
+            teacherList[index].setAttribute("selected","selected")
+        }
+    }
+        </text>
+            }
+
+            if (!string.IsNullOrEmpty(HttpContext.Request.Query["courseId"]))
+            {
+                int courseId = int.Parse(HttpContext.Request.Query["courseId"]);
+                <text>
+                let courseList = $("#courseId").children("option");
+        for (let index in courseList) {
+            if (courseList[index].value == @courseId) {
+                courseList[index].setAttribute("selected","selected")
+        }
+        }
+                </text>
+            }
+         }
+    </script>
+}
 }

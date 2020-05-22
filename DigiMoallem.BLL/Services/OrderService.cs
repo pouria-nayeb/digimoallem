@@ -332,6 +332,14 @@ namespace DigiMoallem.BLL.Services
         }
         #endregion
 
+        #region GetOrdersOfTeacherCount
+        public int GetOrdersOfTeacherCount(int teacherId) => _db.OrderDetails
+            .Include(od => od.Course)
+            .Include(od => od.Order)
+            .Where(od => od.Course.TeacherId == teacherId && od.Order.IsFinally == true)
+            .Count();
+        #endregion
+
         /// <summary>
         /// Guide user to payment system (?)
         /// </summary>

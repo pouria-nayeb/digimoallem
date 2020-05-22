@@ -4,14 +4,16 @@ using DigiMoallem.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DigiMoallem.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200519162530_AddNationalIdToUser")]
+    partial class AddNationalIdToUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -505,25 +507,6 @@ namespace DigiMoallem.DAL.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserCourses");
-                });
-
-            modelBuilder.Entity("DigiMoallem.DAL.Entities.Courses.UserGroup", b =>
-                {
-                    b.Property<int>("UserGroupId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("GroupId");
-
-                    b.Property<int>("UserId");
-
-                    b.HasKey("UserGroupId");
-
-                    b.HasIndex("GroupId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserGroups");
                 });
 
             modelBuilder.Entity("DigiMoallem.DAL.Entities.General.Advertise", b =>
@@ -1262,19 +1245,6 @@ namespace DigiMoallem.DAL.Migrations
 
                     b.HasOne("DigiMoallem.DAL.Entities.Users.User", "User")
                         .WithMany("UserCourses")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("DigiMoallem.DAL.Entities.Courses.UserGroup", b =>
-                {
-                    b.HasOne("DigiMoallem.DAL.Entities.Courses.Group", "Group")
-                        .WithMany("UserGroups")
-                        .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("DigiMoallem.DAL.Entities.Users.User", "User")
-                        .WithMany("UserGroups")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });

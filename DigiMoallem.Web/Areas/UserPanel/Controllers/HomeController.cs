@@ -50,6 +50,8 @@ namespace DigiMoallem.Web.Areas.UserPanel.Controllers
         [Route("UserPanel/Edit")]
         public async Task<IActionResult> Edit()
         {
+            SeedGroupsSelectListData();
+
             return View(await _userService.GetDetailsToEditUserProfileAsync(User.Identity.Name));
         }
 
@@ -59,7 +61,7 @@ namespace DigiMoallem.Web.Areas.UserPanel.Controllers
         /// <param name="model"></param>
         [Route("UserPanel/Edit")]
         [HttpPost]
-        public async Task<IActionResult> Edit(EditProfileViewModel profile)
+        public async Task<IActionResult> Edit(EditProfileViewModel profile, List<int> groupIds)
         {
             if (ModelState.IsValid)
             {
@@ -72,7 +74,36 @@ namespace DigiMoallem.Web.Areas.UserPanel.Controllers
                 {
                     // email is not unique
                     ModelState.AddModelError("Email", "ایمیل شما تکراری می باشد.");
+
+                    SeedGroupsSelectListData();
+
                     return View(profile);
+                }
+
+                if (!string.IsNullOrEmpty(profile.PhoneNumber) && user.PhoneNumber == null)
+                {
+                    if (await _userService.IsPhoneNumberExistAsync(profile.PhoneNumber))
+                    {
+                        // phoneNumber is not unique
+                        ModelState.AddModelError("PhoneNumber", "تلفن تماس شما تکراری می باشد.");
+
+                        SeedGroupsSelectListData();
+
+                        return View(profile);
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(profile.PhoneNumber) && user.PhoneNumber != profile.PhoneNumber)
+                {
+                    if (await _userService.IsPhoneNumberExistAsync(profile.PhoneNumber))
+                    {
+                        // phoneNumber is not unique
+                        ModelState.AddModelError("PhoneNumber", "تلفن تماس شما تکراری می باشد.");
+
+                        SeedGroupsSelectListData();
+
+                        return View(profile);
+                    }
                 }
 
                 if (await _userService.UpdateProfileAsync(User.Identity.Name, profile))
@@ -80,9 +111,11 @@ namespace DigiMoallem.Web.Areas.UserPanel.Controllers
                     // success
                     profile.UpdateDate = DateTime.Now;
 
+                    _userService.UpdateGroupsOfUser(user.UserId, groupIds);
+
                     // Send activation email
                     #region UpdateProfileData
-                    // SendActivationEmail("_UserUpdateProfile", "به روزرسانی پروفایل", profile);
+                    SendActivationEmail("_UserUpdateProfile", "به روزرسانی پروفایل", profile);
                     #endregion
 
                     TempData["Success"] = "اطلاعات شما در سامانه با موفقیت ویرایش شد.";
@@ -97,6 +130,8 @@ namespace DigiMoallem.Web.Areas.UserPanel.Controllers
             }
 
             // user inputs is not valid
+            SeedGroupsSelectListData();
+
             return View(profile);
         }
 
@@ -235,6 +270,8 @@ namespace DigiMoallem.Web.Areas.UserPanel.Controllers
             return View(searchOrderVM);
         }
 
+        #region Helpers
+
         /// <summary>
         /// Send activation code
         /// </summary>
@@ -244,5 +281,13 @@ namespace DigiMoallem.Web.Areas.UserPanel.Controllers
             string body = _viewRender.RenderToString(specificPage, profile);
             SendEmailClient.Send(profile.Email, title, body);
         }
+
+        private void SeedGroupsSelectListData()
+        {
+            var groups = _courseService.GetGroupsToManageCourse();
+            ViewData["Groups"] = new SelectList(groups, "Value", "Text");
+        }
+
+        #endregion
     }
 }

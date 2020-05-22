@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -22,34 +23,41 @@ namespace DigiMoallem.Web.Controllers
     public class AccountController : Controller
     {
         private readonly IUserService _userService;
+        private readonly ICourseService _courseService;
         private readonly IViewRenderService _viewRender;
         private readonly IConfiguration _config;
 
-        public AccountController(IUserService userService, IViewRenderService viewRender, IConfiguration config)
+        public AccountController(IUserService userService, 
+            ICourseService courseService, 
+            IViewRenderService viewRender, 
+            IConfiguration config)
         {
             _userService = userService;
+            _courseService = courseService;
             _viewRender = viewRender;
             _config = config;
         }
 
         /// <summary>
-        /// User register page
+        /// User register page.
         /// </summary>
         /// <returns>HTML Page</returns>
         [Route("Register")]
         [HttpGet]
         public IActionResult Register()
         {
+            SeedGroupsData();
+
             return View();
         }
 
         /// <summary>
-        /// Implement logic to regsiter a user
+        /// Implement logic to regsiter a user.
         /// </summary>
         /// <param name="register"> AccountViewModel </param>
         [Route("Register")]
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterViewModel register)
+        public async Task<IActionResult> Register(RegisterViewModel register, List<int> groupIds)
         {
             if (ModelState.IsValid)
             {
@@ -69,6 +77,7 @@ namespace DigiMoallem.Web.Controllers
                 {
                     // username is not unique
                     ModelState.AddModelError("UserName", "نام کاربری شما تکراری می باشد.");
+                    SeedGroupsData();
                     return View(register);
                 }
 
@@ -76,6 +85,7 @@ namespace DigiMoallem.Web.Controllers
                 {
                     // email is not unique
                     ModelState.AddModelError("Email", "ایمیل شما تکراری می باشد.");
+                    SeedGroupsData();
                     return View(register);
                 }
 
@@ -93,9 +103,11 @@ namespace DigiMoallem.Web.Controllers
 
                 if (await _userService.AddUserAsync(user) > 0)
                 {
+                    _userService.AddGroupsToUser(user.UserId, groupIds);
+
                     #region ActivationEmail
                     // Send activation email
-                    SendActivationEmail("_ActivationEmail", "فعالسازی", user);
+                    SendActivationEmail("_ActivationEmail", "فعالسازی حساب کاربری", user);
                     #endregion
 
                     // db success
@@ -105,12 +117,14 @@ namespace DigiMoallem.Web.Controllers
                 {
                     // db failure
                     ViewData["DbFailure"] = "بروز خطا در پایگاه داده، لطفاً مراتب را به مدیریت سامانه گزارش دهید.";
+                    SeedGroupsData();
                     return View(register);
                 }
             }
 
             // user inputs is not valid
             ViewData["NotValid"] = "کاربر گرامی، لطفاً اطلاعات معتبر وارد نمایید.";
+            SeedGroupsData();
             return View(register);
         }
 
@@ -180,7 +194,7 @@ namespace DigiMoallem.Web.Controllers
                         await HttpContext.SignInAsync(principal, properties);
 
                         #region SendEmailWhenUserLoggedIn
-                        // SendActivationEmail("_UserLoggedIn", "ورود کاربر", user);
+                        SendActivationEmail("_UserLoggedIn", "ورود کاربر", user);
                         #endregion
 
                         #endregion
@@ -200,7 +214,7 @@ namespace DigiMoallem.Web.Controllers
                         ModelState.AddModelError("Email", "حساب کاربری شما فعال نمی باشد، لطفاً به ایمیل خود مراجعه و حساب کاربری خود را فعال کنید.");
 
                         // Resend activation email
-                        SendActivationEmail("_ActivationEmail", "فعالسازی", user);
+                        SendActivationEmail("_ActivationEmail", "فعالسازی حساب کاربری", user);
 
                         return View(login);
                     }
@@ -485,6 +499,11 @@ namespace DigiMoallem.Web.Controllers
         {
             string body = _viewRender.RenderToString(specificPage, userToken);
             SendEmailClient.Send("pouria-nayeb@outlook.com", title, body);
+        }
+
+        private void SeedGroupsData() {
+            var groups = _courseService.GetGroupsToManageCourse();
+            ViewData["Groups"] = new SelectList(groups, "Value", "Text");
         }
 
         #endregion

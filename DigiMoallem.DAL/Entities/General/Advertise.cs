@@ -24,5 +24,13 @@ namespace DigiMoallem.DAL.Entities.General
         [Display(Name = "توضیحات")]
         [MaxLength(500, ErrorMessage = "{0} نمی تواند از {1} کاراکتر بیشتر باشد.")]
         public string Description { get; set; }
+
+        public AdvertisePage AdvertisePage { get; set; }
+    }
+
+    public enum AdvertisePage 
+    { 
+        Blog = 1,
+        Course = 2
     }
 }

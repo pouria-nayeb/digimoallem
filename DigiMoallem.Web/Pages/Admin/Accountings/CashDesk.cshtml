@@ -1,9 +1,14 @@
 ﻿@page
 @model DigiMoallem.Web.Pages.Admin.Accountings.CashDeskModel
 @inject IAccountingService accountingService
+@inject IUserService userService
 
 @{
-    ViewData["Title"] = "صندوق";
+    ViewData["Title"] = "صورت حساب دیجی معلم";
+
+    string startDate = HttpContext.Request.Query["startDate"];
+    string endDate = HttpContext.Request.Query["endDate"];
+
     var j = 1;
     List<int> withdraws = new List<int>();
     List<int> deposits = new List<int>();
@@ -35,15 +40,13 @@
 
         <div asp-validation-summary="ModelOnly" class="text-danger my-4"></div>
 
-        <div class="alert alert-danger" id="alert">کد وارد شده تکراری می باشد.</div>
-
         <div class="row">
             <div class="col-12 col-md-5">
 
                 <!-- start date -->
                 <div class="form-group mb-4">
                     <label class="d-block" for="startDate"> تاریخ شروع: </label>
-                    <input id="startDate" name="startDate" class="mx-2 w-75" />
+                    <input id="startDate" name="startDate" value="@(!string.IsNullOrEmpty(startDate)? startDate : "")" class="mx-2 w-75" />
                 </div>
 
             </div>
@@ -52,18 +55,19 @@
                 <!-- end date -->
                 <div class="form-group mb-4">
                     <label class="d-block" for="endDate"> تاریخ اتمام: </label>
-                    <input id="endDate" name="endDate" class="mx-2 w-75" />
+                    <input id="endDate" name="endDate" value="@(!string.IsNullOrEmpty(endDate)? endDate : "")" class="mx-2 w-75" />
                 </div>
 
             </div>
 
             <div class="col-12 col-md-2">
 
-                <div class="form-group my-5">
+                <div class="form-group my-3">
                     <!-- create -->
                     <button type="submit" class="btn btn-outline-success">
                         <i class="fa fa-search ml-2"></i> جستجو
                     </button>
+
                 </div>
 
             </div>
@@ -71,13 +75,16 @@
 
     </form>
 
-    <hr />
-
-    <div class="clearfix my-4">
-        <button class="btn btn-outline-secondary float-left">
-            کل درآمد: @Model.searchOrderVM.TotalOrderDetailsPayments.ThreeDigitSeperator()
-        </button>
+    <div class="clearfix my-5">
+        @if (!string.IsNullOrEmpty(startDate) && !string.IsNullOrEmpty(endDate))
+        {
+            <a href="/accounting/DigiMoallemTransactions?startDate=@startDate&endDate=@endDate" class="btn btn-outline-secondary float-right">
+                <i class="fa fa-file-excel fa-fw"></i> دریافت فایل اکسل
+            </a>
+        }
     </div>
+
+    <hr />
 
     @if (Model.searchOrderVM.OrderDetailPayments.Any())
     {
@@ -87,23 +94,25 @@
                     <th>ردیف</th>
                     <th>شرح</th>
                     <th>تاریخ</th>
-                    <th>بدهکار</th>
-                    <th>بستانکار</th>
-                    <th>مانده کل</th>
+                    <th>بدهکار (تومان)</th>
+                    <th>بستانکار (تومان)</th>
+                    <th>مانده کل (تومان)</th>
                 </tr>
                 @foreach (var detail in Model.searchOrderVM.OrderDetailPayments)
                 {
                     @if (detail.IsPayment)
                     {
-                        <tr class="table-success">
+                        <tr>
                             <td class="english-font">@(j++)</td>
-                            <td>@detail.Title</td>
+                            <td>
+                                واریز به دیجی معلم <span class="text-muted">@detail.Title</span>
+                            </td>
                             <td class="english-font">@detail.CreateDate.ToPersianDate()</td>
                             <td>
-                                @(((detail.Price - (accountingService.TeacherShare(detail.Price, detail.TeacherPercent))).ThreeDigitSeperator()))
+                                @detail.Payment.ToString("#,0")
                             </td>
                             <td>
-                                @detail.Payment.ThreeDigitSeperator()
+                                0
                             </td>
                             <td>
                                 @{
@@ -111,29 +120,31 @@
                                     deposits.Add(detail.Payment);
                                 }
 
-                                @((withdraws.Sum() - deposits.Sum()).ThreeDigitSeperator())
+                                @((withdraws.Sum() - deposits.Sum()).ToString("#,0"))
                             </td>
                         </tr>
                     }
                     else
                     {
-                        <tr class="table-dark">
+                        <tr>
                             <td class="english-font">@(j++)</td>
-                            <td>@detail.Title</td>
+                            <td>
+                                سهم دیجی معلم از <span class="text-muted">@detail.Title</span> با <span class="text-muted">@detail.TeacherPercent%</span> استاد <span class="text-muted">@($"{userService.GetUserById(detail.TeacherId).FirstName} {userService.GetUserById(detail.TeacherId).LastName}")</span>
+                            </td>
                             <td class="english-font">@detail.CreateDate.ToPersianDate()</td>
                             <td>
-                                @(((accountingService.TeacherShare(detail.Price, detail.TeacherPercent)).ThreeDigitSeperator()))
+                                0
                             </td>
                             <td>
-                                @detail.Payment.ThreeDigitSeperator()
+                                @(((detail.Price - (accountingService.TeacherShare(detail.Price, detail.TeacherPercent))).ToString("#,0")))
                             </td>
                             <td>
                                 @{
-                                    withdraws.Add(((detail.Price * detail.TeacherPercent) / 100));
+                                    withdraws.Add(((detail.Price - (detail.Price * detail.TeacherPercent) / 100)));
                                     deposits.Add(detail.Payment);
                                 }
 
-                                @((withdraws.Sum() - deposits.Sum()).ThreeDigitSeperator())
+                                @((withdraws.Sum() - deposits.Sum()).ToString("#,0"))
                             </td>
                         </tr>
                     }

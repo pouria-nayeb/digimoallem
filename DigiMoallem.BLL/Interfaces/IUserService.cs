@@ -24,6 +24,11 @@ namespace DigiMoallem.BLL.Interfaces
         Task<bool> IsEmailExistAsync(string email);
         #endregion
 
+        #region CheckPhoneNumberExistance
+        bool IsPhoneNumberExist(string email);
+        Task<bool> IsPhoneNumberExistAsync(string email);
+        #endregion
+
         #region GetUserById
         User GetUserById(int userId);
         Task<User> GetUserByIdAsync(int userId);
@@ -48,6 +53,22 @@ namespace DigiMoallem.BLL.Interfaces
         #region LoginUser
         User LoginUser(LoginViewModel login);
         Task<User> LoginUserAsync(LoginViewModel login);
+        #endregion
+
+        #region AddGroupsToUser
+        void AddGroupsToUser(int userId, List<int> groupsIds);
+        #endregion
+
+        #region UpdateGroupsOfUser
+        void UpdateGroupsOfUser(int userId, List<int> groupsIds);
+        #endregion
+
+        #region GetUserGroups
+        List<int> GetUserGroups(int userId);
+        #endregion
+
+        #region GetAllUserGroups
+        List<int> GetAllUserGroups();
         #endregion
 
         #region ActiveAccount
@@ -166,7 +187,7 @@ namespace DigiMoallem.BLL.Interfaces
         #endregion
 
         #region GetTeachers - Pagination - filterByEmail - filterByUserName
-        UserViewModel GetTeachers(int pageId = 1, string filterEmail = "", string filterUserName = "");
+        UserViewModel GetTeachers(int pageId = 1, string filterPhoneNumber = "", string filterName = "");
         #endregion
 
         #region AddUserByAdmin

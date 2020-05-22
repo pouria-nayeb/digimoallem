@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DigiMoallem.DAL.Entities.Courses;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace DigiMoallem.BLL.DTOs.Accounts
 {
@@ -26,5 +28,9 @@ namespace DigiMoallem.BLL.DTOs.Accounts
         [Required(ErrorMessage = "لطفاً {0} را وارد نمایید.")]
         [Compare("Password", ErrorMessage = "رمز عبور با تکرار رمز عبور مغایرت دارد.")]
         public string ConfirmPassword { get; set; }
+
+        [Display(Name = "گروه های علاقه مندی")]
+        [Required(ErrorMessage = "لطفاً حداقل یک {0} را انتخاب نمایید.")]
+        public int GroupId { get; set; }
     }
 }

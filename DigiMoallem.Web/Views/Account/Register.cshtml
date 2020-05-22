@@ -75,6 +75,30 @@
                             <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                         </div>
 
+                        <!-- groups -->
+                        <div class="form-group pt-2 mb-4">
+                            <label class="d-block" asp-for="GroupId"></label>
+                            @foreach (var group in (ViewData["Groups"] as SelectList))
+                            {
+                                <div class="form-check d-inline-block mr-1 py-2">
+                                    <label class="form-check-label"
+                                           for="@group.Value">
+
+                                        <input type="checkbox"
+                                               class="form-check-input"
+                                               name="groupIds"
+                                               value="@group.Value"
+                                               id="@group.Value" />
+
+                                        <span class="mr-4">@group.Text</span>
+
+                                    </label>
+                                </div>
+                            }
+
+                            <span asp-validation-for="GroupId" class="text-danger"></span>
+                        </div>
+
                         <div class="g-recaptcha" data-sitekey="@_config["GoogleReCaptcha:key"]"></div>
 
                         <div class="form-group">

@@ -383,6 +383,7 @@ namespace DigiMoallem.BLL.Services
                 Price = c.Price,
                 Title = c.Title,
                 Off = c.Off,
+                OffPercentage = c.OffPercent,
                 PriceAfterOff = c.PriceAfterOff,
                 TotalTime = new TimeSpan(c.CourseEpisodes.Sum(ce => ce.EpisodeLength.Ticks))
             })
@@ -801,6 +802,7 @@ namespace DigiMoallem.BLL.Services
         public OrderDetailPaymentPagingViewModel SearchOrderDetailPayments(DateTime startDate, DateTime endDate, int teacherId, int pageNumber = 1, int pageSize = 32)
         {
             var orderDetailPayments = (from orderDetail in _db.OrderDetails
+                                       where orderDetail.Course.TeacherId == teacherId && orderDetail.Order.IsFinally == true
                                        select new OrderDetailPaymentViewModel()
                                        {
                                            Title = orderDetail.Course.Title,
@@ -812,6 +814,7 @@ namespace DigiMoallem.BLL.Services
                                            TeacherId = orderDetail.Course.TeacherId,
                                            OrderFinally = orderDetail.Order.IsFinally
                                        }).Union(from payment in _db.Payments
+                                                where payment.TeacherId == teacherId
                                                 select new OrderDetailPaymentViewModel()
                                                 {
                                                     Title = payment.Description,
@@ -822,8 +825,7 @@ namespace DigiMoallem.BLL.Services
                                                     IsPayment = true,
                                                     TeacherId = payment.TeacherId,
                                                     OrderFinally = true
-                                                })
-                                       .Where(od => od.TeacherId == teacherId && od.OrderFinally == true);
+                                                });
 
             int take = pageSize;
             int skip = (pageNumber - 1) * take;
@@ -862,6 +864,7 @@ namespace DigiMoallem.BLL.Services
         public OrderDetailPaymentPagingViewModel SearchCashDesk(DateTime startDate, DateTime endDate, int pageNumber = 1, int pageSize = 32)
         {
             var orderDetailPayments = (from orderDetail in _db.OrderDetails
+                                       where orderDetail.Order.IsFinally == true
                                        select new OrderDetailPaymentViewModel()
                                        {
                                            Title = orderDetail.Course.Title,
@@ -874,6 +877,7 @@ namespace DigiMoallem.BLL.Services
                                            OrderFinally = orderDetail.Order.IsFinally
                                        })
                                        .Union(from payment in _db.Payments
+                                              where payment.TeacherId == 1
                                               select new OrderDetailPaymentViewModel()
                                               {
                                                   Title = payment.Description,
@@ -882,10 +886,9 @@ namespace DigiMoallem.BLL.Services
                                                   CreateDate = payment.PaymentDate,
                                                   TeacherPercent = 0,
                                                   IsPayment = true,
-                                                  TeacherId = 23,
+                                                  TeacherId = 1,
                                                   OrderFinally = false
-                                              })
-                                       .Where(od => od.OrderFinally == true);
+                                              });
 
             int take = pageSize;
             int skip = (pageNumber - 1) * take;
@@ -907,23 +910,18 @@ namespace DigiMoallem.BLL.Services
                 OrderDetailPayments = orderDetailPayments
             .Skip(skip)
             .Take(take)
-            .OrderBy(od => od.CreateDate).ToList(),
+            .OrderBy(od => od.CreateDate)
+            .ToList(),
                 PageNumber = pageNumber,
-                PagesCount = pagesCount,
-                TotalOrderDetailsPayments = _db.OrderDetails
-                .Include(od => od.Course)
-                .Include(od => od.Order)
-                .Where(od => od.Order.IsFinally == true)
-                .Select(od => od.Order.TotalPrice)
-                .Sum()
+                PagesCount = pagesCount
             };
         }
         #endregion
 
         #region SearchBox
         public OrderDetailPaymentPagingViewModel SearchBox(DateTime startDate,
-            DateTime endDate, 
-            int pageNumber = 1, 
+            DateTime endDate,
+            int pageNumber = 1,
             int pageSize = 32)
         {
             var orderDetailPayments = (from orderDetail in _db.OrderDetails
@@ -937,18 +935,19 @@ namespace DigiMoallem.BLL.Services
                                            IsPayment = false,
                                            TeacherId = orderDetail.Course.TeacherId,
                                            OrderFinally = orderDetail.Order.IsFinally
-                                       }).Union(from payment in _db.Payments
-                                                select new OrderDetailPaymentViewModel()
-                                                {
-                                                    Title = payment.Description,
-                                                    Price = 0,
-                                                    Payment = payment.Amount,
-                                                    CreateDate = payment.PaymentDate,
-                                                    TeacherPercent = 0,
-                                                    IsPayment = true,
-                                                    TeacherId = payment.TeacherId,
-                                                    OrderFinally = true
-                                                })
+                                       })
+                                       .Union(from payment in _db.Payments
+                                              select new OrderDetailPaymentViewModel()
+                                              {
+                                                  Title = payment.Description,
+                                                  Price = 0,
+                                                  Payment = payment.Amount,
+                                                  CreateDate = payment.PaymentDate,
+                                                  TeacherPercent = 0,
+                                                  IsPayment = true,
+                                                  TeacherId = payment.TeacherId,
+                                                  OrderFinally = true
+                                              })
                                        .Where(od => od.OrderFinally == true);
 
             int take = pageSize;
@@ -1549,6 +1548,7 @@ namespace DigiMoallem.BLL.Services
                     Price = c.Price,
                     Title = c.Title,
                     Off = c.Off,
+                    OffPercentage = c.OffPercent,
                     PriceAfterOff = c.PriceAfterOff,
                     TotalTime = new TimeSpan(c.CourseEpisodes.Sum(ce => ce.EpisodeLength.Ticks))
                 })
@@ -1634,6 +1634,7 @@ namespace DigiMoallem.BLL.Services
                     Price = c.Price,
                     Title = c.Title,
                     Off = c.Off,
+                    OffPercentage = c.OffPercent,
                     PriceAfterOff = c.PriceAfterOff,
                     GroupName = c.Group.Title,
                     TotalTime = new TimeSpan(c.CourseEpisodes.Sum(ce => ce.EpisodeLength.Ticks))
@@ -1692,6 +1693,7 @@ namespace DigiMoallem.BLL.Services
                     Price = c.Price,
                     Title = c.Title,
                     Off = c.Off,
+                    OffPercentage = c.OffPercent,
                     PriceAfterOff = c.PriceAfterOff,
                     TotalTime = new TimeSpan(c.CourseEpisodes.Sum(ce => ce.EpisodeLength.Ticks))
                 }).AsNoTracking().ToList();
@@ -1710,6 +1712,7 @@ namespace DigiMoallem.BLL.Services
                      Price = c.Price,
                      Title = c.Title,
                      Off = c.Off,
+                     OffPercentage = c.OffPercent,
                      PriceAfterOff = c.PriceAfterOff,
                      TotalTime = new TimeSpan(c.CourseEpisodes.Sum(ce => ce.EpisodeLength.Ticks))
                  }).AsNoTracking().ToListAsync();
@@ -1734,6 +1737,7 @@ namespace DigiMoallem.BLL.Services
                     Price = c.Price,
                     Title = c.Title,
                     Off = c.Off,
+                    OffPercentage = c.OffPercent,
                     PriceAfterOff = c.PriceAfterOff,
                     TotalTime = new TimeSpan(c.CourseEpisodes.Sum(ce => ce.EpisodeLength.Ticks))
                 }).AsNoTracking().ToList();
@@ -1752,6 +1756,7 @@ namespace DigiMoallem.BLL.Services
                      Price = c.Price,
                      Title = c.Title,
                      Off = c.Off,
+                     OffPercentage = c.OffPercent,
                      PriceAfterOff = c.PriceAfterOff,
                      TotalTime = new TimeSpan(c.CourseEpisodes.Sum(ce => ce.EpisodeLength.Ticks))
                  }).AsNoTracking().ToListAsync();

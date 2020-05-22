@@ -61,7 +61,7 @@ namespace DigiMoallem.DAL.Context
         public DbSet<ArticleComment> ArticleComments { get; set; }
         #endregion
 
-        #region Comments - CommentQAs - Courses - Episodes - Levels - Statuses - Types - Groups - Like - Rate - UserCourse
+        #region Comments - CommentQAs - Courses - Episodes - Levels - Statuses - Types - Groups - Like - Rate - UserCourse - UserGroup
         public DbSet<Comment> Comments { get; set; }
         public DbSet<CommentQA> CommentQAs { get; set; }
         public DbSet<Course> Courses { get; set; }
@@ -74,6 +74,7 @@ namespace DigiMoallem.DAL.Context
         public DbSet<LikeCourse> LikeCourses { get; set; }
         public DbSet<RateCourse> RateCourses { get; set; }
         public DbSet<UserCourse> UserCourses { get; set; }
+        public DbSet<UserGroup> UserGroups { get; set; }
         #endregion
 
         #region Orders - OrderDetails - Discounts

@@ -164,6 +164,10 @@ namespace DigiMoallem.BLL.Interfaces
         Task<int> DiscountsCountAsync();
         #endregion
 
+        #region GetOrdersOfTeacherCount
+        int GetOrdersOfTeacherCount(int teacherId);
+        #endregion
+
         #region Save
         void Save();
         Task SaveAsync();

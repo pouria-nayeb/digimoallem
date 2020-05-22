@@ -3,7 +3,7 @@
 @inject IAccountingService accountingService
 
 @{
-    ViewData["Title"] = "لیست بستانکاران";
+    ViewData["Title"] = "لیست صورت حساب ها";
     int j = 1;
 }
 
@@ -31,18 +31,30 @@
 
                 <div class="row">
 
-                    <div class="col-12 col-md-6">
+                    <div class="col-12 col-md-4">
                         <div class="form-group">
-                            <label>ایمیل</label>
-                            <input type="text" name="filterEmail" 
+                            <label>نام و نام خانوادگی</label>
+                            <input type="text" name="filterName"
+                                   class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-4">
+                        <div class="form-group">
+                            <label>شماره تلفن</label>
+                            <input type="text" name="filterPhoneNumber"
                                    class="form-control text-direction-ltr text-left" />
                         </div>
                     </div>
 
-                    <div class="col-12 col-md-6 my-4">
+                    <div class="col-12 col-md-4 my-4">
                         <button class="btn btn-outline-info mt-1">
                             <i class="fa fa-search ml-1"></i> جستجو
                         </button>
+
+                        <a href="/Admin/Accountings" class="btn btn-outline-danger mt-1">
+                            <i class="fa fa-filter ml-2 ml-1"></i> حذف فیلترها
+                        </a>
                     </div>
 
                 </div>
@@ -53,35 +65,42 @@
 
     </div>
 
-<div class="d-block my-5">
-    <!-- add -->
-    <a asp-area=""
-       asp-page="Create"
-       class="btn btn-outline-success">
-        <i class="fa fa-plus ml-1"></i> ثبت واریزی به استاد
-    </a>
+    <div class="d-block my-5">
+        <!-- add -->
+        @*<a asp-area=""
+           asp-page="Create"
+           class="btn btn-outline-success">
+            <i class="fa fa-plus ml-1"></i> ثبت واریزی به استاد
+        </a>*@
 
-    <!-- search -->
-    <a asp-area=""
-       asp-page="/Admin/Accountings/Search"
-       class="btn btn-outline-info mx-2">
-        <i class="fa fa-search ml-1"></i> جستجو صورت وضعیت
-    </a>
+        <!-- box -->
+        <a asp-area=""
+           asp-page="/Admin/Accountings/Box"
+           class="btn btn-outline-danger mx-2">
+            <i class="fa fa-box ml-1"></i> صندوق
+        </a>
 
-    <!-- search by course -->
-    <a asp-area=""
-       asp-page="/Admin/Accountings/SearchTeacherAndCourse"
-       class="btn btn-outline-info mx-2">
-        <i class="fa fa-search ml-1"></i> جستجو صورت وضعیت براساس استاد و درس
-    </a>
+        <!-- search -->
+        <a asp-area=""
+           asp-page="/Admin/Accountings/CashDesk"
+           class="btn btn-outline-light mx-2">
+            <i class="fa fa-search ml-1"></i> جستجو صورت وضعیت دیجی معلٌم
+        </a>
 
-    <!-- transactions -->
-    <a asp-area=""
-       asp-page="/Admin/Accountings/Transactions"
-       class="btn btn-outline-warning mx-2">
-        <i class="fa fa-sync ml-1"></i> لیست تراکنش ها
-    </a>
-</div>
+        <!-- search by course -->
+        <a asp-area=""
+           asp-page="/Admin/Accountings/SearchTeacherAndCourse"
+           class="btn btn-outline-info mx-2">
+            <i class="fa fa-search ml-1"></i> جستجو صورت وضعیت براساس درس
+        </a>
+
+        <!-- transactions -->
+        <a asp-area=""
+           asp-page="/Admin/Accountings/Transactions"
+           class="btn btn-outline-warning mx-2">
+            <i class="fa fa-sync ml-1"></i> لیست تراکنش ها
+        </a>
+    </div>
 
     <div class="my-3 d-block clearfix">
         <!-- percent -->
@@ -146,7 +165,7 @@
                         }
 
                         <td>
-                            <span>@value.ThreeDigitSeperator()</span>
+                            <span>@value.ToString("#,0")</span>
                         </td>
                         <td>
                             @{

@@ -162,3 +162,38 @@ a {
 .text-dark {
     color: #444 !important;
 }
+
+.off-ribbon {
+    width: 50px;
+    height: 75px;
+    background-color: #bb185c;
+    color: #fff;
+    top: -10px;
+    left: 10px;
+    font-family: 'BYekan', cursive;
+    text-align: center;
+    padding-top: 16px;
+    position: absolute;
+}
+
+    .off-ribbon::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -10px;
+        border-left: 5px solid transparent;
+        border-right: 5px solid #333;
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid #333;
+    }
+
+    .off-ribbon::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        border-left: 25px solid transparent;
+        border-right: 25px solid transparent;
+        border-top: 25px solid transparent;
+        border-bottom: 25px solid #fff;
+    }

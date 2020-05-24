@@ -161,17 +161,31 @@
                             <td class="english-font">@(j++)</td>
                             <td>
                                 درس <span class="text-muted">@detail.Title</span> با <span class="text-muted">@detail.TeacherPercent%</span> استاد <span class="text-muted">@($"{userService.GetUserById(detail.TeacherId).FirstName} {userService.GetUserById(detail.TeacherId).LastName}")</span>
+                                @if (detail.OrderTotalPrice == 0)
+                                {
+                                    <span class="text-danger">(تخفیف 100%)</span>
+                                }
                             </td>
                             <td class="english-font">@detail.CreateDate.ToPersianDate()</td>
                             <td>
                                 0
                             </td>
                             <td>
-                                @(((accountingService.TeacherShare(detail.Price, detail.TeacherPercent)).ToString("#,0")))
+                                @if (detail.OrderTotalPrice == 0)
+                                {
+                                    <text>0</text>
+                                }
+                                else
+                                {
+                                    @(((accountingService.TeacherShare(detail.Price, detail.TeacherPercent)).ToString("#,0")))
+                                }
                             </td>
                             <td>
                                 @{
-                                    withdraws.Add(((detail.Price * detail.TeacherPercent) / 100));
+                                    @if (detail.OrderTotalPrice != 0)
+                                    {
+                                        withdraws.Add(((detail.Price * detail.TeacherPercent) / 100));
+                                    }
                                     deposits.Add(detail.Payment);
                                 }
 

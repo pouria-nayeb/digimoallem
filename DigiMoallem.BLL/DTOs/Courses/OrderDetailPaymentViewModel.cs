@@ -11,6 +11,7 @@ namespace DigiMoallem.BLL.DTOs.Courses
         public int Payment { get; set; }
         public int TeacherPercent { get; set; }
         public bool IsPayment { get; set; }
+        public int OrderTotalPrice { get; set; }
         public bool OrderFinally { get; set; }
     }
 }

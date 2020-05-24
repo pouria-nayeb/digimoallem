@@ -801,7 +801,7 @@ namespace DigiMoallem.BLL.Services
         #region JoinPaymentsAndOrderDetails
         public OrderDetailPaymentPagingViewModel SearchOrderDetailPayments(DateTime startDate, DateTime endDate, int teacherId, int pageNumber = 1, int pageSize = 32)
         {
-            var orderDetailPayments = (from orderDetail in _db.OrderDetails
+            var orderDetailPayments = (from orderDetail in _db.OrderDetails.Include(o => o.Order).Include(o => o.Course)
                                        where orderDetail.Course.TeacherId == teacherId && orderDetail.Order.IsFinally == true
                                        select new OrderDetailPaymentViewModel()
                                        {
@@ -812,6 +812,7 @@ namespace DigiMoallem.BLL.Services
                                            TeacherPercent = orderDetail.TeacherPercent.Value,
                                            IsPayment = false,
                                            TeacherId = orderDetail.Course.TeacherId,
+                                           OrderTotalPrice = orderDetail.Order.TotalPrice,
                                            OrderFinally = orderDetail.Order.IsFinally
                                        }).Union(from payment in _db.Payments
                                                 where payment.TeacherId == teacherId
@@ -824,7 +825,8 @@ namespace DigiMoallem.BLL.Services
                                                     TeacherPercent = 0,
                                                     IsPayment = true,
                                                     TeacherId = payment.TeacherId,
-                                                    OrderFinally = true
+                                                    OrderTotalPrice = 0,
+                                                    OrderFinally = false
                                                 });
 
             int take = pageSize;
@@ -863,7 +865,7 @@ namespace DigiMoallem.BLL.Services
         #region SearchCashDesk
         public OrderDetailPaymentPagingViewModel SearchCashDesk(DateTime startDate, DateTime endDate, int pageNumber = 1, int pageSize = 32)
         {
-            var orderDetailPayments = (from orderDetail in _db.OrderDetails
+            var orderDetailPayments = (from orderDetail in _db.OrderDetails.Include(od => od.Course).Include(od => od.Order)
                                        where orderDetail.Order.IsFinally == true
                                        select new OrderDetailPaymentViewModel()
                                        {
@@ -874,6 +876,7 @@ namespace DigiMoallem.BLL.Services
                                            TeacherPercent = orderDetail.TeacherPercent.Value,
                                            IsPayment = false,
                                            TeacherId = orderDetail.Course.TeacherId,
+                                           OrderTotalPrice = orderDetail.Order.TotalPrice,
                                            OrderFinally = orderDetail.Order.IsFinally
                                        })
                                        .Union(from payment in _db.Payments
@@ -887,6 +890,7 @@ namespace DigiMoallem.BLL.Services
                                                   TeacherPercent = 0,
                                                   IsPayment = true,
                                                   TeacherId = 1,
+                                                  OrderTotalPrice = 0,
                                                   OrderFinally = false
                                               });
 
@@ -934,6 +938,7 @@ namespace DigiMoallem.BLL.Services
                                            TeacherPercent = orderDetail.TeacherPercent.Value,
                                            IsPayment = false,
                                            TeacherId = orderDetail.Course.TeacherId,
+                                           OrderTotalPrice = orderDetail.Order.TotalPrice,
                                            OrderFinally = orderDetail.Order.IsFinally
                                        })
                                        .Union(from payment in _db.Payments
@@ -946,6 +951,7 @@ namespace DigiMoallem.BLL.Services
                                                   TeacherPercent = 0,
                                                   IsPayment = true,
                                                   TeacherId = payment.TeacherId,
+                                                  OrderTotalPrice = 0,
                                                   OrderFinally = true
                                               })
                                        .Where(od => od.OrderFinally == true);

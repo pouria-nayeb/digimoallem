@@ -119,7 +119,9 @@ namespace DigiMoallem.BLL.Services
             return _db.OrderDetails
                     .Include(od => od.Course)
                     .Include(od => od.Order)
-                    .Where(od => od.Course.TeacherId == teacherId && od.Order.IsFinally == true).Sum(od => (od.Price * od.TeacherPercent.Value) / 100);
+                    .Where(od => od.Course.TeacherId == teacherId && 
+                    od.Order.IsFinally == true &&
+                    od.Order.TotalPrice != 0).Sum(od => (od.Price * od.TeacherPercent.Value) / 100);
         }
         #endregion
 

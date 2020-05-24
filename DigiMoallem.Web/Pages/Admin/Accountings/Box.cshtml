@@ -131,17 +131,31 @@
                             <td class="english-font">@(j++)</td>
                             <td>
                                 درس <span class="text-muted">@detail.Title</span> با <span class="text-muted">@detail.TeacherPercent%</span> استاد <span class="text-muted">@($"{UserService.GetUserById(detail.TeacherId).FirstName} {UserService.GetUserById(detail.TeacherId).LastName}")</span>
+                                @if (detail.OrderTotalPrice == 0)
+                                {
+                            <span class="text-danger">(تخفیف 100%)</span>
+                                }
                             </td>
                             <td class="english-font">@detail.CreateDate.ToPersianDate()</td>
                             <td>
                                 0
                             </td>
                             <td>
-                                @(((accountingService.TeacherShare(detail.Price, detail.TeacherPercent)).ToString("#,0")))
+                                @if (detail.OrderTotalPrice == 0)
+                                {
+                                    <text>0</text>
+                                }
+                                else
+                                {
+                                    @(((accountingService.TeacherShare(detail.Price, detail.TeacherPercent)).ToString("#,0")))
+                                }
                             </td>
                             <td>
                                 @{
-                                    withdraws.Add(((accountingService.TeacherShare(detail.Price, detail.TeacherPercent))));
+                                    @if (detail.OrderTotalPrice != 0)
+                                    {
+                                        withdraws.Add(((accountingService.TeacherShare(detail.Price, detail.TeacherPercent))));
+                                    }
                                     deposits.Add(detail.Payment);
                                 }
 
@@ -152,18 +166,37 @@
                         <!-- digimoallem share -->
                         <tr>
                             <td class="english-font">@(j++)</td>
-                            <td>سهم دیجی معلم از <span class="text-muted">@detail.Title</span> با <span class="text-muted">@detail.TeacherPercent%</span> استاد <span class="text-muted">@($"{UserService.GetUserById(detail.TeacherId).FirstName} {UserService.GetUserById(detail.TeacherId).LastName}")</span></td>
+                            <td>
+                                سهم دیجی معلم از <span class="text-muted">@detail.Title</span> با <span class="text-muted">@detail.TeacherPercent%</span> استاد <span class="text-muted">@($"{UserService.GetUserById(detail.TeacherId).FirstName} {UserService.GetUserById(detail.TeacherId).LastName}")</span>
+                                @if (detail.OrderTotalPrice == 0)
+                                {
+                                    <span class="text-danger">(تخفیف 100%)</span>
+                                }
+                            </td>
                             <td class="english-font">@detail.CreateDate.ToPersianDate()</td>
                             <td>
                                 0
                             </td>
                             <td>
-                                @((((detail.Price - accountingService.TeacherShare(detail.Price, detail.TeacherPercent))).ToString("#,0")))
+
+                                @if (detail.OrderTotalPrice == 0)
+                                {
+                                    <text>0</text>
+                                }
+                                else
+                                {
+                                    @((((detail.Price - accountingService.TeacherShare(detail.Price, detail.TeacherPercent))).ToString("#,0")))
+                                }
                             </td>
                             <td>
                                 @{
-                                    withdraws.Add(((accountingService.TeacherShare(detail.Price, detail.TeacherPercent))));
-                                    withdraws.Add(((detail.Price - accountingService.TeacherShare(detail.Price, detail.TeacherPercent))));
+
+                                    if (detail.OrderTotalPrice != 0)
+                                    {
+                                        withdraws.Add(((accountingService.TeacherShare(detail.Price, detail.TeacherPercent))));
+                                        withdraws.Add(((detail.Price - accountingService.TeacherShare(detail.Price, detail.TeacherPercent))));
+                                    }
+
                                     deposits.Add(detail.Payment);
                                 }
 

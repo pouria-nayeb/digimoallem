@@ -5,16 +5,21 @@ using DigiMoallem.BLL.Helpers.Generators;
 using DigiMoallem.BLL.Helpers.Security;
 using DigiMoallem.BLL.Interfaces;
 using DigiMoallem.DAL.Entities.Users;
+using DocumentFormat.OpenXml.Drawing.Diagrams;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -242,7 +247,7 @@ namespace DigiMoallem.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult LoginWithPhoneNumber(LoginOptionsViewModel login)
+        public async Task<IActionResult> LoginWithPhoneNumber(LoginOptionsViewModel login)
         {
             if (ModelState.IsValid)
             {
@@ -252,7 +257,7 @@ namespace DigiMoallem.Web.Controllers
                 //   _config["GoogleReCaptcha:secret"]))
                 //{
                 //    ModelState.AddModelError(string.Empty, "احراز هویت شما با موفقیت انجام نشد.");
-                //    return View(register);
+                //    return View(login);
                 //}
 
                 #endregion
@@ -274,18 +279,42 @@ namespace DigiMoallem.Web.Controllers
                             user.Token = new Random().Next(1000, 10000).ToString();
                             _userService.UpdateUser(user);
 
-                            // TODO: send message with generated token
-                            SendActiveEmail("_SendCode", "دریافت کد", user.Token);
+                            // send sms 
+                            #region SendSms
 
-                            TempData["PhoneNumber"] = phoneNumber;
-                            TempData["Message"] = "کد ورود برای شما ارسال شد.";
-                            return RedirectToAction("LoginUserWithRandomToken", "Account");
+                            string status = await SendMessage(
+                                _config["SmsConfig:From"], 
+                                phoneNumber, 
+                                $"کد یکبار مصرف شما: {user.Token}", 
+                                _config["SmsConfig:UserName"], 
+                                _config["SmsConfig:Password"], 
+                                _config["SmsConfig:Domain"]);
+
+                            #endregion
+
+                            if (string.IsNullOrEmpty(status))
+                            {
+                                // sms sending success
+                                TempData["PhoneNumber"] = phoneNumber;
+                                TempData["Message"] = "کد ورود برای شما ارسال شد.";
+                                return RedirectToAction("LoginUserWithRandomToken", "Account");
+                            }
+                            else
+                            {
+                                // sms sending failed
+                                ModelState.AddModelError("PhoneNumber", status);
+
+                                return View("Login", login);
+                            }
                         }
                         else
                         {
                             ModelState.AddModelError("PhoneNumber", "حساب کاربری خود را با پیام ارسالی فعال کنید.");
 
-                            // TODO: send message to active account
+                            #region ActivationEmail
+                            // Send activation email
+                            SendActivationEmail("_ActivationEmail", "فعالسازی حساب کاربری", user);
+                            #endregion
 
                             return View("Login", login);
                         }
@@ -328,6 +357,7 @@ namespace DigiMoallem.Web.Controllers
                     var user = _userService.GetUserByToken(phoneNumber, token);
 
                     user.UpdateDate = DateTime.Now;
+                    user.Token = new Random().Next(1000, 10000).ToString();
                     _userService.UpdateUser(user);
 
                     #region Claims (Data that we want access from the user)
@@ -504,6 +534,68 @@ namespace DigiMoallem.Web.Controllers
         private void SeedGroupsData() {
             var groups = _courseService.GetGroupsToManageCourse();
             ViewData["Groups"] = new SelectList(groups, "Value", "Text");
+        }
+
+        private async Task<string> SendMessage(string from, string to, string text, string userName, string password, string domain)
+        {
+            // response code
+            using (var client = new HttpClient())
+            {
+                using (var httpClient = new HttpClient())
+                {
+                    using (var response = await httpClient.GetAsync($"http://www.0098sms.com/sendsmslink.aspx?FROM={from}&TO={to}&TEXT={text}&USERNAME={userName}&PASSWORD={password}&DOMAIN={domain}"))
+                    {
+                        string apiResponse = (await response.Content.ReadAsStringAsync()).ToString().Substring(0, 1);
+
+                        try
+                        {
+                            byte value = byte.Parse(apiResponse);
+                            // convert response code to byte
+                            //byte statusCode = byte.Parse(responseStatusCode);
+
+                            // conversion success
+                            switch (value)
+                            {
+                                case 0:
+                                    return null;
+                                case 1:
+                                    return "شماره گیرنده اشتباه است.";
+                                case 2:
+                                    return "گیرنده تعریف نشده است.";
+                                case 3:
+                                    return "فرستنده تعریف نشده است.";
+                                case 4:
+                                    return "متن تنظیم نشده است.";
+                                case 5:
+                                    return "نام کاربری تنظیم نشده است.";
+                                case 6:
+                                    return "کلمه عبور تنظیم نشده است.";
+                                case 7:
+                                    return "نام دامین تنظیم نشده است.";
+                                case 8:
+                                    return "مجوز شما باطل شده است.";
+                                case 9:
+                                    return "اعتبار پیامکی شما کافی نیست.";
+                                case 10:
+                                    return "برای این شماره لینک تعریف نشده.";
+                                case 11:
+                                    return "عدم مجوز برای اتصال لینک.";
+                                case 12:
+                                    return "نام کاربری و کلمه عبور اشتباه است.";
+                                case 13:
+                                    return "کاراکتر غیر مجاز در متن وجود دارد.";
+                                default:
+                                    return "بروز خطا";
+                            }
+                        }
+                        catch
+                        {
+                            // conversion failure
+                            return "کد بازگشتی از سرور معتبر نمی باشد.";
+                        }
+                    }
+                }
+            }
         }
 
         #endregion

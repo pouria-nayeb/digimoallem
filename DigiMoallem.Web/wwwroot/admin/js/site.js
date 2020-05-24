@@ -20,6 +20,8 @@ $("#image").change(function (event) {
 
 $(document).ready(function () {
     $('.select-list').select2({
-        width: 'resolve' // need to override the changed default
+        width: 'resolve', // need to override the changed default
+        dir: "rtl",
+        selectionCssClass: 'py-3'
     });
 });

@@ -5,7 +5,7 @@
 @inject IUserService userService
 
 @{
-    ViewData["Title"] = "جستجو صورت وضعیت استاد";
+    ViewData["Title"] = "جستجو درآمد استاد براساس درس";
 
     string startDate = HttpContext.Request.Query["startDate"];
     string endDate = HttpContext.Request.Query["endDate"];
@@ -139,17 +139,31 @@
                         <td class="english-font">@(j++)</td>
                         <td>
                             درس <span class="text-muted">@detail.Course.Title</span> با <span class="text-muted">@detail.TeacherPercent%</span> استاد <span class="text-muted">@($"{userService.GetUserById(detail.Course.TeacherId).FirstName} {userService.GetUserById(detail.Course.TeacherId).LastName}")</span>
+                            @if (detail.Order.TotalPrice == 0)
+                            {
+                        <span class="text-danger">(تخفیف 100%)</span>
+                            }
                         </td>
                         <td class="english-font">@detail.Order.CreateDate.ToPersianDate()</td>
                         <td>
                             0
                         </td>
                         <td>
-                            @(((accountingService.TeacherShare(detail.Price, detail.TeacherPercent.Value)).ToString("#,0")))
+                            @if (detail.Order.TotalPrice == 0)
+                            {
+                                <text>0</text>
+                            }
+                            else
+                            {
+                                @(((accountingService.TeacherShare(detail.Price, detail.TeacherPercent.Value)).ToString("#,0")))
+                            }
                         </td>
                         <td>
                             @{
-                                withdraws.Add(((detail.Price * detail.TeacherPercent.Value) / 100));
+                                @if (detail.Order.TotalPrice != 0)
+                                {
+                                    withdraws.Add(((detail.Price * detail.TeacherPercent.Value) / 100));
+                                }
                             }
 
                             @((withdraws.Sum()).ToString("#,0"))

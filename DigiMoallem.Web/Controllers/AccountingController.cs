@@ -110,10 +110,16 @@ namespace DigiMoallem.Web.Controllers
                         else
                         {
                             // teacher share
-                            worksheet.Cell(currentRow, 1).Value = $"درس {orderDetailPayment.Title} با {orderDetailPayment.TeacherPercent} استاد { userService.GetUserById(orderDetailPayment.TeacherId).FirstName} { userService.GetUserById(orderDetailPayment.TeacherId).LastName}";
+                            worksheet.Cell(currentRow, 1).Value = $"درس {orderDetailPayment.Title} با {orderDetailPayment.TeacherPercent} استاد { userService.GetUserById(orderDetailPayment.TeacherId).FirstName} { userService.GetUserById(orderDetailPayment.TeacherId).LastName} {(orderDetailPayment.OrderTotalPrice == 0 ? "(تخفیف 100%)" : string.Empty)}";
                             worksheet.Cell(currentRow, 2).Value = orderDetailPayment.CreateDate.ToPersianDate();
                             worksheet.Cell(currentRow, 3).Value = 0;
-                            worksheet.Cell(currentRow, 4).Value = accountingService.TeacherShare(orderDetailPayment.Price, orderDetailPayment.TeacherPercent);
+                            if (orderDetailPayment.OrderTotalPrice == 0)
+                            {
+                                worksheet.Cell(currentRow, 4).Value = 0;
+                            }
+                            else {
+                                worksheet.Cell(currentRow, 4).Value = accountingService.TeacherShare(orderDetailPayment.Price, orderDetailPayment.TeacherPercent);
+                            }
                             worksheet.Cell(currentRow, 5).Value = (withdraws.Sum() - deposits.Sum());
                         }
                     }
@@ -210,10 +216,16 @@ namespace DigiMoallem.Web.Controllers
                     else
                     {
                         // digimallem share
-                        worksheet.Cell(currentRow, 1).Value = $"سهم دیجی معلم از درس {orderDetailPayment.Title} با {orderDetailPayment.TeacherPercent} استاد { userService.GetUserById(orderDetailPayment.TeacherId).FirstName} { userService.GetUserById(orderDetailPayment.TeacherId).LastName}";
+                        worksheet.Cell(currentRow, 1).Value = $"سهم دیجی معلم از درس {orderDetailPayment.Title} با {orderDetailPayment.TeacherPercent} استاد { userService.GetUserById(orderDetailPayment.TeacherId).FirstName} { userService.GetUserById(orderDetailPayment.TeacherId).LastName} {(orderDetailPayment.OrderTotalPrice == 0 ? "(تخفیف 100%)" : string.Empty)}";
                         worksheet.Cell(currentRow, 2).Value = orderDetailPayment.CreateDate.ToPersianDate();
                         worksheet.Cell(currentRow, 3).Value = 0;
-                        worksheet.Cell(currentRow, 4).Value = (orderDetailPayment.Price - accountingService.TeacherShare(orderDetailPayment.Price, orderDetailPayment.TeacherPercent));
+                        if (orderDetailPayment.OrderTotalPrice == 0)
+                        {
+                            worksheet.Cell(currentRow, 4).Value = 0;
+                        }
+                        else {
+                            worksheet.Cell(currentRow, 4).Value = (orderDetailPayment.Price - accountingService.TeacherShare(orderDetailPayment.Price, orderDetailPayment.TeacherPercent));
+                        }
                         worksheet.Cell(currentRow, 5).Value = (withdraws.Sum() - deposits.Sum());
                     }
                 }

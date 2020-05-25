@@ -6,6 +6,12 @@
     ViewData["Title"] = $"ثبت پرداختی برای {name}";
 }
 
+@section Styles {
+    <link href="~/admin/css/kendo.common.min.css" rel="stylesheet" />
+    <link href="~/admin/css/kendo.default.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/admin/css/select2.min.css" />
+}
+
 <div class="container">
 
     <!-- back to accountings -->
@@ -39,15 +45,15 @@
                     }
                     else
                     {
-                    <!-- teachers -->
-                    <div class="form-group mb-4">
-                        <label asp-for="Payment.TeacherId"></label>
-                        <select class="browser-default custom-select select-list" asp-for="Payment.TeacherId" asp-items="@ViewData["Teachers"] as SelectList">
-                            <option value="" disabled selected>یکی از اساتید را انتخاب نمایید</option>
-                        </select>
+                        <!-- teachers -->
+                        <div class="form-group mb-4">
+                            <label asp-for="Payment.TeacherId"></label>
+                            <select class="browser-default custom-select select-list" asp-for="Payment.TeacherId" asp-items="@ViewData["Teachers"] as SelectList">
+                                <option value="" disabled selected>یکی از اساتید را انتخاب نمایید</option>
+                            </select>
 
-                        <span asp-validation-for="Payment.TeacherId" class="text-danger"></span>
-                    </div>
+                            <span asp-validation-for="Payment.TeacherId" class="text-danger"></span>
+                        </div>
                     }
 
                     <!-- description -->
@@ -79,6 +85,12 @@
                         <span asp-validation-for="Payment.Amount" class="text-danger"></span>
                     </div>
 
+                    <!-- register date -->
+                    <div class="form-group mb-4">
+                        <label class="d-block" asp-for="Payment.PaymentDate"></label>
+                        <input id="startDate" name="startDate" class="w-75" />
+                    </div>
+
                 </div>
             </div>
 
@@ -86,3 +98,13 @@
     </form>
 
 </div>
+
+@section Scripts {
+    <script src="~/admin/js/jquery-1.9.1.min.js"></script>
+    <script src="~/admin/js/kendo.all.min.js"></script>
+    <script src="~/admin/js/select2.min.js" asp-append-version="true"></script>
+    <script>
+        // create DatePicker from input HTML element
+        $("#startDate").kendoDatePicker();
+    </script>
+}

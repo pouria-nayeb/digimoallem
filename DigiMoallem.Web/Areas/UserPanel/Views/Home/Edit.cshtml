@@ -133,7 +133,11 @@
                             <!-- educational level -->
                             <div class="form-group">
                                 <label asp-for="EducationalLevel"></label>
-                                <input type="text" asp-for="EducationalLevel" class="form-control" />
+                                <select class="form-control"
+                                        asp-for="EducationalLevel" 
+                                        asp-items="@(ViewData["EducationalLevel"] as SelectList)">
+                                    <option value="">لطفاً آخرین مدرک تحصیلی خود را انتخاب کنید.</option>
+                                </select>
 
                                 <span asp-validation-for="EducationalLevel"></span>
                             </div>

@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DigiMoallem.Web.Areas.UserPanel.Controllers
@@ -51,6 +52,7 @@ namespace DigiMoallem.Web.Areas.UserPanel.Controllers
         public async Task<IActionResult> Edit()
         {
             SeedGroupsSelectListData();
+            GetEducationLevel();
 
             return View(await _userService.GetDetailsToEditUserProfileAsync(User.Identity.Name));
         }
@@ -69,13 +71,14 @@ namespace DigiMoallem.Web.Areas.UserPanel.Controllers
 
                 var user = await _userService.GetUserByUserNameAsync(User.Identity.Name);
 
-                if (await _userService.IsEmailExistAsync(profile.Email.TextTransform()) && 
+                if (await _userService.IsEmailExistAsync(profile.Email.TextTransform()) &&
                     user.Email != profile.Email.TextTransform())
                 {
                     // email is not unique
                     ModelState.AddModelError("Email", "ایمیل شما تکراری می باشد.");
 
                     SeedGroupsSelectListData();
+                    GetEducationLevel();
 
                     return View(profile);
                 }
@@ -88,6 +91,7 @@ namespace DigiMoallem.Web.Areas.UserPanel.Controllers
                         ModelState.AddModelError("PhoneNumber", "تلفن تماس شما تکراری می باشد.");
 
                         SeedGroupsSelectListData();
+                        GetEducationLevel();
 
                         return View(profile);
                     }
@@ -101,6 +105,7 @@ namespace DigiMoallem.Web.Areas.UserPanel.Controllers
                         ModelState.AddModelError("PhoneNumber", "تلفن تماس شما تکراری می باشد.");
 
                         SeedGroupsSelectListData();
+                        GetEducationLevel();
 
                         return View(profile);
                     }
@@ -180,7 +185,7 @@ namespace DigiMoallem.Web.Areas.UserPanel.Controllers
         }
 
         [HttpPost]
-        public IActionResult AccountPurification(Purification purification) 
+        public IActionResult AccountPurification(Purification purification)
         {
             purification.SubmitDate = DateTime.Now;
             if (ModelState.IsValid)
@@ -190,7 +195,7 @@ namespace DigiMoallem.Web.Areas.UserPanel.Controllers
                     TempData["Success"] = "درخواست شما برای تصفیه با موفقیت ارسال شد.";
                     return RedirectToAction("Index", "Home", new { area = "UserPanel" });
                 }
-                else 
+                else
                 {
                     TempData["Failure"] = "بروز خطا در پایگاه داده، لطفاً مراقب را به مدیریت سایت گزارش دهید.";
                     return RedirectToAction("Index", "Home", new { area = "UserPanel" });
@@ -202,7 +207,7 @@ namespace DigiMoallem.Web.Areas.UserPanel.Controllers
         }
 
         [Route("Payments/{id}")]
-        public async Task<IActionResult> TeacherPayments(int id, int pageNumber = 1, int pageSize = 32) 
+        public async Task<IActionResult> TeacherPayments(int id, int pageNumber = 1, int pageSize = 32)
         {
             var user = await _userService.GetUserByIdAsync(id);
             if (user.UserName.TextTransform() == User.Identity.Name.TextTransform())
@@ -217,7 +222,7 @@ namespace DigiMoallem.Web.Areas.UserPanel.Controllers
         }
 
         [Route("TeacherCourses/{id}")]
-        public IActionResult TeacherCourses(int id,int pageNumber = 1, int pageSize = 16)
+        public IActionResult TeacherCourses(int id, int pageNumber = 1, int pageSize = 16)
         {
             CourseViewModel courses = _courseService.GetCoursesOfTeacher(id, pageNumber, pageSize);
 
@@ -225,7 +230,7 @@ namespace DigiMoallem.Web.Areas.UserPanel.Controllers
         }
 
         [Route("TeacherShare/{id}")]
-        public IActionResult TeacherShare(int id, string startDate, string endDate) 
+        public IActionResult TeacherShare(int id, string startDate, string endDate)
         {
             int teacherId = _userService.GetUserIdByUserName(User.Identity.Name);
 
@@ -286,6 +291,23 @@ namespace DigiMoallem.Web.Areas.UserPanel.Controllers
         {
             var groups = _courseService.GetGroupsToManageCourse();
             ViewData["Groups"] = new SelectList(groups, "Value", "Text");
+        }
+
+        private void GetEducationLevel()
+        {
+            var educationalLevels = new Dictionary<string, string>
+            {
+                { "فوق دیپلم", "فوق دیپلم" },
+                { "کارشناسی", "کارشناسی" },
+                { "کارشناسی ارشد", "کارشناسی ارشد" },
+                { "دکتری", "دکتری" }
+            };
+
+            var educationalLevelsSelectList = educationalLevels.Select(el => new SelectListItem {
+                Text = el.Value, Value = el.Key
+            }).ToList();
+
+            ViewData["EducationalLevel"] = new SelectList(educationalLevelsSelectList, "Value", "Text");
         }
 
         #endregion

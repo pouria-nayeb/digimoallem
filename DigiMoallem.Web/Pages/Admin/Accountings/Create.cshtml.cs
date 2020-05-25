@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading.Tasks;
 
 namespace DigiMoallem.Web.Pages.Admin.Accountings
@@ -35,9 +36,18 @@ namespace DigiMoallem.Web.Pages.Admin.Accountings
             await SeedDataAsync(id);
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(string startDate)
         {
-            Payment.PaymentDate = DateTime.Now;
+            // feed start date
+            string[] startDateArray = startDate.Split("/");
+            var gorgianStartDate = new DateTime(
+                int.Parse(startDateArray[0]),
+                int.Parse(startDateArray[1]),
+                int.Parse(startDateArray[2]),
+                new PersianCalendar()
+            );
+
+            Payment.PaymentDate = gorgianStartDate;
 
             if (ModelState.IsValid)
             {
